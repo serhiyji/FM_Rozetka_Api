@@ -16,7 +16,7 @@ namespace FM_Rozetka_Api.Core
         }
         public static void AddMapping(this IServiceCollection services)
         {
-            //services.AddAutoMapper(typeof(AutoMapperUserProfile));
+            services.AddAutoMapper(typeof(AutoMapperUserProfile));
         }
     }
 }
