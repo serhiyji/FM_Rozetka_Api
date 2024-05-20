@@ -1,4 +1,5 @@
-﻿using FM_Rozetka_Api.Core.AutoMappers;
+﻿using AutoMapper;
+using FM_Rozetka_Api.Core.AutoMappers;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,12 +12,12 @@ namespace FM_Rozetka_Api.Core
         {
             services.AddTransient<EmailService>();
             services.AddTransient<AuthService>();
-
             services.AddScoped<IJwtService, JwtService>();
         }
+
         public static void AddMapping(this IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(AutoMapperUserProfile));
+            services.AddAutoMapper(typeof(AutoMapperUserProfile).Assembly);
         }
     }
 }
