@@ -11,5 +11,6 @@ namespace FM_Rozetka_Api.Core.Entities
         public string SurName { get; set; } = string.Empty;
         [Required, MaxLength(64)]
         public string LastName { get; set; } = string.Empty;
+        public List<Shop> Shops { get; set; }
     }
 }
