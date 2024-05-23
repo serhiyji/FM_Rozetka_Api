@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FM_Rozetka_Api.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240521091652_init")]
+    [Migration("20240523111552_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -24,6 +24,89 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Adress", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Steet")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("zipcode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Adresses");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Cart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.CartItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CartId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CartItems");
+                });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.CategoryProduct", b =>
                 {
@@ -104,10 +187,13 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
                     b.HasIndex("CountryProductionId");
 
+                    b.HasIndex("ProductId")
+                        .IsUnique();
+
                     b.ToTable("CountryProductionProducts");
                 });
 
-            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.ManufacturerProduct", b =>
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Discount", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -115,20 +201,50 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ManufacturerId")
+                    b.Property<decimal>("DiscountPercent")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("ProductId")
                         .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Discounts");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Favorite", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("AddedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ManufacturerId");
+                    b.HasIndex("AppUserId");
 
-                    b.HasIndex("ProductId")
-                        .IsUnique();
+                    b.HasIndex("ProductId");
 
-                    b.ToTable("ManufacturerProducts");
+                    b.ToTable("Favorites");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.ModeratorShop", b =>
@@ -153,6 +269,121 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasIndex("ShopId");
 
                     b.ToTable("ModeratorShops");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderItems");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.OrderStatusHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("ChangedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderStatusHistories");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Payment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.PhotoProduct", b =>
@@ -191,33 +422,128 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.Property<int>("CountryProductionProductId")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("ManufacturerProductId")
-                        .HasColumnType("integer");
+                    b.Property<string>("ImageURL")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("double precision");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
 
                     b.Property<int>("ShopId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Stars")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("Stock")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryProductId");
 
-                    b.HasIndex("CountryProductionProductId")
-                        .IsUnique();
-
                     b.HasIndex("ShopId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.ProductAnswer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AnswerText")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("ProductQuestionId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("QuestionID")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("ProductQuestionId");
+
+                    b.ToTable("ProductAnswers");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.ProductBrand", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BrandId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductBrands");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.ProductQuestion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("QuestionText")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductQuestions");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.RefreshToken", b =>
@@ -230,6 +556,9 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
                     b.Property<DateTime>("AddedDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("ExpireDate")
                         .HasColumnType("timestamp with time zone");
@@ -254,9 +583,76 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("RefreshTokens");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Review", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Shipment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Carrier")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("ShipmentDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TrackingNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Shipments");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Shop", b =>
@@ -514,7 +910,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Rozetka_Api.Core.Entities.Manufacturer", b =>
+            modelBuilder.Entity("Rozetka_Api.Core.Entities.Brand", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -532,7 +928,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Manufacturers");
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.AppUser", b =>
@@ -557,6 +953,47 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasDiscriminator().HasValue("AppUser");
                 });
 
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Adress", b =>
+                {
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.AppUser", "AppUser")
+                        .WithMany("Adresses")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Cart", b =>
+                {
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.AppUser", "AppUser")
+                        .WithMany("Carts")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.CartItem", b =>
+                {
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.Cart", "Cart")
+                        .WithMany("CartItems")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.Product", "Product")
+                        .WithMany("CartItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.CountryProductionProduct", b =>
                 {
                     b.HasOne("FM_Rozetka_Api.Core.Entities.CountryProduction", "CountryProduction")
@@ -565,24 +1002,43 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.Product", "Product")
+                        .WithOne("CountryProductionProduct")
+                        .HasForeignKey("FM_Rozetka_Api.Core.Entities.CountryProductionProduct", "ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("CountryProduction");
+
+                    b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.ManufacturerProduct", b =>
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Discount", b =>
                 {
-                    b.HasOne("Rozetka_Api.Core.Entities.Manufacturer", "Manufacturer")
-                        .WithMany()
-                        .HasForeignKey("ManufacturerId")
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.Product", "Product")
+                        .WithMany("Discounts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Favorite", b =>
+                {
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.AppUser", "AppUser")
+                        .WithMany("Favorites")
+                        .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FM_Rozetka_Api.Core.Entities.Product", "Product")
-                        .WithOne("ManufacturerProduct")
-                        .HasForeignKey("FM_Rozetka_Api.Core.Entities.ManufacturerProduct", "ProductId")
+                        .WithMany("Favorites")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Manufacturer");
+                    b.Navigation("AppUser");
 
                     b.Navigation("Product");
                 });
@@ -590,7 +1046,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.ModeratorShop", b =>
                 {
                     b.HasOne("FM_Rozetka_Api.Core.Entities.AppUser", "AppUser")
-                        .WithMany()
+                        .WithMany("ModeratorShops")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -604,6 +1060,58 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.Navigation("AppUser");
 
                     b.Navigation("Shop");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Order", b =>
+                {
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.AppUser", "AppUser")
+                        .WithMany("Orders")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.OrderItem", b =>
+                {
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.Product", "Product")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.OrderStatusHistory", b =>
+                {
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.Order", "Order")
+                        .WithMany("OrderStatusHistories")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Payment", b =>
+                {
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.Order", "Order")
+                        .WithMany("Payments")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.PhotoProduct", b =>
@@ -625,12 +1133,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FM_Rozetka_Api.Core.Entities.CountryProductionProduct", "CountryProductionProduct")
-                        .WithOne("Product")
-                        .HasForeignKey("FM_Rozetka_Api.Core.Entities.Product", "CountryProductionProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("FM_Rozetka_Api.Core.Entities.Shop", "Shop")
                         .WithMany("Products")
                         .HasForeignKey("ShopId")
@@ -639,20 +1141,103 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
                     b.Navigation("CategoryProduct");
 
-                    b.Navigation("CountryProductionProduct");
-
                     b.Navigation("Shop");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.ProductAnswer", b =>
+                {
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.AppUser", "AppUser")
+                        .WithMany("ProductAnswers")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.ProductQuestion", "ProductQuestion")
+                        .WithMany("ProductAnswers")
+                        .HasForeignKey("ProductQuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("ProductQuestion");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.ProductBrand", b =>
+                {
+                    b.HasOne("Rozetka_Api.Core.Entities.Brand", "Brand")
+                        .WithMany("ProductBrands")
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.Product", "Product")
+                        .WithMany("ProductBrands")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Brand");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.ProductQuestion", b =>
+                {
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.AppUser", "AppUser")
+                        .WithMany("ProductQuestions")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.Product", "Product")
+                        .WithMany("ProductQuestions")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.RefreshToken", b =>
                 {
-                    b.HasOne("FM_Rozetka_Api.Core.Entities.AppUser", "User")
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.AppUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("AppUserId");
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Review", b =>
+                {
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.AppUser", "AppUser")
+                        .WithMany("Reviews")
+                        .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.Product", "Product")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Shipment", b =>
+                {
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.Order", "Order")
+                        .WithMany("Shipments")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Shop", b =>
@@ -736,6 +1321,11 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Cart", b =>
+                {
+                    b.Navigation("CartItems");
+                });
+
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.CategoryProduct", b =>
                 {
                     b.Navigation("Products");
@@ -751,20 +1341,44 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.Navigation("CountryProductionProducts");
                 });
 
-            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.CountryProductionProduct", b =>
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Order", b =>
                 {
-                    b.Navigation("Product")
-                        .IsRequired();
+                    b.Navigation("OrderItems");
+
+                    b.Navigation("OrderStatusHistories");
+
+                    b.Navigation("Payments");
+
+                    b.Navigation("Shipments");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Product", b =>
                 {
-                    b.Navigation("ManufacturerProduct")
+                    b.Navigation("CartItems");
+
+                    b.Navigation("CountryProductionProduct")
                         .IsRequired();
+
+                    b.Navigation("Discounts");
+
+                    b.Navigation("Favorites");
+
+                    b.Navigation("OrderItems");
 
                     b.Navigation("PhotoProducts");
 
+                    b.Navigation("ProductBrands");
+
+                    b.Navigation("ProductQuestions");
+
+                    b.Navigation("Reviews");
+
                     b.Navigation("Specifications");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.ProductQuestion", b =>
+                {
+                    b.Navigation("ProductAnswers");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Shop", b =>
@@ -774,8 +1388,29 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("Rozetka_Api.Core.Entities.Brand", b =>
+                {
+                    b.Navigation("ProductBrands");
+                });
+
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.AppUser", b =>
                 {
+                    b.Navigation("Adresses");
+
+                    b.Navigation("Carts");
+
+                    b.Navigation("Favorites");
+
+                    b.Navigation("ModeratorShops");
+
+                    b.Navigation("Orders");
+
+                    b.Navigation("ProductAnswers");
+
+                    b.Navigation("ProductQuestions");
+
+                    b.Navigation("Reviews");
+
                     b.Navigation("Shops");
                 });
 #pragma warning restore 612, 618

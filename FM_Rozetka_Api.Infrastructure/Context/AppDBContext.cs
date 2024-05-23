@@ -15,15 +15,28 @@ namespace FM_Rozetka_Api.Infrastructure.Context
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
+        public DbSet<Adress> Adresses { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
         public DbSet<CategoryProduct> CategoryProducts { get; set; }
         public DbSet<CategorySpecification> CategorySpecifications { get; set; }
         public DbSet<CountryProduction> CountryProductions { get; set; }
         public DbSet<CountryProductionProduct> CountryProductionProducts { get; set; }
-        public DbSet<Brand> Brands { get; set; }
-        public DbSet<ProductBrand> ProductsBrands { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
         public DbSet<ModeratorShop> ModeratorShops { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<OrderStatusHistory> OrderStatusHistories { get; set; }
+        public DbSet<Payment> Payments { get; set; }
         public DbSet<PhotoProduct> PhotoProducts { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductAnswer> ProductAnswers { get; set; }
+        public DbSet<ProductBrand> ProductBrands { get; set; }
+        public DbSet<ProductQuestion> ProductQuestions { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Shipment> Shipments { get; set; }
         public DbSet<Shop> Shops { get; set; }
         public DbSet<Specification> Specifications { get; set; }
 
@@ -31,12 +44,10 @@ namespace FM_Rozetka_Api.Infrastructure.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<CountryProductionProduct>()
-            .HasOne(cp => cp.Product)
-            .WithOne(p => p.CountryProductionProduct)
-            .HasForeignKey<Product>(p => p.CountryProductionProductId);
-
-           
+            modelBuilder.Entity<Product>()
+            .HasOne(p => p.CountryProductionProduct)
+            .WithOne(c => c.Product)
+            .HasForeignKey<CountryProductionProduct>(c => c.ProductId);
 
             //modelBuilder.SeedAdministrator();
         }

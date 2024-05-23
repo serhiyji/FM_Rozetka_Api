@@ -11,10 +11,10 @@ namespace FM_Rozetka_Api.Core.Entities
     //Призначення: Зберігає інформацію про кошики користувачів.
     {
         public int Id { get; set; }
-        public int UserID { get; set; }
+        public string AppUserId { get; set; }
+        public AppUser AppUser { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        public AppUser User { get; set; }
-        public ICollection<CartItem> CartItems { get; set; }
+        public List<CartItem> CartItems { get; set; }
     }
 }

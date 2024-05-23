@@ -13,9 +13,9 @@ namespace FM_Rozetka_Api.Core.Entities
     //Призначення: Відображає зв'язок між продуктами та брендами.
     {
         public int Id { get; set; }
-        public int ProductID { get; set; }
-        public int BrandID { get; set; }
+        public int ProductId { get; set; }
         public Product Product { get; set; }
+        public int BrandId { get; set; }
         public Brand Brand { get; set; }
     }
 }

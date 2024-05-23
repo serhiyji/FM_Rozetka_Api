@@ -7,15 +7,14 @@ using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Entities
 {
-    public class ProductAnswer: IEntity
+    public class Adress : IEntity
     {
         public int Id { get; set; }
-        public int QuestionID { get; set; }
-        public string AppUserId { get; set; }
+        public string AppUserId {  get; set; }
         public AppUser AppUser { get; set; }
-        public string AnswerText { get; set; }
-        public DateTime CreatedAt { get; set; }
-
-        public ProductQuestion ProductQuestion { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
+        public string Steet { get; set; }
+        public string zipcode { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace FM_Rozetka_Api.Core.Entities
     public class CategoryProduct : IEntity
     {
         public int Id { get; set; }
-        public int Level {  get; set; } // from 1 to 3
+        public int Level {  get; set; }
         public int TopId {  get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

@@ -23,13 +23,13 @@ namespace FM_Rozetka_Api.Core.Entities
         public Shop Shop { get; set; }
 
         
-        public ICollection<ProductBrand> ProductBrands { get; set; }
-        public ICollection<Favorite> Favorites { get; set; }
-        public ICollection<Discount> Discounts { get; set; }
-        public ICollection<ProductQuestion> ProductQuestions { get; set; }
-        public ICollection<OrderItem> OrderItems { get; set; }
-        public ICollection<Review> Reviews { get; set; }
-        public ICollection<CartItem> CartItems { get; set; }
+        public List<ProductBrand> ProductBrands { get; set; }
+        public List<Favorite> Favorites { get; set; }
+        public List<Discount> Discounts { get; set; }
+        public List<ProductQuestion> ProductQuestions { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
+        public List<Review> Reviews { get; set; }
+        public List<CartItem> CartItems { get; set; }
 
         public List<PhotoProduct> PhotoProducts { get; set; }
 

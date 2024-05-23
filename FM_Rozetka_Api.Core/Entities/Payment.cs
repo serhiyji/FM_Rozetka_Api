@@ -11,12 +11,11 @@ namespace FM_Rozetka_Api.Core.Entities
     //Призначення: Зберігає інформацію про платежі за замовлення
     {
         public int Id { get; set; }
-        public int OrderID { get; set; }
+        public int OrderId { get; set; }
+        public Order Order { get; set; }
         public string PaymentMethod { get; set; }
         public DateTime PaymentDate { get; set; }
         public decimal Amount { get; set; }
         public string Status { get; set; }
-
-        public Order Order { get; set; }
     }
 }

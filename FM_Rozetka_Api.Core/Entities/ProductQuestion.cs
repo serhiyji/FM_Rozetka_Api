@@ -11,13 +11,13 @@ namespace FM_Rozetka_Api.Core.Entities
     //Призначення: Зберігає питання користувачів про продукти.
     {
         public int Id { get; set; }
-        public int ProductID { get; set; }
-        public int UserID { get; set; }
+        public int ProductId { get; set; }
+        public Product Product { get; set; }
+        public string AppUserId { get; set; }
+        public AppUser AppUser { get; set; }
         public string QuestionText { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        public Product Product { get; set; }
-        public AppUser User { get; set; }
-        public ICollection<ProductAnswer> ProductAnswers { get; set; }
+        public List<ProductAnswer> ProductAnswers { get; set; }
     }
 }
