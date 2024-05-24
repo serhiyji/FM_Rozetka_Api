@@ -12,6 +12,6 @@ namespace FM_Rozetka_Api.Core.Entities
         public bool IsRevoked { get; set; }
         public DateTime AddedDate { get; set; }
         public DateTime ExpireDate { get; set; }
-        public AppUser User { get; set; }
+        public AppUser AppUser { get; set; }
     }
 }
