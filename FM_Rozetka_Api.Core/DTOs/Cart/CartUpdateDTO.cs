@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FM_Rozetka_Api.Core.DTOs
+namespace FM_Rozetka_Api.Core.DTOs.Cart
 {
-    public class ProductBrandUpdateDTO
+    public class CartUpdateDTO
     {
         public int Id { get; set; }
-        public int ProductId { get; set; }
-        public int BrandId { get; set; }
+        public string AppUserId { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }
