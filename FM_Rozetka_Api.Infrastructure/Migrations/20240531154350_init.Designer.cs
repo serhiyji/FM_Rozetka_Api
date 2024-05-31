@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FM_Rozetka_Api.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240523111552_init")]
+    [Migration("20240531154350_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -729,6 +729,14 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "5b0788b3-7b56-4625-a78d-be417fcdf6a8",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -889,6 +897,13 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "dccfd665-337f-4c23-a8e2-b7b165a2c9b1",
+                            RoleId = "5b0788b3-7b56-4625-a78d-be417fcdf6a8"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -951,6 +966,28 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         .HasColumnType("character varying(64)");
 
                     b.HasDiscriminator().HasValue("AppUser");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "dccfd665-337f-4c23-a8e2-b7b165a2c9b1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "0381c41f-2f4c-4509-810a-2fc7bff795fc",
+                            Email = "admin@email.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@EMAIL.COM",
+                            NormalizedUserName = "ADMIN@EMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGT4Ztb17Fm3GCZ1rIAK1jSYhgsl5itdvHIBlLFiv8LogoO9sMLT65LMDycsf0UzFw==",
+                            PhoneNumber = "+xx(xxx)xxx-xx-xx",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "abe77e34-8f02-4425-b322-e1ff690ca1e8",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@email.com",
+                            FirstName = "John",
+                            LastName = "Connor",
+                            SurName = "Johnovych"
+                        });
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Adress", b =>

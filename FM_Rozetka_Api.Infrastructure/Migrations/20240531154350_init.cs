@@ -743,6 +743,21 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "5b0788b3-7b56-4625-a78d-be417fcdf6a8", null, "Administrator", "ADMINISTRATOR" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SurName", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "dccfd665-337f-4c23-a8e2-b7b165a2c9b1", 0, "0381c41f-2f4c-4509-810a-2fc7bff795fc", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEGT4Ztb17Fm3GCZ1rIAK1jSYhgsl5itdvHIBlLFiv8LogoO9sMLT65LMDycsf0UzFw==", "+xx(xxx)xxx-xx-xx", true, "abe77e34-8f02-4425-b322-e1ff690ca1e8", "Johnovych", false, "admin@email.com" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "5b0788b3-7b56-4625-a78d-be417fcdf6a8", "dccfd665-337f-4c23-a8e2-b7b165a2c9b1" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_AppUserId",
                 table: "Adresses",
