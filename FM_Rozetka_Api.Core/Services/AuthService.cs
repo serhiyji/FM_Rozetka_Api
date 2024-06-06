@@ -1,10 +1,12 @@
-﻿using FM_Rozetka_Api.Core.DTOs.Token;
+﻿using AutoMapper;
+using FM_Rozetka_Api.Core.DTOs.Token;
 using FM_Rozetka_Api.Core.DTOs.User;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -20,7 +22,7 @@ namespace FM_Rozetka_Api.Core.Services
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly EmailService _emailService;
-        //private readonly IMapper _mapper;
+        private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly IJwtService _jwtService;
 
@@ -29,7 +31,7 @@ namespace FM_Rozetka_Api.Core.Services
                 SignInManager<AppUser> signInManager,
                 RoleManager<IdentityRole> roleManager,
                 EmailService emailService,
-                //IMapper mapper,
+                IMapper mapper,
                 IConfiguration configuration,
                 IJwtService jwtService
             )
@@ -38,7 +40,7 @@ namespace FM_Rozetka_Api.Core.Services
             this._userManager = userManager;
             this._roleManager = roleManager;
             this._emailService = emailService;
-            //this._mapper = mapper;
+            this._mapper = mapper;
             this._configuration = configuration;
             this._jwtService = jwtService;
         }
@@ -68,12 +70,67 @@ namespace FM_Rozetka_Api.Core.Services
             }
             return new ServiceResponse(false, "User or password incorect");
         }
+        public async Task<ServiceResponse> LoginUserByPhoneAsync(UserLoginPhoneDTO model)
+        {
+            AppUser? user = await _userManager.Users
+                                      .SingleOrDefaultAsync(u => u.PhoneNumber == model.Phone);
+
+            if (user == null)
+            {
+                return new ServiceResponse(false, "User or password incorect.");
+            }
+            SignInResult result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: true);
+            if (result.Succeeded)
+            {
+                Tokens? tokens = await _jwtService.GenerateJwtTokensAsync(user);
+                await _signInManager.SignInAsync(user, model.RememberMe);
+                return new ServiceResponse(true, "User successfully loged in.", accessToken: tokens.Token, refreshToken: tokens.refreshToken.Token);
+            }
+            if (result.IsNotAllowed)
+            {
+                return new ServiceResponse(false, "Confirm your email please");
+            }
+            if (result.IsLockedOut)
+            {
+                return new ServiceResponse(false, "User is locked. Connect with your site admistrator.");
+            }
+            return new ServiceResponse(false, "User or password incorect");
+        }
         public async Task<ServiceResponse> SignOutAsync()
         {
             await _signInManager.SignOutAsync();
             return new ServiceResponse(true);
         }
         #endregion
+
+        public async Task<ServiceResponse> SingUpByEmailAsync(UserSignUpEmailDTO model)
+        {
+            if (model != null)
+            {
+                AppUser mappedUser = _mapper.Map<UserSignUpEmailDTO, AppUser>(model);
+                var result = await _userManager.CreateAsync(mappedUser, model.Password);
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(mappedUser, "User");
+
+                    //  Email sender
+                    await _emailService.SendEmailAsync(model.Email, "Welcome", "Welcome to our site");
+                    await SendConfirmationEmailAsync(mappedUser);
+
+                    
+                }
+                else
+                {
+                    return new ServiceResponse(false, "credentials are null");
+                }
+            }
+            return new ServiceResponse
+            {
+                Success = false,
+                Message = "Something went wrong during adding user :( ."
+            };
+
+        }
 
         public async Task DeleteAllRefreshTokenByUserIdAsync(string userId)
         {
@@ -82,6 +139,34 @@ namespace FM_Rozetka_Api.Core.Services
             {
                 await _jwtService.Delete(refreshToken);
             }
+        }
+        public async Task<ServiceResponse> ConfirmEmailAsync(string userId, string token)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+                return new ServiceResponse(false, "unknown user");
+           
+            var decodedToken = WebEncoders.Base64UrlDecode(token);
+            string normalToken = Encoding.UTF8.GetString(decodedToken);
+            var result = await _userManager.ConfirmEmailAsync(user, normalToken);
+
+            if (result.Succeeded)
+                return new ServiceResponse(false, "User`s email confirmed succesfully");
+
+            return new ServiceResponse(false, "User`s email not confirmed", result.Errors.Select(e => e.Description));
+        }
+        public async Task SendConfirmationEmailAsync(AppUser user)
+        {
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var encodedToken = Encoding.UTF8.GetBytes(token);
+            var validEmailToken = WebEncoders.Base64UrlEncode(encodedToken);
+
+            string url = $"http://localhost:5173/ConfirmEmail?userId={user.Id}&token={validEmailToken}";
+            //string url = $"{_config["HostSetting:URL"]}/Dashboard/ConfirmEmail?userId={user.Id}&token={validEmailToken}";
+            string emailBody = $"" +
+                $"<h1>Confirm your email please.</h1><a href='{url}'>Confirm now</a>";
+            await _emailService.SendEmailAsync(user.Email, "TopNews Email confirmation", emailBody);
         }
     }
 }
