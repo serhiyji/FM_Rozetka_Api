@@ -9,6 +9,7 @@ namespace FM_Rozetka_Api.Core.AutoMappers
         public AutoMapperUserProfile()
         {
             CreateMap<UserDTO, AppUser>().ReverseMap();
+            CreateMap<UserSignUpEmailDTO, AppUser>().ReverseMap();
         }
     }
 }
