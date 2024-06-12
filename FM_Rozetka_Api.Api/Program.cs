@@ -1,6 +1,8 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using FM_Rozetka_Api.Core;
 using FM_Rozetka_Api.Infrastructure;
@@ -33,6 +35,10 @@ builder.Services.AddAuthentication(options =>
     jwt.SaveToken = true;
     jwt.TokenValidationParameters = tokenValidationParemeters;
     jwt.RequireHttpsMetadata = false;
+}).AddGoogle(options =>
+{
+    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
 });
 
 // Create connection string
