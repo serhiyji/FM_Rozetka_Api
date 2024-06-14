@@ -4,6 +4,7 @@ using FM_Rozetka_Api.Core.DTOs.User;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace FM_Rozetka_Api.Core.Services
 {
@@ -167,6 +169,44 @@ namespace FM_Rozetka_Api.Core.Services
             string emailBody = $"" +
                 $"<h1>Confirm your email please.</h1><a href='{url}'>Confirm now</a>";
             await _emailService.SendEmailAsync(user.Email, "TopNews Email confirmation", emailBody);
+        }
+
+
+
+        public async Task<ServiceResponse> RegisterWithGoogleAsync(string tokenId)
+        {
+            try
+            {
+                var payload = await GoogleJsonWebSignature.ValidateAsync(tokenId, new GoogleJsonWebSignature.ValidationSettings());
+                var user = await _userManager.FindByEmailAsync(payload.Email);
+
+                if (user == null)
+                {
+                    // Створюємо нового користувача на основі інформації з Google
+                    user = new AppUser
+                    {
+                        Email = payload.Email,
+                        UserName = payload.Email,
+                        EmailConfirmed = true
+                    };
+
+                    var result = await _userManager.CreateAsync(user);
+                    if (!result.Succeeded)
+                    {
+                        return new ServiceResponse(false, "Failed to create user with Google account.");
+                    }
+
+                    await _userManager.AddToRoleAsync(user, "User");
+                }
+
+                // Генеруємо JWT токени
+                var tokens = await _jwtService.GenerateJwtTokensAsync(user);
+                return new ServiceResponse(true, "User successfully registered and authenticated with Google.", accessToken: tokens.Token, refreshToken: tokens.refreshToken.Token);
+            }
+            catch (InvalidJwtException ex)
+            {
+                return new ServiceResponse(false, "Invalid Google token.", ex.Message);
+            }
         }
     }
 }

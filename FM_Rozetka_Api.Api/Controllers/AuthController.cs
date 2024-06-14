@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using FM_Rozetka_Api.Core.DTOs;
 
 namespace FM_Rozetka_Api.Api.Controllers
 {
@@ -55,6 +56,18 @@ namespace FM_Rozetka_Api.Api.Controllers
             await _authService.DeleteAllRefreshTokenByUserIdAsync(userId);
             ServiceResponse res = await _authService.SignOutAsync();
             return Ok(res);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("google-register")]
+        public async Task<IActionResult> GoogleRegister([FromBody] GoogleTokenModel model)
+        {
+            var response = await _authService.RegisterWithGoogleAsync(model.TokenId);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
         }
 
         #endregion
