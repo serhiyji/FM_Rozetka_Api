@@ -74,8 +74,7 @@ namespace FM_Rozetka_Api.Core.Services
         }
         public async Task<ServiceResponse> LoginUserByPhoneAsync(UserLoginPhoneDTO model)
         {
-            AppUser? user = await _userManager.Users
-                                      .SingleOrDefaultAsync(u => u.PhoneNumber == model.Phone);
+            AppUser? user = await _userManager.Users.SingleOrDefaultAsync(u => u.PhoneNumber == model.Phone);
 
             if (user == null)
             {
@@ -168,9 +167,28 @@ namespace FM_Rozetka_Api.Core.Services
             //string url = $"{_config["HostSetting:URL"]}/Dashboard/ConfirmEmail?userId={user.Id}&token={validEmailToken}";
             string emailBody = $"" +
                 $"<h1>Confirm your email please.</h1><a href='{url}'>Confirm now</a>";
-            await _emailService.SendEmailAsync(user.Email, "TopNews Email confirmation", emailBody);
+            await _emailService.SendEmailAsync(user.Email, "Rozetka Email confirmation", emailBody);
         }
 
+        public async Task<ServiceResponse> LoginWithGoogleAsync(string tokenId)
+        {
+            var payload = await GoogleJsonWebSignature.ValidateAsync(tokenId, new GoogleJsonWebSignature.ValidationSettings());
+            AppUser? user = await _userManager.FindByEmailAsync(payload.Email);
+            if (user == null)
+            {
+                return new ServiceResponse(false, "User incorect.");
+            }
+             
+            var token = await _jwtService.GenerateJwtTokensAsync(user);
+
+            if (token != null)
+            {
+                Tokens? tokens = await _jwtService.GenerateJwtTokensAsync(user);
+                return new ServiceResponse(true, "User successfully loged in.", accessToken: tokens.Token, refreshToken: tokens.refreshToken.Token);
+            }
+           
+            return new ServiceResponse(false, "User or password incorect");
+        }
 
 
         public async Task<ServiceResponse> RegisterWithGoogleAsync(string tokenId)
@@ -187,7 +205,9 @@ namespace FM_Rozetka_Api.Core.Services
                     {
                         Email = payload.Email,
                         UserName = payload.Email,
-                        EmailConfirmed = true
+                        EmailConfirmed = true,
+                        FirstName = payload.GivenName,
+                        LastName = payload.FamilyName
                     };
 
                     var result = await _userManager.CreateAsync(user);
@@ -196,7 +216,7 @@ namespace FM_Rozetka_Api.Core.Services
                         return new ServiceResponse(false, "Failed to create user with Google account.");
                     }
 
-                    await _userManager.AddToRoleAsync(user, "User");
+                    await _userManager.AddToRoleAsync(user, "Administrator");
                 }
 
                 // Генеруємо JWT токени
