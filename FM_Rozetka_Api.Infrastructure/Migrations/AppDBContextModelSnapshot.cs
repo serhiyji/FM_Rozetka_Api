@@ -730,9 +730,15 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5b0788b3-7b56-4625-a78d-be417fcdf6a8",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
+                            Id = "065e81dc-6860-4a4b-8f46-7b6c4c817202",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "14325131-67ff-4806-ba16-5d23db6e8562",
+                            Name = "Reader",
+                            NormalizedName = "READER"
                         });
                 });
 
@@ -898,8 +904,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "dccfd665-337f-4c23-a8e2-b7b165a2c9b1",
-                            RoleId = "5b0788b3-7b56-4625-a78d-be417fcdf6a8"
+                            UserId = "f19949db-8083-4bab-8d4f-890aa05efb20",
+                            RoleId = "065e81dc-6860-4a4b-8f46-7b6c4c817202"
                         });
                 });
 
@@ -967,18 +973,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "dccfd665-337f-4c23-a8e2-b7b165a2c9b1",
+                            Id = "f19949db-8083-4bab-8d4f-890aa05efb20",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0381c41f-2f4c-4509-810a-2fc7bff795fc",
+                            ConcurrencyStamp = "82bd2f96-bbda-4a6c-a845-aa46668f28aa",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGT4Ztb17Fm3GCZ1rIAK1jSYhgsl5itdvHIBlLFiv8LogoO9sMLT65LMDycsf0UzFw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDnjXCN2J3ofz7XeIzVfXSq2uFsKWMwvJrS+mI9CLhxSjBtfM6qoTC6rRkVpL3ZdtQ==",
                             PhoneNumber = "+xx(xxx)xxx-xx-xx",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "abe77e34-8f02-4425-b322-e1ff690ca1e8",
+                            SecurityStamp = "71adba34-6f9e-41be-9c47-b0b661f19839",
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",

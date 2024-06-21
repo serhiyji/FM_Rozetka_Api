@@ -4,6 +4,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace FM_Rozetka_Api.Infrastructure.Migrations
 {
     /// <inheritdoc />
@@ -746,17 +748,21 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "5b0788b3-7b56-4625-a78d-be417fcdf6a8", null, "Administrator", "ADMINISTRATOR" });
+                values: new object[,]
+                {
+                    { "065e81dc-6860-4a4b-8f46-7b6c4c817202", null, "Admin", "ADMIN" },
+                    { "14325131-67ff-4806-ba16-5d23db6e8562", null, "Reader", "READER" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SurName", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "dccfd665-337f-4c23-a8e2-b7b165a2c9b1", 0, "0381c41f-2f4c-4509-810a-2fc7bff795fc", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEGT4Ztb17Fm3GCZ1rIAK1jSYhgsl5itdvHIBlLFiv8LogoO9sMLT65LMDycsf0UzFw==", "+xx(xxx)xxx-xx-xx", true, "abe77e34-8f02-4425-b322-e1ff690ca1e8", "Johnovych", false, "admin@email.com" });
+                values: new object[] { "f19949db-8083-4bab-8d4f-890aa05efb20", 0, "82bd2f96-bbda-4a6c-a845-aa46668f28aa", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEDnjXCN2J3ofz7XeIzVfXSq2uFsKWMwvJrS+mI9CLhxSjBtfM6qoTC6rRkVpL3ZdtQ==", "+xx(xxx)xxx-xx-xx", true, "71adba34-6f9e-41be-9c47-b0b661f19839", "Johnovych", false, "admin@email.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "5b0788b3-7b56-4625-a78d-be417fcdf6a8", "dccfd665-337f-4c23-a8e2-b7b165a2c9b1" });
+                values: new object[] { "065e81dc-6860-4a4b-8f46-7b6c4c817202", "f19949db-8083-4bab-8d4f-890aa05efb20" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_AppUserId",
