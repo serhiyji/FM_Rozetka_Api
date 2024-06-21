@@ -6,18 +6,28 @@ namespace FM_Rozetka_Api.Infrastructure.Initializers
 {
     public static class DBInitializer
     {
-
+        public static string AdminRoleId = Guid.NewGuid().ToString();
+        public static string ReaderRoleId = Guid.NewGuid().ToString();
+        public static void SeedRoles(this ModelBuilder modelBuilder)
+        {
+            foreach (var item in new List<(string id, string name)>() 
+            { 
+                (AdminRoleId, "Admin"), 
+                (ReaderRoleId, "Reader") 
+            })
+            {
+                modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole()
+                {
+                    Id = item.id,
+                    Name = item.name,
+                    NormalizedName = item.name.ToUpper()
+                });
+            }
+        }
         public static void SeedAdministrator(this ModelBuilder modelBuilder)
         {
             var passwordHasher = new PasswordHasher<AppUser>();
             var adminUserId = Guid.NewGuid().ToString();
-            var adminRoleId = Guid.NewGuid().ToString();
-            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
-            {
-                Id = adminRoleId,
-                Name = "Administrator",
-                NormalizedName = "ADMINISTRATOR"
-            });
             var adminUser = new AppUser
             {
                 Id = adminUserId,
@@ -36,7 +46,7 @@ namespace FM_Rozetka_Api.Infrastructure.Initializers
             modelBuilder.Entity<AppUser>().HasData(adminUser);
             modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
             {
-                RoleId = adminRoleId,
+                RoleId = AdminRoleId,
                 UserId = adminUserId
             });
         }

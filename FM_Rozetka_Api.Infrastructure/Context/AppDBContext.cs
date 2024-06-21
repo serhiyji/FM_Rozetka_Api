@@ -49,6 +49,7 @@ namespace FM_Rozetka_Api.Infrastructure.Context
             .WithOne(c => c.Product)
             .HasForeignKey<CountryProductionProduct>(c => c.ProductId);
 
+            modelBuilder.SeedRoles();
             modelBuilder.SeedAdministrator();
         }
     }
