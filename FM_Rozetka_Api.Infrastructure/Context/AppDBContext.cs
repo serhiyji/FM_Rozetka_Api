@@ -1,4 +1,5 @@
 ﻿using FM_Rozetka_Api.Core.Entities;
+using FM_Rozetka_Api.Core.Entities.Telegram;
 using FM_Rozetka_Api.Infrastructure.Initializers;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,7 @@ namespace FM_Rozetka_Api.Infrastructure.Context
         public DbSet<Shipment> Shipments { get; set; }
         public DbSet<Shop> Shops { get; set; }
         public DbSet<Specification> Specifications { get; set; }
+        public DbSet<TelegramUser> TelegramUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

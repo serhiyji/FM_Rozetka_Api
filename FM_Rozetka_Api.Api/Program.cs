@@ -1,8 +1,6 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using FM_Rozetka_Api.Core;
 using FM_Rozetka_Api.Infrastructure;
@@ -72,7 +70,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
-    option.SwaggerDoc("v1", new OpenApiInfo { Title = "TopNews API", Version = "v1" });
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "FM Rozetka API", Version = "v1" });
     option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -95,8 +93,10 @@ builder.Services.AddSwaggerGen(option =>
             },
             new string[]{}
         }
- });
+    });
 });
+
+//var telegramService = serviceProvider.GetRequiredService<ITelegramApiHandlerService>();
 
 var app = builder.Build();
 
@@ -104,7 +104,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "FM Rozetka API");
+        options.RoutePrefix = string.Empty; // To serve the Swagger UI at the root URL
+    });
 }
 
 app.UseCors(options =>
