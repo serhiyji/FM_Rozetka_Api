@@ -13,6 +13,7 @@ namespace FM_Rozetka_Api.Core
             services.AddTransient<EmailService>();
             services.AddTransient<AuthService>();
             services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped<ITelegramApiHandlerService, TelegramApiHandlerService>();
         }
 
         public static void AddMapping(this IServiceCollection services)

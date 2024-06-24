@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FM_Rozetka_Api.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240621091238_init")]
+    [Migration("20240624091704_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -705,6 +705,40 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.ToTable("Specifications");
                 });
 
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Telegram.TelegramUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("StatusState")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TelegramChatId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TelegramPhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<string>("TelegramUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TgUserName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TelegramUsers");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -733,13 +767,13 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "065e81dc-6860-4a4b-8f46-7b6c4c817202",
+                            Id = "405636f6-1c1f-4202-886e-2ee8a2dc8223",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "14325131-67ff-4806-ba16-5d23db6e8562",
+                            Id = "986c3ad3-a6a5-488e-ab93-ade923510557",
                             Name = "Reader",
                             NormalizedName = "READER"
                         });
@@ -907,8 +941,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "f19949db-8083-4bab-8d4f-890aa05efb20",
-                            RoleId = "065e81dc-6860-4a4b-8f46-7b6c4c817202"
+                            UserId = "89f8fb9c-2158-4189-b76f-1be240b8de52",
+                            RoleId = "405636f6-1c1f-4202-886e-2ee8a2dc8223"
                         });
                 });
 
@@ -976,18 +1010,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f19949db-8083-4bab-8d4f-890aa05efb20",
+                            Id = "89f8fb9c-2158-4189-b76f-1be240b8de52",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "82bd2f96-bbda-4a6c-a845-aa46668f28aa",
+                            ConcurrencyStamp = "9f8899d6-c41c-4c65-a266-5e637e0f5f20",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDnjXCN2J3ofz7XeIzVfXSq2uFsKWMwvJrS+mI9CLhxSjBtfM6qoTC6rRkVpL3ZdtQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECU4sas57rH4I4SC+SV2GKQD4BtqXpV0XnO/vxL2xZjuH3RxcnJ3VF/lZTWVQWiQVQ==",
                             PhoneNumber = "+xx(xxx)xxx-xx-xx",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "71adba34-6f9e-41be-9c47-b0b661f19839",
+                            SecurityStamp = "bb01f6ec-4939-4e19-8062-2ac5feeb18f8",
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",

@@ -114,6 +114,24 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TelegramUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TelegramChatId = table.Column<string>(type: "text", nullable: false),
+                    TelegramUserId = table.Column<string>(type: "text", nullable: false),
+                    TelegramPhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    TgUserName = table.Column<string>(type: "text", nullable: false),
+                    StatusState = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TelegramUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -750,19 +768,19 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "065e81dc-6860-4a4b-8f46-7b6c4c817202", null, "Admin", "ADMIN" },
-                    { "14325131-67ff-4806-ba16-5d23db6e8562", null, "Reader", "READER" }
+                    { "405636f6-1c1f-4202-886e-2ee8a2dc8223", null, "Admin", "ADMIN" },
+                    { "986c3ad3-a6a5-488e-ab93-ade923510557", null, "Reader", "READER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SurName", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "f19949db-8083-4bab-8d4f-890aa05efb20", 0, "82bd2f96-bbda-4a6c-a845-aa46668f28aa", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEDnjXCN2J3ofz7XeIzVfXSq2uFsKWMwvJrS+mI9CLhxSjBtfM6qoTC6rRkVpL3ZdtQ==", "+xx(xxx)xxx-xx-xx", true, "71adba34-6f9e-41be-9c47-b0b661f19839", "Johnovych", false, "admin@email.com" });
+                values: new object[] { "89f8fb9c-2158-4189-b76f-1be240b8de52", 0, "9f8899d6-c41c-4c65-a266-5e637e0f5f20", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAECU4sas57rH4I4SC+SV2GKQD4BtqXpV0XnO/vxL2xZjuH3RxcnJ3VF/lZTWVQWiQVQ==", "+xx(xxx)xxx-xx-xx", true, "bb01f6ec-4939-4e19-8062-2ac5feeb18f8", "Johnovych", false, "admin@email.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "065e81dc-6860-4a4b-8f46-7b6c4c817202", "f19949db-8083-4bab-8d4f-890aa05efb20" });
+                values: new object[] { "405636f6-1c1f-4202-886e-2ee8a2dc8223", "89f8fb9c-2158-4189-b76f-1be240b8de52" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_AppUserId",
@@ -1028,6 +1046,9 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Specifications");
+
+            migrationBuilder.DropTable(
+                name: "TelegramUsers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
