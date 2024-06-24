@@ -70,6 +70,19 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(response);
         }
 
+        [AllowAnonymous]
+        [HttpPost("google-login")]
+        public async Task<IActionResult> GoogleLogin([FromBody] GoogleTokenModel model)
+        {
+            var response = await _authService.LoginWithGoogleAsync(model.TokenId);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+
         #endregion
     }
 }
