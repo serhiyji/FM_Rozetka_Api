@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FM_Rozetka_Api.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240624091704_init")]
+    [Migration("20240626112944_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -384,6 +384,36 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.PhoneConfirmation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("PhoneConfirmations");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.PhotoProduct", b =>
@@ -767,13 +797,13 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "405636f6-1c1f-4202-886e-2ee8a2dc8223",
+                            Id = "07ed7126-a6ee-42f7-9a96-791b26668bd3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "986c3ad3-a6a5-488e-ab93-ade923510557",
+                            Id = "5478b775-cf7a-4dac-a226-01cbf516e399",
                             Name = "Reader",
                             NormalizedName = "READER"
                         });
@@ -941,8 +971,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "89f8fb9c-2158-4189-b76f-1be240b8de52",
-                            RoleId = "405636f6-1c1f-4202-886e-2ee8a2dc8223"
+                            UserId = "287427c7-a596-4a73-bdbb-57cfb775b7a2",
+                            RoleId = "07ed7126-a6ee-42f7-9a96-791b26668bd3"
                         });
                 });
 
@@ -1010,18 +1040,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "89f8fb9c-2158-4189-b76f-1be240b8de52",
+                            Id = "287427c7-a596-4a73-bdbb-57cfb775b7a2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9f8899d6-c41c-4c65-a266-5e637e0f5f20",
+                            ConcurrencyStamp = "719d62af-d8c5-48ab-b7a2-d8805b0150db",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECU4sas57rH4I4SC+SV2GKQD4BtqXpV0XnO/vxL2xZjuH3RxcnJ3VF/lZTWVQWiQVQ==",
-                            PhoneNumber = "+xx(xxx)xxx-xx-xx",
-                            PhoneNumberConfirmed = true,
-                            SecurityStamp = "bb01f6ec-4939-4e19-8062-2ac5feeb18f8",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOTPvApF2759cT/NOBZhuZCwwexIVPkv8D1bQbRoNJqTGzh9gUj8u8HNTyPEoVb6ug==",
+                            PhoneNumber = "",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "33c99928-04a9-4b51-8e2b-6843a9a8c776",
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",
@@ -1189,6 +1219,17 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.PhoneConfirmation", b =>
+                {
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.PhotoProduct", b =>
