@@ -1,13 +1,10 @@
-﻿using FM_Rozetka_Api.Core.Entities.Telegram;
+﻿using FM_Rozetka_Api.Core.Entities;
+using FM_Rozetka_Api.Core.Entities.Telegram;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Specifications;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+
 using System.Text;
-using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Polling;
@@ -20,8 +17,22 @@ namespace FM_Rozetka_Api.Core.Services
     public class TelegramApiHandlerService : ITelegramApiHandlerService
     {
         private static ITelegramBotClient botClient;
-        private readonly IRepository<TelegramUser> _tgUserRepo;
+        private readonly IRepository<TelegramUser> _telegramUserRepo;
+        private readonly IRepository<PhoneConfirmation> _phoneConfirmationRepo;
+        private readonly ITelegramUserService _telegramUserService;
         private readonly IConfiguration _configuration;
+
+        #region Input Actions
+        public delegate Task InputActionDelegate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken);
+        private readonly Dictionary<string, InputActionDelegate> InputActionsForStatusStateNull;
+        #endregion
+
+        private static readonly string AskPhoneNumber = "Ваш номер телефону залишатиметься конфіденційним та не буде переданий третім особам\\. Ми використаємо його лише для того\\, щоб зв'язатися з вами\\. Дякуємо за довіру та розуміння\\.";
+
+        private static readonly List<string> CancelWordsForWaitConfirmPhoneNumber = new()
+        {
+            "Скасувати", "/menu", "Головне меню"
+        };
 
         #region markups
 
@@ -40,21 +51,39 @@ namespace FM_Rozetka_Api.Core.Services
         })
         { ResizeKeyboard = true };
 
+        private static readonly ReplyKeyboardMarkup MarkupMainMenu = new ReplyKeyboardMarkup(new List<List<KeyboardButton>>()
+        {
+            new() { new("Головне меню") },
+            new() { new("Поділитися номером телефону") },
+        })
+        { ResizeKeyboard = true };
+
         #endregion
 
         #region Ctor
         public TelegramApiHandlerService
             (
                 IRepository<TelegramUser> tgUserRepo,
-                IConfiguration configuration
+                IRepository<PhoneConfirmation> phoneConfirmationRepo,
+                IConfiguration configuration,
+                ITelegramUserService telegramUserService
             )
         {
             _configuration = configuration;
-            _tgUserRepo = tgUserRepo;
+            _telegramUserRepo = tgUserRepo;
+            _telegramUserService = telegramUserService;
+            _phoneConfirmationRepo = phoneConfirmationRepo;
             botClient = new TelegramBotClient(_configuration["TelegramAPI:AccessToken"]);
             CancellationTokenSource access_token = new CancellationTokenSource();
             ReceiverOptions receiverOptions = new ReceiverOptions { AllowedUpdates = { } };
             botClient.ReceiveAsync(OnCreateMessage, OnErrorMessage, receiverOptions, access_token.Token);
+
+            InputActionsForStatusStateNull = new(new List<KeyValuePair<string, InputActionDelegate>>()
+            {
+                new ("Головне меню", SendMainMenu),
+                new ("Відмінити", SendMainMenu),
+                new ("Поділитися номером телефону", StartWaitPhoneNumber)
+            });
         }
         #endregion
 
@@ -66,9 +95,39 @@ namespace FM_Rozetka_Api.Core.Services
 
             await CreateOrUpdateTgUser(_botClient, update, cancellationToken);
 
-            if (update.Message.Type == MessageType.Text)
+            TelegramUser user = await _telegramUserRepo.GetItemBySpec(new TelegramUserSpecification.GetByTelegramUserId(update.Message.From.Id.ToString()));
+            if (user == null) { return; }
+            
+            if (user.StatusState == StatusStateTelegramUser.Null)
             {
-                await SendMessageToUserByUserId(update.Message.From.Id, update.Message.Text, ParseMode.Markdown);
+                InputActionDelegate? action = (InputActionsForStatusStateNull.TryGetValue(update.Message.Text, out action)) ? action : SendMainMenu;
+                action?.Invoke(botClient, update, cancellationToken);
+            }
+            else if (user.StatusState == StatusStateTelegramUser.WaitConfirmPhoneNumber)
+            {
+                if (update.Message.Type == MessageType.Text && CancelWordsForWaitConfirmPhoneNumber.Contains(update.Message.Text))
+                {
+                    await _telegramUserService.ChangeUserStatusState(user.TelegramUserId, StatusStateTelegramUser.Null);
+                    await SendMainMenu(botClient, update, cancellationToken);
+                }
+                if (update.Message.Type == MessageType.Contact)
+                {
+                    await _telegramUserService.ChangeUserStatusState(user.TelegramUserId, StatusStateTelegramUser.Null);
+                    await SendMainMenu(botClient, update, cancellationToken);
+                    if (!string.IsNullOrEmpty(user.TelegramPhoneNumber))
+                    {
+                        PhoneConfirmation phoneConfirmation = await _phoneConfirmationRepo.GetItemBySpec(new PhoneConfirmationSpecification.GetByPhoneNumber(user.TelegramPhoneNumber));
+                        if(phoneConfirmation != null && DateTime.UtcNow > phoneConfirmation.CreateTime.AddMinutes(50))
+                        {
+                            if (await SendConfirmationCodeForPhone(phoneConfirmation.Phone, phoneConfirmation.Code))
+                            {
+                                phoneConfirmation.IsSendInTelegram = true;
+                                await _phoneConfirmationRepo.Update(phoneConfirmation);
+                                await _phoneConfirmationRepo.Save();
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -84,8 +143,8 @@ namespace FM_Rozetka_Api.Core.Services
 
         private async Task CreateOrUpdateTgUser(ITelegramBotClient _botClient, Update update, CancellationToken cancellationToken)
         {
-            TelegramUser user = await _tgUserRepo.GetItemBySpec(new TelegramUserSpecification.GetByTelegramUserId(update.Message.From.Id.ToString()));
-            string userPhone = update?.Message?.Contact?.PhoneNumber;
+            TelegramUser user = await _telegramUserRepo.GetItemBySpec(new TelegramUserSpecification.GetByTelegramUserId(update.Message.From.Id.ToString()));
+            string userPhone = TelegramUserService.RemovePlusSign(update?.Message?.Contact?.PhoneNumber);
             if (user == null)
             {
                 TelegramUser newuser = new TelegramUser()
@@ -96,25 +155,41 @@ namespace FM_Rozetka_Api.Core.Services
                     TelegramPhoneNumber = null,
                     TgUserName = update?.Message?.Chat?.Username
                 };
-                await _tgUserRepo.Insert(newuser);
-                await _tgUserRepo.Save();
+                await _telegramUserRepo.Insert(newuser);
+                await _telegramUserRepo.Save();
             }
             else
             {
-                //await _tgUserService.CheckAndUpdatePhoneTgUser(user.Id, userPhone);
+                await _telegramUserService.CheckAndUpdatePhoneTgUser(user.Id, userPhone);
             }
         }
 
         #endregion
 
         #region Send messages
-        private async Task SendMessageToUserByUserId(long userId, string message, ParseMode parseMode, ReplyKeyboardMarkup inline = null, int replyMessageId = 0)
+        private async Task<bool> SendMessageToUserByUserId(long userId, string message, ParseMode parseMode, ReplyKeyboardMarkup inline = null, int replyMessageId = 0)
         {
-
-            foreach (var item in CreateResponseActionMarkdownV2(message))
+            try
             {
-                Message msg = await botClient.SendTextMessageAsync(userId, item, null, parseMode, null, null, null, null, replyMessageId != 0 ? replyMessageId : null, null, inline);
+                foreach (var item in CreateResponseActionMarkdownV2(message))
+                {
+                    Message msg = await botClient.SendTextMessageAsync(userId, item, null, parseMode, null, null, null, null, replyMessageId != 0 ? replyMessageId : null, null, inline);
+                }
+                return true;
             }
+            catch (Exception)
+            {
+                return false;
+            }
+            
+        }
+        private async Task<bool> SendMessageToUserByUserId(string userId, string message, ParseMode parseMode, ReplyKeyboardMarkup inline = null, int replyMessageId = 0)
+        => await SendMessageToUserByUserId(long.Parse(userId), message, parseMode, inline, replyMessageId);
+
+        private async Task SendMainMenu(ITelegramBotClient _botClient, Update update, CancellationToken cancellationToken)
+        {
+            string text = $"📒 *Головне меню*\n\nДля перегляду більшого набору інформації виберіть відповідну команду зі списку";
+            await SendMessageToUserByUserId(update.Message.From.Id, text, ParseMode.Markdown, MarkupMainMenu);
         }
 
         private IEnumerable<string> CreateResponseActionMarkdownV2(string message)
@@ -147,6 +222,25 @@ namespace FM_Rozetka_Api.Core.Services
             }
             return results;
         }
+
         #endregion
+
+        private async Task StartWaitPhoneNumber(ITelegramBotClient _botClient, Update update, CancellationToken cancellationToken)
+        {
+            TelegramUser user = await _telegramUserRepo.GetItemBySpec(new TelegramUserSpecification.GetByTelegramUserId(update.Message.From.Id.ToString()));
+            if (user == null) { return; }
+            await _telegramUserService.ChangeUserStatusState(user.TelegramUserId, StatusStateTelegramUser.WaitConfirmPhoneNumber);
+            await SendMessageToUserByUserId(update.Message.From.Id, AskPhoneNumber, ParseMode.MarkdownV2, MarkupTrySharePhoneNumber);
+        }
+
+        public async Task<bool> SendConfirmationCodeForPhone(string phoneNumber, string code)
+        {
+            TelegramUser telegramUser = await _telegramUserRepo.GetItemBySpec(new TelegramUserSpecification.GetByPhoneNumber(TelegramUserService.RemovePlusSign(phoneNumber)));
+            if (telegramUser != null)
+            {
+                return await SendMessageToUserByUserId(telegramUser.TelegramUserId, $"Ваш код підтвердженя для телефону : {code}", ParseMode.Markdown);
+            }
+            return false;
+        }
     }
 }

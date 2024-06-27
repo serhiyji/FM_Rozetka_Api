@@ -14,6 +14,8 @@ namespace FM_Rozetka_Api.Core
             services.AddTransient<AuthService>();
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<ITelegramApiHandlerService, TelegramApiHandlerService>();
+            services.AddScoped<IPhoneConfirmationService, PhoneConfirmationService>();
+            services.AddScoped<ITelegramUserService, TelegramUserService>();
         }
 
         public static void AddMapping(this IServiceCollection services)

@@ -39,8 +39,8 @@ namespace FM_Rozetka_Api.Infrastructure.Initializers
                 Email = "admin@email.com",
                 NormalizedEmail = "ADMIN@EMAIL.COM",
                 EmailConfirmed = true,
-                PhoneNumber = "+xx(xxx)xxx-xx-xx",
-                PhoneNumberConfirmed = true,
+                PhoneNumber = "",
+                PhoneNumberConfirmed = false,
             };
             adminUser.PasswordHash = passwordHasher.HashPassword(adminUser, "Qwerty-1");
             modelBuilder.Entity<AppUser>().HasData(adminUser);
