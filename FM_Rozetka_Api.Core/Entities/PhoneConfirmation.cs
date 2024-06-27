@@ -10,5 +10,6 @@ namespace FM_Rozetka_Api.Core.Entities
         public AppUser AppUser { get; set; }
         public string Code { get; set; }
         public string Phone { get; set; }
+        public bool IsSendInTelegram { get; set; } = false;
     }
 }

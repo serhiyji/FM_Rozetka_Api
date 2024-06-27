@@ -12,10 +12,20 @@ namespace FM_Rozetka_Api.Core.Services
     {
         private readonly IRepository<PhoneConfirmation> _phoneConfirmationRepo;
         private readonly UserManager<AppUser> _userManager;
-        public PhoneConfirmationService(IRepository<PhoneConfirmation> phoneConfirmationRepo, UserManager<AppUser> userManager)
+        private readonly ITelegramUserService _telegramUserService;
+        private readonly ITelegramApiHandlerService _telegramApiHandlerService;
+        public PhoneConfirmationService
+            (
+                IRepository<PhoneConfirmation> phoneConfirmationRepo, 
+                UserManager<AppUser> userManager, 
+                ITelegramUserService telegramUserService,
+                ITelegramApiHandlerService telegramApiHandlerService
+            )
         {
             _phoneConfirmationRepo = phoneConfirmationRepo;
             _userManager = userManager;
+            _telegramUserService = telegramUserService;
+            _telegramApiHandlerService = telegramApiHandlerService;
         }
 
         public async Task CreateConfirmPhone(CreateConfirmPhoneDto model)
@@ -27,7 +37,7 @@ namespace FM_Rozetka_Api.Core.Services
             }
             else
             {
-                if (DateTime.UtcNow > res.CreateTime.AddMinutes(3))
+                if (DateTime.UtcNow > res.CreateTime.AddMinutes(5))
                 {
                     await _phoneConfirmationRepo.Delete(res.Id);
                     await _phoneConfirmationRepo.Save();
@@ -42,18 +52,26 @@ namespace FM_Rozetka_Api.Core.Services
             {
                 CreateTime = DateTime.UtcNow,
                 AppUserId = AppUserId,
-                Phone = Phone,
+                Phone = TelegramUserService.RemovePlusSign(Phone),
                 Code = GenerateRandomNumbers()
             };
             await _phoneConfirmationRepo.Insert(phoneConfirmation);
             await _phoneConfirmationRepo.Save();
 
+            // telegram
+            bool IsNumberEx = await _telegramUserService.IsNumberInTelegramUsers(Phone);
+            if (IsNumberEx)
+            {
+                bool IsSendTelegram = await _telegramApiHandlerService.SendConfirmationCodeForPhone(Phone, phoneConfirmation.Code);
+                if(IsSendTelegram)
+                {
+                    phoneConfirmation.IsSendInTelegram = true;
+                    await _phoneConfirmationRepo.Update(phoneConfirmation);
+                    await _phoneConfirmationRepo.Save();
+                }
+            }
         }
 
-        private async Task SendToAllMessages(string phone, string code)
-        {
-
-        }
 
         public async Task<ServiceResponse> ConfirmPhone(ConfirmPhoneDto model)
         {
@@ -67,7 +85,7 @@ namespace FM_Rozetka_Api.Core.Services
             {
                 return new ServiceResponse(false, "Phone Confirmation not found");
             }
-            if(DateTime.UtcNow > phoneConfirmation.CreateTime.AddMinutes(3))
+            if(DateTime.UtcNow > phoneConfirmation.CreateTime.AddMinutes(5))
             {
                 await _phoneConfirmationRepo.Delete(phoneConfirmation.Id);
                 await _phoneConfirmationRepo.Save();

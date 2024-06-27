@@ -402,6 +402,9 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("IsSendInTelegram")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("text");
@@ -794,13 +797,13 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "07ed7126-a6ee-42f7-9a96-791b26668bd3",
+                            Id = "0ba4776b-8e24-489e-a837-5c1db29e8546",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "5478b775-cf7a-4dac-a226-01cbf516e399",
+                            Id = "d8d810ab-0e7b-4991-873d-4a043a563cf5",
                             Name = "Reader",
                             NormalizedName = "READER"
                         });
@@ -968,8 +971,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "287427c7-a596-4a73-bdbb-57cfb775b7a2",
-                            RoleId = "07ed7126-a6ee-42f7-9a96-791b26668bd3"
+                            UserId = "8b89401b-8fd4-47cf-8f9a-cbf41d40677c",
+                            RoleId = "0ba4776b-8e24-489e-a837-5c1db29e8546"
                         });
                 });
 
@@ -1037,18 +1040,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "287427c7-a596-4a73-bdbb-57cfb775b7a2",
+                            Id = "8b89401b-8fd4-47cf-8f9a-cbf41d40677c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "719d62af-d8c5-48ab-b7a2-d8805b0150db",
+                            ConcurrencyStamp = "5e9d9484-3d1f-42dc-8529-241a5d9d20ce",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOTPvApF2759cT/NOBZhuZCwwexIVPkv8D1bQbRoNJqTGzh9gUj8u8HNTyPEoVb6ug==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOLQiniYdFZwybdGyuoUh40KoWj84LhC9ObrQWGJYTd1eIwosaZj1qlHPQGN1TWERw==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "33c99928-04a9-4b51-8e2b-6843a9a8c776",
+                            SecurityStamp = "663ae697-124b-4431-a2e8-d4b27f2cc403",
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",
