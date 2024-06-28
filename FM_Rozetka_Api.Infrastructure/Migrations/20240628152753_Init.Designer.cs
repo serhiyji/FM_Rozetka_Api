@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FM_Rozetka_Api.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240624091704_init")]
-    partial class init
+    [Migration("20240628152753_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -622,6 +622,57 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.ToTable("Reviews");
                 });
 
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.SellerApplication", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("HasNoWebsite")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsNonResident")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("ProcessedApplication")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Website")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SellerApplications");
+                });
+
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Shipment", b =>
                 {
                     b.Property<int>("Id")
@@ -767,15 +818,21 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "405636f6-1c1f-4202-886e-2ee8a2dc8223",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
+                            Id = "f5f8b194-d705-4c38-a04d-ec68c6f76c50",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "986c3ad3-a6a5-488e-ab93-ade923510557",
-                            Name = "Reader",
-                            NormalizedName = "READER"
+                            Id = "255f7da6-48fe-4148-996f-c9a6affd7695",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "7a23b72a-175d-4c38-a326-f75a72d27269",
+                            Name = "Seller",
+                            NormalizedName = "SELLER"
                         });
                 });
 
@@ -941,8 +998,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "89f8fb9c-2158-4189-b76f-1be240b8de52",
-                            RoleId = "405636f6-1c1f-4202-886e-2ee8a2dc8223"
+                            UserId = "18149200-d2de-4449-9ef9-055b855e8f7e",
+                            RoleId = "f5f8b194-d705-4c38-a04d-ec68c6f76c50"
                         });
                 });
 
@@ -1010,18 +1067,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "89f8fb9c-2158-4189-b76f-1be240b8de52",
+                            Id = "18149200-d2de-4449-9ef9-055b855e8f7e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9f8899d6-c41c-4c65-a266-5e637e0f5f20",
+                            ConcurrencyStamp = "31cd1903-4c8a-4d1f-a8ae-38d3f9a75936",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECU4sas57rH4I4SC+SV2GKQD4BtqXpV0XnO/vxL2xZjuH3RxcnJ3VF/lZTWVQWiQVQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHL6+Ze97E6xFTF3Xe81lYrQUcZ4aZ4VFeNF1qQOJbqaFuPqIKihjAjoNWlmK+XQBw==",
                             PhoneNumber = "+xx(xxx)xxx-xx-xx",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "bb01f6ec-4939-4e19-8062-2ac5feeb18f8",
+                            SecurityStamp = "24767d9d-adb6-41ed-8ed0-8fa426a40b48",
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",

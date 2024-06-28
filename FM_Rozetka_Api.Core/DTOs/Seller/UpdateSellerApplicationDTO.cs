@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.DTOs.Seller
 {
-    public class SellerStartDTO
+    public class UpdateSellerApplicationDTO
     {
+        public int Id { get; set; }
         public string CompanyName { get; set; }
         public string Website { get; set; }
         public bool HasNoWebsite { get; set; }
@@ -17,6 +18,8 @@ namespace FM_Rozetka_Api.Core.DTOs.Seller
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public bool IsNonResident { get; set; }
-    }
 
+        public bool ProcessedApplication { get; set; }
+        public bool IsApproved { get; set; }
+    }
 }

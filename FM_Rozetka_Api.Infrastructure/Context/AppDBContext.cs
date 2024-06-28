@@ -41,8 +41,9 @@ namespace FM_Rozetka_Api.Infrastructure.Context
         public DbSet<Shop> Shops { get; set; }
         public DbSet<Specification> Specifications { get; set; }
         public DbSet<TelegramUser> TelegramUsers { get; set; }
+        public DbSet<SellerApplication> SellerApplications { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
@@ -50,6 +51,10 @@ namespace FM_Rozetka_Api.Infrastructure.Context
             .HasOne(p => p.CountryProductionProduct)
             .WithOne(c => c.Product)
             .HasForeignKey<CountryProductionProduct>(c => c.ProductId);
+
+            modelBuilder.Entity<SellerApplication>()
+          .Property(s => s.ProcessedApplication)
+          .HasDefaultValue(false);
 
             modelBuilder.SeedRoles();
             modelBuilder.SeedAdministrator();

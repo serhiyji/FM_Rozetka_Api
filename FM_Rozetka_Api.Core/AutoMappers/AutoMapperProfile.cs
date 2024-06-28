@@ -19,6 +19,7 @@ using FM_Rozetka_Api.Core.DTOs.Products.Product;
 using FM_Rozetka_Api.Core.DTOs.Products.ProductAnswer;
 using FM_Rozetka_Api.Core.DTOs.Products.ProductQuestion;
 using FM_Rozetka_Api.Core.DTOs.Review;
+using FM_Rozetka_Api.Core.DTOs.Seller;
 using FM_Rozetka_Api.Core.DTOs.Shops.ModeratorShop;
 using FM_Rozetka_Api.Core.DTOs.Shops.Shop;
 using FM_Rozetka_Api.Core.DTOs.Specifications.CategorySpecification;
@@ -151,6 +152,11 @@ namespace FM_Rozetka_Api.Core.AutoMappers
             CreateMap<Specification, SpecificationCreateDTO>();
             CreateMap<Specification, SpecificationUpdateDTO>();
             CreateMap<Specification, SpecificationDTO>();
+
+            // SellerApplication
+            CreateMap<SellerApplication, SellerApplicationDTO>();
+            CreateMap<CreateSellerApplicationDTO, SellerApplication>();
+            CreateMap<UpdateSellerApplicationDTO, SellerApplication>();
         }
     }
 }
