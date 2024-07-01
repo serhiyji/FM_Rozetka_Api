@@ -157,6 +157,7 @@ namespace FM_Rozetka_Api.Core.AutoMappers
             CreateMap<SellerApplication, SellerApplicationDTO>();
             CreateMap<CreateSellerApplicationDTO, SellerApplication>();
             CreateMap<UpdateSellerApplicationDTO, SellerApplication>();
+            CreateMap<SellerApplicationDTO, UpdateSellerApplicationDTO>();
         }
     }
 }

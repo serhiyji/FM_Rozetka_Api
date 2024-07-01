@@ -39,7 +39,32 @@ namespace FM_Rozetka_Api.Api.Controllers
             return Ok(createdApplication);
         }
 
-        [HttpGet]
+
+        [HttpPost("update-application-status")]
+        public async Task<IActionResult> ApplicationStatus([FromBody] UpdateApplicationStatusRequest request)
+        {
+            var application = await _sellerService.GetApplicationByIdAsync(request.Id);
+            if (application == null)
+            {
+                return BadRequest("Application data is invalid.");
+            }
+            application.IsApproved = request.Status;
+            application.ProcessedApplication  = true;
+
+            await _sellerService.UpdateApplicationStatusAsync(application);
+            return Ok();
+        }
+
+
+        [HttpGet("active-applications")]
+        public async Task<IActionResult> GetAllActivityApplications()
+        {
+            var applications = await _sellerService.GetAllActivityApplicationsAsync();
+            return Ok(applications);
+        }
+
+
+        [HttpGet("all-applications")]
         public async Task<IActionResult> GetAllApplications()
         {
             var applications = await _sellerService.GetAllApplicationsAsync();
