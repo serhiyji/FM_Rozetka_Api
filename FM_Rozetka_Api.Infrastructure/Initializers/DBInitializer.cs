@@ -7,13 +7,15 @@ namespace FM_Rozetka_Api.Infrastructure.Initializers
     public static class DBInitializer
     {
         public static string AdminRoleId = Guid.NewGuid().ToString();
-        public static string ReaderRoleId = Guid.NewGuid().ToString();
+        public static string UserRoleId = Guid.NewGuid().ToString();
+        public static string SellerRoleId = Guid.NewGuid().ToString();
         public static void SeedRoles(this ModelBuilder modelBuilder)
         {
             foreach (var item in new List<(string id, string name)>() 
             { 
-                (AdminRoleId, "Admin"), 
-                (ReaderRoleId, "Reader") 
+                (AdminRoleId, "Administrator"), 
+                (UserRoleId, "User"),
+                (SellerRoleId, "Seller")
             })
             {
                 modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole()

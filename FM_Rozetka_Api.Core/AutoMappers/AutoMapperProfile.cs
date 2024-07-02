@@ -4,6 +4,7 @@ using FM_Rozetka_Api.Core.DTOs.Brand;
 using FM_Rozetka_Api.Core.DTOs.Cart;
 using FM_Rozetka_Api.Core.DTOs.CartItem;
 using FM_Rozetka_Api.Core.DTOs.CategoryProduct;
+using FM_Rozetka_Api.Core.DTOs.Company;
 using FM_Rozetka_Api.Core.DTOs.CountryProduction;
 using FM_Rozetka_Api.Core.DTOs.CountryProductionProduct;
 using FM_Rozetka_Api.Core.DTOs.Discount;
@@ -19,6 +20,7 @@ using FM_Rozetka_Api.Core.DTOs.Products.Product;
 using FM_Rozetka_Api.Core.DTOs.Products.ProductAnswer;
 using FM_Rozetka_Api.Core.DTOs.Products.ProductQuestion;
 using FM_Rozetka_Api.Core.DTOs.Review;
+using FM_Rozetka_Api.Core.DTOs.Seller;
 using FM_Rozetka_Api.Core.DTOs.Shops.ModeratorShop;
 using FM_Rozetka_Api.Core.DTOs.Shops.Shop;
 using FM_Rozetka_Api.Core.DTOs.Specifications.CategorySpecification;
@@ -151,6 +153,17 @@ namespace FM_Rozetka_Api.Core.AutoMappers
             CreateMap<Specification, SpecificationCreateDTO>();
             CreateMap<Specification, SpecificationUpdateDTO>();
             CreateMap<Specification, SpecificationDTO>();
+
+            // SellerApplication
+            CreateMap<SellerApplication, SellerApplicationDTO>();
+            CreateMap<CreateSellerApplicationDTO, SellerApplication>();
+            CreateMap<UpdateSellerApplicationDTO, SellerApplication>();
+            CreateMap<SellerApplicationDTO, UpdateSellerApplicationDTO>();
+
+            //Company
+            CreateMap<Company, CompanyDTO>();
+            CreateMap<CreateCompanyDTO, Company>();
+            CreateMap<UpdateCompanyDTO, Company>();
         }
     }
 }
