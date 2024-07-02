@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿﻿using AutoMapper;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using FM_Rozetka_Api.Core.AutoMappers;
@@ -11,11 +11,13 @@ namespace FM_Rozetka_Api.Core
     public static class ServiceExtensions
     {
         public static void AddCoreServices(this IServiceCollection services)
-        {   
+        {
             services.AddTransient<EmailService>();
             services.AddTransient<AuthService>();
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<ITelegramApiHandlerService, TelegramApiHandlerService>();
+            services.AddScoped<IPhoneConfirmationService, PhoneConfirmationService>();
+            services.AddScoped<ITelegramUserService, TelegramUserService>();
             services.AddScoped<ISellerService, SellerService>();
             services.AddScoped<ICompanyService, CompanyService>();
         }
@@ -25,7 +27,6 @@ namespace FM_Rozetka_Api.Core
             service.AddFluentValidationAutoValidation();
 
             service.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
-
         }
 
         public static void AddMapping(this IServiceCollection services)
