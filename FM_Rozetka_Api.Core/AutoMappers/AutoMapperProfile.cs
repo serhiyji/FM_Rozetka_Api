@@ -4,6 +4,7 @@ using FM_Rozetka_Api.Core.DTOs.Brand;
 using FM_Rozetka_Api.Core.DTOs.Cart;
 using FM_Rozetka_Api.Core.DTOs.CartItem;
 using FM_Rozetka_Api.Core.DTOs.CategoryProduct;
+using FM_Rozetka_Api.Core.DTOs.Company;
 using FM_Rozetka_Api.Core.DTOs.CountryProduction;
 using FM_Rozetka_Api.Core.DTOs.CountryProductionProduct;
 using FM_Rozetka_Api.Core.DTOs.Discount;
@@ -158,6 +159,11 @@ namespace FM_Rozetka_Api.Core.AutoMappers
             CreateMap<CreateSellerApplicationDTO, SellerApplication>();
             CreateMap<UpdateSellerApplicationDTO, SellerApplication>();
             CreateMap<SellerApplicationDTO, UpdateSellerApplicationDTO>();
+
+            //Company
+            CreateMap<Company, CompanyDTO>();
+            CreateMap<CreateCompanyDTO, Company>();
+            CreateMap<UpdateCompanyDTO, Company>();
         }
     }
 }

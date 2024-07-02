@@ -17,6 +17,7 @@ namespace FM_Rozetka_Api.Core
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<ITelegramApiHandlerService, TelegramApiHandlerService>();
             services.AddScoped<ISellerService, SellerService>();
+            services.AddScoped<ICompanyService, CompanyService>();
         }
 
         public static void AddValidator(this IServiceCollection service)

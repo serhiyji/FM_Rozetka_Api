@@ -42,10 +42,16 @@ namespace FM_Rozetka_Api.Infrastructure.Context
         public DbSet<Specification> Specifications { get; set; }
         public DbSet<TelegramUser> TelegramUsers { get; set; }
         public DbSet<SellerApplication> SellerApplications { get; set; }
+        public DbSet<Company> Companies { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Company>()
+                .HasMany(c => c.Users)
+                .WithOne(u => u.Company)
+                .HasForeignKey(u => u.CompanyId);
 
             modelBuilder.Entity<Product>()
             .HasOne(p => p.CountryProductionProduct)

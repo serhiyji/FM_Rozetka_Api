@@ -29,35 +29,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    Discriminator = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: false),
-                    FirstName = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true),
-                    SurName = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true),
-                    LastName = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true),
-                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    PasswordHash = table.Column<string>(type: "text", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Brands",
                 columns: table => new
                 {
@@ -98,6 +69,20 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CategorySpecifications", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Companies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Companies", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -172,6 +157,41 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Discriminator = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: false),
+                    FirstName = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true),
+                    SurName = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true),
+                    LastName = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true),
+                    CompanyId = table.Column<int>(type: "integer", nullable: true),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -790,20 +810,20 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "255f7da6-48fe-4148-996f-c9a6affd7695", null, "User", "USER" },
-                    { "7a23b72a-175d-4c38-a326-f75a72d27269", null, "Seller", "SELLER" },
-                    { "f5f8b194-d705-4c38-a04d-ec68c6f76c50", null, "Administrator", "ADMINISTRATOR" }
+                    { "3332e2a2-a26b-4def-9f5b-ad657b7909ab", null, "Administrator", "ADMINISTRATOR" },
+                    { "404724ee-5ea6-40de-afe4-877f086972f6", null, "Seller", "SELLER" },
+                    { "4807b5b0-64c3-42cb-810d-d2a133019dfd", null, "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SurName", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "18149200-d2de-4449-9ef9-055b855e8f7e", 0, "31cd1903-4c8a-4d1f-a8ae-38d3f9a75936", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEHL6+Ze97E6xFTF3Xe81lYrQUcZ4aZ4VFeNF1qQOJbqaFuPqIKihjAjoNWlmK+XQBw==", "+xx(xxx)xxx-xx-xx", true, "24767d9d-adb6-41ed-8ed0-8fa426a40b48", "Johnovych", false, "admin@email.com" });
+                columns: new[] { "Id", "AccessFailedCount", "CompanyId", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SurName", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "aab073e1-89c8-4dd8-9b02-cdfd7982cdd3", 0, null, "27c160b3-56b6-4fb4-937d-2e88c6a661fa", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEKtj91RdnnpXc0EBxaLwd89B7UWJWEi1GbbUyh0RlsAC3WXu+IzvnhKCy2+qP1KhRg==", "+xx(xxx)xxx-xx-xx", true, "ea3737ac-7a0e-41f9-9292-a1fcc3f9e40a", "Johnovych", false, "admin@email.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "f5f8b194-d705-4c38-a04d-ec68c6f76c50", "18149200-d2de-4449-9ef9-055b855e8f7e" });
+                values: new object[] { "3332e2a2-a26b-4def-9f5b-ad657b7909ab", "aab073e1-89c8-4dd8-9b02-cdfd7982cdd3" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_AppUserId",
@@ -840,6 +860,11 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_CompanyId",
+                table: "AspNetUsers",
+                column: "CompanyId");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -1108,6 +1133,9 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Companies");
         }
     }
 }
