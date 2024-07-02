@@ -50,7 +50,7 @@ builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
-
+builder.Services.AddValidator();
 // Add core services
 builder.Services.AddCoreServices();
 
