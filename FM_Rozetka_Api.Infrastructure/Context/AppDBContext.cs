@@ -43,6 +43,7 @@ namespace FM_Rozetka_Api.Infrastructure.Context
         public DbSet<TelegramUser> TelegramUsers { get; set; }
         public DbSet<SellerApplication> SellerApplications { get; set; }
         public DbSet<Company> Companies { get; set; }
+        public DbSet<PhoneConfirmation> PhoneConfirmations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

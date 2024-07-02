@@ -1,4 +1,4 @@
-﻿﻿using AutoMapper;
+using AutoMapper;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using FM_Rozetka_Api.Core.AutoMappers;
@@ -25,7 +25,6 @@ namespace FM_Rozetka_Api.Core
         public static void AddValidator(this IServiceCollection service)
         {
             service.AddFluentValidationAutoValidation();
-
             service.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
         }
 
