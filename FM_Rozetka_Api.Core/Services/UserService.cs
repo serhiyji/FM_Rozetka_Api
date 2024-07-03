@@ -21,7 +21,7 @@ namespace FM_Rozetka_Api.Core.Services
             this._userManager = userManager;
             this._mapper = _mapper;
         }
-          public async Task<ServiceResponse> CreateUserAsync(CreateUserDTO model)
+        public async Task<ServiceResponse> CreateUserAsync(CreateUserDTO model)
         {
             AppUser NewUser = _mapper.Map<CreateUserDTO, AppUser>(model);
             IdentityResult result = await _userManager.CreateAsync(NewUser, "Qwerty-1");
@@ -47,33 +47,7 @@ namespace FM_Rozetka_Api.Core.Services
             }
             return new ServiceResponse(false, "something went wrong", errors: result.Errors.Select(e => e.Description));
         }
-        public async Task<ServiceResponse> EditUserAsync(EditUserDTO model)
-        {
-            AppUser? user = await _userManager.FindByIdAsync(model.Id);
-            if (user == null)
-            {
-                return new ServiceResponse(false, "User not found.", errors: new List<string>() { "User not found." });
-            }
 
-            if (user.Email != model.Email)
-            {
-                user.EmailConfirmed = false;
-                user.Email = model.Email;
-                user.UserName = model.Email;
-                //await SendConfirmationEmailAsync(user);
-            }
-
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
-            user.PhoneNumber = model.PhoneNumber;
-
-            IdentityResult result = await _userManager.UpdateAsync(user);
-            if (result.Succeeded)
-            {
-                return new ServiceResponse(true, "User successfully updated.");
-            }
-            return new ServiceResponse(false, "Something went wrong", errors: result.Errors.Select(e => e.Description));
-        }
         public async Task<ServiceResponse> ChangeMainInfoUserAsync(EditUserDTO newinfo)
         {
             AppUser user = await _userManager.FindByIdAsync(newinfo.Id);
@@ -81,27 +55,13 @@ namespace FM_Rozetka_Api.Core.Services
             if (user != null)
             {
                 user.FirstName = newinfo.FirstName;
-                bool emailChanged = user.Email != newinfo.Email;
-                if (emailChanged)
-                {
-                    user.EmailConfirmed = false;
-                    user.Email = newinfo.Email;
-                    user.UserName = newinfo.Email;
-                    //await SendConfirmationEmailAsync(user);
-                }
+                user.SurName = newinfo.SurName;
                 user.LastName = newinfo.LastName;
-
-                user.PhoneNumber = newinfo.PhoneNumber;
-
                 IdentityResult result = await _userManager.UpdateAsync(user);
 
                 if (result.Succeeded)
                 {
-                    string message = emailChanged ?
-                        "Information has been changed and a confirmation email has been sent to the new address." :
-                        "Information has been changed";
-
-                    return new ServiceResponse(true, message);
+                    return new ServiceResponse(true, "Information has been changed");
                 }
                 else
                 {
