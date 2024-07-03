@@ -6,7 +6,7 @@ using System.Security.Claims;
 
 namespace FM_Rozetka_Api.Api.Controllers
 {
-    //[Authorize]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class PhoneConfirmationController : Controller
