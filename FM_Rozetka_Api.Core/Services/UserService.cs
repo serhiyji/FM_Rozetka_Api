@@ -110,6 +110,26 @@ namespace FM_Rozetka_Api.Core.Services
             }
             return new ServiceResponse(false, "Not found user");
         }
+        public async Task<ServiceResponse> GetUserByIdAsync(string Id)
+        {
+            var user = await _userManager.FindByIdAsync(Id);
+            if (user == null)
+            {
+                return new ServiceResponse
+                {
+                    Success = false,
+                    Message = "User not found"
+                };
+            }
+            UpdateUserDTO mappedUser = _mapper.Map<AppUser, UpdateUserDTO>(user);
 
+            mappedUser.Role = roles[0];
+            return new ServiceResponse
+            {
+                Success = true,
+                Message = "User successfully loaded",
+                Payload = mappedUser
+            };
+        }
     }
 }
