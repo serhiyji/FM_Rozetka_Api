@@ -6,7 +6,7 @@ using System.Security.Claims;
 
 namespace FM_Rozetka_Api.Api.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PhoneConfirmationController : Controller
@@ -17,13 +17,11 @@ namespace FM_Rozetka_Api.Api.Controllers
             _phoneConfirmationService = phoneConfirmationService;
         }
         [HttpPost("createconfirmphone")]
-        public async Task<IActionResult> CreateConfirmPhone(CreateConfirmPhoneDto model)
+        public async Task<IActionResult> CreateConfirmPhone([FromBody] CreateConfirmPhoneDto model)
         {
-            //var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            await _phoneConfirmationService.CreateConfirmPhone(model);
-            return Ok(0);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return Ok(await _phoneConfirmationService.CreateConfirmPhone(model));
         }
-        [AllowAnonymous]
         [HttpPost("confirmphone")]
         public async Task<IActionResult> ConfirmPhone(ConfirmPhoneDto model)
         {

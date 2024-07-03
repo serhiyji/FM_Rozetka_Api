@@ -28,12 +28,18 @@ namespace FM_Rozetka_Api.Core.Services
             _telegramApiHandlerService = telegramApiHandlerService;
         }
 
-        public async Task CreateConfirmPhone(CreateConfirmPhoneDto model)
+        public async Task<ServiceResponse> CreateConfirmPhone(CreateConfirmPhoneDto model)
         {
-            PhoneConfirmation res = await _phoneConfirmationRepo.GetItemBySpec(new PhoneConfirmationSpecification.GetByAppUserId(model.AppUserId));
+            AppUser appUser = await _userManager.FindByIdAsync(model.userid);
+            if (appUser == null && appUser.PhoneNumberConfirmed == true && appUser.PhoneNumber == model.phoneNumber)
+            {
+                return new ServiceResponse(false, "Цей номер телефону вже був підтверджений");
+            }
+            PhoneConfirmation res = await _phoneConfirmationRepo.GetItemBySpec(new PhoneConfirmationSpecification.GetByAppUserId(model.userid));
             if (res == null)
             {
-                await this.Create(model.AppUserId, model.Phone);
+                await this.Create(model.userid, model.phoneNumber);
+                return new ServiceResponse(true, "Код підтвердження був надісланий");
             }
             else
             {
@@ -41,8 +47,10 @@ namespace FM_Rozetka_Api.Core.Services
                 {
                     await _phoneConfirmationRepo.Delete(res.Id);
                     await _phoneConfirmationRepo.Save();
-                    await this.Create(model.AppUserId, model.Phone);
+                    await this.Create(model.userid, model.phoneNumber);
+                    return new ServiceResponse(true, "Код підтвердження був надісланий");
                 }
+                return new ServiceResponse(false, "Час з минулого запиту (5хв) не прийшов");
             }
         }
 
@@ -75,12 +83,12 @@ namespace FM_Rozetka_Api.Core.Services
 
         public async Task<ServiceResponse> ConfirmPhone(ConfirmPhoneDto model)
         {
-            AppUser user = await _userManager.FindByIdAsync(model.AppUserId);
+            AppUser user = await _userManager.FindByIdAsync(model.userid);
             if (user == null)
             {
                 return new ServiceResponse(false, "User not found");
             }
-            PhoneConfirmation phoneConfirmation = await _phoneConfirmationRepo.GetItemBySpec(new PhoneConfirmationSpecification.GetByAppUserId(model.AppUserId));
+            PhoneConfirmation phoneConfirmation = await _phoneConfirmationRepo.GetItemBySpec(new PhoneConfirmationSpecification.GetByAppUserId(model.userid));
             if (phoneConfirmation == null)
             {
                 return new ServiceResponse(false, "Phone Confirmation not found");
@@ -91,7 +99,7 @@ namespace FM_Rozetka_Api.Core.Services
                 await _phoneConfirmationRepo.Save();
                 return new ServiceResponse(false, "Please reload your phone verification code");
             }
-            if (phoneConfirmation.Code == model.Code)
+            if (phoneConfirmation.Code == model.confirmationCode)
             {
 
                 string token = await _userManager.GenerateChangePhoneNumberTokenAsync(user, phoneConfirmation.Phone);

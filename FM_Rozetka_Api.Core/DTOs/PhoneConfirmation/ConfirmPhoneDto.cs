@@ -8,7 +8,7 @@ namespace FM_Rozetka_Api.Core.DTOs.PhoneConfirmation
 {
     public class ConfirmPhoneDto
     {
-        public string AppUserId { get; set; }
-        public string Code { get; set; }
+        public string userid { get; set; }
+        public string confirmationCode { get; set; }
     }
 }
