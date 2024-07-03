@@ -49,7 +49,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Level = table.Column<int>(type: "integer", nullable: false),
-                    TopId = table.Column<int>(type: "integer", nullable: false),
+                    TopId = table.Column<int>(type: "integer", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false)
                 },
@@ -338,6 +338,29 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Orders_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PhoneConfirmations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    AppUserId = table.Column<string>(type: "text", nullable: false),
+                    Code = table.Column<string>(type: "text", nullable: false),
+                    Phone = table.Column<string>(type: "text", nullable: false),
+                    IsSendInTelegram = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PhoneConfirmations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PhoneConfirmations_AspNetUsers_AppUserId",
                         column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -810,20 +833,20 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "3332e2a2-a26b-4def-9f5b-ad657b7909ab", null, "Administrator", "ADMINISTRATOR" },
-                    { "404724ee-5ea6-40de-afe4-877f086972f6", null, "Seller", "SELLER" },
-                    { "4807b5b0-64c3-42cb-810d-d2a133019dfd", null, "User", "USER" }
+                    { "44d2fc61-c688-463e-b3c6-fe1cf05f70db", null, "Administrator", "ADMINISTRATOR" },
+                    { "47e11039-ffee-4c76-a97d-68feded60700", null, "User", "USER" },
+                    { "817066d3-e39a-4748-b779-2e2d76c2037a", null, "Seller", "SELLER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "CompanyId", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SurName", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "aab073e1-89c8-4dd8-9b02-cdfd7982cdd3", 0, null, "27c160b3-56b6-4fb4-937d-2e88c6a661fa", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEKtj91RdnnpXc0EBxaLwd89B7UWJWEi1GbbUyh0RlsAC3WXu+IzvnhKCy2+qP1KhRg==", "+xx(xxx)xxx-xx-xx", true, "ea3737ac-7a0e-41f9-9292-a1fcc3f9e40a", "Johnovych", false, "admin@email.com" });
+                values: new object[] { "5aad8c7a-cfbf-45ce-8e64-bfa9aeafa9f4", 0, null, "8dc5ff31-51da-4a22-a85c-63a90034b7e9", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEIO20P7fdyBxzxht2F3Ya/lU75fQZ4XIm+DOZ27uDrqwksoCRC9mmu9ylUtUquZlGQ==", "", false, "5e703762-764c-4e45-970e-1470876a26b0", "Johnovych", false, "admin@email.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "3332e2a2-a26b-4def-9f5b-ad657b7909ab", "aab073e1-89c8-4dd8-9b02-cdfd7982cdd3" });
+                values: new object[] { "44d2fc61-c688-463e-b3c6-fe1cf05f70db", "5aad8c7a-cfbf-45ce-8e64-bfa9aeafa9f4" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_AppUserId",
@@ -947,6 +970,11 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 name: "IX_Payments_OrderId",
                 table: "Payments",
                 column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PhoneConfirmations_AppUserId",
+                table: "PhoneConfirmations",
+                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PhotoProducts_ProductId",
@@ -1073,6 +1101,9 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Payments");
+
+            migrationBuilder.DropTable(
+                name: "PhoneConfirmations");
 
             migrationBuilder.DropTable(
                 name: "PhotoProducts");
