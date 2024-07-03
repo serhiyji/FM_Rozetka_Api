@@ -10,7 +10,7 @@ namespace FM_Rozetka_Api.Core.Interfaces
 {
     public interface IPhoneConfirmationService
     {
-        Task CreateConfirmPhone(CreateConfirmPhoneDto model);
+        Task<ServiceResponse> CreateConfirmPhone(CreateConfirmPhoneDto model);
         Task<ServiceResponse> ConfirmPhone(ConfirmPhoneDto model);
     }
 }

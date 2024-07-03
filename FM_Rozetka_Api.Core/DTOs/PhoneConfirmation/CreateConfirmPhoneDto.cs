@@ -9,7 +9,7 @@ namespace FM_Rozetka_Api.Core.DTOs.PhoneConfirmation
 {
     public class CreateConfirmPhoneDto
     {
-        public string AppUserId { get; set; }
-        public string Phone { get; set; }
+        public string userid { get; set; }
+        public string phoneNumber { get; set; }
     }
 }
