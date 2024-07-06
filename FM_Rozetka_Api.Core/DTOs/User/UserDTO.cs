@@ -7,7 +7,6 @@ namespace FM_Rozetka_Api.Core.DTOs.User
         public string Email { get; set; } = string.Empty;
         public string Role { get; set; }
         public string FirstName { get; set; } = string.Empty;
-        public string SurName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public bool EmailConfirmed { get; set; } = false;
         public string LockedOut { get; set; } = string.Empty;
