@@ -4,45 +4,40 @@ using FM_Rozetka_Api.Core.Services;
 using FM_Rozetka_Api.Core.Validation.User;
 using Microsoft.AspNetCore.Mvc;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace FM_Rozetka_Api.Api.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Route("api/[controller]")]
+    [ApiController]
+    [Authorize(Roles = "Administrator")]
     public class AdminController : Controller
     {
         private readonly UserService _userService;
         public AdminController(UserService userService)
         {
-               this._userService = userService;
+            this._userService = userService;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
-        #region Create admin page
-        public async Task<IActionResult> Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateUserDTO model)
+        [HttpPost("createadmin")]
+        public async Task<IActionResult> Create([FromBody]CreateUserDTO model)
         {
             CreateUserValidation validator = new CreateUserValidation();
             ValidationResult validationResult = await validator.ValidateAsync(model);
             if (validationResult.IsValid)
             {
-                ServiceResponse response = await _userService.CreateUserAsync(model);
-                if (response.Success)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                ViewBag.CreateUserError = response.Errors.FirstOrDefault();
-                return View();
+                model.Role = "Administrator";
+                return Ok(await _userService.CreateUserAsync(model));
             }
-            ViewBag.CreateUserError = validationResult.Errors.FirstOrDefault();
-            return View();
+            return BadRequest(validationResult.Errors.FirstOrDefault());
         }
-        #endregion
+        [HttpPost("deleteadmin")]
+        public async Task<IActionResult> Delete([FromBody] DeleteUserDTO model)
+        {
+            var res = await _userService.DeleteUserAsync(model);
+            return Ok(res);
+        }
     }
 }

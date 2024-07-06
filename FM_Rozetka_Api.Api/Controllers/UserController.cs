@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using FM_Rozetka_Api.Core.DTOs.User;
 using FM_Rozetka_Api.Core.Responses;
 using FM_Rozetka_Api.Core.Services;
 using FM_Rozetka_Api.Core.Validation.User;
