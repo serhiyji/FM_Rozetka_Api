@@ -36,20 +36,6 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(validationResult.Errors.FirstOrDefault());
         }
 
-        //[AllowAnonymous]
-        //[HttpPost("login")]
-        //public async Task<IActionResult> LoginUserPhone([FromBody] UserLoginPhoneDTO model)
-        //public async Task<IActionResult> LoginUserPhone([FromBody] UserLoginDTO model)
-        //{
-        //    var validationResult = await new LoginUserValidation().ValidateAsync(model);
-        //    if (validationResult.IsValid)
-        //    {
-        //        ServiceResponse response = await _authService.LoginUserByPhoneAsync(model);
-        //        return Ok(response);
-        //    }
-        //    return BadRequest(validationResult.Errors.FirstOrDefault());
-        //}
-
         [HttpGet("logout")]
         public async Task<IActionResult> LogOut(string userId)
         {

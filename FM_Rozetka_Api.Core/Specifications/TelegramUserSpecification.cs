@@ -19,5 +19,13 @@ namespace FM_Rozetka_Api.Core.Specifications
                 Query.Where(i => i.TelegramUserId == _TelegramUserId);
             }
         }
+
+        public class GetByPhoneNumber : Specification<TelegramUser>
+        {
+            public GetByPhoneNumber(string phoneNumber)
+            {
+                Query.Where(i => i.TelegramPhoneNumber == phoneNumber);
+            }
+        }
     }
 }

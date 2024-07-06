@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FM_Rozetka_Api.Core.DTOs.CategoryProduct
+namespace FM_Rozetka_Api.Core.DTOs.Company
 {
-    public class CategoryProductUpdateDTO
+    public class CompanyDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }
