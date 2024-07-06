@@ -2,8 +2,9 @@
 using FM_Rozetka_Api.Core.DTOs.User;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Responses;
-using FM_Rozetka_Api.Core.Validation.User;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,17 +15,27 @@ namespace FM_Rozetka_Api.Core.Services
 {
     public class UserService
     {
+        private readonly EmailService _emailService;
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
-        public UserService(UserManager<AppUser> userManager, IMapper _mapper)
+        private readonly IConfiguration _configuration;
+        public UserService(
+                EmailService emailService, 
+                UserManager<AppUser> userManager, 
+                IMapper _mapper,
+                IConfiguration configuration
+            )
         {
+            this._emailService = emailService;
             this._userManager = userManager;
             this._mapper = _mapper;
+            this._configuration = configuration;
         }
         public async Task<ServiceResponse> CreateUserAsync(CreateUserDTO model)
         {
             AppUser NewUser = _mapper.Map<CreateUserDTO, AppUser>(model);
-            IdentityResult result = await _userManager.CreateAsync(NewUser, "Qwerty-1");
+            NewUser.UserName = model.Email;
+            IdentityResult result = await _userManager.CreateAsync(NewUser, model.Password);
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(NewUser, model.Role);
@@ -75,21 +86,43 @@ namespace FM_Rozetka_Api.Core.Services
             var user = await _userManager.FindByIdAsync(Id);
             if (user == null)
             {
-                return new ServiceResponse
-                {
-                    Success = false,
-                    Message = "User not found"
-                };
+                return new ServiceResponse(false, "User not found");
             }
             UpdateUserDTO mappedUser = _mapper.Map<AppUser, UpdateUserDTO>(user);
-
-            mappedUser.Role = roles[0];
-            return new ServiceResponse
-            {
-                Success = true,
-                Message = "User successfully loaded",
-                Payload = mappedUser
-            };
+            return new ServiceResponse(true, "User successfully loaded", payload: mappedUser);
         }
+
+        #region Confirm email and send token for confirm email
+        public async Task SendConfirmationEmailAsync(AppUser user)
+        {
+            string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            byte[] encodedToken = Encoding.UTF8.GetBytes(token);
+            string validEmailToken = WebEncoders.Base64UrlEncode(encodedToken);
+
+            string url = $"{_configuration["HostSettings:URL"]}/Login/confirmemail?userid={user.Id}&token={validEmailToken}";
+
+            string emailBody = $"<h1>Confirm your email</h1> <a href='{url}'>Confirm now!</a>";
+            await _emailService.SendEmailAsync(user.Email, "Email confirmation.", emailBody);
+        }
+
+        public async Task<ServiceResponse> ConfirmEmailAsync(string userId, string token)
+        {
+            AppUser? user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return new ServiceResponse(false, "User not found");
+            }
+
+            byte[] decodedToken = WebEncoders.Base64UrlDecode(token);
+            string narmalToken = Encoding.UTF8.GetString(decodedToken);
+
+            IdentityResult result = await _userManager.ConfirmEmailAsync(user, narmalToken);
+            if (result.Succeeded)
+            {
+                return new ServiceResponse(true, "Email successfully confirmed.");
+            }
+            return new ServiceResponse(false, "Email not confirmed", errors: result.Errors.Select(e => e.Description));
+        }
+        #endregion
     }
 }

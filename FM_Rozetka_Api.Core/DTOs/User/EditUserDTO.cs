@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FM_Rozetka_Api.Core.Validation.User
+namespace FM_Rozetka_Api.Core.DTOs.User
 {
     public class EditUserDTO
     {
