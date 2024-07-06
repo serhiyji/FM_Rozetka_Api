@@ -58,6 +58,8 @@ namespace FM_Rozetka_Api.Core.AutoMappers
             CreateMap<CategoryProduct, CategoryProductCreateDTO>();
             CreateMap<CategoryProduct, CategoryProductUpdateDTO>();
             CreateMap<CategoryProduct, CategoryProductDTO>();
+            CreateMap<CategoryProductCreateDTO, CategoryProduct>();
+            CreateMap<CategoryProductDTO, CategoryProduct>();
 
             // CountryProduction
             CreateMap<CountryProduction, CountryProductionCreateDTO>();
