@@ -16,6 +16,7 @@ namespace FM_Rozetka_Api.Api.Controllers
     public class AuthController : Controller
     {
         private readonly AuthService _authService;
+        
         public AuthController(AuthService authService)
         {
             _authService = authService;
@@ -67,6 +68,39 @@ namespace FM_Rozetka_Api.Api.Controllers
             }
             return BadRequest(response);
         }
+
+        [AllowAnonymous]
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegistrationUserDTO model)
+        {
+            var response = await _authService.Regitration(model);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost("confirmemail")]
+        public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailRequest request)
+        {
+            if (request == null)
+            {
+                return BadRequest(new { message = "Invalid request data" });
+            }
+
+            Console.WriteLine($"Received request with userId: {request.UserId} and token: {request.Token}");
+            var result = await _authService.ConfirmEmailAsync(request.UserId, request.Token);
+            if (result.Success)
+            {
+                return Ok(new { message = "ConfirmEmail successful" });
+            }
+
+            return BadRequest(new { message = "Email not confirmed", errors = result.Errors });
+        }
+
 
 
         #endregion
