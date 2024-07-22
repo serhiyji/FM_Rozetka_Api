@@ -24,6 +24,7 @@ namespace FM_Rozetka_Api.Core.Services
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly EmailService _emailService;
+        private readonly UserService _userService;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly IJwtService _jwtService;
@@ -35,7 +36,8 @@ namespace FM_Rozetka_Api.Core.Services
                 EmailService emailService,
                 IMapper mapper,
                 IConfiguration configuration,
-                IJwtService jwtService
+                IJwtService jwtService,
+                UserService userService
             )
         {
             this._signInManager = signInManager;
@@ -45,6 +47,7 @@ namespace FM_Rozetka_Api.Core.Services
             this._mapper = mapper;
             this._configuration = configuration;
             this._jwtService = jwtService;
+            this._userService = userService;
         }
 
         #region SignIn, SignOut
@@ -141,6 +144,7 @@ namespace FM_Rozetka_Api.Core.Services
                 await _jwtService.Delete(refreshToken);
             }
         }
+
         public async Task<ServiceResponse> ConfirmEmailAsync(string userId, string token)
         {
             var user = await _userManager.FindByIdAsync(userId);
@@ -157,6 +161,9 @@ namespace FM_Rozetka_Api.Core.Services
 
             return new ServiceResponse(false, "User`s email not confirmed", result.Errors.Select(e => e.Description));
         }
+
+       
+
         public async Task SendConfirmationEmailAsync(AppUser user)
         {
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -189,7 +196,6 @@ namespace FM_Rozetka_Api.Core.Services
            
             return new ServiceResponse(false, "User or password incorect");
         }
-
 
         public async Task<ServiceResponse> RegisterWithGoogleAsync(string tokenId)
         {
@@ -228,5 +234,37 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse(false, "Invalid Google token.", ex.Message);
             }
         }
+
+        public async Task<ServiceResponse> Regitration(RegistrationUserDTO regitrationUserDTO)
+        {
+            try
+            {
+
+                var user = await _userManager.FindByEmailAsync(regitrationUserDTO.Email);
+
+                if (user == null)
+                {
+                    CreateUserDTO NewUser = _mapper.Map<RegistrationUserDTO, CreateUserDTO>(regitrationUserDTO);
+                    // Створюємо нового користувача
+                    NewUser.Role = "User";
+                    var result = await _userService.CreateUserAsync(NewUser);
+
+                    var UserSenEmail = await _userManager.FindByEmailAsync(NewUser.Email);
+                    SendConfirmationEmailAsync(UserSenEmail);
+                    if (!result.Success)
+                    {
+                        return new ServiceResponse(false, result.Message);
+                    }
+                }
+
+                return new ServiceResponse(true, "User successfully registered.");
+            }
+            catch (InvalidJwtException ex)
+            {
+                return new ServiceResponse(false, "Invalid registered.", ex.Message);
+            }
+        }
+
+       
     }
 }
