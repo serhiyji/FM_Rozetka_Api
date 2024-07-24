@@ -4,6 +4,9 @@ using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Responses;
 using FM_Rozetka_Api.Core.Validation.User;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +20,7 @@ namespace FM_Rozetka_Api.Core.Services
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
+        private readonly EmailService _emailService;
         public UserService(
                 EmailService emailService,
                 UserManager<AppUser> userManager,
@@ -26,6 +30,8 @@ namespace FM_Rozetka_Api.Core.Services
         {
             this._userManager = userManager;
             this._mapper = _mapper;
+            this._configuration = configuration;
+            this._emailService = emailService;
         }
         public async Task<ServiceResponse> CreateUserAsync(CreateUserDTO model)
         {
