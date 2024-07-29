@@ -63,7 +63,7 @@ namespace FM_Rozetka_Api.Core.Services
             {
                 Tokens? tokens = await _jwtService.GenerateJwtTokensAsync(user);
                 await _signInManager.SignInAsync(user, model.RememberMe);
-                return new ServiceResponse(true, "User successfully loged in.", accessToken: tokens.Token, refreshToken: tokens.refreshToken.Token);
+                return new ServiceResponse(true, "User successfully loged in.", payload:true, accessToken: tokens.Token, refreshToken: tokens.refreshToken.Token);
             }
             if (result.IsNotAllowed)
             {
@@ -191,7 +191,7 @@ namespace FM_Rozetka_Api.Core.Services
             if (token != null)
             {
                 Tokens? tokens = await _jwtService.GenerateJwtTokensAsync(user);
-                return new ServiceResponse(true, "User successfully loged in.", accessToken: tokens.Token, refreshToken: tokens.refreshToken.Token);
+                return new ServiceResponse(true, "User successfully loged in.", accessToken: tokens.Token, payload: true, refreshToken: tokens.refreshToken.Token);
             }
            
             return new ServiceResponse(false, "User or password incorect");
