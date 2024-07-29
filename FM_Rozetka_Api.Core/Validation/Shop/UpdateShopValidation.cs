@@ -12,11 +12,8 @@ namespace FM_Rozetka_Api.Core.Validation.Shop
     {
         public UpdateShopValidation()
         {
-            RuleFor(x => x.CompanyName)
-               .NotEmpty().WithMessage("Company Name is required.")
-               .MaximumLength(256).WithMessage("Company Name must be less than 256 characters.");
-
-            RuleFor(x => x.Email)
+          
+           RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Email is required.")
                 .EmailAddress().WithMessage("Invalid email format.");
 

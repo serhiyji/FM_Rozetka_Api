@@ -399,7 +399,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     AppUserId = table.Column<string>(type: "text", nullable: false),
-                    CompanyName = table.Column<string>(type: "text", nullable: false),
+                    CompanyId = table.Column<int>(type: "integer", nullable: false),
                     Website = table.Column<string>(type: "text", nullable: false),
                     HasNoWebsite = table.Column<bool>(type: "boolean", nullable: false),
                     FullName = table.Column<string>(type: "text", nullable: false),
@@ -415,6 +415,12 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         name: "FK_Shops_AspNetUsers_AppUserId",
                         column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Shops_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -841,20 +847,20 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "96ac841d-de7b-4716-ba5f-19fe22cef44a", null, "User", "USER" },
-                    { "cbb3bd9e-f7c4-458b-a300-84b5d26b365c", null, "Seller", "SELLER" },
-                    { "d0e44861-6473-4da8-b620-1fa19d863bb9", null, "Administrator", "ADMINISTRATOR" }
+                    { "6479ce65-a15d-4ec2-b0cd-a3b4a7d2d67c", null, "Administrator", "ADMINISTRATOR" },
+                    { "7fbe787a-012b-4c7b-b429-a429a5f32ee6", null, "User", "USER" },
+                    { "e637c502-9cb7-421f-9d73-89cd52e33ce7", null, "Seller", "SELLER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "CompanyId", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SurName", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "a21cd723-899f-4322-9c9e-3d2807f8d25d", 0, null, "acf35d6e-7726-48cf-84b8-59b9d1d49c40", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEJdOmFAxa1DNieUpERnSNID+JEG7/lwG0X2edMqrrLc4GAtIMq1ahch/VJ8d3jXGiA==", "", false, "4c1472f1-61c4-41d3-b229-aac0904d4efa", "Johnovych", false, "admin@email.com" });
+                values: new object[] { "79b20069-3e92-4a2a-876f-f0e3df23d396", 0, null, "bf05b4b1-cf81-46fa-902f-080e1aabb07e", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAENXvSOOsB8RIsaCce6lCOjRURBb1zqdPdxGcVHBWVcQJvAUcjYi5tEHyafDHefTV2w==", "", false, "fddef465-0ccf-453d-ba31-c8620d248165", "Johnovych", false, "admin@email.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "d0e44861-6473-4da8-b620-1fa19d863bb9", "a21cd723-899f-4322-9c9e-3d2807f8d25d" });
+                values: new object[] { "6479ce65-a15d-4ec2-b0cd-a3b4a7d2d67c", "79b20069-3e92-4a2a-876f-f0e3df23d396" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_AppUserId",
@@ -1053,6 +1059,11 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 name: "IX_Shops_AppUserId",
                 table: "Shops",
                 column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shops_CompanyId",
+                table: "Shops",
+                column: "CompanyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Specifications_CategorySpecificationId",

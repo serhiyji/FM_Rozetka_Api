@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FM_Rozetka_Api.Core.DTOs.Company;
 using FM_Rozetka_Api.Core.DTOs.Seller;
+using FM_Rozetka_Api.Core.DTOs.Shops.Shop;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
@@ -25,13 +27,15 @@ namespace FM_Rozetka_Api.Core.Services
         private readonly EmailService _emailService;
         private readonly UserManager<AppUser> _userManager;
         private readonly ICompanyService _comapntService;
-        public SellerService(IRepository<SellerApplication> sellerRepository, IMapper mapper, EmailService emailService, UserManager<AppUser> userManager, ICompanyService comapntService)
+        private readonly IShopService _shopService;
+        public SellerService(IRepository<SellerApplication> sellerRepository,IShopService shopService, IMapper mapper, EmailService emailService, UserManager<AppUser> userManager, ICompanyService comapntService)
         {
             _sellerRepository = sellerRepository;
             _mapper = mapper;
             _emailService = emailService;
             _userManager = userManager;
             _comapntService = comapntService;
+            _shopService = shopService;
         }
 
         public async Task<IEnumerable<SellerApplicationDTO>> GetAllApplicationsAsync()
@@ -83,6 +87,11 @@ namespace FM_Rozetka_Api.Core.Services
                 var user = await _userManager.FindByEmailAsync(application.Email);
                 if (user != null && company != null)
                 {
+                    var newShop = _mapper.Map<ShopCreateDTO>(application);
+                    newShop.AppUserId = user.Id;
+                    newShop.CompanyId = company.Id;
+                    await _shopService.AddAsync(newShop);
+
                     // Якщо користувач вже зареєстрований, надсилаємо повідомлення про успішну реєстрацію магазину
                     string emailBody = $"<h1>Your store has been successfully registered.</h1>";
                     await _emailService.SendEmailAsync(application.Email, "Store Registration Successful", emailBody);
@@ -91,6 +100,12 @@ namespace FM_Rozetka_Api.Core.Services
 
                     await _userManager.UpdateAsync(user);
 
+                    // Оновлюємо роль користувача на "Seller"
+                    var currentRoles = await _userManager.GetRolesAsync(user);
+                    if (currentRoles.Any())
+                    {
+                        await _userManager.RemoveFromRolesAsync(user, currentRoles);
+                    }
                     await _userManager.AddToRoleAsync(user, "Seller");
                 }
                 else
@@ -101,6 +116,7 @@ namespace FM_Rozetka_Api.Core.Services
                     string firstName = nameParts[0];
                     string lastName = nameParts.Length > 1 ? nameParts[1] : "";
                     // Якщо користувача немає, створюємо його і надсилаємо посилання для підтвердження реєстрації
+                    
                     user = new AppUser
                     {
                         Email = application.Email,
@@ -110,25 +126,31 @@ namespace FM_Rozetka_Api.Core.Services
                         LastName = lastName,
                         CompanyId = company.Id,
                         PhoneNumber=application.PhoneNumber,
+                        
                     };
+                    var password = GenerateRandomPassword();
+                    var result = await _userManager.CreateAsync(user, password);
 
-                    var result = await _userManager.CreateAsync(user);
                     if (!result.Succeeded)
                     {
                         throw new Exception("Failed to create user.");
                     }
 
-                    // Далі генеруємо токен для підтвердження реєстрації
+                    var userToShop = await _userManager.FindByEmailAsync(user.Email);
+
+                    var newShop = _mapper.Map<ShopCreateDTO>(application);
+                    newShop.AppUserId = userToShop.Id;
+                    newShop.CompanyId = company.Id;
+                    await _shopService.AddAsync(newShop);
+
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
-                    // Формуємо посилання для підтвердження реєстрації
                     string url = $"http://localhost:5173/registerCompany?email={application.Email}&companyName={application.CompanyName}&phoneNumber={application.PhoneNumber}&token={encodedToken}";
-                    string emailBody = $"<h1>Confirm your email please.</h1><a href='{url}'>Confirm now</a>";
+                    string emailBody = $"<h1>Confirm your email please.</h1><hr><h2>You password: {password}</h2><a href='{url}'>Confirm now</a>";
 
-                    // Надсилаємо електронний лист з посиланням на підтвердження реєстрації
                     await _emailService.SendEmailAsync(application.Email, "Confirm your email", emailBody);
-
+                    await _userManager.AddToRoleAsync(user, "Seller");
                 }
             }
         }
@@ -148,6 +170,40 @@ namespace FM_Rozetka_Api.Core.Services
             await _sellerRepository.Save();
         }
 
-       
+        private string GenerateRandomPassword(int length = 12)
+        {
+            const string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            const string digits = "0123456789";
+            const string specialChars = "!@#$%^&*()?_-";
+
+            // Перевіряємо, чи довжина пароля достатня для включення всіх типів символів
+            if (length < 6)
+            {
+                throw new ArgumentException("Password length must be at least 6 characters.");
+            }
+
+            // Генеруємо випадкові символи для кожного типу
+            var random = new RNGCryptoServiceProvider();
+            var password = new char[length];
+            var randomBytes = new byte[length];
+            random.GetBytes(randomBytes);
+
+            password[0] = letters[randomBytes[0] % letters.Length]; // Літера
+            password[1] = digits[randomBytes[1] % digits.Length]; // Цифра
+            password[2] = specialChars[randomBytes[2] % specialChars.Length]; // Спеціальний символ
+            password[3] = letters[randomBytes[3] % letters.Length]; // Літера
+
+            // Заповнюємо решту пароля випадковими символами з усіх наборів
+            for (int i = 4; i < length; i++)
+            {
+                var allChars = letters + digits + specialChars;
+                password[i] = allChars[randomBytes[i] % allChars.Length];
+            }
+
+            // Перемішуємо символи в паролі
+            return new string(password.OrderBy(x => randomBytes[Array.IndexOf(password, x)]).ToArray());
+        }
+
+
     }
 }

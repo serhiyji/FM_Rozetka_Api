@@ -16,8 +16,12 @@ namespace FM_Rozetka_Api.Core.Entities
         public string AppUserId {  get; set; }
         public AppUser AppUser { get; set; }
 
+
         // Fields from SellerApplication
-        public string CompanyName { get; set; }
+
+        public int CompanyId { get; set; }  
+        public Company Company { get; set; }
+
         public string Website { get; set; }
         public bool HasNoWebsite { get; set; }
         public string FullName { get; set; }

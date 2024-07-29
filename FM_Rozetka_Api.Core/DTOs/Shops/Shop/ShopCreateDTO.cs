@@ -9,7 +9,7 @@ namespace FM_Rozetka_Api.Core.DTOs.Shops.Shop
     public class ShopCreateDTO
     {
         public string AppUserId { get; set; }
-        public string CompanyName { get; set; }
+        public int CompanyId { get; set; }
         public string Website { get; set; }
         public bool HasNoWebsite { get; set; }
         public string FullName { get; set; }

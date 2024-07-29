@@ -769,9 +769,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("CompanyName")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -802,6 +801,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
+
+                    b.HasIndex("CompanyId");
 
                     b.ToTable("Shops");
                 });
@@ -899,19 +900,19 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d0e44861-6473-4da8-b620-1fa19d863bb9",
+                            Id = "6479ce65-a15d-4ec2-b0cd-a3b4a7d2d67c",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "96ac841d-de7b-4716-ba5f-19fe22cef44a",
+                            Id = "7fbe787a-012b-4c7b-b429-a429a5f32ee6",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "cbb3bd9e-f7c4-458b-a300-84b5d26b365c",
+                            Id = "e637c502-9cb7-421f-9d73-89cd52e33ce7",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         });
@@ -1079,8 +1080,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "a21cd723-899f-4322-9c9e-3d2807f8d25d",
-                            RoleId = "d0e44861-6473-4da8-b620-1fa19d863bb9"
+                            UserId = "79b20069-3e92-4a2a-876f-f0e3df23d396",
+                            RoleId = "6479ce65-a15d-4ec2-b0cd-a3b4a7d2d67c"
                         });
                 });
 
@@ -1153,18 +1154,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a21cd723-899f-4322-9c9e-3d2807f8d25d",
+                            Id = "79b20069-3e92-4a2a-876f-f0e3df23d396",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "acf35d6e-7726-48cf-84b8-59b9d1d49c40",
+                            ConcurrencyStamp = "bf05b4b1-cf81-46fa-902f-080e1aabb07e",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJdOmFAxa1DNieUpERnSNID+JEG7/lwG0X2edMqrrLc4GAtIMq1ahch/VJ8d3jXGiA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENXvSOOsB8RIsaCce6lCOjRURBb1zqdPdxGcVHBWVcQJvAUcjYi5tEHyafDHefTV2w==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4c1472f1-61c4-41d3-b229-aac0904d4efa",
+                            SecurityStamp = "fddef465-0ccf-453d-ba31-c8620d248165",
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",
@@ -1479,7 +1480,15 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.Company", "Company")
+                        .WithMany("Shops")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("AppUser");
+
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Specification", b =>
@@ -1578,6 +1587,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Company", b =>
                 {
+                    b.Navigation("Shops");
+
                     b.Navigation("Users");
                 });
 

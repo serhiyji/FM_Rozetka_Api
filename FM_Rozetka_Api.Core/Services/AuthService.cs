@@ -222,7 +222,7 @@ namespace FM_Rozetka_Api.Core.Services
                         return new ServiceResponse(false, "Failed to create user with Google account.");
                     }
 
-                    await _userManager.AddToRoleAsync(user, "Administrator");
+                    await _userManager.AddToRoleAsync(user, "User");
                 }
 
                 // Генеруємо JWT токени

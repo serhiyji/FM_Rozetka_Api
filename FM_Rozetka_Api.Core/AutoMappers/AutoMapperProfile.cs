@@ -145,6 +145,11 @@ namespace FM_Rozetka_Api.Core.AutoMappers
             CreateMap<Shop, ShopCreateDTO>();
             CreateMap<Shop, ShopUpdateDTO>();
             CreateMap<Shop, ShopDTO>();
+            CreateMap<ShopCreateDTO, Shop>();
+            CreateMap<ShopUpdateDTO, Shop>();
+            CreateMap<ShopDTO, Shop>();
+            CreateMap<SellerApplicationDTO, ShopCreateDTO>();
+
 
             // CategorySpecification
             CreateMap<CategorySpecification, CategorySpecificationCreateDTO>();

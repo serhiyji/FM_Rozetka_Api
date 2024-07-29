@@ -11,11 +11,11 @@ namespace FM_Rozetka_Api.Core.Specifications.Shops
 {
     public class ShopSpecification : Specification<Shop>
     {
-        public class GetCommentsByMessageId : Specification<Shop>
+        public class GetShopByEmail : Specification<Shop>
         {
-            public GetCommentsByMessageId(string CompanyName)
+            public GetShopByEmail(string Email)
             {
-                Query.Where(c => c.CompanyName == CompanyName);
+                Query.Where(c => c.Email == Email);
             }
         }
 
