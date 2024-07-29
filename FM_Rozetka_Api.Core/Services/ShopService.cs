@@ -3,11 +3,14 @@ using FM_Rozetka_Api.Core.DTOs.Company;
 using FM_Rozetka_Api.Core.DTOs.Shops.Shop;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
+using FM_Rozetka_Api.Core.Responses;
+using FM_Rozetka_Api.Core.Specifications.Shops;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telegram.Bot.Types;
 
 namespace FM_Rozetka_Api.Core.Services
 {
@@ -22,12 +25,17 @@ namespace FM_Rozetka_Api.Core.Services
             _mapper = mapper;
         }
 
-        public async Task<Shop> AddAsync(ShopCreateDTO model)
+        public async Task<ServiceResponse<Shop,object>> AddAsync(ShopCreateDTO model)
         {
+            var existingShop = await _shopRepository.GetCountBySpec(new ShopSpecification.GetCommentsByMessageId(model.CompanyName));
+            if (existingShop != null)
+            {
+                return new ServiceResponse<Shop, object>(false, "A shop with this company name already exists.", payload: null);
+            }
             var shop = _mapper.Map<Shop>(model);
             await _shopRepository.Insert(shop);
             await _shopRepository.Save();
-            return shop;
+            return new ServiceResponse<Shop, object>(true, "Succes", payload: shop);
         }
       
         public async Task DeleteAsync(int id)

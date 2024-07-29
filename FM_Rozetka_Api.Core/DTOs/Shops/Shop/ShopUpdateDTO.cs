@@ -12,6 +12,7 @@ namespace FM_Rozetka_Api.Core.DTOs.Shops.Shop
         public string AppUserId { get; set; }
         public string CompanyName { get; set; }
         public string Website { get; set; }
+        public bool HasNoWebsite { get; set; }
         public string FullName { get; set; }
         public string Position { get; set; }
         public string Email { get; set; }

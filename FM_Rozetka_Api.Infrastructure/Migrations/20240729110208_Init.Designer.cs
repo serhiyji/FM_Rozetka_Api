@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FM_Rozetka_Api.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240729092937_Init")]
+    [Migration("20240729110208_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -784,6 +784,9 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("HasNoWebsite")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsNonResident")
                         .HasColumnType("boolean");
 
@@ -899,19 +902,19 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "31772714-bc44-47d8-a197-9bd29cdf6dc1",
+                            Id = "d0e44861-6473-4da8-b620-1fa19d863bb9",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "ed74293f-b5ef-4259-8a64-cd0ff4f88afe",
+                            Id = "96ac841d-de7b-4716-ba5f-19fe22cef44a",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "33bb1c16-b02b-417e-aa43-3e09d6a44e9f",
+                            Id = "cbb3bd9e-f7c4-458b-a300-84b5d26b365c",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         });
@@ -1079,8 +1082,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "59e3f890-74a8-48d3-9ed7-19603b769e83",
-                            RoleId = "31772714-bc44-47d8-a197-9bd29cdf6dc1"
+                            UserId = "a21cd723-899f-4322-9c9e-3d2807f8d25d",
+                            RoleId = "d0e44861-6473-4da8-b620-1fa19d863bb9"
                         });
                 });
 
@@ -1153,18 +1156,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "59e3f890-74a8-48d3-9ed7-19603b769e83",
+                            Id = "a21cd723-899f-4322-9c9e-3d2807f8d25d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4a38c592-8a64-4d55-8737-4250a5bb397b",
+                            ConcurrencyStamp = "acf35d6e-7726-48cf-84b8-59b9d1d49c40",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDBO5rLzGUJ7ZPTADnNYWLJTRxTwoBWHkQFuV5+GCZ5gO83PibB2ekqPg+qNxQXBaw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJdOmFAxa1DNieUpERnSNID+JEG7/lwG0X2edMqrrLc4GAtIMq1ahch/VJ8d3jXGiA==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "990c84b8-189c-44c2-b093-dae293400204",
+                            SecurityStamp = "4c1472f1-61c4-41d3-b229-aac0904d4efa",
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",

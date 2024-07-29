@@ -1,6 +1,7 @@
 ﻿using FM_Rozetka_Api.Core.DTOs.Company;
 using FM_Rozetka_Api.Core.DTOs.Shops.Shop;
 using FM_Rozetka_Api.Core.Entities;
+using FM_Rozetka_Api.Core.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace FM_Rozetka_Api.Core.Interfaces
     {
         Task<IEnumerable<ShopDTO>> GetAllAsync();
         Task<ShopDTO> GetByIdAsync(int id);
-        Task<Shop> AddAsync(ShopCreateDTO model);
+        Task<ServiceResponse<Shop,object>> AddAsync(ShopCreateDTO model);
         Task UpdateAsync(ShopUpdateDTO model);
         Task DeleteAsync(int id);
     }
