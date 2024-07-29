@@ -144,18 +144,18 @@ namespace FM_Rozetka_Api.Core.Services
                     await _shopService.AddAsync(newShop);
 
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+                    var encodedToken = Encoding.UTF8.GetBytes(token);
+                    var validEmailToken = WebEncoders.Base64UrlEncode(encodedToken);
 
-                    string url = $"http://localhost:5173/registerCompany?email={application.Email}&companyName={application.CompanyName}&phoneNumber={application.PhoneNumber}&token={encodedToken}";
-                    string emailBody = $"<h1>Confirm your email please.</h1><hr><h2>You password: {password}</h2><a href='{url}'>Confirm now</a>";
+                    string url = $"http://localhost:5173/ConfirmEmail?userId={user.Id}&token={validEmailToken}";
+                    string emailBody = $"" +
+                        $"<h1>Confirm your email please.</h1><hr><h2>You password: {password}</h2><a href='{url}'>Confirm now</a>";
+                    await _emailService.SendEmailAsync(user.Email, "Confirm your email", emailBody);
 
-                    await _emailService.SendEmailAsync(application.Email, "Confirm your email", emailBody);
                     await _userManager.AddToRoleAsync(user, "Seller");
                 }
             }
         }
-
-
 
         public async Task UpdateApplicationAsync(UpdateSellerApplicationDTO application)
         {

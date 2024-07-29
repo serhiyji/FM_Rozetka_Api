@@ -247,6 +247,7 @@ namespace FM_Rozetka_Api.Core.Services
                     CreateUserDTO NewUser = _mapper.Map<RegistrationUserDTO, CreateUserDTO>(regitrationUserDTO);
                     // Створюємо нового користувача
                     NewUser.Role = "User";
+                   
                     var result = await _userService.CreateUserAsync(NewUser);
 
                     var UserSenEmail = await _userManager.FindByEmailAsync(NewUser.Email);
