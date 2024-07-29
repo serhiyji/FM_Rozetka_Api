@@ -137,14 +137,19 @@ namespace FM_Rozetka_Api.Core.AutoMappers
             CreateMap<Review, ReviewDTO>();
 
             // ModeratorShop
-            CreateMap<ModeratorShop, ModeratorShopCreateDTO>();
-            CreateMap<ModeratorShop, ModeratorShopUpdateDTO>();
-            CreateMap<ModeratorShop, ModeratorShopDTO>();
+            CreateMap<ModeratorShop, ModeratorShopCreateDTO>().ReverseMap();
+            CreateMap<ModeratorShop, ModeratorShopUpdateDTO>().ReverseMap();
+            CreateMap<ModeratorShop, ModeratorShopDTO>().ReverseMap();
 
             // Shop
             CreateMap<Shop, ShopCreateDTO>();
             CreateMap<Shop, ShopUpdateDTO>();
             CreateMap<Shop, ShopDTO>();
+            CreateMap<ShopCreateDTO, Shop>();
+            CreateMap<ShopUpdateDTO, Shop>();
+            CreateMap<ShopDTO, Shop>();
+            CreateMap<SellerApplicationDTO, ShopCreateDTO>();
+
 
             // CategorySpecification
             CreateMap<CategorySpecification, CategorySpecificationCreateDTO>();

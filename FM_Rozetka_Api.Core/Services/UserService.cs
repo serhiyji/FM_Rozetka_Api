@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telegram.Bot.Types;
 
 namespace FM_Rozetka_Api.Core.Services
 {
@@ -36,7 +37,8 @@ namespace FM_Rozetka_Api.Core.Services
         public async Task<ServiceResponse> CreateUserAsync(CreateUserDTO model)
         {
             AppUser NewUser = _mapper.Map<CreateUserDTO, AppUser>(model);
-            IdentityResult result = await _userManager.CreateAsync(NewUser, "Qwerty-1");
+            NewUser.UserName = model.Email;
+            IdentityResult result = await _userManager.CreateAsync(NewUser, model.Password);
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(NewUser, model.Role);

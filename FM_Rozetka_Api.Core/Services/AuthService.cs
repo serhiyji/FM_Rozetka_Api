@@ -63,7 +63,7 @@ namespace FM_Rozetka_Api.Core.Services
             {
                 Tokens? tokens = await _jwtService.GenerateJwtTokensAsync(user);
                 await _signInManager.SignInAsync(user, model.RememberMe);
-                return new ServiceResponse(true, "User successfully loged in.", accessToken: tokens.Token, refreshToken: tokens.refreshToken.Token);
+                return new ServiceResponse(true, "User successfully loged in.", payload:true, accessToken: tokens.Token, refreshToken: tokens.refreshToken.Token);
             }
             if (result.IsNotAllowed)
             {
@@ -191,7 +191,7 @@ namespace FM_Rozetka_Api.Core.Services
             if (token != null)
             {
                 Tokens? tokens = await _jwtService.GenerateJwtTokensAsync(user);
-                return new ServiceResponse(true, "User successfully loged in.", accessToken: tokens.Token, refreshToken: tokens.refreshToken.Token);
+                return new ServiceResponse(true, "User successfully loged in.", accessToken: tokens.Token, payload: true, refreshToken: tokens.refreshToken.Token);
             }
            
             return new ServiceResponse(false, "User or password incorect");
@@ -222,7 +222,7 @@ namespace FM_Rozetka_Api.Core.Services
                         return new ServiceResponse(false, "Failed to create user with Google account.");
                     }
 
-                    await _userManager.AddToRoleAsync(user, "Administrator");
+                    await _userManager.AddToRoleAsync(user, "User");
                 }
 
                 // Генеруємо JWT токени
@@ -247,6 +247,7 @@ namespace FM_Rozetka_Api.Core.Services
                     CreateUserDTO NewUser = _mapper.Map<RegistrationUserDTO, CreateUserDTO>(regitrationUserDTO);
                     // Створюємо нового користувача
                     NewUser.Role = "User";
+                   
                     var result = await _userService.CreateUserAsync(NewUser);
 
                     var UserSenEmail = await _userManager.FindByEmailAsync(NewUser.Email);
