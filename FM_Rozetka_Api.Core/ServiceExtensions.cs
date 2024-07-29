@@ -23,6 +23,7 @@ namespace FM_Rozetka_Api.Core
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<ICategoryProductService, CategoryProductService>();
             services.AddScoped<IShopService, ShopService>();
+            services.AddScoped<IModeratorShopService, ModeratorShopService>();
         }
 
         public static void AddValidator(this IServiceCollection service)
