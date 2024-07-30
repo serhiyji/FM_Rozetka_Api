@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FM_Rozetka_Api.Core.DTOs.Seller;
+using FM_Rozetka_Api.Core.DTOs.Shops;
 using FM_Rozetka_Api.Core.DTOs.Shops.Shop;
 using FM_Rozetka_Api.Core.DTOs.User;
 using FM_Rozetka_Api.Core.Interfaces;
@@ -18,10 +19,12 @@ namespace FM_Rozetka_Api.Api.Controllers
     public class ShopController : ControllerBase
     {
         private readonly IShopService _shopService;
+        private readonly IModeratorShopService _moderatorShopService;
 
-        public ShopController(IShopService shopService)
+        public ShopController(IShopService shopService, IModeratorShopService moderatorShopService)
         {
             _shopService = shopService;
+            _moderatorShopService = moderatorShopService;
         }
 
         [HttpPost("create")]
@@ -49,6 +52,17 @@ namespace FM_Rozetka_Api.Api.Controllers
             if (id != null)
             {
                 var shops = await _shopService.GetAllAsync();
+                return Ok(shops);
+            }
+            return BadRequest("The id must not be null");
+        }
+
+        [HttpGet("GetByUserIdShop")]
+        public async Task<IActionResult> GetByUserIdShop(string id)
+        {
+            if (id != null)
+            {
+                var shops = await _shopService.GetByUserIdAsync(id);
                 return Ok(shops);
             }
             return BadRequest("The id must not be null");
@@ -89,6 +103,18 @@ namespace FM_Rozetka_Api.Api.Controllers
 
             await _shopService.DeleteAsync(id);
             return NoContent();
+        }
+
+        [HttpPost("AddModeratorShop")]
+        public async Task<IActionResult> CreateModeratorShop([FromForm] CreateModeratorUserDTO model)
+        {
+            var validationResult = await new CreateModeratorUserValidation().ValidateAsync(model);
+            if (validationResult.IsValid)
+            {
+                var response = await _moderatorShopService.AddModeratorShopAsync(model);
+                return Ok(response);
+            }
+            return BadRequest(validationResult.Errors.FirstOrDefault());
         }
     }
 }

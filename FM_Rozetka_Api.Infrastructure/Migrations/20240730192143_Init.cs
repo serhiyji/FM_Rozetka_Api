@@ -847,20 +847,21 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "6479ce65-a15d-4ec2-b0cd-a3b4a7d2d67c", null, "Administrator", "ADMINISTRATOR" },
-                    { "7fbe787a-012b-4c7b-b429-a429a5f32ee6", null, "User", "USER" },
-                    { "e637c502-9cb7-421f-9d73-89cd52e33ce7", null, "Seller", "SELLER" }
+                    { "40a1a7c4-f87d-482f-8f26-288dab9027b6", null, "Seller", "SELLER" },
+                    { "7a9cec66-d978-4d97-846b-6b4f6a09b90d", null, "User", "USER" },
+                    { "ecb21cd7-dc43-420b-8c1d-f59c5314f943", null, "Administrator", "ADMINISTRATOR" },
+                    { "ff28437f-1f90-4849-85eb-8ce904c731e6", null, "ModeratorSeller", "MODERATORSELLER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "CompanyId", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SurName", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "79b20069-3e92-4a2a-876f-f0e3df23d396", 0, null, "bf05b4b1-cf81-46fa-902f-080e1aabb07e", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAENXvSOOsB8RIsaCce6lCOjRURBb1zqdPdxGcVHBWVcQJvAUcjYi5tEHyafDHefTV2w==", "", false, "fddef465-0ccf-453d-ba31-c8620d248165", "Johnovych", false, "admin@email.com" });
+                values: new object[] { "3c4f3e71-5896-42f6-8ba2-60cb9519a914", 0, null, "c2e41c5a-840a-47a7-80f2-09a0342faf18", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAENwFNhgRMoifOo9SFIRktFR4oPpoOMbTAlqNDrs1H3AAbaQfU4096wlAitzaxa1AaA==", "", false, "622ae846-9326-4d63-844b-39e45f4e8560", "Johnovych", false, "admin@email.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "6479ce65-a15d-4ec2-b0cd-a3b4a7d2d67c", "79b20069-3e92-4a2a-876f-f0e3df23d396" });
+                values: new object[] { "ecb21cd7-dc43-420b-8c1d-f59c5314f943", "3c4f3e71-5896-42f6-8ba2-60cb9519a914" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_AppUserId",

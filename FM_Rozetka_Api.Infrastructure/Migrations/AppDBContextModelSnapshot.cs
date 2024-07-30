@@ -900,21 +900,27 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6479ce65-a15d-4ec2-b0cd-a3b4a7d2d67c",
+                            Id = "ecb21cd7-dc43-420b-8c1d-f59c5314f943",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "7fbe787a-012b-4c7b-b429-a429a5f32ee6",
+                            Id = "7a9cec66-d978-4d97-846b-6b4f6a09b90d",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "e637c502-9cb7-421f-9d73-89cd52e33ce7",
+                            Id = "40a1a7c4-f87d-482f-8f26-288dab9027b6",
                             Name = "Seller",
                             NormalizedName = "SELLER"
+                        },
+                        new
+                        {
+                            Id = "ff28437f-1f90-4849-85eb-8ce904c731e6",
+                            Name = "ModeratorSeller",
+                            NormalizedName = "MODERATORSELLER"
                         });
                 });
 
@@ -1080,8 +1086,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "79b20069-3e92-4a2a-876f-f0e3df23d396",
-                            RoleId = "6479ce65-a15d-4ec2-b0cd-a3b4a7d2d67c"
+                            UserId = "3c4f3e71-5896-42f6-8ba2-60cb9519a914",
+                            RoleId = "ecb21cd7-dc43-420b-8c1d-f59c5314f943"
                         });
                 });
 
@@ -1154,18 +1160,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "79b20069-3e92-4a2a-876f-f0e3df23d396",
+                            Id = "3c4f3e71-5896-42f6-8ba2-60cb9519a914",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bf05b4b1-cf81-46fa-902f-080e1aabb07e",
+                            ConcurrencyStamp = "c2e41c5a-840a-47a7-80f2-09a0342faf18",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENXvSOOsB8RIsaCce6lCOjRURBb1zqdPdxGcVHBWVcQJvAUcjYi5tEHyafDHefTV2w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENwFNhgRMoifOo9SFIRktFR4oPpoOMbTAlqNDrs1H3AAbaQfU4096wlAitzaxa1AaA==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fddef465-0ccf-453d-ba31-c8620d248165",
+                            SecurityStamp = "622ae846-9326-4d63-844b-39e45f4e8560",
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",
