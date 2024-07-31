@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FM_Rozetka_Api.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240729125546_Init")]
-    partial class Init
+    [Migration("20240731093210_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -903,19 +903,19 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6479ce65-a15d-4ec2-b0cd-a3b4a7d2d67c",
+                            Id = "6113ccc3-9133-4aa5-8fdf-d90fa53529e7",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "7fbe787a-012b-4c7b-b429-a429a5f32ee6",
+                            Id = "96373af4-5479-4008-97d2-7bea6c13c6c0",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "e637c502-9cb7-421f-9d73-89cd52e33ce7",
+                            Id = "48375289-d59a-4109-aa73-a3ecf21a88f7",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         });
@@ -1083,8 +1083,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "79b20069-3e92-4a2a-876f-f0e3df23d396",
-                            RoleId = "6479ce65-a15d-4ec2-b0cd-a3b4a7d2d67c"
+                            UserId = "9a59f7ab-06fb-4770-91e3-e29209dd00a1",
+                            RoleId = "6113ccc3-9133-4aa5-8fdf-d90fa53529e7"
                         });
                 });
 
@@ -1157,18 +1157,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "79b20069-3e92-4a2a-876f-f0e3df23d396",
+                            Id = "9a59f7ab-06fb-4770-91e3-e29209dd00a1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bf05b4b1-cf81-46fa-902f-080e1aabb07e",
+                            ConcurrencyStamp = "f8928e0a-0aef-434c-af7c-31e7ab5592e4",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENXvSOOsB8RIsaCce6lCOjRURBb1zqdPdxGcVHBWVcQJvAUcjYi5tEHyafDHefTV2w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOk7nqYF8J1I3l0256YDMRBDae9SInqZ7gQ9KnQD4VOvIYUKRf0cwthjHbX0jBaHBg==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fddef465-0ccf-453d-ba31-c8620d248165",
+                            SecurityStamp = "768ed8e6-b3b3-4e03-ac0c-d51a7a8e6b80",
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",
