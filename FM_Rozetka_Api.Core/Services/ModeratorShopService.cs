@@ -6,6 +6,7 @@ using FM_Rozetka_Api.Core.DTOs.User;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
+using FM_Rozetka_Api.Core.Specifications.ModeratorShops;
 using FM_Rozetka_Api.Core.Specifications.Shops;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
@@ -173,6 +174,24 @@ namespace FM_Rozetka_Api.Core.Services
             await _userManager.AddToRoleAsync(user, role);
         }
 
+        public async Task<ServiceResponse<IEnumerable<UserModeratorShopDTO>, object>> GetUsersByShopId(int shopid)
+        {
+            try
+            {
+                if (shopid != 0) 
+                {
+                    var shopModerators = await _moderatorShopRepository.GetListBySpec(new ModeratorShopSpecification.GetUserModeratorShop(shopid));
+                    var users = shopModerators.Select(m => m.AppUser).ToList();
+
+                    return new ServiceResponse<IEnumerable<UserModeratorShopDTO>, object>(true, "Success", payload: _mapper.Map<List<UserModeratorShopDTO>>(users));
+                }
+                return new ServiceResponse<IEnumerable<UserModeratorShopDTO>, object>(false, "Failed: shopid is zero or null", payload: null);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<IEnumerable<UserModeratorShopDTO>, object>(false, $"Failed: {ex.Message}", payload: null);
+            }
+        }
 
     }
 }

@@ -69,5 +69,7 @@ namespace FM_Rozetka_Api.Core.Services
             await _shopRepository.Update(shop);
             await _shopRepository.Save();
         }
+
+       
     }
 }

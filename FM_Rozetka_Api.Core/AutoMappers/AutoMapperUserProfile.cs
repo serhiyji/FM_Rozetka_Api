@@ -15,6 +15,12 @@ namespace FM_Rozetka_Api.Core.AutoMappers
             CreateMap<UserDTO, AppUser>().ReverseMap();
             CreateMap<UserSignUpEmailDTO, AppUser>().ReverseMap();
             CreateMap<RegistrationUserDTO, CreateUserDTO>().ReverseMap();
+            //moderator shop
+            CreateMap<UserModeratorShopDTO, AppUser>().ReverseMap();
+            CreateMap<AppUser, UserModeratorShopDTO>()
+           .ForMember(dest => dest.AppUserId, opt => opt.MapFrom(src => src.Id))
+           .ReverseMap()
+           .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.AppUserId));
         }
     }
 }

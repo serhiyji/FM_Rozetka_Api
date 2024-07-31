@@ -22,5 +22,6 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task DeleteAsync(int id);
 
         Task<ServiceResponse> AddModeratorShopAsync(CreateModeratorUserDTO model);
+        Task<ServiceResponse<IEnumerable<UserModeratorShopDTO>, object>> GetUsersByShopId(int shopid);
     }
 }

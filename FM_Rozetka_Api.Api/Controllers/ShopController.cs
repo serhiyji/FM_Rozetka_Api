@@ -57,7 +57,7 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest("The id must not be null");
         }
 
-        [HttpGet("GetByUserIdShop")]
+        [HttpGet("GetShopByUserId")]
         public async Task<IActionResult> GetByUserIdShop(string id)
         {
             if (id != null)
@@ -116,5 +116,24 @@ namespace FM_Rozetka_Api.Api.Controllers
             }
             return BadRequest(validationResult.Errors.FirstOrDefault());
         }
+
+        [HttpGet("GetUsersByIdShop")]
+        public async Task<IActionResult> GetUsersByIdShop([FromQuery] int shopId)
+        {
+            try
+            {
+                if (shopId != 0)
+                {
+                    var shops = await _moderatorShopService.GetUsersByShopId(shopId);
+                    return Ok(shops);
+                }
+                return BadRequest("The shopId must not be null");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
