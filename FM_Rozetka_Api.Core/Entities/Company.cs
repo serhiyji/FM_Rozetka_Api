@@ -14,5 +14,6 @@ namespace FM_Rozetka_Api.Core.Entities
         public string PhoneNumber { get; set; }
 
         public ICollection<AppUser> Users { get; set; }
+        public ICollection<Shop> Shops { get; set; }
     }
 }

@@ -39,5 +39,10 @@ namespace FM_Rozetka_Api.Api.Controllers
             var res = await _userService.DeleteUserAsync(model);
             return Ok(res);
         }
+        [HttpGet("getall")]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok((await _userService.GetAllAsync()));
+        }
     }
 }

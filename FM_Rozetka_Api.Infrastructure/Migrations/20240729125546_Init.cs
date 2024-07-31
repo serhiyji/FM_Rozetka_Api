@@ -398,7 +398,15 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    AppUserId = table.Column<string>(type: "text", nullable: false)
+                    AppUserId = table.Column<string>(type: "text", nullable: false),
+                    CompanyId = table.Column<int>(type: "integer", nullable: false),
+                    Website = table.Column<string>(type: "text", nullable: false),
+                    HasNoWebsite = table.Column<bool>(type: "boolean", nullable: false),
+                    FullName = table.Column<string>(type: "text", nullable: false),
+                    Position = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: false),
+                    IsNonResident = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -407,6 +415,12 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         name: "FK_Shops_AspNetUsers_AppUserId",
                         column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Shops_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -833,20 +847,20 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "44d2fc61-c688-463e-b3c6-fe1cf05f70db", null, "Administrator", "ADMINISTRATOR" },
-                    { "47e11039-ffee-4c76-a97d-68feded60700", null, "User", "USER" },
-                    { "817066d3-e39a-4748-b779-2e2d76c2037a", null, "Seller", "SELLER" }
+                    { "6479ce65-a15d-4ec2-b0cd-a3b4a7d2d67c", null, "Administrator", "ADMINISTRATOR" },
+                    { "7fbe787a-012b-4c7b-b429-a429a5f32ee6", null, "User", "USER" },
+                    { "e637c502-9cb7-421f-9d73-89cd52e33ce7", null, "Seller", "SELLER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "CompanyId", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SurName", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "5aad8c7a-cfbf-45ce-8e64-bfa9aeafa9f4", 0, null, "8dc5ff31-51da-4a22-a85c-63a90034b7e9", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEIO20P7fdyBxzxht2F3Ya/lU75fQZ4XIm+DOZ27uDrqwksoCRC9mmu9ylUtUquZlGQ==", "", false, "5e703762-764c-4e45-970e-1470876a26b0", "Johnovych", false, "admin@email.com" });
+                values: new object[] { "79b20069-3e92-4a2a-876f-f0e3df23d396", 0, null, "bf05b4b1-cf81-46fa-902f-080e1aabb07e", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAENXvSOOsB8RIsaCce6lCOjRURBb1zqdPdxGcVHBWVcQJvAUcjYi5tEHyafDHefTV2w==", "", false, "fddef465-0ccf-453d-ba31-c8620d248165", "Johnovych", false, "admin@email.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "44d2fc61-c688-463e-b3c6-fe1cf05f70db", "5aad8c7a-cfbf-45ce-8e64-bfa9aeafa9f4" });
+                values: new object[] { "6479ce65-a15d-4ec2-b0cd-a3b4a7d2d67c", "79b20069-3e92-4a2a-876f-f0e3df23d396" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_AppUserId",
@@ -1045,6 +1059,11 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 name: "IX_Shops_AppUserId",
                 table: "Shops",
                 column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shops_CompanyId",
+                table: "Shops",
+                column: "CompanyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Specifications_CategorySpecificationId",
