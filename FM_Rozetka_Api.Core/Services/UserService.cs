@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
@@ -69,17 +70,9 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse(false, "User not found.", errors: new List<string>() { "User not found." });
             }
 
-            if (user.Email != model.Email)
-            {
-                user.EmailConfirmed = false;
-                user.Email = model.Email;
-                user.UserName = model.Email;
-                //await SendConfirmationEmailAsync(user);
-            }
-
             user.FirstName = model.FirstName;
+            user.SurName = model.SurName;
             user.LastName = model.LastName;
-            user.PhoneNumber = model.PhoneNumber;
 
             IdentityResult result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
@@ -95,27 +88,14 @@ namespace FM_Rozetka_Api.Core.Services
             if (user != null)
             {
                 user.FirstName = newinfo.FirstName;
-                bool emailChanged = user.Email != newinfo.Email;
-                if (emailChanged)
-                {
-                    user.EmailConfirmed = false;
-                    user.Email = newinfo.Email;
-                    user.UserName = newinfo.Email;
-                    //await SendConfirmationEmailAsync(user);
-                }
+                user.SurName = newinfo.SurName;
                 user.LastName = newinfo.LastName;
-
-                user.PhoneNumber = newinfo.PhoneNumber;
 
                 IdentityResult result = await _userManager.UpdateAsync(user);
 
                 if (result.Succeeded)
                 {
-                    string message = emailChanged ?
-                        "Information has been changed and a confirmation email has been sent to the new address." :
-                        "Information has been changed";
-
-                    return new ServiceResponse(true, message);
+                    return new ServiceResponse(true, "Information has been changed");
                 }
                 else
                 {
