@@ -12,9 +12,9 @@ namespace FM_Rozetka_Api.Core
     {
         public static void AddCoreServices(this IServiceCollection services)
         {
-            services.AddTransient<EmailService>();
-            services.AddTransient<AuthService>();
-            services.AddTransient<UserService>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<ITelegramApiHandlerService, TelegramApiHandlerService>();
             services.AddScoped<IPhoneConfirmationService, PhoneConfirmationService>();

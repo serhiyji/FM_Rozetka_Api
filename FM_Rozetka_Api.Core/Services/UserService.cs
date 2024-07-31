@@ -14,17 +14,18 @@ using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
+using FM_Rozetka_Api.Core.Interfaces;
 
 namespace FM_Rozetka_Api.Core.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
-        private readonly EmailService _emailService;
+        private readonly IEmailService _emailService;
         public UserService(
-                EmailService emailService,
+                IEmailService emailService,
                 UserManager<AppUser> userManager,
                 IMapper _mapper,
                 IConfiguration configuration

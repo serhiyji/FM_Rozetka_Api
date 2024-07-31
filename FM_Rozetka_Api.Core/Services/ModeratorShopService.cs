@@ -20,11 +20,11 @@ namespace FM_Rozetka_Api.Core.Services
         private readonly IMapper _mapper;
 
         private readonly IShopService _shopService;
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
 
       
-        public ModeratorShopService(IRepository<ModeratorShop> moderatorShopRepository, UserService userService, IMapper mapper, IShopService shopService)
+        public ModeratorShopService(IRepository<ModeratorShop> moderatorShopRepository, IUserService userService, IMapper mapper, IShopService shopService)
         {
             _moderatorShopRepository = moderatorShopRepository;
             _mapper = mapper;

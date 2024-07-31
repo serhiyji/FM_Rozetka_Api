@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Results;
 using FM_Rozetka_Api.Core.DTOs;
 using FM_Rozetka_Api.Core.DTOs.User;
+using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
 using FM_Rozetka_Api.Core.Services;
 using FM_Rozetka_Api.Core.Validation.User;
@@ -15,9 +16,9 @@ namespace FM_Rozetka_Api.Api.Controllers
     [ApiController]
     public class UserController : Controller
     {
-        private readonly AuthService _authService;
-        private readonly UserService _userService;
-        public UserController(AuthService authService, UserService userService)
+        private readonly IAuthService _authService;
+        private readonly IUserService _userService;
+        public UserController(IAuthService authService, IUserService userService)
         {
             _authService = authService;
             _userService = userService;

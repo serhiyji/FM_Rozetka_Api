@@ -7,6 +7,7 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using FM_Rozetka_Api.Core.Interfaces;
 
 namespace FM_Rozetka_Api.Api.Controllers
 {
@@ -16,8 +17,8 @@ namespace FM_Rozetka_Api.Api.Controllers
     [Authorize(Roles = "Administrator")]
     public class AdminController : Controller
     {
-        private readonly UserService _userService;
-        public AdminController(UserService userService)
+        private readonly IUserService _userService;
+        public AdminController(IUserService userService)
         {
             this._userService = userService;
         }
