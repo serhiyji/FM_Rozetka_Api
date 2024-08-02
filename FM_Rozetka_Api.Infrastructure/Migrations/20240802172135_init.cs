@@ -303,26 +303,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Carts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    AppUserId = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Carts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Carts_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -558,7 +538,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CartId = table.Column<int>(type: "integer", nullable: false),
+                    AppUserId = table.Column<string>(type: "text", nullable: false),
                     ProductId = table.Column<int>(type: "integer", nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -566,9 +546,9 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_CartItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CartItems_Carts_CartId",
-                        column: x => x.CartId,
-                        principalTable: "Carts",
+                        name: "FK_CartItems_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -847,20 +827,20 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "48375289-d59a-4109-aa73-a3ecf21a88f7", null, "Seller", "SELLER" },
-                    { "6113ccc3-9133-4aa5-8fdf-d90fa53529e7", null, "Administrator", "ADMINISTRATOR" },
-                    { "96373af4-5479-4008-97d2-7bea6c13c6c0", null, "User", "USER" }
+                    { "2ef26e3e-c0f8-436e-bbf7-b19a94533db6", null, "Seller", "SELLER" },
+                    { "77771ce7-4f6d-470b-ae16-b521037e5951", null, "Administrator", "ADMINISTRATOR" },
+                    { "9c8c7c28-574c-4ed7-aea3-7ad56c249889", null, "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "CompanyId", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SurName", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "9a59f7ab-06fb-4770-91e3-e29209dd00a1", 0, null, "f8928e0a-0aef-434c-af7c-31e7ab5592e4", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEOk7nqYF8J1I3l0256YDMRBDae9SInqZ7gQ9KnQD4VOvIYUKRf0cwthjHbX0jBaHBg==", "", false, "768ed8e6-b3b3-4e03-ac0c-d51a7a8e6b80", "Johnovych", false, "admin@email.com" });
+                values: new object[] { "e513a5c5-1cde-45b8-af37-d5fe4b9c0208", 0, null, "c99d1c8b-7ea7-4fef-a321-ddcbae333213", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAENM+zxhZv4dAEvD2X2hmZSswKQsqHP8GG4L6edIIPuNSlNA7FtyGnagjijI0acIJZw==", "", false, "a1c8d69f-aeb3-4c05-9984-57813f55b890", "Johnovych", false, "admin@email.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "6113ccc3-9133-4aa5-8fdf-d90fa53529e7", "9a59f7ab-06fb-4770-91e3-e29209dd00a1" });
+                values: new object[] { "77771ce7-4f6d-470b-ae16-b521037e5951", "e513a5c5-1cde-45b8-af37-d5fe4b9c0208" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_AppUserId",
@@ -910,19 +890,14 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartItems_CartId",
+                name: "IX_CartItems_AppUserId",
                 table: "CartItems",
-                column: "CartId");
+                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CartItems_ProductId",
                 table: "CartItems",
                 column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Carts_AppUserId",
-                table: "Carts",
-                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CountryProductionProducts_CountryProductionId",
@@ -1153,9 +1128,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "Carts");
 
             migrationBuilder.DropTable(
                 name: "CountryProductions");

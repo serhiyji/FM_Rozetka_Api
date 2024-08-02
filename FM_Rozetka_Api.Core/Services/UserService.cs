@@ -164,5 +164,45 @@ namespace FM_Rozetka_Api.Core.Services
             return new ServiceResponse(false, "Email not confirmed", errors: result.Errors.Select(e => e.Description));
         }
         #endregion
+
+        #region Password recovery and send token for password recovery
+        public async Task<ServiceResponse> ForgotPasswordAsync(string email)
+        {
+            AppUser? user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return new ServiceResponse(false, "User not found.");
+            }
+
+            string token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            byte[] encodedToken = Encoding.UTF8.GetBytes(token);
+            string validEmailToken = WebEncoders.Base64UrlEncode(encodedToken);
+
+            string url = $"{_configuration["HostSettings:URL"]}/Dashboard/ResetPassword?email={email}&token={validEmailToken}";
+
+            string emailBody = $"<h1>Follow the instruction for reset password.</h1><a href='{url}'>Reset now!</a>";
+            await _emailService.SendEmailAsync(email, "Reset password for TopNews.", emailBody);
+
+            return new ServiceResponse(true, "Email successfull send.");
+        }
+
+        public async Task<ServiceResponse> ResetPasswordAsync(PasswordRecoveryDto model)
+        {
+            AppUser? user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return new ServiceResponse(false, "User not found.");
+            }
+
+            byte[] decodedToken = WebEncoders.Base64UrlDecode(model.Token);
+            string narmalToken = Encoding.UTF8.GetString(decodedToken);
+            IdentityResult res = await _userManager.ResetPasswordAsync(user, narmalToken, model.Password);
+            if (res.Succeeded)
+            {
+                return new ServiceResponse(true, "Password changed successfully");
+            }
+            return new ServiceResponse(false, "Something went wrong", errors: res.Errors.Select(e => e.Description));
+        }
+        #endregion
     }
 }

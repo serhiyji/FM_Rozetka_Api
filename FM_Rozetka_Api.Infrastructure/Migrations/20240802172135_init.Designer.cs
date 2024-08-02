@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FM_Rozetka_Api.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240731093210_init")]
+    [Migration("20240802172135_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -60,7 +60,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.ToTable("Adresses");
                 });
 
-            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Cart", b =>
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.CartItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -72,27 +72,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.ToTable("Carts");
-                });
-
-            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.CartItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CartId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
@@ -101,7 +80,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CartId");
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("ProductId");
 
@@ -903,19 +882,19 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6113ccc3-9133-4aa5-8fdf-d90fa53529e7",
+                            Id = "77771ce7-4f6d-470b-ae16-b521037e5951",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "96373af4-5479-4008-97d2-7bea6c13c6c0",
+                            Id = "9c8c7c28-574c-4ed7-aea3-7ad56c249889",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "48375289-d59a-4109-aa73-a3ecf21a88f7",
+                            Id = "2ef26e3e-c0f8-436e-bbf7-b19a94533db6",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         });
@@ -1083,8 +1062,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "9a59f7ab-06fb-4770-91e3-e29209dd00a1",
-                            RoleId = "6113ccc3-9133-4aa5-8fdf-d90fa53529e7"
+                            UserId = "e513a5c5-1cde-45b8-af37-d5fe4b9c0208",
+                            RoleId = "77771ce7-4f6d-470b-ae16-b521037e5951"
                         });
                 });
 
@@ -1157,18 +1136,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9a59f7ab-06fb-4770-91e3-e29209dd00a1",
+                            Id = "e513a5c5-1cde-45b8-af37-d5fe4b9c0208",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f8928e0a-0aef-434c-af7c-31e7ab5592e4",
+                            ConcurrencyStamp = "c99d1c8b-7ea7-4fef-a321-ddcbae333213",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOk7nqYF8J1I3l0256YDMRBDae9SInqZ7gQ9KnQD4VOvIYUKRf0cwthjHbX0jBaHBg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENM+zxhZv4dAEvD2X2hmZSswKQsqHP8GG4L6edIIPuNSlNA7FtyGnagjijI0acIJZw==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "768ed8e6-b3b3-4e03-ac0c-d51a7a8e6b80",
+                            SecurityStamp = "a1c8d69f-aeb3-4c05-9984-57813f55b890",
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",
@@ -1188,22 +1167,11 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.Navigation("AppUser");
                 });
 
-            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Cart", b =>
-                {
-                    b.HasOne("FM_Rozetka_Api.Core.Entities.AppUser", "AppUser")
-                        .WithMany("Carts")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-                });
-
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.CartItem", b =>
                 {
-                    b.HasOne("FM_Rozetka_Api.Core.Entities.Cart", "Cart")
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.AppUser", "AppUser")
                         .WithMany("CartItems")
-                        .HasForeignKey("CartId")
+                        .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1213,7 +1181,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Cart");
+                    b.Navigation("AppUser");
 
                     b.Navigation("Product");
                 });
@@ -1573,11 +1541,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Cart", b =>
-                {
-                    b.Navigation("CartItems");
-                });
-
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.CategoryProduct", b =>
                 {
                     b.Navigation("Products");
@@ -1656,7 +1619,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 {
                     b.Navigation("Adresses");
 
-                    b.Navigation("Carts");
+                    b.Navigation("CartItems");
 
                     b.Navigation("Favorites");
 

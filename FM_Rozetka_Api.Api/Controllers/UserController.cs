@@ -114,5 +114,17 @@ namespace FM_Rozetka_Api.Api.Controllers
             }
             return BadRequest(validationResult);
         }
+
+        [HttpPost("forgotpassword")]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            return Ok(await _userService.ForgotPasswordAsync(email));
+        }
+
+        [HttpPost("resetpassword")]
+        public async Task<IActionResult> ResetPassword(PasswordRecoveryDto passwordRecoveryDto)
+        {
+            return Ok(await _userService.ResetPasswordAsync(passwordRecoveryDto));
+        }
     }
 }
