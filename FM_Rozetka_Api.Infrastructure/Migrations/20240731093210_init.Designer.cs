@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FM_Rozetka_Api.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240703105111_Init")]
-    partial class Init
+    [Migration("20240731093210_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -772,9 +772,40 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("HasNoWebsite")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsNonResident")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Website")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
+
+                    b.HasIndex("CompanyId");
 
                     b.ToTable("Shops");
                 });
@@ -872,19 +903,19 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "44d2fc61-c688-463e-b3c6-fe1cf05f70db",
+                            Id = "6113ccc3-9133-4aa5-8fdf-d90fa53529e7",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "47e11039-ffee-4c76-a97d-68feded60700",
+                            Id = "96373af4-5479-4008-97d2-7bea6c13c6c0",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "817066d3-e39a-4748-b779-2e2d76c2037a",
+                            Id = "48375289-d59a-4109-aa73-a3ecf21a88f7",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         });
@@ -1052,8 +1083,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "5aad8c7a-cfbf-45ce-8e64-bfa9aeafa9f4",
-                            RoleId = "44d2fc61-c688-463e-b3c6-fe1cf05f70db"
+                            UserId = "9a59f7ab-06fb-4770-91e3-e29209dd00a1",
+                            RoleId = "6113ccc3-9133-4aa5-8fdf-d90fa53529e7"
                         });
                 });
 
@@ -1126,18 +1157,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5aad8c7a-cfbf-45ce-8e64-bfa9aeafa9f4",
+                            Id = "9a59f7ab-06fb-4770-91e3-e29209dd00a1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8dc5ff31-51da-4a22-a85c-63a90034b7e9",
+                            ConcurrencyStamp = "f8928e0a-0aef-434c-af7c-31e7ab5592e4",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIO20P7fdyBxzxht2F3Ya/lU75fQZ4XIm+DOZ27uDrqwksoCRC9mmu9ylUtUquZlGQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOk7nqYF8J1I3l0256YDMRBDae9SInqZ7gQ9KnQD4VOvIYUKRf0cwthjHbX0jBaHBg==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5e703762-764c-4e45-970e-1470876a26b0",
+                            SecurityStamp = "768ed8e6-b3b3-4e03-ac0c-d51a7a8e6b80",
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",
@@ -1452,7 +1483,15 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.Company", "Company")
+                        .WithMany("Shops")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("AppUser");
+
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Specification", b =>
@@ -1551,6 +1590,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Company", b =>
                 {
+                    b.Navigation("Shops");
+
                     b.Navigation("Users");
                 });
 

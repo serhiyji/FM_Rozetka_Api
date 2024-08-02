@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FM_Rozetka_Api.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -398,7 +398,15 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    AppUserId = table.Column<string>(type: "text", nullable: false)
+                    AppUserId = table.Column<string>(type: "text", nullable: false),
+                    CompanyId = table.Column<int>(type: "integer", nullable: false),
+                    Website = table.Column<string>(type: "text", nullable: false),
+                    HasNoWebsite = table.Column<bool>(type: "boolean", nullable: false),
+                    FullName = table.Column<string>(type: "text", nullable: false),
+                    Position = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: false),
+                    IsNonResident = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -407,6 +415,12 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         name: "FK_Shops_AspNetUsers_AppUserId",
                         column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Shops_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -833,20 +847,20 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "44d2fc61-c688-463e-b3c6-fe1cf05f70db", null, "Administrator", "ADMINISTRATOR" },
-                    { "47e11039-ffee-4c76-a97d-68feded60700", null, "User", "USER" },
-                    { "817066d3-e39a-4748-b779-2e2d76c2037a", null, "Seller", "SELLER" }
+                    { "48375289-d59a-4109-aa73-a3ecf21a88f7", null, "Seller", "SELLER" },
+                    { "6113ccc3-9133-4aa5-8fdf-d90fa53529e7", null, "Administrator", "ADMINISTRATOR" },
+                    { "96373af4-5479-4008-97d2-7bea6c13c6c0", null, "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "CompanyId", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SurName", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "5aad8c7a-cfbf-45ce-8e64-bfa9aeafa9f4", 0, null, "8dc5ff31-51da-4a22-a85c-63a90034b7e9", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEIO20P7fdyBxzxht2F3Ya/lU75fQZ4XIm+DOZ27uDrqwksoCRC9mmu9ylUtUquZlGQ==", "", false, "5e703762-764c-4e45-970e-1470876a26b0", "Johnovych", false, "admin@email.com" });
+                values: new object[] { "9a59f7ab-06fb-4770-91e3-e29209dd00a1", 0, null, "f8928e0a-0aef-434c-af7c-31e7ab5592e4", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEOk7nqYF8J1I3l0256YDMRBDae9SInqZ7gQ9KnQD4VOvIYUKRf0cwthjHbX0jBaHBg==", "", false, "768ed8e6-b3b3-4e03-ac0c-d51a7a8e6b80", "Johnovych", false, "admin@email.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "44d2fc61-c688-463e-b3c6-fe1cf05f70db", "5aad8c7a-cfbf-45ce-8e64-bfa9aeafa9f4" });
+                values: new object[] { "6113ccc3-9133-4aa5-8fdf-d90fa53529e7", "9a59f7ab-06fb-4770-91e3-e29209dd00a1" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_AppUserId",
@@ -1045,6 +1059,11 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 name: "IX_Shops_AppUserId",
                 table: "Shops",
                 column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shops_CompanyId",
+                table: "Shops",
+                column: "CompanyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Specifications_CategorySpecificationId",

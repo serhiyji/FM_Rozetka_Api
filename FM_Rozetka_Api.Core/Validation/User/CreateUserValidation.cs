@@ -22,6 +22,11 @@ namespace FM_Rozetka_Api.Core.Validation.User
             RuleFor(r => r.PhoneNumber)
             .NotEmpty().WithMessage("The Phone Number field must be filled.")
             .Must(PhoneNumberValidator).WithMessage("Please enter a valid Ukrainian phone number in the format +380xxxxxxxxx or 0xxxxxxxxx.");
+            RuleFor(r => r.Password).NotEmpty().WithMessage("Filed must not be empty")
+                 .MinimumLength(6).WithMessage("Password must be at least 6 characters");
+            RuleFor(r => r.ConfirmPassword).NotEmpty().WithMessage("Filed must not be empty").
+                MinimumLength(6).WithMessage("Password must be at least 6 characters").
+                Equal(p => p.Password).WithMessage("The verification password is incorrect");
         }
 
         private bool PhoneNumberValidator(string phoneNumber)

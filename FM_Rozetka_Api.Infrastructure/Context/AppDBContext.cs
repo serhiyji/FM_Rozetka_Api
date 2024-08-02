@@ -54,6 +54,12 @@ namespace FM_Rozetka_Api.Infrastructure.Context
                 .WithOne(u => u.Company)
                 .HasForeignKey(u => u.CompanyId);
 
+            modelBuilder.Entity<Shop>()
+               .HasOne(s => s.Company)
+               .WithMany(c => c.Shops)
+               .HasForeignKey(s => s.CompanyId)
+               .HasPrincipalKey(c => c.Id);
+
             modelBuilder.Entity<Product>()
             .HasOne(p => p.CountryProductionProduct)
             .WithOne(c => c.Product)

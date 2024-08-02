@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Validation.User
 {
-    public class DeleteUserDTO
+    internal class UpdateUserValidation
     {
-        public string Id { get; set; }
-        public string Email { get; set; } = string.Empty;
     }
 }
