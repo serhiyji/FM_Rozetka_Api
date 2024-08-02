@@ -21,5 +21,7 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task SendConfirmationEmailAsync(AppUser user);
         Task<ServiceResponse> ConfirmEmailAsync(string userId, string token);
         Task<ServiceResponse> GetAllAsync();
+        Task<ServiceResponse> ForgotPasswordAsync(string email);
+        Task<ServiceResponse> ResetPasswordAsync(PasswordRecoveryDto model);
     }
 }
