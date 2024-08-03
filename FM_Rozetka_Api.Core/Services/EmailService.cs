@@ -1,10 +1,11 @@
-﻿using MailKit.Net.Smtp;
+﻿using FM_Rozetka_Api.Core.Interfaces;
+using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 
 namespace FM_Rozetka_Api.Core.Services
 {
-    public class EmailService
+    public class EmailService : IEmailService
     {
         private IConfiguration _configuration;
         public EmailService(IConfiguration configuration)

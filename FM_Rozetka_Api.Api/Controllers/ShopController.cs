@@ -9,9 +9,9 @@ using FM_Rozetka_Api.Core.Responses;
 using FM_Rozetka_Api.Core.Services;
 using FM_Rozetka_Api.Core.Validation.ModeratorShop;
 using FM_Rozetka_Api.Core.Validation.Seller;
+using FM_Rozetka_Api.Core.DTOs.Shops.Shop;
+using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Validation.Shop;
-using FM_Rozetka_Api.Core.Validation.User;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FM_Rozetka_Api.Api.Controllers

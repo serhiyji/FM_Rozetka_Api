@@ -18,7 +18,6 @@ namespace FM_Rozetka_Api.Infrastructure.Context
 
         public DbSet<Adress> Adresses { get; set; }
         public DbSet<Brand> Brands { get; set; }
-        public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<CategoryProduct> CategoryProducts { get; set; }
         public DbSet<CategorySpecification> CategorySpecifications { get; set; }

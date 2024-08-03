@@ -18,13 +18,13 @@ using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Services
 {
-    public class AuthService
+    public class AuthService : IAuthService
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly EmailService _emailService;
-        private readonly UserService _userService;
+        private readonly IEmailService _emailService;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly IJwtService _jwtService;
@@ -33,11 +33,11 @@ namespace FM_Rozetka_Api.Core.Services
                 UserManager<AppUser> userManager,
                 SignInManager<AppUser> signInManager,
                 RoleManager<IdentityRole> roleManager,
-                EmailService emailService,
+                IEmailService emailService,
                 IMapper mapper,
                 IConfiguration configuration,
                 IJwtService jwtService,
-                UserService userService
+                IUserService userService
             )
         {
             this._signInManager = signInManager;
@@ -116,12 +116,9 @@ namespace FM_Rozetka_Api.Core.Services
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(mappedUser, "User");
-
                     //  Email sender
                     await _emailService.SendEmailAsync(model.Email, "Welcome", "Welcome to our site");
                     await SendConfirmationEmailAsync(mappedUser);
-
-                    
                 }
                 else
                 {
@@ -133,7 +130,6 @@ namespace FM_Rozetka_Api.Core.Services
                 Success = false,
                 Message = "Something went wrong during adding user :( ."
             };
-
         }
 
         public async Task DeleteAllRefreshTokenByUserIdAsync(string userId)
@@ -161,8 +157,6 @@ namespace FM_Rozetka_Api.Core.Services
 
             return new ServiceResponse(false, "User`s email not confirmed", result.Errors.Select(e => e.Description));
         }
-
-       
 
         public async Task SendConfirmationEmailAsync(AppUser user)
         {
@@ -251,7 +245,7 @@ namespace FM_Rozetka_Api.Core.Services
                     var result = await _userService.CreateUserAsync(NewUser);
 
                     var UserSenEmail = await _userManager.FindByEmailAsync(NewUser.Email);
-                    SendConfirmationEmailAsync(UserSenEmail);
+                    await this.SendConfirmationEmailAsync(UserSenEmail);
                     if (!result.Success)
                     {
                         return new ServiceResponse(false, result.Message);
@@ -265,7 +259,5 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse(false, "Invalid registered.", ex.Message);
             }
         }
-
-       
     }
 }

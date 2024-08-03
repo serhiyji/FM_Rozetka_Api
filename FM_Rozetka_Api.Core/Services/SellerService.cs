@@ -24,11 +24,11 @@ namespace FM_Rozetka_Api.Core.Services
     {
         private readonly IRepository<SellerApplication> _sellerRepository;
         private readonly IMapper _mapper;
-        private readonly EmailService _emailService;
+        private readonly IEmailService _emailService;
         private readonly UserManager<AppUser> _userManager;
         private readonly ICompanyService _comapntService;
         private readonly IShopService _shopService;
-        public SellerService(IRepository<SellerApplication> sellerRepository,IShopService shopService, IMapper mapper, EmailService emailService, UserManager<AppUser> userManager, ICompanyService comapntService)
+        public SellerService(IRepository<SellerApplication> sellerRepository,IShopService shopService, IMapper mapper, IEmailService emailService, UserManager<AppUser> userManager, ICompanyService comapntService)
         {
             _sellerRepository = sellerRepository;
             _mapper = mapper;

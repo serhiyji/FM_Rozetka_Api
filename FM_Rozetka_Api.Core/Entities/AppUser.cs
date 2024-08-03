@@ -13,7 +13,7 @@ namespace FM_Rozetka_Api.Core.Entities
         public string LastName { get; set; } = string.Empty;
       
         public List<Adress> Adresses { get; set; }
-        public List<Cart> Carts { get; set; }
+        public List<CartItem> CartItems { get; set; }
         public List<Favorite> Favorites { get; set; }
         public List<ModeratorShop> ModeratorShops { get; set; }
         public List<Order> Orders { get; set; }

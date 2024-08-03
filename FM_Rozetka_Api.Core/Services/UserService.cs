@@ -10,20 +10,22 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
+using FM_Rozetka_Api.Core.Interfaces;
 
 namespace FM_Rozetka_Api.Core.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
-        private readonly EmailService _emailService;
+        private readonly IEmailService _emailService;
         public UserService(
-                EmailService emailService,
+                IEmailService emailService,
                 UserManager<AppUser> userManager,
                 IMapper _mapper,
                 IConfiguration configuration
@@ -69,17 +71,9 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse(false, "User not found.", errors: new List<string>() { "User not found." });
             }
 
-            if (user.Email != model.Email)
-            {
-                user.EmailConfirmed = false;
-                user.Email = model.Email;
-                user.UserName = model.Email;
-                //await SendConfirmationEmailAsync(user);
-            }
-
             user.FirstName = model.FirstName;
+            user.SurName = model.SurName;
             user.LastName = model.LastName;
-            user.PhoneNumber = model.PhoneNumber;
 
             IdentityResult result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
@@ -95,27 +89,14 @@ namespace FM_Rozetka_Api.Core.Services
             if (user != null)
             {
                 user.FirstName = newinfo.FirstName;
-                bool emailChanged = user.Email != newinfo.Email;
-                if (emailChanged)
-                {
-                    user.EmailConfirmed = false;
-                    user.Email = newinfo.Email;
-                    user.UserName = newinfo.Email;
-                    //await SendConfirmationEmailAsync(user);
-                }
+                user.SurName = newinfo.SurName;
                 user.LastName = newinfo.LastName;
-
-                user.PhoneNumber = newinfo.PhoneNumber;
 
                 IdentityResult result = await _userManager.UpdateAsync(user);
 
                 if (result.Succeeded)
                 {
-                    string message = emailChanged ?
-                        "Information has been changed and a confirmation email has been sent to the new address." :
-                        "Information has been changed";
-
-                    return new ServiceResponse(true, message);
+                    return new ServiceResponse(true, "Information has been changed");
                 }
                 else
                 {
@@ -181,6 +162,46 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse(true, "Email successfully confirmed.");
             }
             return new ServiceResponse(false, "Email not confirmed", errors: result.Errors.Select(e => e.Description));
+        }
+        #endregion
+
+        #region Password recovery and send token for password recovery
+        public async Task<ServiceResponse> ForgotPasswordAsync(string email)
+        {
+            AppUser? user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return new ServiceResponse(false, "User not found.");
+            }
+
+            string token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            byte[] encodedToken = Encoding.UTF8.GetBytes(token);
+            string validEmailToken = WebEncoders.Base64UrlEncode(encodedToken);
+
+            string url = $"{_configuration["HostSettings:URL"]}/Dashboard/ResetPassword?email={email}&token={validEmailToken}";
+
+            string emailBody = $"<h1>Follow the instruction for reset password.</h1><a href='{url}'>Reset now!</a>";
+            await _emailService.SendEmailAsync(email, "Reset password for TopNews.", emailBody);
+
+            return new ServiceResponse(true, "Email successfull send.");
+        }
+
+        public async Task<ServiceResponse> ResetPasswordAsync(PasswordRecoveryDto model)
+        {
+            AppUser? user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return new ServiceResponse(false, "User not found.");
+            }
+
+            byte[] decodedToken = WebEncoders.Base64UrlDecode(model.Token);
+            string narmalToken = Encoding.UTF8.GetString(decodedToken);
+            IdentityResult res = await _userManager.ResetPasswordAsync(user, narmalToken, model.Password);
+            if (res.Succeeded)
+            {
+                return new ServiceResponse(true, "Password changed successfully");
+            }
+            return new ServiceResponse(false, "Something went wrong", errors: res.Errors.Select(e => e.Description));
         }
         #endregion
     }
