@@ -9,13 +9,15 @@ namespace FM_Rozetka_Api.Infrastructure.Initializers
         public static string AdminRoleId = Guid.NewGuid().ToString();
         public static string UserRoleId = Guid.NewGuid().ToString();
         public static string SellerRoleId = Guid.NewGuid().ToString();
+        public static string ModeratorSellerRoleId = Guid.NewGuid().ToString();
         public static void SeedRoles(this ModelBuilder modelBuilder)
         {
             foreach (var item in new List<(string id, string name)>() 
             { 
                 (AdminRoleId, "Administrator"), 
                 (UserRoleId, "User"),
-                (SellerRoleId, "Seller")
+                (SellerRoleId, "Seller"),
+                (ModeratorSellerRoleId, "ModeratorSeller")
             })
             {
                 modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole()
