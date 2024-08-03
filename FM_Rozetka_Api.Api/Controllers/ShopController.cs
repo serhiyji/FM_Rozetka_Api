@@ -1,11 +1,13 @@
 ﻿using FluentValidation;
 using FM_Rozetka_Api.Core.DTOs.Seller;
 using FM_Rozetka_Api.Core.DTOs.Shops;
+using FM_Rozetka_Api.Core.DTOs.Shops.ModeratorShop;
 using FM_Rozetka_Api.Core.DTOs.Shops.Shop;
 using FM_Rozetka_Api.Core.DTOs.User;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
 using FM_Rozetka_Api.Core.Services;
+using FM_Rozetka_Api.Core.Validation.ModeratorShop;
 using FM_Rozetka_Api.Core.Validation.Seller;
 using FM_Rozetka_Api.Core.Validation.Shop;
 using FM_Rozetka_Api.Core.Validation.User;
@@ -133,6 +135,18 @@ namespace FM_Rozetka_Api.Api.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost("ConfirmModeratorRole")]
+        public async Task<IActionResult> ConfirmModeratorRole([FromForm] ConfirmModeratorRoleDTO model)
+        {
+            var validationResult = await new ConfirmModeratorRoleValidation().ValidateAsync(model);
+            if (validationResult.IsValid)
+            {
+                var response = await _moderatorShopService.ConfirmModeratorRoleAsync(model);
+                return Ok(response);
+            }
+            return BadRequest(validationResult.Errors.FirstOrDefault());
         }
 
     }

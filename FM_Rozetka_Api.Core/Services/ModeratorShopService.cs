@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telegram.Bot.Types;
 using ModeratorShopDTO = FM_Rozetka_Api.Core.DTOs.Shops.ModeratorShop.ModeratorShopDTO;
 
 namespace FM_Rozetka_Api.Core.Services
@@ -99,19 +100,15 @@ namespace FM_Rozetka_Api.Core.Services
 
                 if (appUser != null)
                 {
-                    var newModeratorShop = new ModeratorShopCreateDTO
-                    {
-                        ShopId = shop.Id,
-                        AppUserId = appUser.Id,
-                    };
-                    await AddAsync(newModeratorShop);
 
-                    await UpdateUserRole(appUser, "ModeratorSeller");
+                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(appUser);
+                    var encodedToken = Encoding.UTF8.GetBytes(token);
+                    var validEmailToken = WebEncoders.Base64UrlEncode(encodedToken);
 
-                    // Sending email notification for existing user
-                    string url = $"http://localhost:5173/login";
-                    string emailBody = $"<h1>You have been granted access to the store {shop.FullName}. Log in for further interaction.</h1><a href='{url}'>Login now</a>";
-                    await _emailService.SendEmailAsync(model.Email, "Store Registration Successful", emailBody);
+                    string confirmUrl = $"http://localhost:5173/ConfirmRoleModerator?userId={appUser.Id}&token={validEmailToken}&shopId={shop.Id}";
+                    string emailBody = $"<h1>You have been granted access to the store {shop.FullName}.Confirm for next interaction.</h1><a href='{confirmUrl}'>Confirm now</a>";
+
+                    await _emailService.SendEmailAsync(model.Email, "Moderator access granted", emailBody);
 
                     return new ServiceResponse(true, "Success", payload: _mapper.Map<UserDTO>(appUser));
                 }
@@ -136,23 +133,14 @@ namespace FM_Rozetka_Api.Core.Services
                         throw new Exception("Failed to create user.");
                     }
 
-                    // Instead of fetching again, use the instance already tracked
-                    await UpdateUserRole(newUser, "ModeratorSeller");
-
                     var user = await _userManager.FindByEmailAsync(newUser.Email);
-                    var newModeratorShop = new ModeratorShopCreateDTO
-                    {
-                        ShopId = shop.Id,
-                        AppUserId = user.Id,
-                    };
-                    await AddAsync(newModeratorShop);
-
+                   
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
                     var encodedToken = Encoding.UTF8.GetBytes(token);
                     var validEmailToken = WebEncoders.Base64UrlEncode(encodedToken);
 
-                    string confirmUrl = $"http://localhost:5173/ConfirmEmail?userId={newUser.Id}&token={validEmailToken}";
-                    string confirmEmailBody = $"<h1>You have been granted access to the store {shop.FullName}.</h1><h1>Confirm your email please.</h1><hr><h2>Your password: {password}</h2><a href='{confirmUrl}'>Confirm now</a>";
+                    string confirmUrl = $"http://localhost:5173/ConfirmRoleModerator?userId={user.Id}&token={validEmailToken}&shopId={shop.Id}";
+                    string confirmEmailBody = $"<h1>You have been granted access to the store {shop.FullName}.</h1><h1>Confirm for next interaction.</h1><hr><h2>Your password: {password}</h2><a href='{confirmUrl}'>Confirm now</a>";
                     await _emailService.SendEmailAsync(newUser.Email, "Confirm your email", confirmEmailBody);
 
                     return new ServiceResponse(true, "Success", payload: _mapper.Map<UserDTO>(newUser));
@@ -192,6 +180,47 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse<IEnumerable<UserModeratorShopDTO>, object>(false, $"Failed: {ex.Message}", payload: null);
             }
         }
+
+        public async Task<ServiceResponse> ConfirmModeratorRoleAsync(ConfirmModeratorRoleDTO model)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(model.AppUserId);
+
+                if (user == null)
+                    return new ServiceResponse(false, "unknown user");
+
+                if (user.EmailConfirmed == false)
+                {
+                    var decodedToken = WebEncoders.Base64UrlDecode(model.token);
+                    string normalToken = Encoding.UTF8.GetString(decodedToken);
+                    var result = await _userManager.ConfirmEmailAsync(user, normalToken);
+
+                    if (!result.Succeeded)
+                        return new ServiceResponse(false, "User`s email not confirmed", result.Errors.Select(e => e.Description));
+                }
+
+                var newModeratorShop = new ModeratorShopCreateDTO
+                {
+                    ShopId = model.ShopId,
+                    AppUserId = model.AppUserId,
+                };
+
+                await AddAsync(newModeratorShop);
+
+                await UpdateUserRole(user, "ModeratorSeller");
+
+                return new ServiceResponse(true, "Successful confirmation of actions");
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse(false, $"An error occurred: {ex.Message}");
+            }
+
+
+
+        }
+
 
     }
 }
