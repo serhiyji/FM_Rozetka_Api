@@ -149,5 +149,19 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(validationResult.Errors.FirstOrDefault());
         }
 
+        [HttpDelete("DeleteModeratorShop/{id}")]
+        public async Task<IActionResult> DeleteModeratorShop(int id)
+        {
+            var ModeratorShop = await _moderatorShopService.GetByIdAsync(id);
+            if (ModeratorShop == null)
+            {
+                return BadRequest("The id must not be null");
+            }
+
+            await _moderatorShopService.DeleteAsync(id);
+            return NoContent();
+        }
+
+
     }
 }

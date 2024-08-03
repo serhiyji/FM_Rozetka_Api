@@ -96,7 +96,7 @@ namespace FM_Rozetka_Api.Core.Services
                     string emailBody = $"<h1>Your store has been successfully registered.</h1>";
                     await _emailService.SendEmailAsync(application.Email, "Store Registration Successful", emailBody);
 
-                    user.CompanyId = company.Id;
+                   
 
                     await _userManager.UpdateAsync(user);
 
@@ -124,7 +124,6 @@ namespace FM_Rozetka_Api.Core.Services
                         EmailConfirmed = false,
                         FirstName = firstName,
                         LastName = lastName,
-                        CompanyId = company.Id,
                         PhoneNumber=application.PhoneNumber,
                         
                     };

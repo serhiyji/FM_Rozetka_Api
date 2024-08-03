@@ -63,8 +63,11 @@ namespace FM_Rozetka_Api.Core.Services
 
         public async Task DeleteAsync(int id)
         {
+            var moderatorshop = await GetByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(moderatorshop.AppUserId);
             await _moderatorShopRepository.Delete(id);
             await _moderatorShopRepository.Save();
+            UpdateUserRole(user, "User");
         }
 
         public async Task<IEnumerable<ModeratorShopDTO>> GetAllAsync()
@@ -121,7 +124,6 @@ namespace FM_Rozetka_Api.Core.Services
                         EmailConfirmed = false,
                         FirstName = null,
                         LastName = null,
-                        CompanyId = shop.CompanyId,
                         PhoneNumber = null,
                     };
 
@@ -168,10 +170,14 @@ namespace FM_Rozetka_Api.Core.Services
             {
                 if (shopid != 0) 
                 {
-                    var shopModerators = await _moderatorShopRepository.GetListBySpec(new ModeratorShopSpecification.GetUserModeratorShop(shopid));
+                    var shopModerators = (await _moderatorShopRepository.GetListBySpec(new ModeratorShopSpecification.GetUserModeratorShop(shopid))).ToList();
                     var users = shopModerators.Select(m => m.AppUser).ToList();
-
-                    return new ServiceResponse<IEnumerable<UserModeratorShopDTO>, object>(true, "Success", payload: _mapper.Map<List<UserModeratorShopDTO>>(users));
+                    var map = _mapper.Map<List<UserModeratorShopDTO>>(users);
+                    for (int i = 0; i < map.Count(); i++)
+                    {
+                        map[i].IdModeratorShop = shopModerators[i].Id;
+                    }
+                    return new ServiceResponse<IEnumerable<UserModeratorShopDTO>, object>(true, "Success", payload: map);
                 }
                 return new ServiceResponse<IEnumerable<UserModeratorShopDTO>, object>(false, "Failed: shopid is zero or null", payload: null);
             }

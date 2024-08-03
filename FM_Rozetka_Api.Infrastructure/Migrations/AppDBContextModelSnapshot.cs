@@ -900,25 +900,25 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ecb21cd7-dc43-420b-8c1d-f59c5314f943",
+                            Id = "78e666a7-840e-4a78-9e6c-cc51d6db9ad5",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "7a9cec66-d978-4d97-846b-6b4f6a09b90d",
+                            Id = "d878f90b-b9e3-42a0-a51a-425c412d8898",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "40a1a7c4-f87d-482f-8f26-288dab9027b6",
+                            Id = "c9090d7e-24ab-4617-bf1c-ad520e6db269",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         },
                         new
                         {
-                            Id = "ff28437f-1f90-4849-85eb-8ce904c731e6",
+                            Id = "d0590e82-a312-4039-91c4-8552bb4c2e89",
                             Name = "ModeratorSeller",
                             NormalizedName = "MODERATORSELLER"
                         });
@@ -1086,8 +1086,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "3c4f3e71-5896-42f6-8ba2-60cb9519a914",
-                            RoleId = "ecb21cd7-dc43-420b-8c1d-f59c5314f943"
+                            UserId = "76f185cb-aeb6-4558-b72f-f0084fff7367",
+                            RoleId = "78e666a7-840e-4a78-9e6c-cc51d6db9ad5"
                         });
                 });
 
@@ -1135,9 +1135,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(64)
@@ -1153,25 +1150,23 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
 
-                    b.HasIndex("CompanyId");
-
                     b.HasDiscriminator().HasValue("AppUser");
 
                     b.HasData(
                         new
                         {
-                            Id = "3c4f3e71-5896-42f6-8ba2-60cb9519a914",
+                            Id = "76f185cb-aeb6-4558-b72f-f0084fff7367",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c2e41c5a-840a-47a7-80f2-09a0342faf18",
+                            ConcurrencyStamp = "787b0563-77bc-4f0d-abda-33292d858344",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENwFNhgRMoifOo9SFIRktFR4oPpoOMbTAlqNDrs1H3AAbaQfU4096wlAitzaxa1AaA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIBIwM2WbqBO5KuH/WB8FOrfjpwcHxP7DWv5a8JMbGz3E7Nn1A0Sx6yESbZTQmZtlg==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "622ae846-9326-4d63-844b-39e45f4e8560",
+                            SecurityStamp = "13585f53-a60a-4d9a-a489-104f85ee548d",
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",
@@ -1567,15 +1562,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.AppUser", b =>
-                {
-                    b.HasOne("FM_Rozetka_Api.Core.Entities.Company", "Company")
-                        .WithMany("Users")
-                        .HasForeignKey("CompanyId");
-
-                    b.Navigation("Company");
-                });
-
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Cart", b =>
                 {
                     b.Navigation("CartItems");
@@ -1594,8 +1580,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Company", b =>
                 {
                     b.Navigation("Shops");
-
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.CountryProduction", b =>
