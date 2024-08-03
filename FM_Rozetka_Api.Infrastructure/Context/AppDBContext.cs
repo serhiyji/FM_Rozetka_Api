@@ -48,11 +48,6 @@ namespace FM_Rozetka_Api.Infrastructure.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Company>()
-                .HasMany(c => c.Users)
-                .WithOne(u => u.Company)
-                .HasForeignKey(u => u.CompanyId);
-
             modelBuilder.Entity<Shop>()
                .HasOne(s => s.Company)
                .WithMany(c => c.Shops)
