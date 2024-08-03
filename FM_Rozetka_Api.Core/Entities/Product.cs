@@ -38,7 +38,7 @@ namespace FM_Rozetka_Api.Core.Entities
 
         public List<Specification> Specifications { get; set; }
 
-        public int CountryProductionProductId { get; set; }
-        public CountryProductionProduct CountryProductionProduct { get; set; }
+        public int CountryProductionId { get; set; }
+        public CountryProduction CountryProduction { get; set; }
     }
 }

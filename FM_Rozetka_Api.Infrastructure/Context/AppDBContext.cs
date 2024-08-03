@@ -22,7 +22,6 @@ namespace FM_Rozetka_Api.Infrastructure.Context
         public DbSet<CategoryProduct> CategoryProducts { get; set; }
         public DbSet<CategorySpecification> CategorySpecifications { get; set; }
         public DbSet<CountryProduction> CountryProductions { get; set; }
-        public DbSet<CountryProductionProduct> CountryProductionProducts { get; set; }
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<ModeratorShop> ModeratorShops { get; set; }
@@ -55,9 +54,10 @@ namespace FM_Rozetka_Api.Infrastructure.Context
                .HasPrincipalKey(c => c.Id);
 
             modelBuilder.Entity<Product>()
-            .HasOne(p => p.CountryProductionProduct)
-            .WithOne(c => c.Product)
-            .HasForeignKey<CountryProductionProduct>(c => c.ProductId);
+             .HasOne(p => p.CountryProduction)
+             .WithMany(c => c.Products)
+             .HasForeignKey(p => p.CountryProductionId)
+             .HasPrincipalKey(c => c.Id);
 
             modelBuilder.Entity<SellerApplication>()
           .Property(s => s.ProcessedApplication)
