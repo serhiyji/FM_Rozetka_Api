@@ -27,11 +27,9 @@ namespace FM_Rozetka_Api.Core.Services
         private readonly IMapper _mapper;
 
         private readonly IShopService _shopService;
-        private readonly IUserService _userService;
         private readonly UserManager<AppUser> _userManager;
-        private readonly EmailService _emailService;
-        public ModeratorShopService(IRepository<ModeratorShop> moderatorShopRepository,IMapper mapper, IShopService shopService, UserManager<AppUser> userManager, EmailService emailService)
-        public ModeratorShopService(IRepository<ModeratorShop> moderatorShopRepository, IUserService userService, IMapper mapper, IShopService shopService)
+        private readonly IEmailService _emailService;
+        public ModeratorShopService(IRepository<ModeratorShop> moderatorShopRepository,IMapper mapper, IShopService shopService, UserManager<AppUser> userManager, IEmailService emailService)
         {
             _moderatorShopRepository = moderatorShopRepository;
             _mapper = mapper;

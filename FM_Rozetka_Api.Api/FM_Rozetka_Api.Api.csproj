@@ -23,4 +23,8 @@
     <ProjectReference Include="..\FM_Rozetka_Api.Infrastructure\FM_Rozetka_Api.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="images\" />
+  </ItemGroup>
+
 </Project>

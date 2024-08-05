@@ -53,7 +53,7 @@ namespace FM_Rozetka_Api.Core.Services
                 throw new ArgumentException($"Category with id {id} not found.");
             }
 
-            var productCount = await _productRepository.GetCountRows();
+            var productCount = await _productRepository.GetCountRows();/// ?????????????????//шзх???????
             if (productCount > 0)
             {
                 throw new InvalidOperationException("Cannot delete category because there are associated products.");
