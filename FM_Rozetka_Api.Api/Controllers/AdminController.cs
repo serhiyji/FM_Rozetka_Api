@@ -43,7 +43,7 @@ namespace FM_Rozetka_Api.Api.Controllers
         [HttpGet("getall")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok((await _userService.GetAllAsync()));
+            return Ok(_userService.GetAllAsync());
         }
     }
 }

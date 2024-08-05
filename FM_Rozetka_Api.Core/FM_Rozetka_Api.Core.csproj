@@ -7,6 +7,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Specifications\NewFolder\**" />
+	  <EmbeddedResource Remove="Specifications\NewFolder\**" />
+	  <None Remove="Specifications\NewFolder\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Interfaces\IModeratorShop.cs~RF1a771708.TMP" />
 	  <None Remove="Specifications\ModeratorShops\ModeratorShopSpecification.cs~RF2ba4795.TMP" />
 	</ItemGroup>
@@ -28,10 +34,6 @@
 		<PackageReference Include="Telegram.Bot" Version="19.0.0" />
 
 		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Specifications\NewFolder\" />
 	</ItemGroup>
 
 </Project>
