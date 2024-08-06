@@ -17,5 +17,6 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ServiceResponse<PhotoProduct, object>> AddAsync(PhotoProductCreateDTO model);
         Task<ServiceResponse<PhotoProduct, object>> UpdateAsync(PhotoProductUpdateDTO model);
         Task DeleteAsync(int id);
+        Task<IEnumerable<PhotoProductDTO>> GetByProductIdAsync(int productId);
     }
 }
