@@ -17,6 +17,6 @@ namespace FM_Rozetka_Api.Core.DTOs.Products.Product
         public DateTime CreatedAt { get; set; }
         public int ShopId { get; set; }
         public int CategoryProductId { get; set; }
-        public int CountryProductionProductId { get; set; }
+        public int CountryProductionId { get; set; }
     }
 }

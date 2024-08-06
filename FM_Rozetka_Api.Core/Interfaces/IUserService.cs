@@ -20,8 +20,11 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ServiceResponse> GetUserByIdAsync(string Id);
         Task SendConfirmationEmailAsync(AppUser user);
         Task<ServiceResponse> ConfirmEmailAsync(string userId, string token);
-        Task<ServiceResponse> GetAllAsync();
+        Task<ServiceResponse> GetAll();
         Task<ServiceResponse> ForgotPasswordAsync(string email);
         Task<ServiceResponse> ResetPasswordAsync(PasswordRecoveryDto model);
+        Task<ServiceResponse> BanUser(string AppUserId);
+        ServiceResponse<List<UserDTO>, object> GetAllAsync();
+        Task<ServiceResponse> ChangePasswordAsync(UpdatePasswordDto model);
     }
 }

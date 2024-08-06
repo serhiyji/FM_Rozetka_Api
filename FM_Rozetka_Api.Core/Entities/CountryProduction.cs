@@ -11,6 +11,6 @@ namespace FM_Rozetka_Api.Core.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<CountryProductionProduct> CountryProductionProducts { get; set; }
+        public List<Product> Products { get; set; }
     }
 }

@@ -2,18 +2,11 @@
 using FM_Rozetka_Api.Core.DTOs.User;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Responses;
-using FM_Rozetka_Api.Core.Validation.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.Xml;
 using System.Text;
-using System.Threading.Tasks;
-using Telegram.Bot.Types;
 using FM_Rozetka_Api.Core.Interfaces;
 
 namespace FM_Rozetka_Api.Core.Services
@@ -21,17 +14,20 @@ namespace FM_Rozetka_Api.Core.Services
     public class UserService : IUserService
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
         public UserService(
                 IEmailService emailService,
+                SignInManager<AppUser> signInManager,
                 UserManager<AppUser> userManager,
                 IMapper _mapper,
                 IConfiguration configuration
             )
         {
             this._userManager = userManager;
+            this._signInManager = signInManager;
             this._mapper = _mapper;
             this._configuration = configuration;
             this._emailService = emailService;
@@ -82,6 +78,21 @@ namespace FM_Rozetka_Api.Core.Services
             }
             return new ServiceResponse(false, "Something went wrong", errors: result.Errors.Select(e => e.Description));
         }
+
+        public async Task<ServiceResponse> ChangePasswordAsync(UpdatePasswordDto model)
+        {
+            AppUser user = _userManager.FindByIdAsync(model.Id).Result;
+            if (user == null) return new ServiceResponse(false, "User or password incorrect.", errors: new List<string>() { "User or password incorrect." });
+
+            IdentityResult result = _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword).Result;
+            if (result.Succeeded)
+            {
+                await _signInManager.SignOutAsync();
+                return new ServiceResponse(true, "Password successfully updated");
+            }
+            return new ServiceResponse(false, "Error.", errors: result.Errors.ToList().Select(i => i.Description));
+        }
+
         public async Task<ServiceResponse> ChangeMainInfoUserAsync(EditUserDTO newinfo)
         {
             AppUser user = await _userManager.FindByIdAsync(newinfo.Id);
@@ -110,26 +121,17 @@ namespace FM_Rozetka_Api.Core.Services
             var user = await _userManager.FindByIdAsync(Id);
             if (user == null)
             {
-                return new ServiceResponse
-                {
-                    Success = false,
-                    Message = "User not found"
-                };
+                return new ServiceResponse(false, "user not found");
             }
             UpdateUserDTO mappedUser = _mapper.Map<AppUser, UpdateUserDTO>(user);
             return new ServiceResponse(true, "User successfully loaded", payload: mappedUser);
         }
-        public async Task<ServiceResponse> GetAllAsync()
+        public async Task<ServiceResponse> GetAll()
         {
             List<AppUser> users = await _userManager.Users.ToListAsync();
             List<UserDTO> mappedUsers = users.Select(u => _mapper.Map<AppUser, UserDTO>(u)).ToList();
 
-            return new ServiceResponse
-            {
-                Success = true,
-                Message = "All users loaded.",
-                Payload = mappedUsers
-            };
+            return new ServiceResponse(true, "All users loaded.", payload: mappedUsers);
         }
 
         #region Confirm email and send token for confirm email
@@ -202,6 +204,26 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse(true, "Password changed successfully");
             }
             return new ServiceResponse(false, "Something went wrong", errors: res.Errors.Select(e => e.Description));
+        }
+        #endregion
+
+        #region User manager
+        public ServiceResponse<List<UserDTO>, object> GetAllAsync()
+        {
+            List<UserDTO> users = _mapper.Map<List<AppUser>, List<UserDTO>>(_userManager.Users.ToList());
+            return new ServiceResponse<List<UserDTO>, object>(true, "", payload: users);
+        }
+        public async Task<ServiceResponse> BanUser(string AppUserId)
+        {
+            AppUser appUser = await _userManager.FindByIdAsync(AppUserId);
+            if (appUser == null)
+            {
+                return new ServiceResponse(false, "user not found");
+            }
+            appUser.LockoutEnd = new DateTimeOffset(new DateTime(14880, 1, 1));
+            appUser.LockoutEnabled = true;
+            await _userManager.UpdateAsync(appUser);
+            return new ServiceResponse(true, "");
         }
         #endregion
     }
