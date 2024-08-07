@@ -9,6 +9,7 @@ namespace FM_Rozetka_Api.Core.DTOs.Products.Product
     public class ProductDTO
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
         public decimal Stars { get; set; }
