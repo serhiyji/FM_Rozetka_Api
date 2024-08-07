@@ -6,6 +6,7 @@ using FM_Rozetka_Api.Core;
 using FM_Rozetka_Api.Infrastructure;
 using FM_Rozetka_Api.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -118,6 +119,20 @@ app.UseCors(options =>
 );
 
 app.UseHttpsRedirection();
+
+
+var dir = Path.Combine(Directory.GetCurrentDirectory(), "images");
+if (!Directory.Exists(dir))
+{
+    Directory.CreateDirectory(dir);
+}
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(dir),
+    RequestPath = "/images"
+});
+
 
 app.UseAuthentication();
 app.UseAuthorization();
