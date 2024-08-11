@@ -184,6 +184,24 @@ namespace FM_Rozetka_Api.Core.Services
             }
         }
 
+        public async Task<ServiceResponse<IEnumerable<ProductDTO>, object>> GetByShopIdAsync(int id)
+        {
+            try
+            {
+                var product = await _productRepository.GetListBySpec(new ProductSpecification.GetByShopID(id));
+                if (product == null)
+                {
+                    return new ServiceResponse<IEnumerable<ProductDTO>, object>(false, "Product not found");
+                }
+
+                return new ServiceResponse<IEnumerable<ProductDTO>, object>(true, "Success", payload: _mapper.Map<IEnumerable<ProductDTO>>(product));
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<IEnumerable<ProductDTO>, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
         public async Task<ServiceResponse<int, object>> GetCountByCategoryId(int categoryid)
         {
             try
