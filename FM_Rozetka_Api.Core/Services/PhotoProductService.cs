@@ -4,6 +4,7 @@ using FM_Rozetka_Api.Core.DTOs.Products.PhotoProduct;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
+using FM_Rozetka_Api.Core.Specifications.PhotoProductSpecification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,5 +64,12 @@ namespace FM_Rozetka_Api.Core.Services
 
             return new ServiceResponse<PhotoProduct, object>(true, "Success", payload: photo);
         }
+
+        public async Task<IEnumerable<PhotoProductDTO>> GetByProductIdAsync(int productId)
+        {
+            var photos = await _photoProductRepository.GetListBySpec(new PhotoProductSpecification.GetByProductId(productId));
+            return _mapper.Map<IEnumerable<PhotoProductDTO>>(photos);
+        }
+
     }
 }

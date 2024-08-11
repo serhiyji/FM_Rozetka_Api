@@ -13,5 +13,11 @@ namespace FM_Rozetka_Api.Core.Interfaces
     public interface IProductService
     {
         Task<ServiceResponse<Product, object>> AddAsync(ProductCreateDTO model);
+        Task<ServiceResponse<Product, object>> UpdateAsync(ProductUpdateDTO model);
+        Task<ServiceResponse<object, object>> DeleteAsync(int id);
+        Task<ServiceResponse<ProductDTO, object>> GetByIdAsync(int id);
+        Task<ServiceResponse<IEnumerable<ProductDTO>, object>> GetAllAsync();
+        Task<ServiceResponse<int, object>> GetCountByCategoryId(int categoryid);
+        Task<ServiceResponse<IEnumerable<ProductDTO>, object>> GetByShopIdAsync(int shopid);
     }
 }
