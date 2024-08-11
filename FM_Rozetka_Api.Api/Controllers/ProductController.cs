@@ -62,7 +62,7 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(response);
         }
 
-        [HttpGet("getbyid/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var response = await _productService.GetByIdAsync(id);
@@ -73,5 +73,15 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(response);
         }
 
+        [HttpGet("getbyshopid")]
+        public async Task<IActionResult> GetByShopId(int shopid)
+        {
+            var response = await _productService.GetByShopIdAsync(shopid);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
     }
 }

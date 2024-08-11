@@ -18,5 +18,16 @@ namespace FM_Rozetka_Api.Core.Specifications.ProductSpecification
                 Query.Where(t => t.CategoryProductId == productId);
             }
         }
+
+        public class GetByShopID: Specification<Product>
+        {
+             
+            public GetByShopID(int shopId)
+            {
+                Query.Where(t => t.ShopId == shopId);
+            }
+        }
+    
+       
     }
 }
