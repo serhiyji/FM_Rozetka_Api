@@ -1,17 +1,10 @@
 ﻿using AutoMapper;
 using FM_Rozetka_Api.Core.DTOs.Products.PhotoProduct;
 using FM_Rozetka_Api.Core.DTOs.Products.Product;
-using FM_Rozetka_Api.Core.DTOs.User;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
 using FM_Rozetka_Api.Core.Specifications.ProductSpecification;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Services
 {
@@ -22,7 +15,12 @@ namespace FM_Rozetka_Api.Core.Services
         private readonly IFilesService _filesService;
         private readonly IPhotoProductService _photoProductService;
 
-        public ProductService(IMapper mapper, IRepository<Product> productRepository, IFilesService filesService, IPhotoProductService photoProductService)
+        public ProductService(
+                IMapper mapper, 
+                IRepository<Product> productRepository, 
+                IFilesService filesService, 
+                IPhotoProductService photoProductService
+            )
         {
             _mapper = mapper;
             _productRepository = productRepository;

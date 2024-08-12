@@ -1,10 +1,5 @@
 ﻿using FluentValidation;
 using FM_Rozetka_Api.Core.DTOs.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Validation.User
 {

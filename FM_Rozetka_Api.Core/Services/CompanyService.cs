@@ -1,14 +1,7 @@
 ﻿using AutoMapper;
 using FM_Rozetka_Api.Core.DTOs.Company;
-using FM_Rozetka_Api.Core.DTOs.Seller;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Services
 {
@@ -17,7 +10,10 @@ namespace FM_Rozetka_Api.Core.Services
         
         private readonly IRepository<Company> _companyRepository;
         private readonly IMapper _mapper;
-        public CompanyService(IRepository<Company> companyRepository, IMapper mapper)
+        public CompanyService(
+                IRepository<Company> companyRepository, 
+                IMapper mapper
+            )
         {
             _companyRepository = companyRepository;
             _mapper = mapper;

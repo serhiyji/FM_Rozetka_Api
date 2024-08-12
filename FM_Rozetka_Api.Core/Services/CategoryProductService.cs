@@ -1,14 +1,8 @@
 ﻿using AutoMapper;
 using FM_Rozetka_Api.Core.DTOs.CategoryProduct;
-using FM_Rozetka_Api.Core.DTOs.Company;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Services
 {
@@ -18,7 +12,11 @@ namespace FM_Rozetka_Api.Core.Services
         private readonly IProductService _productService;
         private readonly IMapper _mapper;
     
-        public CategoryProductService(IRepository<CategoryProduct> categoryProductRepository, IMapper mapper, IProductService productService)
+        public CategoryProductService(
+                IRepository<CategoryProduct> categoryProductRepository, 
+                IMapper mapper, 
+                IProductService productService
+            )
         {
             _categoryProductRepository = categoryProductRepository;
             _mapper = mapper;

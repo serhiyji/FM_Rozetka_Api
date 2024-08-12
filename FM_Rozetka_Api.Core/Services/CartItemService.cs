@@ -11,7 +11,10 @@ namespace FM_Rozetka_Api.Core.Services
     {
         private readonly IRepository<CartItem> _cartItemRepo;
         private readonly IMapper _mapper;
-        public CartItemService(IRepository<CartItem> cartItemRepo, IMapper mapper)
+        public CartItemService(
+                IRepository<CartItem> cartItemRepo, 
+                IMapper mapper
+            )
         {
             this._cartItemRepo = cartItemRepo;
             this._mapper = mapper;
