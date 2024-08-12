@@ -17,6 +17,7 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ServiceResponse<CategoryProduct, object>> AddAsync(CategoryProductCreateDTO application);
         Task<ServiceResponse<object, object>> UpdateAsync(CategoryProductUpdateDTO application);
         Task<ServiceResponse<object, object>> DeleteAsync(int id);
+        Task<ServiceResponse<IEnumerable<CategoryProductDTO>, object>> GetAllSortedAsync();
 
 
     }

@@ -34,6 +34,13 @@ namespace FM_Rozetka_Api.Api.Controllers
             return Ok(category);
         }
 
+        [HttpGet("GetAllSorted")]
+        public async Task<IActionResult> GetAllSortedAsync()
+        {
+            var category = await _categoryProductService.GetAllSortedAsync();
+            return Ok(category);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategoryById(int id)
         {
@@ -48,14 +55,11 @@ namespace FM_Rozetka_Api.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            var category = await _categoryProductService.GetByIdAsync(id);
-            if (category == null)
+            if (id == 0)
             {
-                return NotFound();
+                return BadRequest("The ID is invalid.");
             }
-
-            await _categoryProductService.DeleteAsync(id);
-            return NoContent();
+            return Ok(await _categoryProductService.DeleteAsync(id));
         }
 
         [HttpPut("{id}")]
@@ -72,8 +76,8 @@ namespace FM_Rozetka_Api.Api.Controllers
                 return NotFound();
             }
 
-            await _categoryProductService.UpdateAsync(category);
-            return NoContent();
+            
+            return Ok(await _categoryProductService.UpdateAsync(category));
         }
     }
 }

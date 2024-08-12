@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
-namespace FM_Rozetka_Api.Core.Specifications.ModeratorShops
+namespace FM_Rozetka_Api.Core.Specifications.ModeratorShopsSpecification
 {
     public static class ModeratorShopSpecification
     {

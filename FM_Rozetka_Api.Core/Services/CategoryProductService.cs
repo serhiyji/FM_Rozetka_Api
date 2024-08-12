@@ -4,6 +4,7 @@ using FM_Rozetka_Api.Core.DTOs.Company;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
+using FM_Rozetka_Api.Core.Specifications.CategoryProductSpecification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,10 +30,9 @@ namespace FM_Rozetka_Api.Core.Services
         {
             if (application.Level > 1)
             {
-                var topCategory = await _categoryProductRepository.GetByID(application.PreviousСategoryId);
+                var topCategory = await _categoryProductRepository.GetByID(application.TopId);
                 if (topCategory == null )
                 {
-
                     return new ServiceResponse<CategoryProduct, object>(false, "Invalid TopId: No corresponding top-level category found.", payload: topCategory);
                 }
             }
@@ -59,19 +59,59 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse<object, object>(false, "Cannot delete category because there are associated products.");
             }
 
+            var countSubcategories = await _categoryProductRepository.GetCountBySpec(new CategoryProductSpecification.GetCountSubcategories(id));
+            if(countSubcategories > 0)
+            {
+                return new ServiceResponse<object, object>(false, "Cannot delete category because there are subcategories.");
+            }
+
             await _categoryProductRepository.Delete(id);
             await _categoryProductRepository.Save();
 
-            return new ServiceResponse<object, object>(true, "Category deleted successfully.");
+            return new ServiceResponse<object, object>(true, "Category deleted successfully.",id);
         }
-
-
 
         public async Task<ServiceResponse<IEnumerable<CategoryProductDTO>, object>> GetAllAsync()
         {
             var categoryProducts = await _categoryProductRepository.GetAll();
             var categoryProductDTOs = _mapper.Map<IEnumerable<CategoryProductDTO>>(categoryProducts);
             return new ServiceResponse<IEnumerable<CategoryProductDTO>, object>(true, "Success", payload: categoryProductDTOs);
+        }
+
+        public async Task<ServiceResponse<IEnumerable<CategoryProductDTO>, object>> GetAllSortedAsync()
+        {
+            var categoryProducts = await _categoryProductRepository.GetAll();
+            var categoryProductDTOs = _mapper.Map<IEnumerable<CategoryProductDTO>>(categoryProducts);
+
+            var hierarchy = BuildCategoryHierarchy(categoryProductDTOs);
+
+            return new ServiceResponse<IEnumerable<CategoryProductDTO>, object>(true, "Success", payload: hierarchy);
+        }
+
+        private IEnumerable<CategoryProductDTO> BuildCategoryHierarchy(IEnumerable<CategoryProductDTO> categories)
+        {
+            var categoryLookup = categories.ToLookup(c => c.TopId);
+
+            var rootCategories = categoryLookup[null].ToList();
+
+            foreach (var category in rootCategories)
+            {
+                category.SubCategories = BuildHierarchy(category.Id, categoryLookup);
+            }
+
+            return rootCategories;
+        }
+
+        private List<CategoryProductDTO> BuildHierarchy(int parentId, ILookup<int?, CategoryProductDTO> lookup)
+        {
+            var subCategories = lookup[parentId].ToList();
+
+            foreach (var subCategory in subCategories)
+            {
+                subCategory.SubCategories = BuildHierarchy(subCategory.Id, lookup);
+            }
+
+            return subCategories;
         }
 
         public async Task<ServiceResponse<CategoryProductDTO, object>> GetByIdAsync(int id)
@@ -101,7 +141,7 @@ namespace FM_Rozetka_Api.Core.Services
             await _categoryProductRepository.Update(categoryProduct);
             await _categoryProductRepository.Save();
 
-            return new ServiceResponse<object, object>(true, "Category updated successfully.");
+            return new ServiceResponse<object, object>(true, "Category updated successfully.",payload: categoryProduct);
         }
     }
 }
