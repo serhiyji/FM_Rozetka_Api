@@ -1,9 +1,15 @@
 ﻿using AutoMapper;
+using FM_Rozetka_Api.Core.DTOs.CountryProduction;
 using FM_Rozetka_Api.Core.DTOs.Products.PhotoProduct;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
 using FM_Rozetka_Api.Core.Specifications.PhotoProductSpecification;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Services
 {
@@ -12,10 +18,7 @@ namespace FM_Rozetka_Api.Core.Services
         private readonly IRepository<PhotoProduct> _photoProductRepository;
         private readonly IMapper _mapper;
 
-        public PhotoProductService(
-                IRepository<PhotoProduct> photoProductRepository, 
-                IMapper mapper
-            )
+        public PhotoProductService(IRepository<PhotoProduct> photoProductRepository, IMapper mapper)
         {
             _photoProductRepository = photoProductRepository;
             _mapper = mapper;

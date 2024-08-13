@@ -5,7 +5,12 @@ using FM_Rozetka_Api.Core.DTOs.User;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
+<<<<<<< HEAD
+using FM_Rozetka_Api.Core.Specifications.ModeratorShopsSpecification;
+using FM_Rozetka_Api.Core.Specifications.Shops;
+=======
 using FM_Rozetka_Api.Core.Specifications.ModeratorShops;
+>>>>>>> master
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;

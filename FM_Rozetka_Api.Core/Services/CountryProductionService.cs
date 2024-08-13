@@ -1,8 +1,14 @@
 ﻿using AutoMapper;
 using FM_Rozetka_Api.Core.DTOs.CountryProduction;
+using FM_Rozetka_Api.Core.DTOs.Shops.Shop;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Services
 {
@@ -11,10 +17,7 @@ namespace FM_Rozetka_Api.Core.Services
         private readonly IRepository<CountryProduction> _countryProductionRepository;
         private readonly IMapper _mapper;
 
-        public CountryProductionService(
-                IRepository<CountryProduction> countryProductionRepository, 
-                IMapper mapper
-            )
+        public CountryProductionService(IRepository<CountryProduction> countryProductionRepository, IMapper mapper)
         {
             _countryProductionRepository = countryProductionRepository;
             _mapper = mapper;

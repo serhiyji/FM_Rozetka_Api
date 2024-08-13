@@ -7,15 +7,15 @@ using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
-namespace FM_Rozetka_Api.Core.Specifications.Seller
+namespace FM_Rozetka_Api.Core.Specifications.CategoryProductSpecification
 {
-    public static class SellerTokenSpecification
+    public static class CategoryProductSpecification
     {
-        public class GetAllActivityApplications : Specification<SellerApplication>
+        public class GetCountSubcategories : Specification<CategoryProduct>
         {
-            public GetAllActivityApplications()
+            public GetCountSubcategories(int id)
             {
-                Query.Where(t => t.ProcessedApplication == false);
+                Query.Where(x => x.TopId == id);
             }
         }
     }
