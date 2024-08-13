@@ -4,19 +4,10 @@ using FM_Rozetka_Api.Core.DTOs.Seller;
 using FM_Rozetka_Api.Core.DTOs.Shops.Shop;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
-using FM_Rozetka_Api.Core.Responses;
-using FM_Rozetka_Api.Core.Specifications;
 using FM_Rozetka_Api.Core.Specifications.Seller;
-using Google;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using Telegram.Bot.Types;
 
 namespace FM_Rozetka_Api.Core.Services
 {
