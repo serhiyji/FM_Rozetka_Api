@@ -1,9 +1,5 @@
 ﻿using FM_Rozetka_Api.Core.DTOs.Products.Product;
-using FM_Rozetka_Api.Core.DTOs.User;
 using FM_Rozetka_Api.Core.Interfaces;
-using FM_Rozetka_Api.Core.Services;
-using FM_Rozetka_Api.Core.Validation.User;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FM_Rozetka_Api.Api.Controllers
