@@ -5,6 +5,7 @@ using FM_Rozetka_Api.Core.DTOs.User;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
+using FM_Rozetka_Api.Core.Specifications.ProductSpecification;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -180,6 +181,42 @@ namespace FM_Rozetka_Api.Core.Services
             catch (Exception ex)
             {
                 return new ServiceResponse<ProductDTO, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
+        public async Task<ServiceResponse<IEnumerable<ProductDTO>, object>> GetByShopIdAsync(int id)
+        {
+            try
+            {
+                var product = await _productRepository.GetListBySpec(new ProductSpecification.GetByShopID(id));
+                if (product == null)
+                {
+                    return new ServiceResponse<IEnumerable<ProductDTO>, object>(false, "Product not found");
+                }
+
+                return new ServiceResponse<IEnumerable<ProductDTO>, object>(true, "Success", payload: _mapper.Map<IEnumerable<ProductDTO>>(product));
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<IEnumerable<ProductDTO>, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
+        public async Task<ServiceResponse<int, object>> GetCountByCategoryId(int categoryid)
+        {
+            try
+            {
+                var product = await _productRepository.GetCountBySpec(new ProductSpecification.GetByCategoryID(categoryid));
+                if (product == null)
+                {
+                    return new ServiceResponse<int, object>(false, "Product not found");
+                }
+
+                return new ServiceResponse<int, object>(true, "Success", payload: product);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<int, object>(false, "Failed: " + ex.Message);
             }
         }
     }

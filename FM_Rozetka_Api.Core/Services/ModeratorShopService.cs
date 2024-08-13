@@ -1,23 +1,15 @@
 ﻿using AutoMapper;
 using FM_Rozetka_Api.Core.DTOs.Shops;
 using FM_Rozetka_Api.Core.DTOs.Shops.ModeratorShop;
-using FM_Rozetka_Api.Core.DTOs.Shops.Shop;
 using FM_Rozetka_Api.Core.DTOs.User;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
-using FM_Rozetka_Api.Core.Specifications.ModeratorShops;
-using FM_Rozetka_Api.Core.Specifications.Shops;
+using FM_Rozetka_Api.Core.Specifications.ModeratorShopsSpecification;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Telegram.Bot.Types;
-using ModeratorShopDTO = FM_Rozetka_Api.Core.DTOs.Shops.ModeratorShop.ModeratorShopDTO;
 
 namespace FM_Rozetka_Api.Core.Services
 {
@@ -29,7 +21,13 @@ namespace FM_Rozetka_Api.Core.Services
         private readonly IShopService _shopService;
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailService _emailService;
-        public ModeratorShopService(IRepository<ModeratorShop> moderatorShopRepository,IMapper mapper, IShopService shopService, UserManager<AppUser> userManager, IEmailService emailService)
+        public ModeratorShopService(
+                IRepository<ModeratorShop> moderatorShopRepository,
+                IMapper mapper, 
+                IShopService shopService,
+                UserManager<AppUser> userManager, 
+                IEmailService emailService
+            )
         {
             _moderatorShopRepository = moderatorShopRepository;
             _mapper = mapper;
