@@ -24,7 +24,7 @@ namespace FM_Rozetka_Api.Api.Controllers
         public async Task<IActionResult> CreateCategory([FromForm] CategoryProductCreateDTO model)
         {
             var createdApplication = await _categoryProductService.AddAsync(model);
-            return Ok(createdApplication.Payload);
+            return Ok(createdApplication);
         }
 
         [HttpGet("GetAll")]
