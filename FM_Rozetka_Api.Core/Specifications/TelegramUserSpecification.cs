@@ -1,4 +1,11 @@
 ﻿using Ardalis.Specification;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Telegram.Bot.Types;
 using FM_Rozetka_Api.Core.Entities.Telegram;
 
 namespace FM_Rozetka_Api.Core.Specifications

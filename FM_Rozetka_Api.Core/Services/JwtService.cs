@@ -6,9 +6,13 @@ using FM_Rozetka_Api.Core.Specifications;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Services
 {
@@ -19,12 +23,7 @@ namespace FM_Rozetka_Api.Core.Services
         private readonly UserManager<AppUser> _userManager;
         private readonly TokenValidationParameters _validationParameters;
 
-        public JwtService(
-                IConfiguration configuration, 
-                IRepository<RefreshToken> tokenRepo, 
-                UserManager<AppUser> userManager, 
-                TokenValidationParameters validationParameters
-            )
+        public JwtService(IConfiguration configuration, IRepository<RefreshToken> tokenRepo, UserManager<AppUser> userManager, TokenValidationParameters validationParameters)
         {
             _configuration = configuration;
             _tokenRepo = tokenRepo;

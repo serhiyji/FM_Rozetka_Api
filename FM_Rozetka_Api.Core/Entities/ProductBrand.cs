@@ -1,5 +1,11 @@
 ﻿using FM_Rozetka_Api.Core.Interfaces;
 using Rozetka_Api.Core.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static Org.BouncyCastle.Asn1.Cmp.Challenge;
 
 namespace FM_Rozetka_Api.Core.Entities
 {

@@ -1,6 +1,12 @@
 ﻿using FM_Rozetka_Api.Core.DTOs.CategoryProduct;
+using FM_Rozetka_Api.Core.DTOs.Seller;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Responses;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Interfaces
 {
@@ -11,6 +17,7 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ServiceResponse<CategoryProduct, object>> AddAsync(CategoryProductCreateDTO application);
         Task<ServiceResponse<object, object>> UpdateAsync(CategoryProductUpdateDTO application);
         Task<ServiceResponse<object, object>> DeleteAsync(int id);
+        Task<ServiceResponse<IEnumerable<CategoryProductDTO>, object>> GetAllSortedAsync();
 
 
     }

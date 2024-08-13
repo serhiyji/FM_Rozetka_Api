@@ -1,4 +1,9 @@
 ﻿using FM_Rozetka_Api.Core.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Entities
 {
@@ -15,7 +20,7 @@ namespace FM_Rozetka_Api.Core.Entities
         public string PhoneNumber { get; set; }
         public bool IsNonResident { get; set; }
 
-        public bool ProcessedApplication { get; set; } = false;
+        public bool ProcessedApplication { get; set; }
         public bool IsApproved { get; set; }
     }
 }
