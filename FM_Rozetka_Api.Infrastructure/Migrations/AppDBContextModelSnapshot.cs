@@ -164,6 +164,983 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CountryProductions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Afghanistan"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Albania"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Algeria"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Andorra"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Angola"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Antigua and Barbuda"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Argentina"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Armenia"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Australia"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Austria"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "Azerbaijan"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "Bahamas"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Name = "Bahrain"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Name = "Bangladesh"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Name = "Barbados"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Name = "Belarus"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Name = "Belgium"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Name = "Belize"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Name = "Benin"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Name = "Bhutan"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Name = "Bolivia"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Name = "Bosnia and Herzegovina"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Name = "Botswana"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Name = "Brazil"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Name = "Brunei"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Name = "Bulgaria"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Name = "Burkina Faso"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Name = "Burundi"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Name = "Cabo Verde"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Name = "Cambodia"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Name = "Cameroon"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Name = "Canada"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Name = "Central African Republic"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Name = "Chad"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Name = "Chile"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            Name = "China"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            Name = "Colombia"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            Name = "Comoros"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            Name = "Congo (Congo-Brazzaville)"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            Name = "Costa Rica"
+                        },
+                        new
+                        {
+                            Id = 41,
+                            Name = "Croatia"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            Name = "Cuba"
+                        },
+                        new
+                        {
+                            Id = 43,
+                            Name = "Cyprus"
+                        },
+                        new
+                        {
+                            Id = 44,
+                            Name = "Czech Republic (Czechia)"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            Name = "Democratic Republic of the Congo"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            Name = "Denmark"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            Name = "Djibouti"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            Name = "Dominica"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            Name = "Dominican Republic"
+                        },
+                        new
+                        {
+                            Id = 50,
+                            Name = "East Timor (Timor-Leste)"
+                        },
+                        new
+                        {
+                            Id = 51,
+                            Name = "Ecuador"
+                        },
+                        new
+                        {
+                            Id = 52,
+                            Name = "Egypt"
+                        },
+                        new
+                        {
+                            Id = 53,
+                            Name = "El Salvador"
+                        },
+                        new
+                        {
+                            Id = 54,
+                            Name = "Equatorial Guinea"
+                        },
+                        new
+                        {
+                            Id = 55,
+                            Name = "Eritrea"
+                        },
+                        new
+                        {
+                            Id = 56,
+                            Name = "Estonia"
+                        },
+                        new
+                        {
+                            Id = 57,
+                            Name = "Eswatini"
+                        },
+                        new
+                        {
+                            Id = 58,
+                            Name = "Ethiopia"
+                        },
+                        new
+                        {
+                            Id = 59,
+                            Name = "Fiji"
+                        },
+                        new
+                        {
+                            Id = 60,
+                            Name = "Finland"
+                        },
+                        new
+                        {
+                            Id = 61,
+                            Name = "France"
+                        },
+                        new
+                        {
+                            Id = 62,
+                            Name = "Gabon"
+                        },
+                        new
+                        {
+                            Id = 63,
+                            Name = "Gambia"
+                        },
+                        new
+                        {
+                            Id = 64,
+                            Name = "Georgia"
+                        },
+                        new
+                        {
+                            Id = 65,
+                            Name = "Germany"
+                        },
+                        new
+                        {
+                            Id = 66,
+                            Name = "Ghana"
+                        },
+                        new
+                        {
+                            Id = 67,
+                            Name = "Greece"
+                        },
+                        new
+                        {
+                            Id = 68,
+                            Name = "Grenada"
+                        },
+                        new
+                        {
+                            Id = 69,
+                            Name = "Guatemala"
+                        },
+                        new
+                        {
+                            Id = 70,
+                            Name = "Guinea"
+                        },
+                        new
+                        {
+                            Id = 71,
+                            Name = "Guinea-Bissau"
+                        },
+                        new
+                        {
+                            Id = 72,
+                            Name = "Guyana"
+                        },
+                        new
+                        {
+                            Id = 73,
+                            Name = "Haiti"
+                        },
+                        new
+                        {
+                            Id = 74,
+                            Name = "Honduras"
+                        },
+                        new
+                        {
+                            Id = 75,
+                            Name = "Hungary"
+                        },
+                        new
+                        {
+                            Id = 76,
+                            Name = "Iceland"
+                        },
+                        new
+                        {
+                            Id = 77,
+                            Name = "India"
+                        },
+                        new
+                        {
+                            Id = 78,
+                            Name = "Indonesia"
+                        },
+                        new
+                        {
+                            Id = 79,
+                            Name = "Iran"
+                        },
+                        new
+                        {
+                            Id = 80,
+                            Name = "Iraq"
+                        },
+                        new
+                        {
+                            Id = 81,
+                            Name = "Ireland"
+                        },
+                        new
+                        {
+                            Id = 82,
+                            Name = "Israel"
+                        },
+                        new
+                        {
+                            Id = 83,
+                            Name = "Italy"
+                        },
+                        new
+                        {
+                            Id = 84,
+                            Name = "Ivory Coast (Côte d'Ivoire)"
+                        },
+                        new
+                        {
+                            Id = 85,
+                            Name = "Jamaica"
+                        },
+                        new
+                        {
+                            Id = 86,
+                            Name = "Japan"
+                        },
+                        new
+                        {
+                            Id = 87,
+                            Name = "Jordan"
+                        },
+                        new
+                        {
+                            Id = 88,
+                            Name = "Kazakhstan"
+                        },
+                        new
+                        {
+                            Id = 89,
+                            Name = "Kenya"
+                        },
+                        new
+                        {
+                            Id = 90,
+                            Name = "Kiribati"
+                        },
+                        new
+                        {
+                            Id = 91,
+                            Name = "Korea, North"
+                        },
+                        new
+                        {
+                            Id = 92,
+                            Name = "Korea, South"
+                        },
+                        new
+                        {
+                            Id = 93,
+                            Name = "Kosovo"
+                        },
+                        new
+                        {
+                            Id = 94,
+                            Name = "Kuwait"
+                        },
+                        new
+                        {
+                            Id = 95,
+                            Name = "Kyrgyzstan"
+                        },
+                        new
+                        {
+                            Id = 96,
+                            Name = "Laos"
+                        },
+                        new
+                        {
+                            Id = 97,
+                            Name = "Latvia"
+                        },
+                        new
+                        {
+                            Id = 98,
+                            Name = "Lebanon"
+                        },
+                        new
+                        {
+                            Id = 99,
+                            Name = "Lesotho"
+                        },
+                        new
+                        {
+                            Id = 100,
+                            Name = "Liberia"
+                        },
+                        new
+                        {
+                            Id = 101,
+                            Name = "Libya"
+                        },
+                        new
+                        {
+                            Id = 102,
+                            Name = "Liechtenstein"
+                        },
+                        new
+                        {
+                            Id = 103,
+                            Name = "Lithuania"
+                        },
+                        new
+                        {
+                            Id = 104,
+                            Name = "Luxembourg"
+                        },
+                        new
+                        {
+                            Id = 105,
+                            Name = "Madagascar"
+                        },
+                        new
+                        {
+                            Id = 106,
+                            Name = "Malawi"
+                        },
+                        new
+                        {
+                            Id = 107,
+                            Name = "Malaysia"
+                        },
+                        new
+                        {
+                            Id = 108,
+                            Name = "Maldives"
+                        },
+                        new
+                        {
+                            Id = 109,
+                            Name = "Mali"
+                        },
+                        new
+                        {
+                            Id = 110,
+                            Name = "Malta"
+                        },
+                        new
+                        {
+                            Id = 111,
+                            Name = "Marshall Islands"
+                        },
+                        new
+                        {
+                            Id = 112,
+                            Name = "Mauritania"
+                        },
+                        new
+                        {
+                            Id = 113,
+                            Name = "Mauritius"
+                        },
+                        new
+                        {
+                            Id = 114,
+                            Name = "Mexico"
+                        },
+                        new
+                        {
+                            Id = 115,
+                            Name = "Micronesia"
+                        },
+                        new
+                        {
+                            Id = 116,
+                            Name = "Moldova"
+                        },
+                        new
+                        {
+                            Id = 117,
+                            Name = "Monaco"
+                        },
+                        new
+                        {
+                            Id = 118,
+                            Name = "Mongolia"
+                        },
+                        new
+                        {
+                            Id = 119,
+                            Name = "Montenegro"
+                        },
+                        new
+                        {
+                            Id = 120,
+                            Name = "Morocco"
+                        },
+                        new
+                        {
+                            Id = 121,
+                            Name = "Mozambique"
+                        },
+                        new
+                        {
+                            Id = 122,
+                            Name = "Myanmar (Burma)"
+                        },
+                        new
+                        {
+                            Id = 123,
+                            Name = "Namibia"
+                        },
+                        new
+                        {
+                            Id = 124,
+                            Name = "Nauru"
+                        },
+                        new
+                        {
+                            Id = 125,
+                            Name = "Nepal"
+                        },
+                        new
+                        {
+                            Id = 126,
+                            Name = "Netherlands"
+                        },
+                        new
+                        {
+                            Id = 127,
+                            Name = "New Zealand"
+                        },
+                        new
+                        {
+                            Id = 128,
+                            Name = "Nicaragua"
+                        },
+                        new
+                        {
+                            Id = 129,
+                            Name = "Niger"
+                        },
+                        new
+                        {
+                            Id = 130,
+                            Name = "Nigeria"
+                        },
+                        new
+                        {
+                            Id = 131,
+                            Name = "North Macedonia"
+                        },
+                        new
+                        {
+                            Id = 132,
+                            Name = "Norway"
+                        },
+                        new
+                        {
+                            Id = 133,
+                            Name = "Oman"
+                        },
+                        new
+                        {
+                            Id = 134,
+                            Name = "Pakistan"
+                        },
+                        new
+                        {
+                            Id = 135,
+                            Name = "Palau"
+                        },
+                        new
+                        {
+                            Id = 136,
+                            Name = "Panama"
+                        },
+                        new
+                        {
+                            Id = 137,
+                            Name = "Papua New Guinea"
+                        },
+                        new
+                        {
+                            Id = 138,
+                            Name = "Paraguay"
+                        },
+                        new
+                        {
+                            Id = 139,
+                            Name = "Peru"
+                        },
+                        new
+                        {
+                            Id = 140,
+                            Name = "Philippines"
+                        },
+                        new
+                        {
+                            Id = 141,
+                            Name = "Poland"
+                        },
+                        new
+                        {
+                            Id = 142,
+                            Name = "Portugal"
+                        },
+                        new
+                        {
+                            Id = 143,
+                            Name = "Qatar"
+                        },
+                        new
+                        {
+                            Id = 144,
+                            Name = "Romania"
+                        },
+                        new
+                        {
+                            Id = 145,
+                            Name = "Rwanda"
+                        },
+                        new
+                        {
+                            Id = 146,
+                            Name = "Saint Kitts and Nevis"
+                        },
+                        new
+                        {
+                            Id = 147,
+                            Name = "Saint Lucia"
+                        },
+                        new
+                        {
+                            Id = 148,
+                            Name = "Saint Vincent and the Grenadines"
+                        },
+                        new
+                        {
+                            Id = 149,
+                            Name = "Samoa"
+                        },
+                        new
+                        {
+                            Id = 150,
+                            Name = "San Marino"
+                        },
+                        new
+                        {
+                            Id = 151,
+                            Name = "Sao Tome and Principe"
+                        },
+                        new
+                        {
+                            Id = 152,
+                            Name = "Saudi Arabia"
+                        },
+                        new
+                        {
+                            Id = 153,
+                            Name = "Senegal"
+                        },
+                        new
+                        {
+                            Id = 154,
+                            Name = "Serbia"
+                        },
+                        new
+                        {
+                            Id = 155,
+                            Name = "Seychelles"
+                        },
+                        new
+                        {
+                            Id = 156,
+                            Name = "Sierra Leone"
+                        },
+                        new
+                        {
+                            Id = 157,
+                            Name = "Singapore"
+                        },
+                        new
+                        {
+                            Id = 158,
+                            Name = "Slovakia"
+                        },
+                        new
+                        {
+                            Id = 159,
+                            Name = "Slovenia"
+                        },
+                        new
+                        {
+                            Id = 160,
+                            Name = "Solomon Islands"
+                        },
+                        new
+                        {
+                            Id = 161,
+                            Name = "Somalia"
+                        },
+                        new
+                        {
+                            Id = 162,
+                            Name = "South Africa"
+                        },
+                        new
+                        {
+                            Id = 163,
+                            Name = "South Sudan"
+                        },
+                        new
+                        {
+                            Id = 164,
+                            Name = "Spain"
+                        },
+                        new
+                        {
+                            Id = 165,
+                            Name = "Sri Lanka"
+                        },
+                        new
+                        {
+                            Id = 166,
+                            Name = "Sudan"
+                        },
+                        new
+                        {
+                            Id = 167,
+                            Name = "Suriname"
+                        },
+                        new
+                        {
+                            Id = 168,
+                            Name = "Sweden"
+                        },
+                        new
+                        {
+                            Id = 169,
+                            Name = "Switzerland"
+                        },
+                        new
+                        {
+                            Id = 170,
+                            Name = "Syria"
+                        },
+                        new
+                        {
+                            Id = 171,
+                            Name = "Taiwan"
+                        },
+                        new
+                        {
+                            Id = 172,
+                            Name = "Tajikistan"
+                        },
+                        new
+                        {
+                            Id = 173,
+                            Name = "Tanzania"
+                        },
+                        new
+                        {
+                            Id = 174,
+                            Name = "Thailand"
+                        },
+                        new
+                        {
+                            Id = 175,
+                            Name = "Togo"
+                        },
+                        new
+                        {
+                            Id = 176,
+                            Name = "Tonga"
+                        },
+                        new
+                        {
+                            Id = 177,
+                            Name = "Trinidad and Tobago"
+                        },
+                        new
+                        {
+                            Id = 178,
+                            Name = "Tunisia"
+                        },
+                        new
+                        {
+                            Id = 179,
+                            Name = "Turkey"
+                        },
+                        new
+                        {
+                            Id = 180,
+                            Name = "Turkmenistan"
+                        },
+                        new
+                        {
+                            Id = 181,
+                            Name = "Tuvalu"
+                        },
+                        new
+                        {
+                            Id = 182,
+                            Name = "Uganda"
+                        },
+                        new
+                        {
+                            Id = 183,
+                            Name = "Ukraine"
+                        },
+                        new
+                        {
+                            Id = 184,
+                            Name = "United Arab Emirates"
+                        },
+                        new
+                        {
+                            Id = 185,
+                            Name = "United Kingdom"
+                        },
+                        new
+                        {
+                            Id = 186,
+                            Name = "United States"
+                        },
+                        new
+                        {
+                            Id = 187,
+                            Name = "Uruguay"
+                        },
+                        new
+                        {
+                            Id = 188,
+                            Name = "Uzbekistan"
+                        },
+                        new
+                        {
+                            Id = 189,
+                            Name = "Vanuatu"
+                        },
+                        new
+                        {
+                            Id = 190,
+                            Name = "Vatican City"
+                        },
+                        new
+                        {
+                            Id = 191,
+                            Name = "Venezuela"
+                        },
+                        new
+                        {
+                            Id = 192,
+                            Name = "Vietnam"
+                        },
+                        new
+                        {
+                            Id = 193,
+                            Name = "Yemen"
+                        },
+                        new
+                        {
+                            Id = 194,
+                            Name = "Zambia"
+                        },
+                        new
+                        {
+                            Id = 195,
+                            Name = "Zimbabwe"
+                        });
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Discount", b =>
@@ -200,9 +1177,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("AddedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("AppUserId")
                         .IsRequired()
@@ -422,6 +1396,9 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("BrandId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("CategoryProductId")
                         .HasColumnType("integer");
 
@@ -457,6 +1434,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BrandId");
+
                     b.HasIndex("CategoryProductId");
 
                     b.HasIndex("CountryProductionId");
@@ -485,9 +1464,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("ProductQuestionId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("QuestionID")
                         .HasColumnType("integer");
 
@@ -495,32 +1471,9 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.HasIndex("ProductQuestionId");
+                    b.HasIndex("QuestionID");
 
                     b.ToTable("ProductAnswers");
-                });
-
-            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.ProductBrand", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BrandId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BrandId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductBrands");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.ProductQuestion", b =>
@@ -610,7 +1563,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
                     b.Property<string>("Comment")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(2048)
+                        .HasColumnType("character varying(2048)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -668,9 +1622,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<bool>("ProcessedApplication")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Website")
                         .IsRequired()
@@ -857,25 +1809,25 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a3fd3e72-96aa-409b-8290-4b4cce0971e4",
+                            Id = "105c0dba-e43b-43c9-871e-ad01c4e847f5",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "700c5979-7160-41b6-9ad9-38a48187c1c9",
+                            Id = "ade34539-92d2-4165-88b4-d8e0fc3c57ec",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "4db6d4f0-c1eb-4e5a-b3dc-4ba902b497a2",
+                            Id = "5f2d67f8-b511-4966-9d61-7480ea77eec1",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         },
                         new
                         {
-                            Id = "debe774c-c7bb-4789-8165-2abad7ed614a",
+                            Id = "8805b016-d675-4b06-be15-9563540b3fa4",
                             Name = "ModeratorSeller",
                             NormalizedName = "MODERATORSELLER"
                         });
@@ -1043,8 +1995,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "8725fc19-75a9-4008-a411-06e9a3e70b12",
-                            RoleId = "a3fd3e72-96aa-409b-8290-4b4cce0971e4"
+                            UserId = "b094a0e3-b647-45ed-b48f-b7a3b06522e4",
+                            RoleId = "105c0dba-e43b-43c9-871e-ad01c4e847f5"
                         });
                 });
 
@@ -1081,11 +2033,356 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Brands");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "",
+                            Name = "Apple"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "",
+                            Name = "Dell"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "",
+                            Name = "HP"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "",
+                            Name = "Lenovo"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "",
+                            Name = "Asus"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "",
+                            Name = "Acer"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Description = "",
+                            Name = "MSI"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Description = "",
+                            Name = "Razer"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Description = "",
+                            Name = "Microsoft"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Description = "",
+                            Name = "Toshiba"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Description = "",
+                            Name = "Fujitsu"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Description = "",
+                            Name = "Gateway"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Description = "",
+                            Name = "Packard Bell"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Description = "",
+                            Name = "Vaio"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Description = "",
+                            Name = "OPPO"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Description = "",
+                            Name = "vivo"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Description = "",
+                            Name = "Google Pixel"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Description = "",
+                            Name = "OnePlus"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Description = "",
+                            Name = "Realme"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Description = "",
+                            Name = "Motorola"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Description = "",
+                            Name = "Nokia"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Description = "",
+                            Name = "LG"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Description = "",
+                            Name = "Bose"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Description = "",
+                            Name = "JBL"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Description = "",
+                            Name = "Anker"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Description = "",
+                            Name = "Belkin"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Description = "",
+                            Name = "Casetify"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Description = "",
+                            Name = "Logitech"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Description = "",
+                            Name = "Xiaomi"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Description = "",
+                            Name = "Huawei"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Description = "",
+                            Name = "Xbox"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Description = "",
+                            Name = "Nintendo"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Description = "",
+                            Name = "Wii"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Description = "",
+                            Name = "PlayStation"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Description = "",
+                            Name = "Canon"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            Description = "",
+                            Name = "Nikon"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            Description = "",
+                            Name = "Sony"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            Description = "",
+                            Name = "Fujifilm"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            Description = "",
+                            Name = "GoPro"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            Description = "",
+                            Name = "DJI"
+                        },
+                        new
+                        {
+                            Id = 41,
+                            Description = "",
+                            Name = "Olympus"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            Description = "",
+                            Name = "Leica"
+                        },
+                        new
+                        {
+                            Id = 43,
+                            Description = "",
+                            Name = "Hasselblad"
+                        },
+                        new
+                        {
+                            Id = 44,
+                            Description = "",
+                            Name = "Tesla"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            Description = "",
+                            Name = "LGDeWalt"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            Description = "",
+                            Name = "Dyson"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            Description = "",
+                            Name = "Philips"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            Description = "",
+                            Name = "Panasonic"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            Description = "",
+                            Name = "Samsung"
+                        },
+                        new
+                        {
+                            Id = 50,
+                            Description = "",
+                            Name = "Bosch"
+                        },
+                        new
+                        {
+                            Id = 51,
+                            Description = "",
+                            Name = "Siemens"
+                        },
+                        new
+                        {
+                            Id = 52,
+                            Description = "",
+                            Name = "Electrolux"
+                        },
+                        new
+                        {
+                            Id = 53,
+                            Description = "",
+                            Name = "Whirlpool"
+                        },
+                        new
+                        {
+                            Id = 54,
+                            Description = "",
+                            Name = "Miele"
+                        },
+                        new
+                        {
+                            Id = 55,
+                            Description = "",
+                            Name = "Beko"
+                        },
+                        new
+                        {
+                            Id = 56,
+                            Description = "",
+                            Name = "Candy"
+                        },
+                        new
+                        {
+                            Id = 57,
+                            Description = "",
+                            Name = "Indesit"
+                        });
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.AppUser", b =>
@@ -1112,18 +2409,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8725fc19-75a9-4008-a411-06e9a3e70b12",
+                            Id = "b094a0e3-b647-45ed-b48f-b7a3b06522e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bf394a72-2fbf-42bf-8fa2-b9857d6cfabe",
+                            ConcurrencyStamp = "8c6d1914-3b3e-4cf6-8db1-2cde4f3b5981",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJB5kz73REPRkxITF7wV8aW6Q6sbYhuqyhGoxU2Y6NCmNVgGKM1rw6ZW7/EVoz06yw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM8FxtK0i15vRJqsbdl86R1cbR9I78VrLLielCwNjWJx2lnXSxcK7cl6h0ZPwmcOgA==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0852813f-1c0a-4412-94f1-d211d72103ce",
+                            SecurityStamp = "e5d971c5-9133-44d0-b2e8-296ba315a8d8",
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",
@@ -1233,7 +2530,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasOne("FM_Rozetka_Api.Core.Entities.Product", "Product")
                         .WithMany("OrderItems")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Order");
@@ -1287,23 +2584,31 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Product", b =>
                 {
+                    b.HasOne("Rozetka_Api.Core.Entities.Brand", "Brand")
+                        .WithMany("Products")
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("FM_Rozetka_Api.Core.Entities.CategoryProduct", "CategoryProduct")
                         .WithMany("Products")
                         .HasForeignKey("CategoryProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FM_Rozetka_Api.Core.Entities.CountryProduction", "CountryProduction")
                         .WithMany("Products")
                         .HasForeignKey("CountryProductionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FM_Rozetka_Api.Core.Entities.Shop", "Shop")
                         .WithMany("Products")
                         .HasForeignKey("ShopId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Brand");
 
                     b.Navigation("CategoryProduct");
 
@@ -1322,32 +2627,13 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
                     b.HasOne("FM_Rozetka_Api.Core.Entities.ProductQuestion", "ProductQuestion")
                         .WithMany("ProductAnswers")
-                        .HasForeignKey("ProductQuestionId")
+                        .HasForeignKey("QuestionID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AppUser");
 
                     b.Navigation("ProductQuestion");
-                });
-
-            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.ProductBrand", b =>
-                {
-                    b.HasOne("Rozetka_Api.Core.Entities.Brand", "Brand")
-                        .WithMany("ProductBrands")
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FM_Rozetka_Api.Core.Entities.Product", "Product")
-                        .WithMany("ProductBrands")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Brand");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.ProductQuestion", b =>
@@ -1419,7 +2705,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasOne("FM_Rozetka_Api.Core.Entities.Company", "Company")
                         .WithMany("Shops")
                         .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("AppUser");
@@ -1540,8 +2826,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
                     b.Navigation("PhotoProducts");
 
-                    b.Navigation("ProductBrands");
-
                     b.Navigation("ProductQuestions");
 
                     b.Navigation("Reviews");
@@ -1563,7 +2847,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
             modelBuilder.Entity("Rozetka_Api.Core.Entities.Brand", b =>
                 {
-                    b.Navigation("ProductBrands");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.AppUser", b =>

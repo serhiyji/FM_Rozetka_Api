@@ -1,4 +1,6 @@
-﻿using FM_Rozetka_Api.Core.DTOs.Products.Product;
+﻿using FM_Rozetka_Api.Core.DTOs.Favorite;
+using FM_Rozetka_Api.Core.DTOs.Products.Product;
+using FM_Rozetka_Api.Core.DTOs.Review;
 using FM_Rozetka_Api.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +11,17 @@ namespace FM_Rozetka_Api.Api.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
-        public ProductController(IProductService productService)
+        private readonly IFavoriteService _favoriteService;
+        private readonly IReviewService _reviewService;
+        public ProductController(
+                IProductService productService, 
+                IFavoriteService favoriteService,
+                IReviewService reviewService
+            )
         {
             this._productService = productService;
+            this._favoriteService = favoriteService;
+            this._reviewService = reviewService;
         }
 
         [HttpPost("create")]
@@ -79,5 +89,56 @@ namespace FM_Rozetka_Api.Api.Controllers
             }
             return BadRequest(response);
         }
+
+        #region Favorite
+
+        [HttpPost("addproducttofavorites")]
+        public async Task<IActionResult> AddProductToFavorites(FavoriteCreateDTO favoriteCreateDTO)
+        {
+            return Ok(await _favoriteService.AddAsync(favoriteCreateDTO));
+        }
+
+        [HttpPost("deleteproductfromfavorites")]
+        public async Task<IActionResult> DeleteProductFromFavorites(int id)
+        {
+            return Ok(await _favoriteService.DeleteAsync(id));
+        }
+
+        [HttpGet("getallfavorites")]
+        public async Task<IActionResult> GetAllFavorites(string appUserId)
+        {
+            return Ok(await _favoriteService.GetAllAsync(appUserId));
+        }
+
+        #endregion
+
+        #region Review
+
+        [HttpPost("createreview")]
+        public async Task<IActionResult> CreateReview(ReviewCreateDTO reviewCreateDTO)
+        {
+            return Ok(await _reviewService.AddAsync(reviewCreateDTO));
+        }
+
+        [HttpPost("updatereview")]
+        public async Task<IActionResult> UpdateReview(ReviewUpdateDTO reviewUpdateDTO)
+        {
+            return Ok(await _reviewService.UpdateAsync(reviewUpdateDTO));
+        }
+
+        [HttpPost("deletereview")]
+        public async Task<IActionResult> DeleteReview(int id)
+        {
+            return Ok(await _reviewService.DeleteAsync(id));
+        }
+
+        [HttpGet("getallreviews")]
+        public async Task<IActionResult> GetAllReview(int productId)
+        {
+            return Ok(await _reviewService.GetAllByProductIdAsync(productId));
+        }
+
+        #endregion
+
     }
 }
