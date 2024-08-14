@@ -114,9 +114,9 @@ namespace FM_Rozetka_Api.Core.AutoMappers
             CreateMap<ProductAnswer, ProductAnswerDTO>();
 
             // ProductQuestion
-            CreateMap<ProductQuestion, ProductQuestionCreateDTO>();
-            CreateMap<ProductQuestion, ProductQuestionUpdateDTO>();
-            CreateMap<ProductQuestion, ProductQuestionDTO>();
+            CreateMap<ProductQuestion, ProductQuestionCreateDTO>().ReverseMap();
+            CreateMap<ProductQuestion, ProductQuestionUpdateDTO>().ReverseMap();
+            CreateMap<ProductQuestion, ProductQuestionDTO>().ReverseMap();
 
             // Review
             CreateMap<Review, ReviewCreateDTO>();

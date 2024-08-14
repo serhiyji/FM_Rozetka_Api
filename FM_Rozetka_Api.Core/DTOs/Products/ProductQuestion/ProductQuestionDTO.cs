@@ -8,5 +8,6 @@ namespace FM_Rozetka_Api.Core.DTOs.Products.ProductQuestion
         public string AppUserId { get; set; }
         public string QuestionText { get; set; }
         public DateTime CreatedAt { get; set; }
+        public bool OpenQuestion { get; set; }
     }
 }
