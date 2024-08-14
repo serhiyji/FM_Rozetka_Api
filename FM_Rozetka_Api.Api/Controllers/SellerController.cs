@@ -1,14 +1,7 @@
-﻿using FluentValidation;
-using FM_Rozetka_Api.Core.DTOs;
-using FM_Rozetka_Api.Core.DTOs.Seller;
-using FM_Rozetka_Api.Core.DTOs.User;
+﻿using FM_Rozetka_Api.Core.DTOs.Seller;
 using FM_Rozetka_Api.Core.Interfaces;
-using FM_Rozetka_Api.Core.Services;
 using FM_Rozetka_Api.Core.Validation.Seller;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace FM_Rozetka_Api.Api.Controllers
 {

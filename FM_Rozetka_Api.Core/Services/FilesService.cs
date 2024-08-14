@@ -1,12 +1,5 @@
 ﻿using FM_Rozetka_Api.Core.Interfaces;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.WebUtilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Webp;

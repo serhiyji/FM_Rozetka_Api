@@ -1,16 +1,9 @@
-﻿using FluentValidation;
-using FM_Rozetka_Api.Core.DTOs.Seller;
-using FM_Rozetka_Api.Core.DTOs.Shops;
+﻿using FM_Rozetka_Api.Core.DTOs.Shops;
 using FM_Rozetka_Api.Core.DTOs.Shops.ModeratorShop;
 using FM_Rozetka_Api.Core.DTOs.Shops.Shop;
-using FM_Rozetka_Api.Core.DTOs.User;
 using FM_Rozetka_Api.Core.Interfaces;
-using FM_Rozetka_Api.Core.Responses;
-using FM_Rozetka_Api.Core.Services;
 using FM_Rozetka_Api.Core.Validation.ModeratorShop;
 using FM_Rozetka_Api.Core.Validation.Seller;
-using FM_Rozetka_Api.Core.DTOs.Shops.Shop;
-using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Validation.Shop;
 using Microsoft.AspNetCore.Mvc;
 
