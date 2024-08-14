@@ -26,7 +26,7 @@ namespace FM_Rozetka_Api.Core.Specifications.ProductSpecification
         {
             public GetByBrandId(int brandId)
             {
-                Query.Where(item => item.BrandId == brandId)
+                Query.Where(item => item.BrandId == brandId);
             }
         }
     }
