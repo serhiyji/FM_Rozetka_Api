@@ -21,7 +21,15 @@ namespace FM_Rozetka_Api.Core.Specifications.ProductSpecification
                 Query.Where(t => t.ShopId == shopId);
             }
         }
-    
-       
+
+        public class GetPagedProducts : Specification<Product>
+        {
+            public GetPagedProducts(int pageNumber, int pageSize)
+            {
+                Query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+            }
+        }
+
+
     }
 }
