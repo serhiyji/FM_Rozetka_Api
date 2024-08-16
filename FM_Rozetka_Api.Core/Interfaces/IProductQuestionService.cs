@@ -16,6 +16,7 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ServiceResponse<object, object>> DeleteAsync(int id);
         Task<ServiceResponse<ProductQuestionDTO, object>> GetByIdAsync(int id);
         Task<ServiceResponse<IEnumerable<ProductQuestionDTO>, object>> GetAllAsync();
+        Task<ServiceResponse<IEnumerable<ProductQuestionDTO>, object>> GetAllByProductIdAsync(int productid);
     }
 
 }

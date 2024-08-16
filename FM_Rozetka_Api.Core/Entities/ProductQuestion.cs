@@ -12,7 +12,7 @@ namespace FM_Rozetka_Api.Core.Entities
         public AppUser AppUser { get; set; }
         public string QuestionText { get; set; }
         public DateTime CreatedAt { get; set; }
-        public bool OpenQuestion { get; set; } = false;
+        public bool OpenQuestion { get; set; } = true;
         public List<ProductAnswer> ProductAnswers { get; set; }
     }
 }

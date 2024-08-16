@@ -1,5 +1,6 @@
 ﻿using FM_Rozetka_Api.Core.DTOs.Products.ProductQuestion;
 using FM_Rozetka_Api.Core.Interfaces;
+using FM_Rozetka_Api.Core.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,7 @@ namespace FM_Rozetka_Api.Api.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> Create([FromBody] ProductQuestionCreateDTO model)
+        public async Task<IActionResult> Create([FromForm] ProductQuestionCreateDTO model)
         {
             var response = await _productQuestionService.AddAsync(model);
             if (response.Success)
@@ -28,7 +29,7 @@ namespace FM_Rozetka_Api.Api.Controllers
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> Update([FromBody] ProductQuestionUpdateDTO model)
+        public async Task<IActionResult> Update([FromForm] ProductQuestionUpdateDTO model)
         {
             var response = await _productQuestionService.UpdateAsync(model);
             if (response.Success)
@@ -71,7 +72,18 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(response);
         }
 
-        
+        [HttpGet("getbyproductid")]
+        public async Task<IActionResult> GetAllByProducId(int productid)
+        {
+            var response = await _productQuestionService.GetAllByProductIdAsync(productid);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+
     }
 
 }

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FM_Rozetka_Api.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240814092519_Init")]
-    partial class Init
+    [Migration("20240816092358_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1515,6 +1515,9 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("OpenQuestion")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
@@ -1832,25 +1835,25 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a279e7af-b9e0-4973-89c2-6175eea8a18c",
+                            Id = "f44b576e-723c-4ea3-b8de-90c087cecb84",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "77235100-c97e-4f3e-8e4e-4e17455abc28",
+                            Id = "38022d68-6d0c-410a-b9e1-feae0c7e7cd3",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "27ceedab-652f-40af-b393-478bdf27b9a8",
+                            Id = "b2230af9-72ef-4e79-8ed4-e87407fd2fae",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         },
                         new
                         {
-                            Id = "c716fcc2-b96d-448c-9449-cbca080b0f32",
+                            Id = "573df5d0-f9fc-48e3-9088-57d9ccd9e8fc",
                             Name = "ModeratorSeller",
                             NormalizedName = "MODERATORSELLER"
                         });
@@ -2018,8 +2021,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "cc676dec-55c0-437b-bed7-931d159cd17b",
-                            RoleId = "a279e7af-b9e0-4973-89c2-6175eea8a18c"
+                            UserId = "5f91f4f3-f6b6-43f7-9226-831e8c3bfc3f",
+                            RoleId = "f44b576e-723c-4ea3-b8de-90c087cecb84"
                         });
                 });
 
@@ -2431,18 +2434,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "cc676dec-55c0-437b-bed7-931d159cd17b",
+                            Id = "5f91f4f3-f6b6-43f7-9226-831e8c3bfc3f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2dd93e21-bd5b-469a-94c2-4ce74bfa4bf1",
+                            ConcurrencyStamp = "3174921b-2bf6-41db-9a48-c1481e9ef596",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJ9dX6UNnRa5TxFjH31UStI7HnUItXOe6FF9pfA1AzcaOuBiKZByEQWzjcT9W1lbzQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEP412Dh5CE3tATtdWKExylcnsBAYCim0OKnR3lhnA/bWkaloFj+yNOqvCWhToPoKYg==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d570a075-b62b-4813-9c84-176244050da5",
+                            SecurityStamp = "6b9d8eff-43b6-4e5e-8963-001dd807c973",
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",

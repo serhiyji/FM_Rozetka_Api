@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FM_Rozetka_Api.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -691,7 +691,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     ProductId = table.Column<int>(type: "integer", nullable: false),
                     AppUserId = table.Column<string>(type: "text", nullable: false),
                     QuestionText = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    OpenQuestion = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -800,16 +801,16 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "27ceedab-652f-40af-b393-478bdf27b9a8", null, "Seller", "SELLER" },
-                    { "77235100-c97e-4f3e-8e4e-4e17455abc28", null, "User", "USER" },
-                    { "a279e7af-b9e0-4973-89c2-6175eea8a18c", null, "Administrator", "ADMINISTRATOR" },
-                    { "c716fcc2-b96d-448c-9449-cbca080b0f32", null, "ModeratorSeller", "MODERATORSELLER" }
+                    { "38022d68-6d0c-410a-b9e1-feae0c7e7cd3", null, "User", "USER" },
+                    { "573df5d0-f9fc-48e3-9088-57d9ccd9e8fc", null, "ModeratorSeller", "MODERATORSELLER" },
+                    { "b2230af9-72ef-4e79-8ed4-e87407fd2fae", null, "Seller", "SELLER" },
+                    { "f44b576e-723c-4ea3-b8de-90c087cecb84", null, "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SurName", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "cc676dec-55c0-437b-bed7-931d159cd17b", 0, "2dd93e21-bd5b-469a-94c2-4ce74bfa4bf1", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEJ9dX6UNnRa5TxFjH31UStI7HnUItXOe6FF9pfA1AzcaOuBiKZByEQWzjcT9W1lbzQ==", "", false, "d570a075-b62b-4813-9c84-176244050da5", "Johnovych", false, "admin@email.com" });
+                values: new object[] { "5f91f4f3-f6b6-43f7-9226-831e8c3bfc3f", 0, "3174921b-2bf6-41db-9a48-c1481e9ef596", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEP412Dh5CE3tATtdWKExylcnsBAYCim0OKnR3lhnA/bWkaloFj+yNOqvCWhToPoKYg==", "", false, "6b9d8eff-43b6-4e5e-8963-001dd807c973", "Johnovych", false, "admin@email.com" });
 
             migrationBuilder.InsertData(
                 table: "Brands",
@@ -1080,7 +1081,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "a279e7af-b9e0-4973-89c2-6175eea8a18c", "cc676dec-55c0-437b-bed7-931d159cd17b" });
+                values: new object[] { "f44b576e-723c-4ea3-b8de-90c087cecb84", "5f91f4f3-f6b6-43f7-9226-831e8c3bfc3f" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_AppUserId",
