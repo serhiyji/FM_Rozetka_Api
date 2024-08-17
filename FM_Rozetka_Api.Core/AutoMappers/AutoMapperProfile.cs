@@ -155,6 +155,11 @@ namespace FM_Rozetka_Api.Core.AutoMappers
             CreateMap<Company, CompanyDTO>().ReverseMap();
             CreateMap<CreateCompanyDTO, Company>().ReverseMap();
             CreateMap<UpdateCompanyDTO, Company>().ReverseMap();
+
+            //Review
+            CreateMap<Review, ReviewDTO>().ReverseMap();
+            CreateMap<ReviewCreateDTO, Review>().ReverseMap();
+            CreateMap<ReviewUpdateDTO, Review>().ReverseMap();
         }
     }
 }

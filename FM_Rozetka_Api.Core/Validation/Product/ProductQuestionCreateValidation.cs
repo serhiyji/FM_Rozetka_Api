@@ -24,7 +24,7 @@ namespace FM_Rozetka_Api.Core.Validation.Product
                 .MaximumLength(500).WithMessage("QuestionText cannot exceed 500 characters.");
 
             RuleFor(x => x.CreatedAt)
-                .LessThanOrEqualTo(DateTime.Now).WithMessage("CreatedAt cannot be in the future.");
+                .LessThanOrEqualTo(DateTime.UtcNow).WithMessage("CreatedAt cannot be in the future.");
 
         }
     }
