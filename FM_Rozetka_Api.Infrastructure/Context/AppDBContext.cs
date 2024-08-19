@@ -197,6 +197,14 @@ namespace FM_Rozetka_Api.Infrastructure.Context
                 .HasOne(pb => pb.Brand).WithMany(b => b.ProductBrands)
                 .HasForeignKey(pb => pb.BrandId).OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<ProductQuestion>()
+            .Property(pq => pq.OpenQuestion)
+            .HasDefaultValue(true);
+
+            modelBuilder.Entity<ProductQuestion>()
+            .Property(pq => pq.hasAnswer)
+            .HasDefaultValue(false);
+
             modelBuilder.SeedRoles();
             modelBuilder.SeedAdministrator();
             modelBuilder.SeedCountryProductions();

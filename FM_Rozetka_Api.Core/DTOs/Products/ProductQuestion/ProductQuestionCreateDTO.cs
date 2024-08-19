@@ -10,5 +10,6 @@ namespace FM_Rozetka_Api.Core.DTOs.Products.ProductQuestion
         public string QuestionText { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public bool OpenQuestion { get; set; }
+        public bool hasAnswer { get; set; } 
     }
 }

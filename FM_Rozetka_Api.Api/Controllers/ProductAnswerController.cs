@@ -71,6 +71,16 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(response);
         }
 
-       
+        [HttpGet("getbyquestiontid")]
+        public async Task<IActionResult> GetAllByQuestionId(int questionid)
+        {
+            var response = await _productAnswerService.GetAllByQuestionId(questionid);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
     }
 }

@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using FM_Rozetka_Api.Core.DTOs.Products.ProductAnswer;
+using FM_Rozetka_Api.Core.DTOs.Products.ProductQuestion;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
+using FM_Rozetka_Api.Core.Specifications.ProductAnswerSpecification;
+using FM_Rozetka_Api.Core.Specifications.ProductQuestionSpecification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +18,13 @@ namespace FM_Rozetka_Api.Core.Services
     {
         private readonly IRepository<ProductAnswer> _productAnswerRepository;
         private readonly IMapper _mapper;
+        private readonly IRepository<ProductQuestion> _productQuestionRepository;
 
-        public ProductAnswerService(IMapper mapper, IRepository<ProductAnswer> productAnswerRepository)
+        public ProductAnswerService(IMapper mapper, IRepository<ProductAnswer> productAnswerRepository, IRepository<ProductQuestion> productQuestionRepository)
         {
             _mapper = mapper;
             _productAnswerRepository = productAnswerRepository;
+            _productQuestionRepository = productQuestionRepository;
         }
 
         public async Task<ServiceResponse<ProductAnswerDTO, object>> CreateAsync(ProductAnswerCreateDTO model)
@@ -27,6 +32,20 @@ namespace FM_Rozetka_Api.Core.Services
             var newAnswer = _mapper.Map<ProductAnswer>(model);
             try
             {
+                var question = await _productQuestionRepository.GetByID(model.QuestionID);
+                if (question == null)
+                {
+                    return new ServiceResponse<ProductAnswerDTO, object>(false, "Question not found");
+                }
+                if (question.hasAnswer != true) 
+                {
+                    question.hasAnswer = true;
+
+                    await _productQuestionRepository.Update(question);
+                    await _productQuestionRepository.Save();
+                }
+                
+
                 newAnswer.CreatedAt = DateTime.UtcNow;
                 await _productAnswerRepository.Insert(newAnswer);
                 await _productAnswerRepository.Save();
@@ -69,6 +88,20 @@ namespace FM_Rozetka_Api.Core.Services
 
             try
             {
+                var countAnswer = await _productAnswerRepository.GetCountBySpec(new ProductAnswerSpecification.GetCountAnswer(answer.QuestionID));
+                if (countAnswer == 0)
+                {
+                    var question = await _productQuestionRepository.GetByID(answer.QuestionID);
+                    if (question == null)
+                    {
+                        return new ServiceResponse<object, object>(false, "Question not found");
+                    }
+                    question.hasAnswer = false;
+                    await _productQuestionRepository.Update(question);
+                    await _productQuestionRepository.Save();
+                }
+              
+
                 await _productAnswerRepository.Delete(answer.Id);
                 await _productAnswerRepository.Save();
                 return new ServiceResponse<object, object>(true, "Success");
@@ -103,6 +136,28 @@ namespace FM_Rozetka_Api.Core.Services
             {
                 var answers = await _productAnswerRepository.GetAll();
                 return new ServiceResponse<IEnumerable<ProductAnswerDTO>, object>(true, "Success", payload: _mapper.Map<IEnumerable<ProductAnswerDTO>>(answers));
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<IEnumerable<ProductAnswerDTO>, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
+        public async Task<ServiceResponse<IEnumerable<ProductAnswerDTO>, object>> GetAllByQuestionId(int questionId)
+        {
+            if (questionId <= 0)
+                return new ServiceResponse<IEnumerable<ProductAnswerDTO>, object>(false, "Failed productid not found ");
+            try
+            {
+                var questions = (await _productAnswerRepository.GetListBySpec(new ProductAnswerSpecification.GetByQustionId(questionId))).ToList();
+
+                var map = _mapper.Map<List<ProductAnswerDTO>>(questions);
+
+                for (int i = 0; i < map.Count(); i++)
+                {
+                    map[i].NameUser = questions[i].AppUser.FirstName + " " + questions[i].AppUser.LastName;
+                }
+                return new ServiceResponse<IEnumerable<ProductAnswerDTO>, object>(true, "Success", payload: map);
             }
             catch (Exception ex)
             {

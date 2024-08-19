@@ -692,7 +692,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     AppUserId = table.Column<string>(type: "text", nullable: false),
                     QuestionText = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    OpenQuestion = table.Column<bool>(type: "boolean", nullable: false)
+                    OpenQuestion = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
+                    hasAnswer = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -801,16 +802,16 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "38022d68-6d0c-410a-b9e1-feae0c7e7cd3", null, "User", "USER" },
-                    { "573df5d0-f9fc-48e3-9088-57d9ccd9e8fc", null, "ModeratorSeller", "MODERATORSELLER" },
-                    { "b2230af9-72ef-4e79-8ed4-e87407fd2fae", null, "Seller", "SELLER" },
-                    { "f44b576e-723c-4ea3-b8de-90c087cecb84", null, "Administrator", "ADMINISTRATOR" }
+                    { "2bfeeaf0-24a5-4663-94ef-8c55eb083d0c", null, "Administrator", "ADMINISTRATOR" },
+                    { "4aa7f6bc-623f-4d35-9689-305cf53136b3", null, "Seller", "SELLER" },
+                    { "53fb5ca6-74b0-41a3-8008-f36dfbb8abe0", null, "ModeratorSeller", "MODERATORSELLER" },
+                    { "56e69e66-7ba3-4f09-a7ab-fa51547d5739", null, "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SurName", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "5f91f4f3-f6b6-43f7-9226-831e8c3bfc3f", 0, "3174921b-2bf6-41db-9a48-c1481e9ef596", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEP412Dh5CE3tATtdWKExylcnsBAYCim0OKnR3lhnA/bWkaloFj+yNOqvCWhToPoKYg==", "", false, "6b9d8eff-43b6-4e5e-8963-001dd807c973", "Johnovych", false, "admin@email.com" });
+                values: new object[] { "08a10d05-fa01-48e8-9f4d-5656d5ffda5f", 0, "9a417baa-abfa-44d2-b1b1-adc900d0ac3e", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEB6Xb4AFw/qnOYDGI/OG91eD4e+5dqtaOPfb4iPxq+ybd7+Ib0ErRLEyTZPlRmhCPw==", "", false, "fad5f34e-8818-4356-affe-8ec9518c1c23", "Johnovych", false, "admin@email.com" });
 
             migrationBuilder.InsertData(
                 table: "Brands",
@@ -1081,7 +1082,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "f44b576e-723c-4ea3-b8de-90c087cecb84", "5f91f4f3-f6b6-43f7-9226-831e8c3bfc3f" });
+                values: new object[] { "2bfeeaf0-24a5-4663-94ef-8c55eb083d0c", "08a10d05-fa01-48e8-9f4d-5656d5ffda5f" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_AppUserId",
