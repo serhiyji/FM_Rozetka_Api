@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using FM_Rozetka_Api.Core.DTOs.Products.ProductQuestion;
 using FM_Rozetka_Api.Core.DTOs.Review;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
+using FM_Rozetka_Api.Core.Specifications.ProductQuestionSpecification;
+using FM_Rozetka_Api.Core.Specifications.ReviewSpecification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -113,7 +116,27 @@ namespace FM_Rozetka_Api.Core.Services
             }
         }
 
-      
+        public async Task<ServiceResponse<IEnumerable<ReviewDTO>, object>> GetAllReviewsByProductId(int productId)
+        {
+            if (productId <= 0)
+                return new ServiceResponse<IEnumerable<ReviewDTO>, object>(false, "Failed productid not found ");
+            try
+            {
+                var questions = (await _reviewRepository.GetListBySpec(new ReviewSpecification.GetByProductId(productId))).ToList();
+
+                var map = _mapper.Map<List<ReviewDTO>>(questions);
+
+                for (int i = 0; i < map.Count(); i++)
+                {
+                    map[i].NameUser = questions[i].AppUser.FirstName + " " + questions[i].AppUser.LastName;
+                }
+                return new ServiceResponse<IEnumerable<ReviewDTO>, object>(true, "Success", payload: map);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<IEnumerable<ReviewDTO>, object>(false, "Failed: " + ex.Message);
+            }
+        }
     }
 
 }

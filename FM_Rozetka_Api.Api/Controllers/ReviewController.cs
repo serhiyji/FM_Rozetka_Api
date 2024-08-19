@@ -50,7 +50,7 @@ namespace FM_Rozetka_Api.Api.Controllers
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> UpdateReview([FromBody] ReviewUpdateDTO reviewDTO)
+        public async Task<IActionResult> UpdateReview([FromForm] ReviewUpdateDTO reviewDTO)
         {
             var response = await _reviewService.UpdateReview(reviewDTO);
 
@@ -70,6 +70,17 @@ namespace FM_Rozetka_Api.Api.Controllers
                 return NotFound(response);
 
             return Ok(response);
+        }
+
+        [HttpGet("getbyproductid")]
+        public async Task<IActionResult> GetAllByProducId(int productId)
+        {
+            var response = await _reviewService.GetAllReviewsByProductId(productId);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
         }
     }
 }
