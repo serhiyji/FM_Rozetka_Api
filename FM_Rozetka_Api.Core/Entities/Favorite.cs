@@ -10,6 +10,5 @@ namespace FM_Rozetka_Api.Core.Entities
         public AppUser AppUser { get; set; }
         public int ProductId { get; set; }
         public Product Product { get; set; }
-        public DateTime AddedAt { get; set; }
     }
 }

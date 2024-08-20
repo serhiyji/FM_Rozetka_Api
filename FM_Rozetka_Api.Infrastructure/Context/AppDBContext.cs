@@ -32,7 +32,6 @@ namespace FM_Rozetka_Api.Infrastructure.Context
         public DbSet<PhotoProduct> PhotoProducts { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductAnswer> ProductAnswers { get; set; }
-        public DbSet<ProductBrand> ProductBrands { get; set; }
         public DbSet<ProductQuestion> ProductQuestions { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Shipment> Shipments { get; set; }
@@ -187,15 +186,9 @@ namespace FM_Rozetka_Api.Infrastructure.Context
                 .HasOne(pa => pa.ProductQuestion).WithMany(pq => pq.ProductAnswers)
                 .HasForeignKey(pa => pa.QuestionID).OnDelete(DeleteBehavior.Cascade);
 
-            // ProductBrand - Product
-            modelBuilder.Entity<ProductBrand>()
-                .HasOne(pb => pb.Product).WithMany(p => p.ProductBrands)
-                .HasForeignKey(pb => pb.ProductId).OnDelete(DeleteBehavior.Cascade);
-
-            // ProductBrand - Brand
-            modelBuilder.Entity<ProductBrand>()
-                .HasOne(pb => pb.Brand).WithMany(b => b.ProductBrands)
-                .HasForeignKey(pb => pb.BrandId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Brand).WithMany(s => s.Products)
+                .HasForeignKey(p => p.BrandId).OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ProductQuestion>()
             .Property(pq => pq.OpenQuestion)

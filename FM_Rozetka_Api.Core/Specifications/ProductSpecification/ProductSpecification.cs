@@ -13,7 +13,7 @@ namespace FM_Rozetka_Api.Core.Specifications.ProductSpecification
             }
         }
 
-        public class GetByShopID: Specification<Product>
+        public class GetByShopID : Specification<Product>
         {
              
             public GetByShopID(int shopId)
@@ -29,7 +29,13 @@ namespace FM_Rozetka_Api.Core.Specifications.ProductSpecification
                 Query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
             }
         }
-
-
+        
+        public class GetByBrandId : Specification<Product>
+        {
+            public GetByBrandId(int brandId)
+            {
+                Query.Where(item => item.BrandId == brandId);
+            }
+        }
     }
 }
