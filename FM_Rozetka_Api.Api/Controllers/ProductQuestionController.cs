@@ -83,7 +83,16 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(response);
         }
 
-
+        [HttpGet("getallActiveQuestion")]
+        public async Task<IActionResult> GetAllActiveQuestion()
+        {
+            var response = await _productQuestionService.GetActiveQuestions();
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
     }
 
 }

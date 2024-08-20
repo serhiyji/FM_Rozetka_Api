@@ -19,5 +19,15 @@ namespace FM_Rozetka_Api.Core.Specifications.ProductQuestionSpecification
                     .Include(x => x.AppUser);
             }
         }
+
+        public class OpenQuestions: Specification<ProductQuestion>
+        {
+            public OpenQuestions()
+            {
+                Query.Where(t => t.OpenQuestion == true)
+                    .Include(x => x.AppUser);
+            }
+        }
+
     }
 }

@@ -128,6 +128,25 @@ namespace FM_Rozetka_Api.Core.Services
             }
         }
 
+        public async Task<ServiceResponse<IEnumerable<ProductQuestionDTO>, object>> GetActiveQuestions()
+        {
+            try
+            {
+                var questions = (await _productQuestionRepository.GetListBySpec(new ProductQuestionSpecification.OpenQuestions())).ToList();
+
+                var map = _mapper.Map<List<ProductQuestionDTO>>(questions);
+
+                for (int i = 0; i < map.Count(); i++)
+                {
+                    map[i].NameUser = questions[i].AppUser.FirstName + " " + questions[i].AppUser.LastName;
+                }
+                return new ServiceResponse<IEnumerable<ProductQuestionDTO>, object>(true, "Success", payload: map);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<IEnumerable<ProductQuestionDTO>, object>(false, "Failed: " + ex.Message);
+            }
+        }
     }
 
 }
