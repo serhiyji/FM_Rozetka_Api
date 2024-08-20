@@ -90,6 +90,17 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(response);
         }
 
+        [HttpGet("paged")]
+        public async Task<IActionResult> GetPagedProducts([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            var response = await _productService.GetPagedProductsAsync(pageNumber, pageSize);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response.Message);
+        }
+
         #region Favorite
 
         [HttpPost("addproducttofavorites")]
