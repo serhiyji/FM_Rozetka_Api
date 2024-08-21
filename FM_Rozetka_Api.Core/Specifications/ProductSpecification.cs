@@ -1,5 +1,6 @@
 ﻿using Ardalis.Specification;
 using FM_Rozetka_Api.Core.Entities;
+using Rozetka_Api.Core.Entities;
 
 namespace FM_Rozetka_Api.Core.Specifications
 {
@@ -22,11 +23,11 @@ namespace FM_Rozetka_Api.Core.Specifications
             }
         }
 
-        public class GetPagedProducts : Specification<Product>
+        public class GetByPagination : Specification<Product>
         {
-            public GetPagedProducts(int pageNumber, int pageSize)
+            public GetByPagination(int page, int pageSize)
             {
-                Query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+                Query.Skip((page - 1) * pageSize).Take(pageSize);
             }
         }
 

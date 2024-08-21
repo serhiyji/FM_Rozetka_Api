@@ -11,11 +11,17 @@ namespace FM_Rozetka_Api.Core.Services
     {
         private readonly IRepository<Review> _reviewRepository;
         private readonly IMapper _mapper;
+        private readonly IRepository<Product> _productRepo;
 
-        public ReviewService(IMapper mapper, IRepository<Review> reviewRepository)
+        public ReviewService(
+                IMapper mapper, 
+                IRepository<Review> reviewRepository,
+                IRepository<Product> productRepo
+            )
         {
             _mapper = mapper;
             _reviewRepository = reviewRepository;
+            _productRepo = productRepo;
         }
 
         public async Task<ServiceResponse<Review, object>> CreateReview(ReviewCreateDTO reviewDTO)
@@ -27,6 +33,7 @@ namespace FM_Rozetka_Api.Core.Services
             {
                 await _reviewRepository.Insert(newReview);
                 await _reviewRepository.Save();
+                await UpdateProductRatingAsync(reviewDTO.ProductId);
                 return new ServiceResponse<Review, object>(true, "Review created successfully", payload: newReview);
             }
             catch (Exception ex)
@@ -48,6 +55,7 @@ namespace FM_Rozetka_Api.Core.Services
                 _mapper.Map(reviewDTO, review);
                 await _reviewRepository.Update(review);
                 await _reviewRepository.Save();
+                await UpdateProductRatingAsync(review.ProductId);
                 return new ServiceResponse<Review, object>(true, "Review updated successfully", payload: review);
             }
             catch (Exception ex)
@@ -68,6 +76,7 @@ namespace FM_Rozetka_Api.Core.Services
             {
                 await _reviewRepository.Delete(review.Id);
                 await _reviewRepository.Save();
+                await UpdateProductRatingAsync(review.ProductId);
                 return new ServiceResponse<object, object>(true, "Review deleted successfully");
             }
             catch (Exception ex)
@@ -129,6 +138,18 @@ namespace FM_Rozetka_Api.Core.Services
             {
                 return new ServiceResponse<IEnumerable<ReviewDTO>, object>(false, "Failed: " + ex.Message);
             }
+        }
+
+        private async Task<ServiceResponse> UpdateProductRatingAsync(int productId)
+        {
+            Product product = await _productRepo.GetByID(productId);
+            List<Review> reviews = (List<Review>)await _reviewRepository.GetListBySpec(new ReviewSpecification.GetByProductId(productId));
+            int count = reviews.Count();
+            int summa = reviews.Select(x => x.Rating).ToList().Sum();
+            product.Stars = (decimal)summa / (decimal)count;
+            await _productRepo.Update(product);
+            await _productRepo.Save();
+            return new ServiceResponse(true, "");
         }
     }
 }
