@@ -29,12 +29,41 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Discriminator = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: false),
+                    FirstName = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true),
+                    SurName = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true),
+                    LastName = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Brands",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
@@ -112,7 +141,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     Email = table.Column<string>(type: "text", nullable: false),
                     PhoneNumber = table.Column<string>(type: "text", nullable: false),
                     IsNonResident = table.Column<bool>(type: "boolean", nullable: false),
-                    ProcessedApplication = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    ProcessedApplication = table.Column<bool>(type: "boolean", nullable: false),
                     IsApproved = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -157,41 +186,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    Discriminator = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: false),
-                    FirstName = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true),
-                    SurName = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true),
-                    LastName = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true),
-                    CompanyId = table.Column<int>(type: "integer", nullable: true),
-                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    PasswordHash = table.Column<string>(type: "text", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Companies_CompanyId",
-                        column: x => x.CompanyId,
-                        principalTable: "Companies",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -303,26 +297,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Carts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    AppUserId = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Carts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Carts_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -422,7 +396,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         column: x => x.CompanyId,
                         principalTable: "Companies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -532,24 +506,37 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     ImageURL = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ShopId = table.Column<int>(type: "integer", nullable: false),
+                    BrandId = table.Column<int>(type: "integer", nullable: false),
                     CategoryProductId = table.Column<int>(type: "integer", nullable: false),
-                    CountryProductionProductId = table.Column<int>(type: "integer", nullable: false)
+                    CountryProductionId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Products_Brands_BrandId",
+                        column: x => x.BrandId,
+                        principalTable: "Brands",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Products_CategoryProducts_CategoryProductId",
                         column: x => x.CategoryProductId,
                         principalTable: "CategoryProducts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Products_CountryProductions_CountryProductionId",
+                        column: x => x.CountryProductionId,
+                        principalTable: "CountryProductions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Products_Shops_ShopId",
                         column: x => x.ShopId,
                         principalTable: "Shops",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -558,7 +545,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CartId = table.Column<int>(type: "integer", nullable: false),
+                    AppUserId = table.Column<string>(type: "text", nullable: false),
                     ProductId = table.Column<int>(type: "integer", nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -566,39 +553,13 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_CartItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CartItems_Carts_CartId",
-                        column: x => x.CartId,
-                        principalTable: "Carts",
+                        name: "FK_CartItems_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CartItems_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CountryProductionProducts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ProductId = table.Column<int>(type: "integer", nullable: false),
-                    CountryProductionId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CountryProductionProducts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CountryProductionProducts_CountryProductions_CountryProduct~",
-                        column: x => x.CountryProductionId,
-                        principalTable: "CountryProductions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CountryProductionProducts_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -634,8 +595,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     AppUserId = table.Column<string>(type: "text", nullable: false),
-                    ProductId = table.Column<int>(type: "integer", nullable: false),
-                    AddedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    ProductId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -679,7 +639,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -696,32 +656,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     table.PrimaryKey("PK_PhotoProducts", x => x.Id);
                     table.ForeignKey(
                         name: "FK_PhotoProducts_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProductBrands",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ProductId = table.Column<int>(type: "integer", nullable: false),
-                    BrandId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductBrands", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductBrands_Brands_BrandId",
-                        column: x => x.BrandId,
-                        principalTable: "Brands",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProductBrands_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -765,7 +699,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     ProductId = table.Column<int>(type: "integer", nullable: false),
                     AppUserId = table.Column<string>(type: "text", nullable: false),
                     Rating = table.Column<int>(type: "integer", nullable: false),
-                    Comment = table.Column<string>(type: "text", nullable: false),
+                    Comment = table.Column<string>(type: "character varying(2048)", maxLength: 2048, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -822,8 +756,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     QuestionID = table.Column<int>(type: "integer", nullable: false),
                     AppUserId = table.Column<string>(type: "text", nullable: false),
                     AnswerText = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ProductQuestionId = table.Column<int>(type: "integer", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -835,8 +768,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductAnswers_ProductQuestions_ProductQuestionId",
-                        column: x => x.ProductQuestionId,
+                        name: "FK_ProductAnswers_ProductQuestions_QuestionID",
+                        column: x => x.QuestionID,
                         principalTable: "ProductQuestions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -847,20 +780,287 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "48375289-d59a-4109-aa73-a3ecf21a88f7", null, "Seller", "SELLER" },
-                    { "6113ccc3-9133-4aa5-8fdf-d90fa53529e7", null, "Administrator", "ADMINISTRATOR" },
-                    { "96373af4-5479-4008-97d2-7bea6c13c6c0", null, "User", "USER" }
+                    { "105c0dba-e43b-43c9-871e-ad01c4e847f5", null, "Administrator", "ADMINISTRATOR" },
+                    { "5f2d67f8-b511-4966-9d61-7480ea77eec1", null, "Seller", "SELLER" },
+                    { "8805b016-d675-4b06-be15-9563540b3fa4", null, "ModeratorSeller", "MODERATORSELLER" },
+                    { "ade34539-92d2-4165-88b4-d8e0fc3c57ec", null, "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "CompanyId", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SurName", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "9a59f7ab-06fb-4770-91e3-e29209dd00a1", 0, null, "f8928e0a-0aef-434c-af7c-31e7ab5592e4", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEOk7nqYF8J1I3l0256YDMRBDae9SInqZ7gQ9KnQD4VOvIYUKRf0cwthjHbX0jBaHBg==", "", false, "768ed8e6-b3b3-4e03-ac0c-d51a7a8e6b80", "Johnovych", false, "admin@email.com" });
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SurName", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "b094a0e3-b647-45ed-b48f-b7a3b06522e4", 0, "8c6d1914-3b3e-4cf6-8db1-2cde4f3b5981", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEM8FxtK0i15vRJqsbdl86R1cbR9I78VrLLielCwNjWJx2lnXSxcK7cl6h0ZPwmcOgA==", "", false, "e5d971c5-9133-44d0-b2e8-296ba315a8d8", "Johnovych", false, "admin@email.com" });
+
+            migrationBuilder.InsertData(
+                table: "Brands",
+                columns: new[] { "Id", "Description", "Name" },
+                values: new object[,]
+                {
+                    { 1, "", "Apple" },
+                    { 2, "", "Dell" },
+                    { 3, "", "HP" },
+                    { 4, "", "Lenovo" },
+                    { 5, "", "Asus" },
+                    { 6, "", "Acer" },
+                    { 7, "", "MSI" },
+                    { 8, "", "Razer" },
+                    { 9, "", "Microsoft" },
+                    { 10, "", "Toshiba" },
+                    { 11, "", "Fujitsu" },
+                    { 12, "", "Gateway" },
+                    { 13, "", "Packard Bell" },
+                    { 14, "", "Vaio" },
+                    { 15, "", "OPPO" },
+                    { 16, "", "vivo" },
+                    { 17, "", "Google Pixel" },
+                    { 18, "", "OnePlus" },
+                    { 19, "", "Realme" },
+                    { 20, "", "Motorola" },
+                    { 21, "", "Nokia" },
+                    { 22, "", "LG" },
+                    { 23, "", "Bose" },
+                    { 24, "", "JBL" },
+                    { 25, "", "Anker" },
+                    { 26, "", "Belkin" },
+                    { 27, "", "Casetify" },
+                    { 28, "", "Logitech" },
+                    { 29, "", "Xiaomi" },
+                    { 30, "", "Huawei" },
+                    { 31, "", "Xbox" },
+                    { 32, "", "Nintendo" },
+                    { 33, "", "Wii" },
+                    { 34, "", "PlayStation" },
+                    { 35, "", "Canon" },
+                    { 36, "", "Nikon" },
+                    { 37, "", "Sony" },
+                    { 38, "", "Fujifilm" },
+                    { 39, "", "GoPro" },
+                    { 40, "", "DJI" },
+                    { 41, "", "Olympus" },
+                    { 42, "", "Leica" },
+                    { 43, "", "Hasselblad" },
+                    { 44, "", "Tesla" },
+                    { 45, "", "LGDeWalt" },
+                    { 46, "", "Dyson" },
+                    { 47, "", "Philips" },
+                    { 48, "", "Panasonic" },
+                    { 49, "", "Samsung" },
+                    { 50, "", "Bosch" },
+                    { 51, "", "Siemens" },
+                    { 52, "", "Electrolux" },
+                    { 53, "", "Whirlpool" },
+                    { 54, "", "Miele" },
+                    { 55, "", "Beko" },
+                    { 56, "", "Candy" },
+                    { 57, "", "Indesit" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "CountryProductions",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Afghanistan" },
+                    { 2, "Albania" },
+                    { 3, "Algeria" },
+                    { 4, "Andorra" },
+                    { 5, "Angola" },
+                    { 6, "Antigua and Barbuda" },
+                    { 7, "Argentina" },
+                    { 8, "Armenia" },
+                    { 9, "Australia" },
+                    { 10, "Austria" },
+                    { 11, "Azerbaijan" },
+                    { 12, "Bahamas" },
+                    { 13, "Bahrain" },
+                    { 14, "Bangladesh" },
+                    { 15, "Barbados" },
+                    { 16, "Belarus" },
+                    { 17, "Belgium" },
+                    { 18, "Belize" },
+                    { 19, "Benin" },
+                    { 20, "Bhutan" },
+                    { 21, "Bolivia" },
+                    { 22, "Bosnia and Herzegovina" },
+                    { 23, "Botswana" },
+                    { 24, "Brazil" },
+                    { 25, "Brunei" },
+                    { 26, "Bulgaria" },
+                    { 27, "Burkina Faso" },
+                    { 28, "Burundi" },
+                    { 29, "Cabo Verde" },
+                    { 30, "Cambodia" },
+                    { 31, "Cameroon" },
+                    { 32, "Canada" },
+                    { 33, "Central African Republic" },
+                    { 34, "Chad" },
+                    { 35, "Chile" },
+                    { 36, "China" },
+                    { 37, "Colombia" },
+                    { 38, "Comoros" },
+                    { 39, "Congo (Congo-Brazzaville)" },
+                    { 40, "Costa Rica" },
+                    { 41, "Croatia" },
+                    { 42, "Cuba" },
+                    { 43, "Cyprus" },
+                    { 44, "Czech Republic (Czechia)" },
+                    { 45, "Democratic Republic of the Congo" },
+                    { 46, "Denmark" },
+                    { 47, "Djibouti" },
+                    { 48, "Dominica" },
+                    { 49, "Dominican Republic" },
+                    { 50, "East Timor (Timor-Leste)" },
+                    { 51, "Ecuador" },
+                    { 52, "Egypt" },
+                    { 53, "El Salvador" },
+                    { 54, "Equatorial Guinea" },
+                    { 55, "Eritrea" },
+                    { 56, "Estonia" },
+                    { 57, "Eswatini" },
+                    { 58, "Ethiopia" },
+                    { 59, "Fiji" },
+                    { 60, "Finland" },
+                    { 61, "France" },
+                    { 62, "Gabon" },
+                    { 63, "Gambia" },
+                    { 64, "Georgia" },
+                    { 65, "Germany" },
+                    { 66, "Ghana" },
+                    { 67, "Greece" },
+                    { 68, "Grenada" },
+                    { 69, "Guatemala" },
+                    { 70, "Guinea" },
+                    { 71, "Guinea-Bissau" },
+                    { 72, "Guyana" },
+                    { 73, "Haiti" },
+                    { 74, "Honduras" },
+                    { 75, "Hungary" },
+                    { 76, "Iceland" },
+                    { 77, "India" },
+                    { 78, "Indonesia" },
+                    { 79, "Iran" },
+                    { 80, "Iraq" },
+                    { 81, "Ireland" },
+                    { 82, "Israel" },
+                    { 83, "Italy" },
+                    { 84, "Ivory Coast (Côte d'Ivoire)" },
+                    { 85, "Jamaica" },
+                    { 86, "Japan" },
+                    { 87, "Jordan" },
+                    { 88, "Kazakhstan" },
+                    { 89, "Kenya" },
+                    { 90, "Kiribati" },
+                    { 91, "Korea, North" },
+                    { 92, "Korea, South" },
+                    { 93, "Kosovo" },
+                    { 94, "Kuwait" },
+                    { 95, "Kyrgyzstan" },
+                    { 96, "Laos" },
+                    { 97, "Latvia" },
+                    { 98, "Lebanon" },
+                    { 99, "Lesotho" },
+                    { 100, "Liberia" },
+                    { 101, "Libya" },
+                    { 102, "Liechtenstein" },
+                    { 103, "Lithuania" },
+                    { 104, "Luxembourg" },
+                    { 105, "Madagascar" },
+                    { 106, "Malawi" },
+                    { 107, "Malaysia" },
+                    { 108, "Maldives" },
+                    { 109, "Mali" },
+                    { 110, "Malta" },
+                    { 111, "Marshall Islands" },
+                    { 112, "Mauritania" },
+                    { 113, "Mauritius" },
+                    { 114, "Mexico" },
+                    { 115, "Micronesia" },
+                    { 116, "Moldova" },
+                    { 117, "Monaco" },
+                    { 118, "Mongolia" },
+                    { 119, "Montenegro" },
+                    { 120, "Morocco" },
+                    { 121, "Mozambique" },
+                    { 122, "Myanmar (Burma)" },
+                    { 123, "Namibia" },
+                    { 124, "Nauru" },
+                    { 125, "Nepal" },
+                    { 126, "Netherlands" },
+                    { 127, "New Zealand" },
+                    { 128, "Nicaragua" },
+                    { 129, "Niger" },
+                    { 130, "Nigeria" },
+                    { 131, "North Macedonia" },
+                    { 132, "Norway" },
+                    { 133, "Oman" },
+                    { 134, "Pakistan" },
+                    { 135, "Palau" },
+                    { 136, "Panama" },
+                    { 137, "Papua New Guinea" },
+                    { 138, "Paraguay" },
+                    { 139, "Peru" },
+                    { 140, "Philippines" },
+                    { 141, "Poland" },
+                    { 142, "Portugal" },
+                    { 143, "Qatar" },
+                    { 144, "Romania" },
+                    { 145, "Rwanda" },
+                    { 146, "Saint Kitts and Nevis" },
+                    { 147, "Saint Lucia" },
+                    { 148, "Saint Vincent and the Grenadines" },
+                    { 149, "Samoa" },
+                    { 150, "San Marino" },
+                    { 151, "Sao Tome and Principe" },
+                    { 152, "Saudi Arabia" },
+                    { 153, "Senegal" },
+                    { 154, "Serbia" },
+                    { 155, "Seychelles" },
+                    { 156, "Sierra Leone" },
+                    { 157, "Singapore" },
+                    { 158, "Slovakia" },
+                    { 159, "Slovenia" },
+                    { 160, "Solomon Islands" },
+                    { 161, "Somalia" },
+                    { 162, "South Africa" },
+                    { 163, "South Sudan" },
+                    { 164, "Spain" },
+                    { 165, "Sri Lanka" },
+                    { 166, "Sudan" },
+                    { 167, "Suriname" },
+                    { 168, "Sweden" },
+                    { 169, "Switzerland" },
+                    { 170, "Syria" },
+                    { 171, "Taiwan" },
+                    { 172, "Tajikistan" },
+                    { 173, "Tanzania" },
+                    { 174, "Thailand" },
+                    { 175, "Togo" },
+                    { 176, "Tonga" },
+                    { 177, "Trinidad and Tobago" },
+                    { 178, "Tunisia" },
+                    { 179, "Turkey" },
+                    { 180, "Turkmenistan" },
+                    { 181, "Tuvalu" },
+                    { 182, "Uganda" },
+                    { 183, "Ukraine" },
+                    { 184, "United Arab Emirates" },
+                    { 185, "United Kingdom" },
+                    { 186, "United States" },
+                    { 187, "Uruguay" },
+                    { 188, "Uzbekistan" },
+                    { 189, "Vanuatu" },
+                    { 190, "Vatican City" },
+                    { 191, "Venezuela" },
+                    { 192, "Vietnam" },
+                    { 193, "Yemen" },
+                    { 194, "Zambia" },
+                    { 195, "Zimbabwe" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "6113ccc3-9133-4aa5-8fdf-d90fa53529e7", "9a59f7ab-06fb-4770-91e3-e29209dd00a1" });
+                values: new object[] { "105c0dba-e43b-43c9-871e-ad01c4e847f5", "b094a0e3-b647-45ed-b48f-b7a3b06522e4" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_AppUserId",
@@ -899,41 +1099,20 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_CompanyId",
-                table: "AspNetUsers",
-                column: "CompanyId");
-
-            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartItems_CartId",
+                name: "IX_CartItems_AppUserId",
                 table: "CartItems",
-                column: "CartId");
+                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CartItems_ProductId",
                 table: "CartItems",
                 column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Carts_AppUserId",
-                table: "Carts",
-                column: "AppUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CountryProductionProducts_CountryProductionId",
-                table: "CountryProductionProducts",
-                column: "CountryProductionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CountryProductionProducts_ProductId",
-                table: "CountryProductionProducts",
-                column: "ProductId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Discounts_ProductId",
@@ -1001,19 +1180,9 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 column: "AppUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductAnswers_ProductQuestionId",
+                name: "IX_ProductAnswers_QuestionID",
                 table: "ProductAnswers",
-                column: "ProductQuestionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductBrands_BrandId",
-                table: "ProductBrands",
-                column: "BrandId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductBrands_ProductId",
-                table: "ProductBrands",
-                column: "ProductId");
+                column: "QuestionID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductQuestions_AppUserId",
@@ -1026,9 +1195,19 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Products_BrandId",
+                table: "Products",
+                column: "BrandId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryProductId",
                 table: "Products",
                 column: "CategoryProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_CountryProductionId",
+                table: "Products",
+                column: "CountryProductionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_ShopId",
@@ -1101,9 +1280,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 name: "CartItems");
 
             migrationBuilder.DropTable(
-                name: "CountryProductionProducts");
-
-            migrationBuilder.DropTable(
                 name: "Discounts");
 
             migrationBuilder.DropTable(
@@ -1131,9 +1307,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 name: "ProductAnswers");
 
             migrationBuilder.DropTable(
-                name: "ProductBrands");
-
-            migrationBuilder.DropTable(
                 name: "RefreshTokens");
 
             migrationBuilder.DropTable(
@@ -1155,16 +1328,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Carts");
-
-            migrationBuilder.DropTable(
-                name: "CountryProductions");
-
-            migrationBuilder.DropTable(
                 name: "ProductQuestions");
-
-            migrationBuilder.DropTable(
-                name: "Brands");
 
             migrationBuilder.DropTable(
                 name: "Orders");
@@ -1176,7 +1340,13 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
+                name: "Brands");
+
+            migrationBuilder.DropTable(
                 name: "CategoryProducts");
+
+            migrationBuilder.DropTable(
+                name: "CountryProductions");
 
             migrationBuilder.DropTable(
                 name: "Shops");

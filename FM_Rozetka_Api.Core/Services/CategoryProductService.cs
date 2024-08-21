@@ -1,38 +1,32 @@
 ﻿using AutoMapper;
 using FM_Rozetka_Api.Core.DTOs.CategoryProduct;
-using FM_Rozetka_Api.Core.DTOs.Company;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FM_Rozetka_Api.Core.Specifications.CategoryProductSpecification;
 
 namespace FM_Rozetka_Api.Core.Services
 {
     public class CategoryProductService: ICategoryProductService
     {
         private readonly IRepository<CategoryProduct> _categoryProductRepository;
-        private readonly IRepository<Product> _productRepository;
+        private readonly IProductService _productService;
         private readonly IMapper _mapper;
     
-        public CategoryProductService(IRepository<CategoryProduct> categoryProductRepository, IMapper mapper, IRepository<Product> productRepository)
+        public CategoryProductService(IRepository<CategoryProduct> categoryProductRepository, IMapper mapper, IProductService productService)
         {
             _categoryProductRepository = categoryProductRepository;
             _mapper = mapper;
-            _productRepository = productRepository;
+            _productService = productService;
         }
 
         public async Task<ServiceResponse<CategoryProduct,object>> AddAsync(CategoryProductCreateDTO application)
         {
             if (application.Level > 1)
             {
-                var topCategory = await _categoryProductRepository.GetByID(application.PreviousСategoryId);
-                if (topCategory == null || topCategory.Level != 1)
+                var topCategory = await _categoryProductRepository.GetByID(application.TopId);
+                if (topCategory == null )
                 {
-
                     return new ServiceResponse<CategoryProduct, object>(false, "Invalid TopId: No corresponding top-level category found.", payload: topCategory);
                 }
             }
@@ -45,45 +39,103 @@ namespace FM_Rozetka_Api.Core.Services
             return new ServiceResponse<CategoryProduct, object>(true,"Succes", payload: categoryProduct);
         }
 
-        public async Task DeletenAsync(int id)
+        public async Task<ServiceResponse<object, object>> DeleteAsync(int id)
         {
-            var categoryproduct = await _categoryProductRepository.GetByID(id);
-            if (categoryproduct == null)
+            var categoryProduct = await _categoryProductRepository.GetByID(id);
+            if (categoryProduct == null)
             {
-                throw new ArgumentException($"Category with id {id} not found.");
+                return new ServiceResponse<object, object>(false, $"Category with id {id} not found.");
             }
 
-            var productCount = await _productRepository.GetCountRows();
-            if (productCount > 0)
+            var productCount = await _productService.GetCountByCategoryId(id); 
+            if (productCount.Payload > 0)
             {
-                throw new InvalidOperationException("Cannot delete category because there are associated products.");
+                return new ServiceResponse<object, object>(false, "Cannot delete category because there are associated products.");
+            }
+
+            var countSubcategories = await _categoryProductRepository.GetCountBySpec(new CategoryProductSpecification.GetCountSubcategories(id));
+            if(countSubcategories > 0)
+            {
+                return new ServiceResponse<object, object>(false, "Cannot delete category because there are subcategories.");
             }
 
             await _categoryProductRepository.Delete(id);
             await _categoryProductRepository.Save();
+
+            return new ServiceResponse<object, object>(true, "Category deleted successfully.",id);
+        }
+
+        public async Task<ServiceResponse<IEnumerable<CategoryProductDTO>, object>> GetAllAsync()
+        {
+            var categoryProducts = await _categoryProductRepository.GetAll();
+            var categoryProductDTOs = _mapper.Map<IEnumerable<CategoryProductDTO>>(categoryProducts);
+            return new ServiceResponse<IEnumerable<CategoryProductDTO>, object>(true, "Success", payload: categoryProductDTOs);
+        }
+
+        public async Task<ServiceResponse<IEnumerable<CategoryProductDTO>, object>> GetAllSortedAsync()
+        {
+            var categoryProducts = await _categoryProductRepository.GetAll();
+            var categoryProductDTOs = _mapper.Map<IEnumerable<CategoryProductDTO>>(categoryProducts);
+
+            var hierarchy = BuildCategoryHierarchy(categoryProductDTOs);
+
+            return new ServiceResponse<IEnumerable<CategoryProductDTO>, object>(true, "Success", payload: hierarchy);
+        }
+
+        private IEnumerable<CategoryProductDTO> BuildCategoryHierarchy(IEnumerable<CategoryProductDTO> categories)
+        {
+            var categoryLookup = categories.ToLookup(c => c.TopId);
+
+            var rootCategories = categoryLookup[null].ToList();
+
+            foreach (var category in rootCategories)
+            {
+                category.SubCategories = BuildHierarchy(category.Id, categoryLookup);
+            }
+
+            return rootCategories;
+        }
+
+        private List<CategoryProductDTO> BuildHierarchy(int parentId, ILookup<int?, CategoryProductDTO> lookup)
+        {
+            var subCategories = lookup[parentId].ToList();
+
+            foreach (var subCategory in subCategories)
+            {
+                subCategory.SubCategories = BuildHierarchy(subCategory.Id, lookup);
+            }
+
+            return subCategories;
+        }
+
+        public async Task<ServiceResponse<CategoryProductDTO, object>> GetByIdAsync(int id)
+        {
+            var categoryProduct = await _categoryProductRepository.GetByID(id);
+            if (categoryProduct == null)
+            {
+                return new ServiceResponse<CategoryProductDTO, object>(false, $"Category with id {id} not found.");
+            }
+
+            var categoryProductDTO = _mapper.Map<CategoryProductDTO>(categoryProduct);
+            return new ServiceResponse<CategoryProductDTO, object>(true, "Success", payload: categoryProductDTO);
         }
 
 
-        public async Task<IEnumerable<CategoryProductDTO>> GetAllAsync()
+        public async Task<ServiceResponse<object, object>> UpdateAsync(CategoryProductUpdateDTO model)
         {
-            var categoryproduct = await _categoryProductRepository.GetAll();
-            return _mapper.Map<IEnumerable<CategoryProductDTO>>(categoryproduct);
-        }
+            var categoryProduct = await _categoryProductRepository.GetByID(model.Id);
+            if (categoryProduct == null)
+            {
+                return new ServiceResponse<object, object>(false, $"Category with id {model.Id} not found.");
+            }
 
-        public async Task<CategoryProductDTO> GetByIdAsync(int id)
-        {
-            var categoryproduct = await _categoryProductRepository.GetByID(id);
-            return _mapper.Map<CategoryProductDTO>(categoryproduct);
-        }
+            categoryProduct.Name = model.Name;
+            categoryProduct.Description = model.Description;
 
-        public async Task UpdateAsync(CategoryProductUpdateDTO model)
-        {
-            var categoryproducts = await GetByIdAsync(model.Id);
-            categoryproducts.Name = model.Name;
-            categoryproducts.Description = model.Description;  
-            var categoryproduct = _mapper.Map<CategoryProduct>(categoryproducts);
-            await _categoryProductRepository.Update(categoryproduct);
+            await _categoryProductRepository.Update(categoryProduct);
             await _categoryProductRepository.Save();
+
+            return new ServiceResponse<object, object>(true, "Category updated successfully.",payload: categoryProduct);
         }
     }
 }

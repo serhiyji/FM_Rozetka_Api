@@ -1,5 +1,4 @@
 ﻿using FM_Rozetka_Api.Core.Entities;
-using FM_Rozetka_Api.Core.Entities.Telegram;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Infrastructure.Context;
 using FM_Rozetka_Api.Infrastructure.Repository;

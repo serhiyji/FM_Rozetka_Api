@@ -1,13 +1,6 @@
 ﻿using FM_Rozetka_Api.Core.DTOs.User;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Responses;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.WebUtilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Interfaces
 {
@@ -20,6 +13,11 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ServiceResponse> GetUserByIdAsync(string Id);
         Task SendConfirmationEmailAsync(AppUser user);
         Task<ServiceResponse> ConfirmEmailAsync(string userId, string token);
-        Task<ServiceResponse> GetAllAsync();
+        Task<ServiceResponse> GetAll();
+        Task<ServiceResponse> ForgotPasswordAsync(string email);
+        Task<ServiceResponse> ResetPasswordAsync(PasswordRecoveryDto model);
+        Task<ServiceResponse> BanUser(string AppUserId);
+        ServiceResponse<List<UserDTO>, object> GetAllAsync();
+        Task<ServiceResponse> ChangePasswordAsync(UpdatePasswordDto model);
     }
 }

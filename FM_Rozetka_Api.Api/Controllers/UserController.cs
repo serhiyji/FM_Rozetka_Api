@@ -3,7 +3,6 @@ using FM_Rozetka_Api.Core.DTOs;
 using FM_Rozetka_Api.Core.DTOs.User;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
-using FM_Rozetka_Api.Core.Services;
 using FM_Rozetka_Api.Core.Validation.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -113,6 +112,46 @@ namespace FM_Rozetka_Api.Api.Controllers
                 return Ok(response);
             }
             return BadRequest(validationResult);
+        }
+
+        [HttpPost("forgotpassword")]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            return Ok(await _userService.ForgotPasswordAsync(email));
+        }
+
+        [HttpPost("resetpassword")]
+        public async Task<IActionResult> ResetPassword(PasswordRecoveryDto passwordRecoveryDto)
+        {
+            return Ok(await _userService.ResetPasswordAsync(passwordRecoveryDto));
+        }
+
+        [HttpGet("getallusers")]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(_userService.GetAll());
+        }
+
+        [HttpPost("banuser")]
+        public async Task<IActionResult> BanUser(string appUserId)
+        {
+            return Ok(_userService.BanUser(appUserId));
+        }
+
+        [HttpPost("UpdatePasswordInfoUser")]
+        public async Task<IActionResult> UpdatePasswordInfoUser(UpdatePasswordDto model)
+        {
+            var validationResult = await new UpdatePasswordValidation().ValidateAsync(model);
+            if (validationResult.IsValid)
+            {
+                ServiceResponse result = await _userService.ChangePasswordAsync(model);
+                if (result.Success)
+                {
+                    return Ok(result.Message);
+                }
+                return Ok(result.Errors.FirstOrDefault());
+            }
+            return Ok(validationResult.Errors.FirstOrDefault());
         }
     }
 }

@@ -1,16 +1,9 @@
 ﻿using AutoMapper;
-using FM_Rozetka_Api.Core.DTOs.Company;
 using FM_Rozetka_Api.Core.DTOs.Shops.Shop;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
 using FM_Rozetka_Api.Core.Specifications.Shops;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Telegram.Bot.Types;
 
 namespace FM_Rozetka_Api.Core.Services
 {
@@ -18,7 +11,7 @@ namespace FM_Rozetka_Api.Core.Services
     {
         private readonly IRepository<Shop> _shopRepository;
         private readonly IMapper _mapper;
-    
+
         public ShopService(IRepository<Shop> shopRepository, IMapper mapper)
         {
             _shopRepository = shopRepository;
@@ -32,7 +25,7 @@ namespace FM_Rozetka_Api.Core.Services
             await _shopRepository.Save();
             return new ServiceResponse<Shop, object>(true, "Succes", payload: shop);
         }
-      
+
         public async Task DeleteAsync(int id)
         {
             await _shopRepository.Delete(id);
@@ -51,11 +44,19 @@ namespace FM_Rozetka_Api.Core.Services
             return _mapper.Map<ShopDTO>(shop);
         }
 
+        public async Task<ShopDTO> GetByUserIdAsync(string id)
+        {
+            var shop = await _shopRepository.GetItemBySpec(new ShopSpecification.GetShopByUserId(id));
+            return _mapper.Map<ShopDTO>(shop);
+        }
+
         public async Task UpdateAsync(ShopUpdateDTO model)
         {
             var shop = _mapper.Map<Shop>(model);
             await _shopRepository.Update(shop);
             await _shopRepository.Save();
         }
+
+       
     }
 }

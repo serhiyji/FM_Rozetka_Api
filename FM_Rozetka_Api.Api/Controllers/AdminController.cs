@@ -1,12 +1,9 @@
 ﻿using FM_Rozetka_Api.Core.DTOs.User;
-using FM_Rozetka_Api.Core.Responses;
-using FM_Rozetka_Api.Core.Services;
 using FM_Rozetka_Api.Core.Validation.User;
 using Microsoft.AspNetCore.Mvc;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 using FM_Rozetka_Api.Core.Interfaces;
 
 namespace FM_Rozetka_Api.Api.Controllers
@@ -43,7 +40,7 @@ namespace FM_Rozetka_Api.Api.Controllers
         [HttpGet("getall")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok((await _userService.GetAllAsync()));
+            return Ok(_userService.GetAllAsync());
         }
     }
 }
