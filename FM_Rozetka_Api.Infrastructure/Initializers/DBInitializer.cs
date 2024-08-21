@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Rozetka_Api.Core.Entities;
+using System.Runtime.CompilerServices;
+using Telegram.Bot.Types;
 
 namespace FM_Rozetka_Api.Infrastructure.Initializers
 {
@@ -255,7 +257,6 @@ namespace FM_Rozetka_Api.Infrastructure.Initializers
                 new CountryProduction() { Id = 195, Name = "Zimbabwe" }
             );
         }
-
         public static void SeedBrands(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Brand>().HasData(
@@ -317,6 +318,86 @@ namespace FM_Rozetka_Api.Infrastructure.Initializers
                 new Brand() { Id = 56, Name = "Candy" },
                 new Brand() { Id = 57, Name = "Indesit" }
             );
+        }
+        public static string sellerUserId = Guid.NewGuid().ToString();
+        public static void SeedSellers(this ModelBuilder modelBuilder)
+        {
+            var passwordHasher = new PasswordHasher<AppUser>();
+            var sellerUser = new AppUser
+            {
+                Id = sellerUserId,
+                FirstName = "seller",
+                LastName = "seller",
+                SurName = "seller",
+                UserName = "seller@email.com",
+                NormalizedUserName = "SELLER@EMAIL.COM",
+                Email = "seller@email.com",
+                NormalizedEmail = "SELLER@EMAIL.COM",
+                EmailConfirmed = true,
+                PhoneNumber = "",
+                PhoneNumberConfirmed = false,
+            };
+            sellerUser.PasswordHash = passwordHasher.HashPassword(sellerUser, "Qwerty-1");
+            modelBuilder.Entity<AppUser>().HasData(sellerUser);
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+            {
+                RoleId = SellerRoleId,
+                UserId = sellerUserId
+            });
+        }
+        public static void SeedCompany(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Company>().HasData(new Company()
+            {
+                Id = 1,
+                Name = "Test",
+                PhoneNumber = "Test"
+            });
+        }
+        public static void SeedShop(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Shop>().HasData(new Shop()
+            {
+                Id = 1,
+                AppUserId = sellerUserId,
+                CompanyId = 1,
+                Website = "TEST",
+                HasNoWebsite = false,
+                FullName = "TEST",
+                Position = "TEST",
+                Email = "TEST",
+                PhoneNumber = "TEST",
+                IsNonResident = false
+            });
+        }
+        public static void SeedCategoryProduct(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CategoryProduct>().HasData(new CategoryProduct()
+            {
+                Id = 1,
+                Level = 1,
+                TopId = null,
+                Name = "Test",
+                Description = "Test"
+            });
+        }
+        public static void SeedProduct(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>().HasData(new Product()
+            {
+                Id = 1,
+                Name = "Test",
+                Description = "Test",
+                Price = 1,
+                Stars = 0,
+                Stock = 1,
+                ImageURL = "noimage.webp",
+                CreatedAt = DateTime.UtcNow,
+                ShopId = 1,
+                BrandId = 1,
+                CategoryProductId = 1,
+                CountryProductionId = 1
+            });
         }
     }
 }
