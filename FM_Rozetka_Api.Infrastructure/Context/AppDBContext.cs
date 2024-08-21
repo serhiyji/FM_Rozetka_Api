@@ -202,6 +202,11 @@ namespace FM_Rozetka_Api.Infrastructure.Context
             modelBuilder.SeedAdministrator();
             modelBuilder.SeedCountryProductions();
             modelBuilder.SeedBrands();
+            modelBuilder.SeedSellers();
+            modelBuilder.SeedCompany();
+            modelBuilder.SeedShop();
+            modelBuilder.SeedCategoryProduct();
+            modelBuilder.SeedProduct();
         }
     }
 }

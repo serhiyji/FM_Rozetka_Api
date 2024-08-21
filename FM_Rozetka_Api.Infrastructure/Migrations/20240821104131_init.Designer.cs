@@ -3,6 +3,7 @@ using System;
 using FM_Rozetka_Api.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FM_Rozetka_Api.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240821104131_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,7 +113,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
                     b.ToTable("CategoryProducts");
 
-
                     b.HasData(
                         new
                         {
@@ -119,7 +121,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                             Level = 1,
                             Name = "Test"
                         });
-
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.CategorySpecification", b =>
@@ -166,7 +167,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                             Name = "Test",
                             PhoneNumber = "Test"
                         });
-
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.CountryProduction", b =>
@@ -1762,7 +1762,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
                     b.ToTable("Shops");
 
-
                     b.HasData(
                         new
                         {
@@ -1872,7 +1871,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-
                             Id = "e086963d-cf1b-4a70-bbd1-d92c35ed82d1",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
@@ -2059,7 +2057,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-
                             UserId = "f816a810-7b31-48dc-80e2-88b01cd81875",
                             RoleId = "e086963d-cf1b-4a70-bbd1-d92c35ed82d1"
                         },
@@ -2479,28 +2476,23 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-
                             Id = "f816a810-7b31-48dc-80e2-88b01cd81875",
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "cf76170c-a901-4046-bb55-8a04f5a68ed6",
-
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-
                             PasswordHash = "AQAAAAIAAYagAAAAEHkFL4UqyuSr2OH4hrux/9MzO1D7D4pkLo0zC3OhzUoIXjGXPRYo5PfPuo53MsuStA==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "fd5ee026-2dfa-4b36-9d67-5a2f0d656d05",
-
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",
                             LastName = "Connor",
                             SurName = "Johnovych"
-
                         },
                         new
                         {
@@ -2521,7 +2513,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                             FirstName = "seller",
                             LastName = "seller",
                             SurName = "seller"
-
                         });
                 });
 
