@@ -12,8 +12,14 @@ namespace FM_Rozetka_Api.Core.Validation.Brand
     {
         public CreateBrandValidation()
         {
-            RuleFor(item => item.Name).NotEmpty().MaximumLength(256);
-            RuleFor(item => item.Description).MaximumLength(1024);
+            RuleFor(brand => brand.Name)
+                .NotEmpty().WithMessage("Brand name cannot be empty")
+                .MaximumLength(100).WithMessage("Brand name cannot exceed 100 characters");
+
+            RuleFor(brand => brand.Description)
+                .NotEmpty().WithMessage("Brand description cannot be empty")
+                .MaximumLength(500).WithMessage("Brand description cannot exceed 500 characters");
         }
     }
+
 }

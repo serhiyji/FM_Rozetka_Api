@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using FM_Rozetka_Api.Core.DTOs.Products.ProductAnswer;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
