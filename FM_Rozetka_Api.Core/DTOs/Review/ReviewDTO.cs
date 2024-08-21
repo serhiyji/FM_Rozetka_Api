@@ -8,6 +8,7 @@ namespace FM_Rozetka_Api.Core.DTOs.Review
         public string AppUserId { get; set; }
         public int Rating { get; set; }
         public string Comment { get; set; }
+        public string NameUser { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 }

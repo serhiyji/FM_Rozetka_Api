@@ -212,5 +212,40 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse<int, object>(false, "Failed: " + ex.Message);
             }
         }
+
+        public async Task<ServiceResponse<PagedProductResult, object>> GetPagedProductsAsync(int pageNumber, int pageSize)
+        {
+            try
+            {
+                var totalProducts = await _productRepository.GetCountRows();
+
+                var products = await _productRepository.GetListBySpec(new ProductSpecification.GetPagedProducts(pageNumber, pageSize));
+
+                if (products == null || !products.Any())
+                {
+                    return new ServiceResponse<PagedProductResult, object>(false, "No products found");
+                }
+
+                var productDTOs = _mapper.Map<IEnumerable<ProductDTO>>(products);
+
+                var totalPages = (int)Math.Ceiling((double)totalProducts / pageSize);
+
+                var result = new PagedProductResult
+                {
+                    Products = productDTOs,
+                    CurrentPage = pageNumber,
+                    TotalPages = totalPages,
+                    NextPage = pageNumber < totalPages ? pageNumber + 1 : (int?)null,
+                    PreviousPage = pageNumber > 1 ? pageNumber - 1 : (int?)null
+                };
+
+                return new ServiceResponse<PagedProductResult, object>(true, "Success", payload: result);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<PagedProductResult, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
     }
 }
