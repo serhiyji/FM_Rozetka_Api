@@ -10,6 +10,7 @@ namespace FM_Rozetka_Api.Core.DTOs.Products.Product
         public decimal Price { get; set; }
         public decimal Stars { get; set; }
         public int Stock { get; set; }
+        public int BrandId { get; set; }
         public IFormFile? MainImageFile { get; set; }
         public List<IFormFile>? AdditionalImageFiles { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

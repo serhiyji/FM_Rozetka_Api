@@ -1,16 +1,9 @@
-﻿using AutoMapper;
+using AutoMapper;
 using FM_Rozetka_Api.Core.DTOs.Products.ProductAnswer;
-using FM_Rozetka_Api.Core.DTOs.Products.ProductQuestion;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
 using FM_Rozetka_Api.Core.Specifications;
-using FM_Rozetka_Api.Core.Specifications.ProductQuestionSpecification;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Services
 {
