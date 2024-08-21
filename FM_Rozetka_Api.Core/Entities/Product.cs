@@ -1,9 +1,5 @@
 ﻿using FM_Rozetka_Api.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Rozetka_Api.Core.Entities;
 
 namespace FM_Rozetka_Api.Core.Entities
 {
@@ -22,8 +18,9 @@ namespace FM_Rozetka_Api.Core.Entities
         public int ShopId { get; set; }
         public Shop Shop { get; set; }
 
+        public int BrandId { get; set; }
+        public Brand Brand { get; set; }
         
-        public List<ProductBrand> ProductBrands { get; set; }
         public List<Favorite> Favorites { get; set; }
         public List<Discount> Discounts { get; set; }
         public List<ProductQuestion> ProductQuestions { get; set; }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace FM_Rozetka_Api.Core.DTOs.Products.ProductAnswer
 {
     public class ProductAnswerDTO
@@ -12,6 +7,7 @@ namespace FM_Rozetka_Api.Core.DTOs.Products.ProductAnswer
         public int QuestionID { get; set; }
         public string AppUserId { get; set; }
         public string AnswerText { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public string? NameUser { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

@@ -1,10 +1,4 @@
-﻿using FM_Rozetka_Api.Core.DTOs.Products.Product;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace FM_Rozetka_Api.Core.DTOs.Review
 {
     public class ReviewDTO
@@ -14,6 +8,7 @@ namespace FM_Rozetka_Api.Core.DTOs.Review
         public string AppUserId { get; set; }
         public int Rating { get; set; }
         public string Comment { get; set; }
+        public string NameUser { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 }

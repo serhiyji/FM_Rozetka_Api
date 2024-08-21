@@ -1,9 +1,7 @@
-﻿using FM_Rozetka_Api.Core.DTOs.Products.Product;
-using FM_Rozetka_Api.Core.DTOs.User;
+﻿using FM_Rozetka_Api.Core.DTOs.Favorite;
+using FM_Rozetka_Api.Core.DTOs.Products.Product;
+using FM_Rozetka_Api.Core.DTOs.Review;
 using FM_Rozetka_Api.Core.Interfaces;
-using FM_Rozetka_Api.Core.Services;
-using FM_Rozetka_Api.Core.Validation.User;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FM_Rozetka_Api.Api.Controllers
@@ -13,9 +11,17 @@ namespace FM_Rozetka_Api.Api.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
-        public ProductController(IProductService productService)
+        private readonly IFavoriteService _favoriteService;
+        private readonly IReviewService _reviewService;
+        public ProductController(
+                IProductService productService,
+                IFavoriteService favoriteService,
+                IReviewService reviewService
+            )
         {
             this._productService = productService;
+            this._favoriteService = favoriteService;
+            this._reviewService = reviewService;
         }
 
         [HttpPost("create")]
@@ -83,5 +89,39 @@ namespace FM_Rozetka_Api.Api.Controllers
             }
             return BadRequest(response);
         }
+
+        [HttpGet("paged")]
+        public async Task<IActionResult> GetPagedProducts([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            var response = await _productService.GetPagedProductsAsync(pageNumber, pageSize);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response.Message);
+        }
+
+        #region Favorite
+
+        [HttpPost("addproducttofavorites")]
+        public async Task<IActionResult> AddProductToFavorites(FavoriteCreateDTO favoriteCreateDTO)
+        {
+            return Ok(await _favoriteService.AddAsync(favoriteCreateDTO));
+        }
+
+        [HttpPost("deleteproductfromfavorites")]
+        public async Task<IActionResult> DeleteProductFromFavorites(int id)
+        {
+            return Ok(await _favoriteService.DeleteAsync(id));
+        }
+
+        [HttpGet("getallfavorites")]
+        public async Task<IActionResult> GetAllFavorites(string appUserId)
+        {
+            return Ok(await _favoriteService.GetAllAsync(appUserId));
+        }
+
+        #endregion
+
     }
 }

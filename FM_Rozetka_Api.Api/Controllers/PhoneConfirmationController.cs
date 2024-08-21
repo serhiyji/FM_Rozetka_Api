@@ -1,6 +1,5 @@
 ﻿using FM_Rozetka_Api.Core.DTOs.PhoneConfirmation;
 using FM_Rozetka_Api.Core.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 

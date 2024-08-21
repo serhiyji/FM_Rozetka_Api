@@ -8,7 +8,6 @@
 
 	<ItemGroup>
 	  <None Remove="Interfaces\IModeratorShop.cs~RF1a771708.TMP" />
-	  <None Remove="Specifications\ModeratorShopsSpecification\ModeratorShopSpecification.cs~RF2ba4795.TMP" />
 	</ItemGroup>
 
 	<ItemGroup>

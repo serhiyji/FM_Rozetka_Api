@@ -1,12 +1,6 @@
 ﻿using FM_Rozetka_Api.Core.DTOs.Products.Product;
-using FM_Rozetka_Api.Core.DTOs.Shops.Shop;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Responses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Interfaces
 {
@@ -19,5 +13,7 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ServiceResponse<IEnumerable<ProductDTO>, object>> GetAllAsync();
         Task<ServiceResponse<int, object>> GetCountByCategoryId(int categoryid);
         Task<ServiceResponse<IEnumerable<ProductDTO>, object>> GetByShopIdAsync(int shopid);
+
+        Task<ServiceResponse<PagedProductResult, object>> GetPagedProductsAsync(int pageNumber, int pageSize);
     }
 }

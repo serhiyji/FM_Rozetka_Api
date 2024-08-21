@@ -1,17 +1,10 @@
 ﻿using AutoMapper;
 using FM_Rozetka_Api.Core.DTOs.Products.PhotoProduct;
 using FM_Rozetka_Api.Core.DTOs.Products.Product;
-using FM_Rozetka_Api.Core.DTOs.User;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
-using FM_Rozetka_Api.Core.Specifications.ProductSpecification;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FM_Rozetka_Api.Core.Specifications;
 
 namespace FM_Rozetka_Api.Core.Services
 {
@@ -219,5 +212,40 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse<int, object>(false, "Failed: " + ex.Message);
             }
         }
+
+        public async Task<ServiceResponse<PagedProductResult, object>> GetPagedProductsAsync(int pageNumber, int pageSize)
+        {
+            try
+            {
+                var totalProducts = await _productRepository.GetCountRows();
+
+                var products = await _productRepository.GetListBySpec(new ProductSpecification.GetPagedProducts(pageNumber, pageSize));
+
+                if (products == null || !products.Any())
+                {
+                    return new ServiceResponse<PagedProductResult, object>(false, "No products found");
+                }
+
+                var productDTOs = _mapper.Map<IEnumerable<ProductDTO>>(products);
+
+                var totalPages = (int)Math.Ceiling((double)totalProducts / pageSize);
+
+                var result = new PagedProductResult
+                {
+                    Products = productDTOs,
+                    CurrentPage = pageNumber,
+                    TotalPages = totalPages,
+                    NextPage = pageNumber < totalPages ? pageNumber + 1 : (int?)null,
+                    PreviousPage = pageNumber > 1 ? pageNumber - 1 : (int?)null
+                };
+
+                return new ServiceResponse<PagedProductResult, object>(true, "Success", payload: result);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<PagedProductResult, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
     }
 }

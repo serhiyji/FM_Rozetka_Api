@@ -29,6 +29,12 @@ namespace FM_Rozetka_Api.Core
             services.AddScoped<IPhotoProductService, PhotoProductService>();
             services.AddScoped<IFilesService, FilesService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IProductQuestionService, ProductQuestionService>();
+            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IProductAnswerService, ProductAnswerService>();
+            services.AddScoped<IFavoriteService, FavoriteService>();
+            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IBrandService, BrandService>();
         }
 
         public static void AddValidator(this IServiceCollection service)
