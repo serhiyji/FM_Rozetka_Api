@@ -14,7 +14,7 @@ namespace FM_Rozetka_Api.Api.Controllers
         private readonly IFavoriteService _favoriteService;
         private readonly IReviewService _reviewService;
         public ProductController(
-                IProductService productService, 
+                IProductService productService,
                 IFavoriteService favoriteService,
                 IReviewService reviewService
             )
@@ -119,34 +119,6 @@ namespace FM_Rozetka_Api.Api.Controllers
         public async Task<IActionResult> GetAllFavorites(string appUserId)
         {
             return Ok(await _favoriteService.GetAllAsync(appUserId));
-        }
-
-        #endregion
-
-        #region Review
-
-        [HttpPost("createreview")]
-        public async Task<IActionResult> CreateReview(ReviewCreateDTO reviewCreateDTO)
-        {
-            return Ok(await _reviewService.AddAsync(reviewCreateDTO));
-        }
-
-        [HttpPost("updatereview")]
-        public async Task<IActionResult> UpdateReview(ReviewUpdateDTO reviewUpdateDTO)
-        {
-            return Ok(await _reviewService.UpdateAsync(reviewUpdateDTO));
-        }
-
-        [HttpPost("deletereview")]
-        public async Task<IActionResult> DeleteReview(int id)
-        {
-            return Ok(await _reviewService.DeleteAsync(id));
-        }
-
-        [HttpGet("getallreviews")]
-        public async Task<IActionResult> GetAllReview(int productId)
-        {
-            return Ok(await _reviewService.GetAllByProductIdAsync(productId));
         }
 
         #endregion

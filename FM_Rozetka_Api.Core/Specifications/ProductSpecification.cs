@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using FM_Rozetka_Api.Core.Entities;
 
-namespace FM_Rozetka_Api.Core.Specifications.ProductSpecification
+namespace FM_Rozetka_Api.Core.Specifications
 {
     public class ProductSpecification
     {
@@ -15,7 +15,7 @@ namespace FM_Rozetka_Api.Core.Specifications.ProductSpecification
 
         public class GetByShopID : Specification<Product>
         {
-             
+
             public GetByShopID(int shopId)
             {
                 Query.Where(t => t.ShopId == shopId);
@@ -29,7 +29,7 @@ namespace FM_Rozetka_Api.Core.Specifications.ProductSpecification
                 Query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
             }
         }
-        
+
         public class GetByBrandId : Specification<Product>
         {
             public GetByBrandId(int brandId)
