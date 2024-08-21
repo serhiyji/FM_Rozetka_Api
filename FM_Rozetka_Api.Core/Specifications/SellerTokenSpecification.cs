@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using FM_Rozetka_Api.Core.Entities;
 
-namespace FM_Rozetka_Api.Core.Specifications.Seller
+namespace FM_Rozetka_Api.Core.Specifications
 {
     public static class SellerTokenSpecification
     {
