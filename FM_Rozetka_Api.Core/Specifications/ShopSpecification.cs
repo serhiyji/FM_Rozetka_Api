@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using FM_Rozetka_Api.Core.Entities;
 
-namespace FM_Rozetka_Api.Core.Specifications.Shops
+namespace FM_Rozetka_Api.Core.Specifications
 {
     public class ShopSpecification : Specification<Shop>
     {
@@ -12,7 +12,5 @@ namespace FM_Rozetka_Api.Core.Specifications.Shops
                 Query.Where(c => c.AppUserId == id);
             }
         }
-
     }
-    
 }
