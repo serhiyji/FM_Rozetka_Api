@@ -59,9 +59,9 @@ namespace FM_Rozetka_Api.Core.AutoMappers
             CreateMap<CountryProduction, CountryProductionDTO>().ReverseMap();
 
             // Discount
-            CreateMap<Discount, DiscountCreateDTO>();
-            CreateMap<Discount, DiscountUpdateDTO>();
-            CreateMap<Discount, DiscountDTO>();
+            CreateMap<Discount, DiscountCreateDTO>().ReverseMap();
+            CreateMap<Discount, DiscountUpdateDTO>().ReverseMap();
+            CreateMap<Discount, DiscountDTO>().ReverseMap();
 
             // Favorite
             CreateMap<Favorite, FavoriteCreateDTO>();
