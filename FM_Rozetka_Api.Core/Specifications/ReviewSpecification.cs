@@ -9,7 +9,8 @@ namespace FM_Rozetka_Api.Core.Specifications
         {
             public GetByProductId(int productId)
             {
-                Query.Where(item => item.ProductId == productId);
+                Query.Where(item => item.ProductId == productId).
+                   Include(item => item.AppUser);
             }
         }
     }
