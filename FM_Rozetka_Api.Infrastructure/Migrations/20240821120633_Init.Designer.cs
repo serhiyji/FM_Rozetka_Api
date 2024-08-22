@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FM_Rozetka_Api.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240821093644_Init")]
+    [Migration("20240821120633_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -112,6 +112,15 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CategoryProducts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Test",
+                            Level = 1,
+                            Name = "Test"
+                        });
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.CategorySpecification", b =>
@@ -150,6 +159,14 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Companies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Test",
+                            PhoneNumber = "Test"
+                        });
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.CountryProduction", b =>
@@ -1446,6 +1463,23 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasIndex("ShopId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BrandId = 1,
+                            CategoryProductId = 1,
+                            CountryProductionId = 1,
+                            CreatedAt = new DateTime(2024, 8, 21, 12, 6, 32, 753, DateTimeKind.Utc).AddTicks(9676),
+                            Description = "Test",
+                            ImageURL = "noimage.webp",
+                            Name = "Test",
+                            Price = 1m,
+                            ShopId = 1,
+                            Stars = 0m,
+                            Stock = 1
+                        });
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.ProductAnswer", b =>
@@ -1727,6 +1761,21 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasIndex("CompanyId");
 
                     b.ToTable("Shops");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AppUserId = "7268c934-5a4d-408b-83a4-7a332f8484da",
+                            CompanyId = 1,
+                            Email = "TEST",
+                            FullName = "TEST",
+                            HasNoWebsite = false,
+                            IsNonResident = false,
+                            PhoneNumber = "TEST",
+                            Position = "TEST",
+                            Website = "TEST"
+                        });
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Specification", b =>
@@ -1822,25 +1871,25 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fb5bcaff-3c1c-40b9-aded-6cc96662d74c",
+                            Id = "4723e364-21a5-49f9-8bd1-877c14e4689c",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "d429500a-1f04-417a-b6d2-f4c3b3e7196d",
+                            Id = "5a0d3dfe-870c-49b7-b336-3bde55431d8e",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "699a9bbd-04a3-495b-9f80-b6900fdfb73a",
+                            Id = "d0f3fc88-3b3d-4871-9837-2c80b24d534f",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         },
                         new
                         {
-                            Id = "1508cafb-9896-4b99-829c-7a2bc24ac1a7",
+                            Id = "afc22e84-63a4-456a-9abf-cd0c54b258f5",
                             Name = "ModeratorSeller",
                             NormalizedName = "MODERATORSELLER"
                         });
@@ -2008,8 +2057,13 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "d9b8db35-2cf0-4900-9f47-803b966023ee",
-                            RoleId = "fb5bcaff-3c1c-40b9-aded-6cc96662d74c"
+                            UserId = "23abd7c4-fa8f-481e-ac2c-293cda7bb8ab",
+                            RoleId = "4723e364-21a5-49f9-8bd1-877c14e4689c"
+                        },
+                        new
+                        {
+                            UserId = "7268c934-5a4d-408b-83a4-7a332f8484da",
+                            RoleId = "d0f3fc88-3b3d-4871-9837-2c80b24d534f"
                         });
                 });
 
@@ -2422,23 +2476,43 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d9b8db35-2cf0-4900-9f47-803b966023ee",
+                            Id = "23abd7c4-fa8f-481e-ac2c-293cda7bb8ab",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d219fd64-d270-4d0c-88c9-7480344f923c",
+                            ConcurrencyStamp = "dbf3a175-11f0-4f26-8457-84ca168d0bb4",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGaXfu3VW1ZuPtO/T+r0uFhVVm1ee8VcPhPCfUUDHCPZPUvlhxGeSlf/CKnFeN3lzw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFOLmC6loKVG4NGqVoQbL9l7j6AQaJUppKLS7iXBM4DcB4NKLY1VLk8xY6rtXZFnrA==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ac751336-e9c8-4ad2-98ac-d32d950e8455",
+                            SecurityStamp = "7533f3be-0e33-4bd9-8168-67ee67400e27",
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",
                             LastName = "Connor",
                             SurName = "Johnovych"
+                        },
+                        new
+                        {
+                            Id = "7268c934-5a4d-408b-83a4-7a332f8484da",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "26e2d79f-fdcd-4884-b283-4c628ca87920",
+                            Email = "seller@email.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "SELLER@EMAIL.COM",
+                            NormalizedUserName = "SELLER@EMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPh4dcjVnBOIzEzO8HUrxg37QhuQ24jLMohABV5+QXJfEo/kEJRpKvfenkyimTtTgA==",
+                            PhoneNumber = "",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "7549bfc0-895d-4da7-ba90-14bb2ea02d46",
+                            TwoFactorEnabled = false,
+                            UserName = "seller@email.com",
+                            FirstName = "seller",
+                            LastName = "seller",
+                            SurName = "seller"
                         });
                 });
 
