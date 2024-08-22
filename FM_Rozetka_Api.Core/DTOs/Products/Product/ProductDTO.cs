@@ -13,6 +13,7 @@ namespace FM_Rozetka_Api.Core.DTOs.Products.Product
         public string ImageURL { get; set; }
         public DateTime CreatedAt { get; set; }
         public int ShopId { get; set; }
+        public bool HasDiscount { get; set; }
         public int CategoryProductId { get; set; }
         public int CountryProductionId { get; set; }
     }

@@ -3,6 +3,7 @@ using System;
 using FM_Rozetka_Api.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FM_Rozetka_Api.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240822113614_AddHasDiscountFieldToProduct")]
+    partial class AddHasDiscountFieldToProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,545 +117,9 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "Ноутбуки та комп'ютери",
+                            Description = "Test",
                             Level = 1,
-                            Name = "Ноутбуки та комп'ютери"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "Ноутбуки",
-                            Level = 2,
-                            Name = "Ноутбуки",
-                            TopId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "Планшети",
-                            Level = 2,
-                            Name = "Планшети",
-                            TopId = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Description = "Комп'ютери",
-                            Level = 2,
-                            Name = "Комп'ютери",
-                            TopId = 1
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Description = "Комплектуючi",
-                            Level = 2,
-                            Name = "Комплектуючi",
-                            TopId = 1
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Description = "Аксесуари для ноутбуків і ПК",
-                            Level = 2,
-                            Name = "Аксесуари для ноутбуків і ПК",
-                            TopId = 1
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Description = "Серверне обладнання",
-                            Level = 2,
-                            Name = "Серверне обладнання",
-                            TopId = 1
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Description = "Товари з уцінкою",
-                            Level = 2,
-                            Name = "Товари з уцінкою",
-                            TopId = 1
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Description = "Офісна техніка",
-                            Level = 2,
-                            Name = "Офісна техніка",
-                            TopId = 1
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Description = "Інтерактивне обладнання",
-                            Level = 2,
-                            Name = "Інтерактивне обладнання",
-                            TopId = 1
-                        },
-                        new
-                        {
-                            Id = 11,
-                            Description = "Мережеве обладнання",
-                            Level = 2,
-                            Name = "Мережеве обладнання",
-                            TopId = 1
-                        },
-                        new
-                        {
-                            Id = 12,
-                            Description = "Товари для геймерів",
-                            Level = 2,
-                            Name = "Товари для геймерів",
-                            TopId = 1
-                        },
-                        new
-                        {
-                            Id = 13,
-                            Description = "Asus",
-                            Level = 3,
-                            Name = "Asus",
-                            TopId = 2
-                        },
-                        new
-                        {
-                            Id = 14,
-                            Description = "Lenovo",
-                            Level = 3,
-                            Name = "Lenovo",
-                            TopId = 2
-                        },
-                        new
-                        {
-                            Id = 15,
-                            Description = "Acer",
-                            Level = 3,
-                            Name = "Acer",
-                            TopId = 2
-                        },
-                        new
-                        {
-                            Id = 16,
-                            Description = "HP (Hewlett Packard)",
-                            Level = 3,
-                            Name = "HP (Hewlett Packard)",
-                            TopId = 2
-                        },
-                        new
-                        {
-                            Id = 17,
-                            Description = "Dell",
-                            Level = 3,
-                            Name = "Dell",
-                            TopId = 2
-                        },
-                        new
-                        {
-                            Id = 18,
-                            Description = "Apple Macbook",
-                            Level = 3,
-                            Name = "Apple Macbook",
-                            TopId = 2
-                        },
-                        new
-                        {
-                            Id = 19,
-                            Description = "Apple iPad",
-                            Level = 3,
-                            Name = "Apple iPad",
-                            TopId = 3
-                        },
-                        new
-                        {
-                            Id = 20,
-                            Description = "Samsung",
-                            Level = 3,
-                            Name = "Samsung",
-                            TopId = 3
-                        },
-                        new
-                        {
-                            Id = 21,
-                            Description = "Lenovo",
-                            Level = 3,
-                            Name = "Lenovo",
-                            TopId = 3
-                        },
-                        new
-                        {
-                            Id = 22,
-                            Description = "Xiaomi",
-                            Level = 3,
-                            Name = "Xiaomi",
-                            TopId = 3
-                        },
-                        new
-                        {
-                            Id = 23,
-                            Description = "Чохли для планшетів",
-                            Level = 3,
-                            Name = "Чохли для планшетів",
-                            TopId = 3
-                        },
-                        new
-                        {
-                            Id = 24,
-                            Description = "Захисні плівки та скло",
-                            Level = 3,
-                            Name = "Захисні плівки та скло",
-                            TopId = 3
-                        },
-                        new
-                        {
-                            Id = 25,
-                            Description = "Монітори",
-                            Level = 3,
-                            Name = "Монітори",
-                            TopId = 4
-                        },
-                        new
-                        {
-                            Id = 26,
-                            Description = "Клавіатури та миші",
-                            Level = 3,
-                            Name = "Клавіатури та миші",
-                            TopId = 4
-                        },
-                        new
-                        {
-                            Id = 27,
-                            Description = "Комп'ютерні колонки",
-                            Level = 3,
-                            Name = "Комп'ютерні колонки",
-                            TopId = 4
-                        },
-                        new
-                        {
-                            Id = 28,
-                            Description = "Програмне забезпечення",
-                            Level = 3,
-                            Name = "Програмне забезпечення",
-                            TopId = 4
-                        },
-                        new
-                        {
-                            Id = 29,
-                            Description = "Джерела безперебійного живлення",
-                            Level = 3,
-                            Name = "Джерела безперебійного живлення",
-                            TopId = 4
-                        },
-                        new
-                        {
-                            Id = 30,
-                            Description = "Акумулятори для ДБЖ",
-                            Level = 3,
-                            Name = "Акумулятори для ДБЖ",
-                            TopId = 4
-                        },
-                        new
-                        {
-                            Id = 31,
-                            Description = "Відеокарти",
-                            Level = 3,
-                            Name = "Відеокарти",
-                            TopId = 5
-                        },
-                        new
-                        {
-                            Id = 32,
-                            Description = "SSD",
-                            Level = 3,
-                            Name = "SSD",
-                            TopId = 5
-                        },
-                        new
-                        {
-                            Id = 33,
-                            Description = "Процесори",
-                            Level = 3,
-                            Name = "Процесори",
-                            TopId = 5
-                        },
-                        new
-                        {
-                            Id = 34,
-                            Description = "Жорсткі диски та дискові масиви",
-                            Level = 3,
-                            Name = "Жорсткі диски та дискові масиви",
-                            TopId = 5
-                        },
-                        new
-                        {
-                            Id = 35,
-                            Description = "Оперативна пам'ять",
-                            Level = 3,
-                            Name = "Оперативна пам'ять",
-                            TopId = 5
-                        },
-                        new
-                        {
-                            Id = 36,
-                            Description = "Материнські плати",
-                            Level = 3,
-                            Name = "Материнські плати",
-                            TopId = 5
-                        },
-                        new
-                        {
-                            Id = 37,
-                            Description = "Блоки живлення",
-                            Level = 3,
-                            Name = "Блоки живлення",
-                            TopId = 5
-                        },
-                        new
-                        {
-                            Id = 38,
-                            Description = "Корпуси",
-                            Level = 3,
-                            Name = "Корпуси",
-                            TopId = 5
-                        },
-                        new
-                        {
-                            Id = 39,
-                            Description = "Системи охолодження",
-                            Level = 3,
-                            Name = "Системи охолодження",
-                            TopId = 5
-                        },
-                        new
-                        {
-                            Id = 40,
-                            Description = "Флеш пам'ять USB",
-                            Level = 3,
-                            Name = "Флеш пам'ять USB",
-                            TopId = 6
-                        },
-                        new
-                        {
-                            Id = 41,
-                            Description = "Мережеві фільтри, адаптери та подовжувачі",
-                            Level = 3,
-                            Name = "Мережеві фільтри, адаптери та подовжувачі",
-                            TopId = 6
-                        },
-                        new
-                        {
-                            Id = 42,
-                            Description = "Сумки, рюкзаки та чохли для ноутбуків",
-                            Level = 3,
-                            Name = "Сумки, рюкзаки та чохли для ноутбуків",
-                            TopId = 6
-                        },
-                        new
-                        {
-                            Id = 43,
-                            Description = "Підставки та столики для ноутбуків",
-                            Level = 3,
-                            Name = "Підставки та столики для ноутбуків",
-                            TopId = 6
-                        },
-                        new
-                        {
-                            Id = 44,
-                            Description = "Веб-камери",
-                            Level = 3,
-                            Name = "Веб-камери",
-                            TopId = 6
-                        },
-                        new
-                        {
-                            Id = 45,
-                            Description = "Навушники",
-                            Level = 3,
-                            Name = "Навушники",
-                            TopId = 6
-                        },
-                        new
-                        {
-                            Id = 46,
-                            Description = "Мікрофони",
-                            Level = 3,
-                            Name = "Мікрофони",
-                            TopId = 6
-                        },
-                        new
-                        {
-                            Id = 47,
-                            Description = "Універсальні мобільні батареї для ноутбуків",
-                            Level = 3,
-                            Name = "Універсальні мобільні батареї для ноутбуків",
-                            TopId = 6
-                        },
-                        new
-                        {
-                            Id = 48,
-                            Description = "Кабелі та перехідники",
-                            Level = 3,
-                            Name = "Кабелі та перехідники",
-                            TopId = 6
-                        },
-                        new
-                        {
-                            Id = 49,
-                            Description = "Графічні планшети",
-                            Level = 3,
-                            Name = "Графічні планшети",
-                            TopId = 6
-                        },
-                        new
-                        {
-                            Id = 50,
-                            Description = "БФП/Принтери",
-                            Level = 3,
-                            Name = "БФП/Принтери",
-                            TopId = 9
-                        },
-                        new
-                        {
-                            Id = 51,
-                            Description = "Витратні матеріали",
-                            Level = 3,
-                            Name = "Витратні матеріали",
-                            TopId = 9
-                        },
-                        new
-                        {
-                            Id = 52,
-                            Description = "Шредери",
-                            Level = 3,
-                            Name = "Шредери",
-                            TopId = 9
-                        },
-                        new
-                        {
-                            Id = 53,
-                            Description = "Телефони",
-                            Level = 3,
-                            Name = "Телефони",
-                            TopId = 9
-                        },
-                        new
-                        {
-                            Id = 54,
-                            Description = "Маршрутизатори",
-                            Level = 3,
-                            Name = "Маршрутизатори",
-                            TopId = 11
-                        },
-                        new
-                        {
-                            Id = 55,
-                            Description = "Комутатори",
-                            Level = 3,
-                            Name = "Комутатори",
-                            TopId = 11
-                        },
-                        new
-                        {
-                            Id = 56,
-                            Description = "Мережеві адаптери",
-                            Level = 3,
-                            Name = "Мережеві адаптери",
-                            TopId = 11
-                        },
-                        new
-                        {
-                            Id = 57,
-                            Description = "Ретранслятори Wi-Fi",
-                            Level = 3,
-                            Name = "Ретранслятори Wi-Fi",
-                            TopId = 11
-                        },
-                        new
-                        {
-                            Id = 58,
-                            Description = "Бездротові точки доступу",
-                            Level = 3,
-                            Name = "Бездротові точки доступу",
-                            TopId = 11
-                        },
-                        new
-                        {
-                            Id = 59,
-                            Description = "Мережеві сховища (NAS)",
-                            Level = 3,
-                            Name = "Мережеві сховища (NAS)",
-                            TopId = 11
-                        },
-                        new
-                        {
-                            Id = 60,
-                            Description = "Патч-корди",
-                            Level = 3,
-                            Name = "Патч-корди",
-                            TopId = 11
-                        },
-                        new
-                        {
-                            Id = 61,
-                            Description = "IP-телефонія",
-                            Level = 3,
-                            Name = "IP-телефонія",
-                            TopId = 11
-                        },
-                        new
-                        {
-                            Id = 62,
-                            Description = "Підсилювачі зв'язку",
-                            Level = 3,
-                            Name = "Підсилювачі зв'язку",
-                            TopId = 11
-                        },
-                        new
-                        {
-                            Id = 63,
-                            Description = "PlayStation",
-                            Level = 3,
-                            Name = "PlayStation",
-                            TopId = 12
-                        },
-                        new
-                        {
-                            Id = 64,
-                            Description = "Sony PlayStation 5",
-                            Level = 3,
-                            Name = "Sony PlayStation 5",
-                            TopId = 12
-                        },
-                        new
-                        {
-                            Id = 65,
-                            Description = "Ігрові консолі та дитячі приставки",
-                            Level = 3,
-                            Name = "Ігрові консолі та дитячі приставки",
-                            TopId = 12
-                        },
-                        new
-                        {
-                            Id = 66,
-                            Description = "Ігрові маніпулятори та аксесуари для консолей",
-                            Level = 3,
-                            Name = "Ігрові маніпулятори та аксесуари для консолей",
-                            TopId = 12
-                        },
-                        new
-                        {
-                            Id = 67,
-                            Description = "Ігри",
-                            Level = 3,
-                            Name = "Ігри",
-                            TopId = 12
-                        },
-                        new
-                        {
-                            Id = 68,
-                            Description = "Ігрові поверхні",
-                            Level = 3,
-                            Name = "Ігрові поверхні",
-                            TopId = 12
+                            Name = "Test"
                         });
                 });
 
@@ -2007,7 +1474,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                             BrandId = 1,
                             CategoryProductId = 1,
                             CountryProductionId = 1,
-                            CreatedAt = new DateTime(2024, 8, 22, 18, 59, 2, 2, DateTimeKind.Utc).AddTicks(3855),
+                            CreatedAt = new DateTime(2024, 8, 22, 11, 36, 13, 472, DateTimeKind.Utc).AddTicks(2628),
                             Description = "Test",
                             HasDiscount = false,
                             ImageURL = "noimage.webp",
@@ -2303,7 +1770,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            AppUserId = "c4535595-66af-49bc-9e75-bcc0b005b3a7",
+                            AppUserId = "8b39bc24-e6f7-459d-9cd6-5b3e0a0cbc25",
                             CompanyId = 1,
                             Email = "TEST",
                             FullName = "TEST",
@@ -2408,25 +1875,25 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3a951b0e-d5eb-4e9e-821d-1e475300711a",
+                            Id = "1fdf1593-f7db-449d-a568-7724b3afd94f",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "4d19ba2f-33f1-43ba-8629-2163ef70b7d1",
+                            Id = "a7ef4c65-70d7-4755-8bc1-a574459512e3",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "80509195-3b24-41f0-80d6-b562273e829b",
+                            Id = "ae5ad744-1cd3-4141-af5e-708d686ccf14",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         },
                         new
                         {
-                            Id = "56278864-c9cb-450d-8ebb-c9a3c8c4c151",
+                            Id = "9cd35217-6dd2-4a8f-8afe-153a7367fb81",
                             Name = "ModeratorSeller",
                             NormalizedName = "MODERATORSELLER"
                         });
@@ -2594,13 +2061,13 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "6f1166aa-b921-4b35-8027-7f31208d43de",
-                            RoleId = "3a951b0e-d5eb-4e9e-821d-1e475300711a"
+                            UserId = "84469193-0da1-4cc6-8307-069caa56dfe9",
+                            RoleId = "1fdf1593-f7db-449d-a568-7724b3afd94f"
                         },
                         new
                         {
-                            UserId = "c4535595-66af-49bc-9e75-bcc0b005b3a7",
-                            RoleId = "80509195-3b24-41f0-80d6-b562273e829b"
+                            UserId = "8b39bc24-e6f7-459d-9cd6-5b3e0a0cbc25",
+                            RoleId = "ae5ad744-1cd3-4141-af5e-708d686ccf14"
                         });
                 });
 
@@ -3013,18 +2480,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6f1166aa-b921-4b35-8027-7f31208d43de",
+                            Id = "84469193-0da1-4cc6-8307-069caa56dfe9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d0184ab5-61f3-4ae8-af5d-6054ad49eaa4",
+                            ConcurrencyStamp = "26db2646-7079-4ad1-89f2-00c9b73dbc0a",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAED2KPJ9Bv+iPBmWNq41OkABOe0QJ/cPIrQsRfzUAKCDy3xUu/3vb7pXki44DKodJyQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHJxY9YrAkOMznodlbVmuXF2KZNZssa1m0QmhIjKUM0NENxm1TVY7LHdaRW69mHEjg==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f40a38b4-9ed2-4c9a-be93-8e0756ea513f",
+                            SecurityStamp = "48e3777b-c4c3-4438-a666-64222e0489ee",
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",
@@ -3033,18 +2500,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "c4535595-66af-49bc-9e75-bcc0b005b3a7",
+                            Id = "8b39bc24-e6f7-459d-9cd6-5b3e0a0cbc25",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b2e56f54-f90c-4f8a-af22-d9b77e145343",
+                            ConcurrencyStamp = "fab0b06d-e0a7-4118-a9dc-53cb7dd68afb",
                             Email = "seller@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "SELLER@EMAIL.COM",
                             NormalizedUserName = "SELLER@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOLju7eAXKIMBCh2WM5p1kWkdEwE+WSqGw3q2aM7VXm4V8J0Tc3tcSMBuntbWhIgmQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENKmtX1877VGtfuCMdpNg45E67QQ+TqQwd9wp2gcGEBGdGmWZpc8cde0e67pBE1DMg==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "641458c0-6d53-4ef2-8646-0db650326f32",
+                            SecurityStamp = "80dfec57-0c13-4664-9705-ceca0e643781",
                             TwoFactorEnabled = false,
                             UserName = "seller@email.com",
                             FirstName = "seller",
