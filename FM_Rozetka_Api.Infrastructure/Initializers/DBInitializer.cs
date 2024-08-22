@@ -372,15 +372,87 @@ namespace FM_Rozetka_Api.Infrastructure.Initializers
         }
         public static void SeedCategoryProduct(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CategoryProduct>().HasData(new CategoryProduct()
-            {
-                Id = 1,
-                Level = 1,
-                TopId = null,
-                Name = "Test",
-                Description = "Test"
-            });
+            modelBuilder.Entity<CategoryProduct>().HasData(
+                new CategoryProduct { Id = 1, Level = 1, TopId = null, Name = "Ноутбуки та комп'ютери", Description = "Ноутбуки та комп'ютери" },
+
+                new CategoryProduct { Id = 2, Level = 2, TopId = 1, Name = "Ноутбуки", Description = "Ноутбуки" },
+                new CategoryProduct { Id = 3, Level = 2, TopId = 1, Name = "Планшети", Description = "Планшети" },
+                new CategoryProduct { Id = 4, Level = 2, TopId = 1, Name = "Комп'ютери", Description = "Комп'ютери" },
+                new CategoryProduct { Id = 5, Level = 2, TopId = 1, Name = "Комплектуючi", Description = "Комплектуючi" },
+                new CategoryProduct { Id = 6, Level = 2, TopId = 1, Name = "Аксесуари для ноутбуків і ПК", Description = "Аксесуари для ноутбуків і ПК" },
+                new CategoryProduct { Id = 7, Level = 2, TopId = 1, Name = "Серверне обладнання", Description = "Серверне обладнання" },
+                new CategoryProduct { Id = 8, Level = 2, TopId = 1, Name = "Товари з уцінкою", Description = "Товари з уцінкою" },
+                new CategoryProduct { Id = 9, Level = 2, TopId = 1, Name = "Офісна техніка", Description = "Офісна техніка" },
+                new CategoryProduct { Id = 10, Level = 2, TopId = 1, Name = "Інтерактивне обладнання", Description = "Інтерактивне обладнання" },
+                new CategoryProduct { Id = 11, Level = 2, TopId = 1, Name = "Мережеве обладнання", Description = "Мережеве обладнання" },
+                new CategoryProduct { Id = 12, Level = 2, TopId = 1, Name = "Товари для геймерів", Description = "Товари для геймерів" },
+
+                new CategoryProduct { Id = 13, Level = 3, TopId = 2, Name = "Asus", Description = "Asus" },
+                new CategoryProduct { Id = 14, Level = 3, TopId = 2, Name = "Lenovo", Description = "Lenovo" },
+                new CategoryProduct { Id = 15, Level = 3, TopId = 2, Name = "Acer", Description = "Acer" },
+                new CategoryProduct { Id = 16, Level = 3, TopId = 2, Name = "HP (Hewlett Packard)", Description = "HP (Hewlett Packard)" },
+                new CategoryProduct { Id = 17, Level = 3, TopId = 2, Name = "Dell", Description = "Dell" },
+                new CategoryProduct { Id = 18, Level = 3, TopId = 2, Name = "Apple Macbook", Description = "Apple Macbook" },
+
+                new CategoryProduct { Id = 19, Level = 3, TopId = 3, Name = "Apple iPad", Description = "Apple iPad" },
+                new CategoryProduct { Id = 20, Level = 3, TopId = 3, Name = "Samsung", Description = "Samsung" },
+                new CategoryProduct { Id = 21, Level = 3, TopId = 3, Name = "Lenovo", Description = "Lenovo" },
+                new CategoryProduct { Id = 22, Level = 3, TopId = 3, Name = "Xiaomi", Description = "Xiaomi" },
+                new CategoryProduct { Id = 23, Level = 3, TopId = 3, Name = "Чохли для планшетів", Description = "Чохли для планшетів" },
+                new CategoryProduct { Id = 24, Level = 3, TopId = 3, Name = "Захисні плівки та скло", Description = "Захисні плівки та скло" },
+
+                new CategoryProduct { Id = 25, Level = 3, TopId = 4, Name = "Монітори", Description = "Монітори" },
+                new CategoryProduct { Id = 26, Level = 3, TopId = 4, Name = "Клавіатури та миші", Description = "Клавіатури та миші" },
+                new CategoryProduct { Id = 27, Level = 3, TopId = 4, Name = "Комп'ютерні колонки", Description = "Комп'ютерні колонки" },
+                new CategoryProduct { Id = 28, Level = 3, TopId = 4, Name = "Програмне забезпечення", Description = "Програмне забезпечення" },
+                new CategoryProduct { Id = 29, Level = 3, TopId = 4, Name = "Джерела безперебійного живлення", Description = "Джерела безперебійного живлення" },
+                new CategoryProduct { Id = 30, Level = 3, TopId = 4, Name = "Акумулятори для ДБЖ", Description = "Акумулятори для ДБЖ" },
+
+                new CategoryProduct { Id = 31, Level = 3, TopId = 5, Name = "Відеокарти", Description = "Відеокарти" },
+                new CategoryProduct { Id = 32, Level = 3, TopId = 5, Name = "SSD", Description = "SSD" },
+                new CategoryProduct { Id = 33, Level = 3, TopId = 5, Name = "Процесори", Description = "Процесори" },
+                new CategoryProduct { Id = 34, Level = 3, TopId = 5, Name = "Жорсткі диски та дискові масиви", Description = "Жорсткі диски та дискові масиви" },
+                new CategoryProduct { Id = 35, Level = 3, TopId = 5, Name = "Оперативна пам'ять", Description = "Оперативна пам'ять" },
+                new CategoryProduct { Id = 36, Level = 3, TopId = 5, Name = "Материнські плати", Description = "Материнські плати" },
+                new CategoryProduct { Id = 37, Level = 3, TopId = 5, Name = "Блоки живлення", Description = "Блоки живлення" },
+                new CategoryProduct { Id = 38, Level = 3, TopId = 5, Name = "Корпуси", Description = "Корпуси" },
+                new CategoryProduct { Id = 39, Level = 3, TopId = 5, Name = "Системи охолодження", Description = "Системи охолодження" },
+
+                new CategoryProduct { Id = 40, Level = 3, TopId = 6, Name = "Флеш пам'ять USB", Description = "Флеш пам'ять USB" },
+                new CategoryProduct { Id = 41, Level = 3, TopId = 6, Name = "Мережеві фільтри, адаптери та подовжувачі", Description = "Мережеві фільтри, адаптери та подовжувачі" },
+                new CategoryProduct { Id = 42, Level = 3, TopId = 6, Name = "Сумки, рюкзаки та чохли для ноутбуків", Description = "Сумки, рюкзаки та чохли для ноутбуків" },
+                new CategoryProduct { Id = 43, Level = 3, TopId = 6, Name = "Підставки та столики для ноутбуків", Description = "Підставки та столики для ноутбуків" },
+                new CategoryProduct { Id = 44, Level = 3, TopId = 6, Name = "Веб-камери", Description = "Веб-камери" },
+                new CategoryProduct { Id = 45, Level = 3, TopId = 6, Name = "Навушники", Description = "Навушники" },
+                new CategoryProduct { Id = 46, Level = 3, TopId = 6, Name = "Мікрофони", Description = "Мікрофони" },
+                new CategoryProduct { Id = 47, Level = 3, TopId = 6, Name = "Універсальні мобільні батареї для ноутбуків", Description = "Універсальні мобільні батареї для ноутбуків" },
+                new CategoryProduct { Id = 48, Level = 3, TopId = 6, Name = "Кабелі та перехідники", Description = "Кабелі та перехідники" },
+                new CategoryProduct { Id = 49, Level = 3, TopId = 6, Name = "Графічні планшети", Description = "Графічні планшети" },
+
+                new CategoryProduct { Id = 50, Level = 3, TopId = 9, Name = "БФП/Принтери", Description = "БФП/Принтери" },
+                new CategoryProduct { Id = 51, Level = 3, TopId = 9, Name = "Витратні матеріали", Description = "Витратні матеріали" },
+                new CategoryProduct { Id = 52, Level = 3, TopId = 9, Name = "Шредери", Description = "Шредери" },
+                new CategoryProduct { Id = 53, Level = 3, TopId = 9, Name = "Телефони", Description = "Телефони" },
+
+                new CategoryProduct { Id = 54, Level = 3, TopId = 11, Name = "Маршрутизатори", Description = "Маршрутизатори" },
+                new CategoryProduct { Id = 55, Level = 3, TopId = 11, Name = "Комутатори", Description = "Комутатори" },
+                new CategoryProduct { Id = 56, Level = 3, TopId = 11, Name = "Мережеві адаптери", Description = "Мережеві адаптери" },
+                new CategoryProduct { Id = 57, Level = 3, TopId = 11, Name = "Ретранслятори Wi-Fi", Description = "Ретранслятори Wi-Fi" },
+                new CategoryProduct { Id = 58, Level = 3, TopId = 11, Name = "Бездротові точки доступу", Description = "Бездротові точки доступу" },
+                new CategoryProduct { Id = 59, Level = 3, TopId = 11, Name = "Мережеві сховища (NAS)", Description = "Мережеві сховища (NAS)" },
+                new CategoryProduct { Id = 60, Level = 3, TopId = 11, Name = "Патч-корди", Description = "Патч-корди" },
+                new CategoryProduct { Id = 61, Level = 3, TopId = 11, Name = "IP-телефонія", Description = "IP-телефонія" },
+                new CategoryProduct { Id = 62, Level = 3, TopId = 11, Name = "Підсилювачі зв'язку", Description = "Підсилювачі зв'язку" },
+
+                new CategoryProduct { Id = 63, Level = 3, TopId = 12, Name = "PlayStation", Description = "PlayStation" },
+                new CategoryProduct { Id = 64, Level = 3, TopId = 12, Name = "Sony PlayStation 5", Description = "Sony PlayStation 5" },
+                new CategoryProduct { Id = 65, Level = 3, TopId = 12, Name = "Ігрові консолі та дитячі приставки", Description = "Ігрові консолі та дитячі приставки" },
+                new CategoryProduct { Id = 66, Level = 3, TopId = 12, Name = "Ігрові маніпулятори та аксесуари для консолей", Description = "Ігрові маніпулятори та аксесуари для консолей" },
+                new CategoryProduct { Id = 67, Level = 3, TopId = 12, Name = "Ігри", Description = "Ігри" },
+                new CategoryProduct { Id = 68, Level = 3, TopId = 12, Name = "Ігрові поверхні", Description = "Ігрові поверхні" }
+            );
         }
+
         public static void SeedProduct(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>().HasData(new Product()

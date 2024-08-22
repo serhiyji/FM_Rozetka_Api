@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FM_Rozetka_Api.Api.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+   // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class BrandController : Controller
@@ -17,34 +17,71 @@ namespace FM_Rozetka_Api.Api.Controllers
             this._brandService = brandService;
         }
 
+        [HttpGet("getallpaged")]
+        public async Task<IActionResult> GetAllPaged(int page = 1, int pageSize = 10)
+        {
+            var response = await _brandService.GetAllPagedAsync(page, pageSize);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var response = await _brandService.GetByIdAsync(id);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
         [HttpGet("getall")]
-        public async Task<IActionResult> GetAll(int page = 1, int pageSize = 10)
+        public async Task<IActionResult> GetAll()
         {
-            return Ok(await _brandService.GetAllAsync(page, pageSize));
+            var response = await _brandService.GetAllAsync();
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
         }
 
-        [HttpGet("get")]
-        public async Task<IActionResult> Get(int id)
+        [HttpPost("create")]
+        public async Task<IActionResult> Create([FromForm] BrandCreateDTO model)
         {
-            return Ok(await _brandService.GetAsync(id));
+            var response = await _brandService.AddAsync(model);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
         }
 
-        [HttpGet("create")]
-        public async Task<IActionResult> Create(BrandCreateDTO brandCreateDTO)
+
+        [HttpPut("update")]
+        public async Task<IActionResult> Update([FromForm] BrandUpdateDTO model)
         {
-            return Ok(await _brandService.AddAsync(brandCreateDTO));
+            var response = await _brandService.UpdateAsync(model);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
         }
 
-        [HttpPost("upadte")]
-        public async Task<IActionResult> Update(BrandUpdateDTO brandUpdateDTO)
-        {
-            return Ok(await _brandService.UpdateAsync(brandUpdateDTO));
-        }
-
-        [HttpGet("delete")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            return Ok(await _brandService.DeleteAsync(id));
+            var response = await _brandService.DeleteAsync(id);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
         }
     }
 }
