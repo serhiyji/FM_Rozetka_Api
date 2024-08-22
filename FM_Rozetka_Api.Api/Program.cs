@@ -64,6 +64,7 @@ builder.Services.AddMapping();
 // Add repositories
 builder.Services.AddRepositories();
 
+builder.Services.AddQuartzServices()
 // Add services to the container.
 
 builder.Services.AddControllers();
