@@ -5,6 +5,12 @@ using FM_Rozetka_Api.Core.AutoMappers;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Quartz;
+using Quartz.Impl;
+using Quartz.Spi;
+using FM_Rozetka_Api.Core.Services.Quarz;
+
+
 
 namespace FM_Rozetka_Api.Core
 {
@@ -46,6 +52,23 @@ namespace FM_Rozetka_Api.Core
         public static void AddMapping(this IServiceCollection services)
         {
             services.AddAutoMapper(typeof(AutoMapperUserProfile).Assembly);
+        }
+
+        public static void AddQuartzServices(this IServiceCollection services)
+        {
+            services.AddQuartz(q =>
+            {
+                q.UseMicrosoftDependencyInjectionJobFactory();
+
+                q.ScheduleJob<UpdateDiscountJob>(trigger => trigger
+                    .WithIdentity("updateDiscountJob")
+                    .StartNow()
+                    .WithSimpleSchedule(x => x
+                        .WithIntervalInHours(1)
+                        .RepeatForever()));
+            });
+
+            services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
         }
     }
 }
