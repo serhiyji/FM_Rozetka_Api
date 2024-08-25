@@ -1168,17 +1168,558 @@ namespace FM_Rozetka_Api.Infrastructure.Initializers
                 new CategoryProduct { Id = 610, Level = 3, TopId = 81, Name = "Сміттєві контейнери", Description = "Сміттєві контейнери" },
                 new CategoryProduct { Id = 611, Level = 3, TopId = 81, Name = "Вуличні урни", Description = "Вуличні урни" },
 
-                // Садовий декор
-                // Для цієї категорії поки що даних немає
+// Садовий декор
+// Для цієї категорії поки що даних немає
 
-            // Снігоприбирання
-            // Для цієї категорії поки що даних немає
+// Снігоприбирання
+// Для цієї категорії поки що даних немає
             #endregion
             #region 1_9_3lvl
-                //612
                 // Спорт і захоплення
 
+                // Тренажери та спортивне обладнання
+                new CategoryProduct { Id = 612, Level = 3, TopId = 84, Name = "Бігові доріжки", Description = "Бігові доріжки" },
+                new CategoryProduct { Id = 613, Level = 3, TopId = 84, Name = "Гантелі, диски, грифи, замки", Description = "Гантелі, диски, грифи, замки" },
+                new CategoryProduct { Id = 614, Level = 3, TopId = 84, Name = "Велотренажери", Description = "Велотренажери" },
+                new CategoryProduct { Id = 615, Level = 3, TopId = 84, Name = "Орбітреки", Description = "Орбітреки" },
+                new CategoryProduct { Id = 616, Level = 3, TopId = 84, Name = "Батути й аксесуари", Description = "Батути й аксесуари" },
+                new CategoryProduct { Id = 617, Level = 3, TopId = 84, Name = "Силові тренажери", Description = "Силові тренажери" },
+                new CategoryProduct { Id = 618, Level = 3, TopId = 84, Name = "Шведські стінки та турніки", Description = "Шведські стінки та турніки" },
 
+                // Фітнес та аеробіка
+                new CategoryProduct { Id = 619, Level = 3, TopId = 85, Name = "Йога", Description = "Йога" },
+                new CategoryProduct { Id = 620, Level = 3, TopId = 85, Name = "Еспандери", Description = "Еспандери" },
+                new CategoryProduct { Id = 621, Level = 3, TopId = 85, Name = "Фітнес м'ячі", Description = "Фітнес м'ячі" },
+                new CategoryProduct { Id = 622, Level = 3, TopId = 85, Name = "Пояси та рукавички для фітнесу", Description = "Пояси та рукавички для фітнесу" },
+                new CategoryProduct { Id = 623, Level = 3, TopId = 85, Name = "Скакалки", Description = "Скакалки" },
+
+                // Спортивні аксесуари
+                new CategoryProduct { Id = 624, Level = 3, TopId = 86, Name = "Аксесуари для спортивного харчування", Description = "Аксесуари для спортивного харчування" },
+
+                // Велосипеди та аксесуари
+                new CategoryProduct { Id = 625, Level = 3, TopId = 87, Name = "Велосипеди", Description = "Велосипеди" },
+                new CategoryProduct { Id = 626, Level = 3, TopId = 87, Name = "Велоаксесуари", Description = "Велоаксесуари" },
+                new CategoryProduct { Id = 627, Level = 3, TopId = 87, Name = "Велогума", Description = "Велогума" },
+                new CategoryProduct { Id = 628, Level = 3, TopId = 87, Name = "Велозапчастини", Description = "Велозапчастини" },
+
+                // Електротранспорт
+                new CategoryProduct { Id = 629, Level = 3, TopId = 88, Name = "Електросамокати", Description = "Електросамокати" },
+                new CategoryProduct { Id = 630, Level = 3, TopId = 88, Name = "Електроскутери", Description = "Електроскутери" },
+                new CategoryProduct { Id = 631, Level = 3, TopId = 88, Name = "Електровелосипеди", Description = "Електровелосипеди" },
+
+                // Ігрові види спорту
+                new CategoryProduct { Id = 632, Level = 3, TopId = 89, Name = "М'ячі", Description = "М'ячі" },
+                new CategoryProduct { Id = 633, Level = 3, TopId = 89, Name = "Настільний теніс", Description = "Настільний теніс" },
+                new CategoryProduct { Id = 634, Level = 3, TopId = 89, Name = "Бадмінтон, спідмінтон, сквош", Description = "Бадмінтон, спідмінтон, сквош" },
+
+                // Бокс і єдиноборства
+                new CategoryProduct { Id = 635, Level = 3, TopId = 90, Name = "Рукавиці для боксу", Description = "Рукавиці для боксу" },
+                new CategoryProduct { Id = 636, Level = 3, TopId = 90, Name = "Боксерські мішки та груші", Description = "Боксерські мішки та груші" },
+
+                // Басейн і аквафітнес
+                new CategoryProduct { Id = 637, Level = 3, TopId = 91, Name = "Окуляри для плавання", Description = "Окуляри для плавання" },
+                new CategoryProduct { Id = 638, Level = 3, TopId = 91, Name = "Шапочки для плавання", Description = "Шапочки для плавання" },
+
+                // Товари для відпочинку
+                new CategoryProduct { Id = 639, Level = 3, TopId = 92, Name = "Мультиінструменти, точилки", Description = "Мультиінструменти, точилки" },
+                new CategoryProduct { Id = 640, Level = 3, TopId = 92, Name = "Рації", Description = "Рації" },
+                new CategoryProduct { Id = 641, Level = 3, TopId = 92, Name = "Біноклі", Description = "Біноклі" },
+
+                // Туризм і кемпінг
+                new CategoryProduct { Id = 642, Level = 3, TopId = 94, Name = "Складані меблі", Description = "Складані меблі" },
+                new CategoryProduct { Id = 643, Level = 3, TopId = 94, Name = "Намети й аксесуари", Description = "Намети й аксесуари" },
+                new CategoryProduct { Id = 644, Level = 3, TopId = 94, Name = "Спальники", Description = "Спальники" },
+                new CategoryProduct { Id = 645, Level = 3, TopId = 94, Name = "Туристичні килимки", Description = "Туристичні килимки" },
+                new CategoryProduct { Id = 646, Level = 3, TopId = 94, Name = "Надувні меблі й аксесуари", Description = "Надувні меблі й аксесуари" },
+                new CategoryProduct { Id = 647, Level = 3, TopId = 94, Name = "Мангали, барбекю, гриль", Description = "Мангали, барбекю, гриль" },
+                new CategoryProduct { Id = 648, Level = 3, TopId = 94, Name = "Аксесуари для мангалів", Description = "Аксесуари для мангалів" },
+                new CategoryProduct { Id = 649, Level = 3, TopId = 94, Name = "Ліхтарі й аксесуари", Description = "Ліхтарі й аксесуари" },
+                new CategoryProduct { Id = 650, Level = 3, TopId = 94, Name = "Газові балони і комплектуючі", Description = "Газові балони і комплектуючі" },
+                new CategoryProduct { Id = 651, Level = 3, TopId = 94, Name = "Туристичні пальники", Description = "Туристичні пальники" },
+
+                // Риболовля
+                new CategoryProduct { Id = 652, Level = 3, TopId = 95, Name = "Вудилища", Description = "Вудилища" },
+                new CategoryProduct { Id = 653, Level = 3, TopId = 95, Name = "Котушки рибальські", Description = "Котушки рибальські" },
+                new CategoryProduct { Id = 654, Level = 3, TopId = 95, Name = "Човни й аксесуари", Description = "Човни й аксесуари" },
+                new CategoryProduct { Id = 655, Level = 3, TopId = 95, Name = "Ящики та сумки", Description = "Ящики та сумки" },
+
+                // Музичні інструменти
+                new CategoryProduct { Id = 656, Level = 3, TopId = 97, Name = "Клавішні інструменти", Description = "Клавішні інструменти" },
+                new CategoryProduct { Id = 657, Level = 3, TopId = 97, Name = "Гітари та обладнання", Description = "Гітари та обладнання" },
+                new CategoryProduct { Id = 658, Level = 3, TopId = 97, Name = "Мікрофони", Description = "Мікрофони" },
+                new CategoryProduct { Id = 659, Level = 3, TopId = 97, Name = "Музичні інструменти для дітей", Description = "Музичні інструменти для дітей" },
+            #endregion
+            #region 1_10_3lvl
+                // Одяг, взуття та аксесуари
+                // Одяг для жінок
+                new CategoryProduct { Id = 660, Level = 3, TopId = 98, Name = "Плаття", Description = "Плаття" },
+                new CategoryProduct { Id = 661, Level = 3, TopId = 98, Name = "Футболки", Description = "Футболки" },
+                new CategoryProduct { Id = 662, Level = 3, TopId = 98, Name = "Джинси", Description = "Джинси" },
+                new CategoryProduct { Id = 663, Level = 3, TopId = 98, Name = "Спортивні костюми", Description = "Спортивні костюми" },
+                new CategoryProduct { Id = 664, Level = 3, TopId = 98, Name = "Худі, світшоти", Description = "Худі, світшоти" },
+                new CategoryProduct { Id = 665, Level = 3, TopId = 98, Name = "Піджаки та жакети", Description = "Піджаки та жакети" },
+                new CategoryProduct { Id = 666, Level = 3, TopId = 98, Name = "Сорочки та блузи", Description = "Сорочки та блузи" },
+                new CategoryProduct { Id = 667, Level = 3, TopId = 98, Name = "Купальники", Description = "Купальники" },
+                new CategoryProduct { Id = 668, Level = 3, TopId = 98, Name = "Спідня білизна", Description = "Спідня білизна" },
+                new CategoryProduct { Id = 669, Level = 3, TopId = 98, Name = "Нічний і домашній одяг", Description = "Нічний і домашній одяг" },
+
+                // Жіноче взуття
+                new CategoryProduct { Id = 670, Level = 3, TopId = 99, Name = "Босоніжки", Description = "Босоніжки" },
+                new CategoryProduct { Id = 671, Level = 3, TopId = 99, Name = "Сандалі", Description = "Сандалі" },
+                new CategoryProduct { Id = 672, Level = 3, TopId = 99, Name = "Кеди", Description = "Кеди" },
+                new CategoryProduct { Id = 673, Level = 3, TopId = 99, Name = "Кросівки", Description = "Кросівки" },
+                new CategoryProduct { Id = 674, Level = 3, TopId = 99, Name = "Шльопанці та крокси", Description = "Шльопанці та крокси" },
+                new CategoryProduct { Id = 675, Level = 3, TopId = 99, Name = "Туфлі та балетки", Description = "Туфлі та балетки" },
+                new CategoryProduct { Id = 676, Level = 3, TopId = 99, Name = "Кімнатне взуття", Description = "Кімнатне взуття" },
+
+                // Аксесуари для жінок
+                new CategoryProduct { Id = 677, Level = 3, TopId = 100, Name = "Сумки та рюкзаки", Description = "Сумки та рюкзаки" },
+                new CategoryProduct { Id = 678, Level = 3, TopId = 100, Name = "Головні убори", Description = "Головні убори" },
+                new CategoryProduct { Id = 679, Level = 3, TopId = 100, Name = "Сонцезахисні окуляри", Description = "Сонцезахисні окуляри" },
+                new CategoryProduct { Id = 680, Level = 3, TopId = 100, Name = "Гаманці", Description = "Гаманці" },
+                new CategoryProduct { Id = 681, Level = 3, TopId = 100, Name = "Парасолі", Description = "Парасолі" },
+
+                // Одяг для чоловіків
+                new CategoryProduct { Id = 682, Level = 3, TopId = 101, Name = "Футболки", Description = "Футболки" },
+                new CategoryProduct { Id = 683, Level = 3, TopId = 101, Name = "Спортивні костюми", Description = "Спортивні костюми" },
+                new CategoryProduct { Id = 684, Level = 3, TopId = 101, Name = "Спортивні штани", Description = "Спортивні штани" },
+                new CategoryProduct { Id = 685, Level = 3, TopId = 101, Name = "Худі та толстовки", Description = "Худі та толстовки" },
+                new CategoryProduct { Id = 686, Level = 3, TopId = 101, Name = "Шорти", Description = "Шорти" },
+                new CategoryProduct { Id = 687, Level = 3, TopId = 101, Name = "Джинси", Description = "Джинси" },
+                new CategoryProduct { Id = 688, Level = 3, TopId = 101, Name = "Сорочки", Description = "Сорочки" },
+                new CategoryProduct { Id = 689, Level = 3, TopId = 101, Name = "Нічний і домашній одяг", Description = "Нічний і домашній одяг" },
+                new CategoryProduct { Id = 690, Level = 3, TopId = 101, Name = "Спідня білизна", Description = "Спідня білизна" },
+                new CategoryProduct { Id = 691, Level = 3, TopId = 101, Name = "Шкарпетки", Description = "Шкарпетки" },
+
+                // Чоловіче взуття
+                new CategoryProduct { Id = 692, Level = 3, TopId = 102, Name = "Сандалії", Description = "Сандалії" },
+                new CategoryProduct { Id = 693, Level = 3, TopId = 102, Name = "Кеди", Description = "Кеди" },
+                new CategoryProduct { Id = 694, Level = 3, TopId = 102, Name = "Кросівки", Description = "Кросівки" },
+                new CategoryProduct { Id = 695, Level = 3, TopId = 102, Name = "Туфлі", Description = "Туфлі" },
+                new CategoryProduct { Id = 696, Level = 3, TopId = 102, Name = "Мокасини", Description = "Мокасини" },
+                new CategoryProduct { Id = 697, Level = 3, TopId = 102, Name = "Шльопанці та крокси", Description = "Шльопанці та крокси" },
+                new CategoryProduct { Id = 698, Level = 3, TopId = 102, Name = "Кімнатне взуття", Description = "Кімнатне взуття" },
+
+                // Аксесуари для чоловіків
+                new CategoryProduct { Id = 699, Level = 3, TopId = 103, Name = "Рюкзаки та сумки", Description = "Рюкзаки та сумки" },
+                new CategoryProduct { Id = 700, Level = 3, TopId = 103, Name = "Головні убори", Description = "Головні убори" },
+                new CategoryProduct { Id = 701, Level = 3, TopId = 103, Name = "Сонцезахисні окуляри", Description = "Сонцезахисні окуляри" },
+                new CategoryProduct { Id = 702, Level = 3, TopId = 103, Name = "Ремені", Description = "Ремені" },
+                new CategoryProduct { Id = 703, Level = 3, TopId = 103, Name = "Парасолі", Description = "Парасолі" },
+
+                // Дитячий одяг
+                new CategoryProduct { Id = 704, Level = 3, TopId = 104, Name = "Футболки та сорочки для хлопчиків", Description = "Футболки та сорочки для хлопчиків" },
+                new CategoryProduct { Id = 705, Level = 3, TopId = 104, Name = "Шорти, джинси, брюки для хлопчиків", Description = "Шорти, джинси, брюки для хлопчиків" },
+                new CategoryProduct { Id = 706, Level = 3, TopId = 104, Name = "Спортивні костюми для хлопчиків", Description = "Спортивні костюми для хлопчиків" },
+                new CategoryProduct { Id = 707, Level = 3, TopId = 104, Name = "Худі та світшоти для хлопчиків", Description = "Худі та світшоти для хлопчиків" },
+                new CategoryProduct { Id = 708, Level = 3, TopId = 104, Name = "Дитячий верхній одяг", Description = "Дитячий верхній одяг" },
+                new CategoryProduct { Id = 709, Level = 3, TopId = 104, Name = "Плаття та сарафани для дівчаток", Description = "Плаття та сарафани для дівчаток" },
+                new CategoryProduct { Id = 710, Level = 3, TopId = 104, Name = "Шорти та штани для дівчаток", Description = "Шорти та штани для дівчаток" },
+                new CategoryProduct { Id = 711, Level = 3, TopId = 104, Name = "Худі, світшоти для дівчаток", Description = "Худі, світшоти для дівчаток" },
+                new CategoryProduct { Id = 712, Level = 3, TopId = 104, Name = "Спортивні костюми для дівчаток", Description = "Спортивні костюми для дівчаток" },
+                new CategoryProduct { Id = 713, Level = 3, TopId = 104, Name = "Дитяча нижня білизна", Description = "Дитяча нижня білизна" },
+
+                // Дитяче взуття
+                new CategoryProduct { Id = 714, Level = 3, TopId = 105, Name = "Кросівки та кеди для хлопчиків", Description = "Кросівки та кеди для хлопчиків" },
+                new CategoryProduct { Id = 715, Level = 3, TopId = 105, Name = "Шльопанці для хлопчиків", Description = "Шльопанці для хлопчиків" },
+                new CategoryProduct { Id = 716, Level = 3, TopId = 105, Name = "Сандалії для хлопчиків", Description = "Сандалії для хлопчиків" },
+                new CategoryProduct { Id = 717, Level = 3, TopId = 105, Name = "Туфлі для хлопчиків", Description = "Туфлі для хлопчиків" },
+                new CategoryProduct { Id = 718, Level = 3, TopId = 105, Name = "Кросівки для дівчаток", Description = "Кросівки для дівчаток" },
+                new CategoryProduct { Id = 719, Level = 3, TopId = 105, Name = "Туфлі для дівчаток", Description = "Туфлі для дівчаток" },
+                new CategoryProduct { Id = 720, Level = 3, TopId = 105, Name = "Шльопанці для дівчаток", Description = "Шльопанці для дівчаток" },
+                new CategoryProduct { Id = 721, Level = 3, TopId = 105, Name = "Сандалії для дівчаток", Description = "Сандалії для дівчаток" },
+            #endregion
+            #region 1_11_3lvl
+                // Техніка для краси та здоров'я
+                new CategoryProduct { Id = 722, Level = 3, TopId = 107, Name = "Машинки для стриження", Description = "Машинки для стриження" },
+                new CategoryProduct { Id = 723, Level = 3, TopId = 107, Name = "Триммери", Description = "Триммери" },
+                new CategoryProduct { Id = 724, Level = 3, TopId = 107, Name = "Електробритви", Description = "Електробритви" },
+                new CategoryProduct { Id = 725, Level = 3, TopId = 107, Name = "Фени", Description = "Фени" },
+                new CategoryProduct { Id = 726, Level = 3, TopId = 107, Name = "Епілятори", Description = "Епілятори" },
+                new CategoryProduct { Id = 727, Level = 3, TopId = 107, Name = "Подарункові набори", Description = "Подарункові набори" },
+
+                // Засоби для гоління
+                new CategoryProduct { Id = 728, Level = 3, TopId = 110, Name = "Станок для гоління", Description = "Станок для гоління" },
+                new CategoryProduct { Id = 729, Level = 3, TopId = 110, Name = "Лезо для бритви", Description = "Лезо для бритви" },
+                new CategoryProduct { Id = 730, Level = 3, TopId = 110, Name = "Косметика для гоління", Description = "Косметика для гоління" },
+
+                // Особиста гігієна
+                new CategoryProduct { Id = 731, Level = 3, TopId = 112, Name = "Туалетний папір", Description = "Туалетний папір" },
+                new CategoryProduct { Id = 732, Level = 3, TopId = 112, Name = "Підгузки для дорослих", Description = "Підгузки для дорослих" },
+                new CategoryProduct { Id = 733, Level = 3, TopId = 112, Name = "Вологі серветки", Description = "Вологі серветки" },
+
+                // Догляд за обличчям
+                new CategoryProduct { Id = 734, Level = 3, TopId = 114, Name = "Крем", Description = "Крем" },
+                new CategoryProduct { Id = 735, Level = 3, TopId = 114, Name = "Маска для обличчя", Description = "Маска для обличчя" },
+                new CategoryProduct { Id = 736, Level = 3, TopId = 114, Name = "Міцелярна вода", Description = "Міцелярна вода" },
+                new CategoryProduct { Id = 737, Level = 3, TopId = 114, Name = "Засіб для вмивання", Description = "Засіб для вмивання" },
+                new CategoryProduct { Id = 738, Level = 3, TopId = 114, Name = "Патчі", Description = "Патчі" },
+
+                // Догляд за тілом
+                new CategoryProduct { Id = 739, Level = 3, TopId = 115, Name = "Дезодоранти і антиперспіранти", Description = "Дезодоранти і антиперспіранти" },
+                new CategoryProduct { Id = 740, Level = 3, TopId = 115, Name = "Засоби для інтимної гігієни", Description = "Засоби для інтимної гігієни" },
+                new CategoryProduct { Id = 741, Level = 3, TopId = 115, Name = "Догляд за руками", Description = "Догляд за руками" },
+                new CategoryProduct { Id = 742, Level = 3, TopId = 115, Name = "Ефірні масла", Description = "Ефірні масла" },
+
+                // Догляд за волоссям
+                new CategoryProduct { Id = 743, Level = 3, TopId = 116, Name = "Шампуні", Description = "Шампуні" },
+                new CategoryProduct { Id = 744, Level = 3, TopId = 116, Name = "Олія для волосся", Description = "Олія для волосся" },
+                new CategoryProduct { Id = 745, Level = 3, TopId = 116, Name = "Кондиціонери", Description = "Кондиціонери" },
+                new CategoryProduct { Id = 746, Level = 3, TopId = 116, Name = "Набори по догляду за волоссям", Description = "Набори по догляду за волоссям" },
+                new CategoryProduct { Id = 747, Level = 3, TopId = 116, Name = "Маски для волосся", Description = "Маски для волосся" },
+
+                // Парфуми
+                new CategoryProduct { Id = 748, Level = 3, TopId = 117, Name = "Чоловіча парфумерія", Description = "Чоловіча парфумерія" },
+                new CategoryProduct { Id = 749, Level = 3, TopId = 117, Name = "Жіноча парфумерія", Description = "Жіноча парфумерія" },
+                new CategoryProduct { Id = 750, Level = 3, TopId = 117, Name = "Аромати для дому", Description = "Аромати для дому" },
+
+                // Фарбування волосся
+                new CategoryProduct { Id = 751, Level = 3, TopId = 120, Name = "Фарба для волосся", Description = "Фарба для волосся" },
+                new CategoryProduct { Id = 752, Level = 3, TopId = 120, Name = "Тонуючі засоби", Description = "Тонуючі засоби" },
+
+                // Догляд за порожниною рота
+                new CategoryProduct { Id = 753, Level = 3, TopId = 121, Name = "Зубна паста", Description = "Зубна паста" },
+                new CategoryProduct { Id = 754, Level = 3, TopId = 121, Name = "Зубні щітки", Description = "Зубні щітки" },
+                new CategoryProduct { Id = 755, Level = 3, TopId = 121, Name = "Електричні зубні щітки і іррігатори", Description = "Електричні зубні щітки і іррігатори" },
+
+                // Декоративна косметика
+                new CategoryProduct { Id = 756, Level = 3, TopId = 122, Name = "Лак для нігтів", Description = "Лак для нігтів" },
+                new CategoryProduct { Id = 757, Level = 3, TopId = 122, Name = "Гель-лак", Description = "Гель-лак" },
+                new CategoryProduct { Id = 758, Level = 3, TopId = 122, Name = "Губна помада", Description = "Губна помада" },
+                new CategoryProduct { Id = 759, Level = 3, TopId = 122, Name = "Блиск для губ", Description = "Блиск для губ" },
+                new CategoryProduct { Id = 760, Level = 3, TopId = 122, Name = "Туш для вій", Description = "Туш для вій" },
+                new CategoryProduct { Id = 761, Level = 3, TopId = 122, Name = "Тіні для вій", Description = "Тіні для вій" },
+                new CategoryProduct { Id = 762, Level = 3, TopId = 122, Name = "Олівці для очей", Description = "Олівці для очей" },
+                new CategoryProduct { Id = 763, Level = 3, TopId = 122, Name = "Тональні засоби", Description = "Тональні засоби" },
+                new CategoryProduct { Id = 764, Level = 3, TopId = 122, Name = "Пудра", Description = "Пудра" },
+
+                // Аксесуари
+                new CategoryProduct { Id = 765, Level = 3, TopId = 123, Name = "Для манікюру", Description = "Для манікюру" },
+                new CategoryProduct { Id = 766, Level = 3, TopId = 123, Name = "Для макіяжу", Description = "Для макіяжу" },
+                new CategoryProduct { Id = 767, Level = 3, TopId = 123, Name = "Для волосся", Description = "Для волосся" },
+
+                // Косметика для догляду за дітьми
+                new CategoryProduct { Id = 768, Level = 3, TopId = 124, Name = "Підгузки", Description = "Підгузки" },
+                new CategoryProduct { Id = 769, Level = 3, TopId = 124, Name = "Косметика для дітей", Description = "Косметика для дітей" },
+                new CategoryProduct { Id = 770, Level = 3, TopId = 124, Name = "Засоби для купання", Description = "Засоби для купання" },
+            #endregion
+            #region 1_12_3lvl
+                // Товари для дітей
+                // Іграшки
+                new CategoryProduct { Id = 771, Level = 3, TopId = 125, Name = "Дитячі конструктори", Description = "Дитячі конструктори" },
+                new CategoryProduct { Id = 772, Level = 3, TopId = 125, Name = "Інтерактивні іграшки", Description = "Інтерактивні іграшки" },
+                new CategoryProduct { Id = 773, Level = 3, TopId = 125, Name = "Настільні ігри", Description = "Настільні ігри" },
+                new CategoryProduct { Id = 774, Level = 3, TopId = 125, Name = "Творчість", Description = "Творчість" },
+                new CategoryProduct { Id = 775, Level = 3, TopId = 125, Name = "Ігрові набори", Description = "Ігрові набори" },
+                new CategoryProduct { Id = 776, Level = 3, TopId = 125, Name = "Радіокеровані іграшки", Description = "Радіокеровані іграшки" },
+                new CategoryProduct { Id = 777, Level = 3, TopId = 125, Name = "Ляльки", Description = "Ляльки" },
+                new CategoryProduct { Id = 778, Level = 3, TopId = 125, Name = "Іграшки для малюків", Description = "Іграшки для малюків" },
+                new CategoryProduct { Id = 779, Level = 3, TopId = 125, Name = "М'які іграшки", Description = "М'які іграшки" },
+                new CategoryProduct { Id = 780, Level = 3, TopId = 125, Name = "Іграшкові машинки та техніка", Description = "Іграшкові машинки та техніка" },
+                new CategoryProduct { Id = 781, Level = 3, TopId = 125, Name = "Іграшкова зброя", Description = "Іграшкова зброя" },
+
+                // Дитяче харчування
+                new CategoryProduct { Id = 782, Level = 3, TopId = 126, Name = "Дитячі суміші", Description = "Дитячі суміші" },
+                new CategoryProduct { Id = 783, Level = 3, TopId = 126, Name = "Стільчики для годування", Description = "Стільчики для годування" },
+                new CategoryProduct { Id = 784, Level = 3, TopId = 126, Name = "Пляшечки для годування та аксесуари", Description = "Пляшечки для годування та аксесуари" },
+                new CategoryProduct { Id = 785, Level = 3, TopId = 126, Name = "Дитячі кухонні комбайни", Description = "Дитячі кухонні комбайни" },
+                new CategoryProduct { Id = 786, Level = 3, TopId = 126, Name = "Дитячі каші", Description = "Дитячі каші" },
+                new CategoryProduct { Id = 787, Level = 3, TopId = 126, Name = "Дитяче пюре", Description = "Дитяче пюре" },
+                new CategoryProduct { Id = 788, Level = 3, TopId = 126, Name = "Дитячий посуд", Description = "Дитячий посуд" },
+                new CategoryProduct { Id = 789, Level = 3, TopId = 126, Name = "Пустушки", Description = "Пустушки" },
+
+                // Прогулянки й активний відпочинок
+                new CategoryProduct { Id = 790, Level = 3, TopId = 128, Name = "Електротранспорт", Description = "Електротранспорт" },
+                new CategoryProduct { Id = 791, Level = 3, TopId = 128, Name = "Дитячі коляски", Description = "Дитячі коляски" },
+                new CategoryProduct { Id = 792, Level = 3, TopId = 128, Name = "Дитячі автокрісла", Description = "Дитячі автокрісла" },
+                new CategoryProduct { Id = 793, Level = 3, TopId = 128, Name = "Дитячі велосипеди", Description = "Дитячі велосипеди" },
+                new CategoryProduct { Id = 794, Level = 3, TopId = 128, Name = "Дитячі самокати", Description = "Дитячі самокати" },
+                new CategoryProduct { Id = 795, Level = 3, TopId = 128, Name = "Дивомобілі, ходунки, гойдалки", Description = "Дивомобілі, ходунки, гойдалки" },
+                new CategoryProduct { Id = 796, Level = 3, TopId = 128, Name = "Роликові ковзани", Description = "Роликові ковзани" },
+
+                // Гігієна та догляд за дитиною
+                new CategoryProduct { Id = 797, Level = 3, TopId = 129, Name = "Підгузки", Description = "Підгузки" },
+                new CategoryProduct { Id = 798, Level = 3, TopId = 129, Name = "Дитячі серветки, хусточки та рушники", Description = "Дитячі серветки, хусточки та рушники" },
+                new CategoryProduct { Id = 799, Level = 3, TopId = 129, Name = "Пелюшки", Description = "Пелюшки" },
+                new CategoryProduct { Id = 800, Level = 3, TopId = 129, Name = "Косметика для догляду для дітей", Description = "Косметика для догляду для дітей" },
+                new CategoryProduct { Id = 801, Level = 3, TopId = 129, Name = "Дитячі ванночки та аксесуари", Description = "Дитячі ванночки та аксесуари" },
+
+                // Дитячий одяг, взуття та аксесуари
+                new CategoryProduct { Id = 802, Level = 3, TopId = 130, Name = "Одяг для хлопчиків", Description = "Одяг для хлопчиків" },
+                new CategoryProduct { Id = 803, Level = 3, TopId = 130, Name = "Одяг для дівчаток", Description = "Одяг для дівчаток" },
+                new CategoryProduct { Id = 804, Level = 3, TopId = 130, Name = "Одяг для малюків", Description = "Одяг для малюків" },
+                new CategoryProduct { Id = 805, Level = 3, TopId = 130, Name = "Дитяче взуття", Description = "Дитяче взуття" },
+
+                // Шкільне приладдя
+                new CategoryProduct { Id = 806, Level = 3, TopId = 131, Name = "Шкільні набори та ранці", Description = "Шкільні набори та ранці" },
+                new CategoryProduct { Id = 807, Level = 3, TopId = 131, Name = "Шкільні пенали", Description = "Шкільні пенали" },
+                new CategoryProduct { Id = 808, Level = 3, TopId = 131, Name = "Сумки для взуття", Description = "Сумки для взуття" },
+
+                // Дитяча кімната
+                new CategoryProduct { Id = 809, Level = 3, TopId = 133, Name = "Радіоняньки", Description = "Радіоняньки" },
+                new CategoryProduct { Id = 810, Level = 3, TopId = 133, Name = "Парти", Description = "Парти" },
+                new CategoryProduct { Id = 811, Level = 3, TopId = 133, Name = "Манежі", Description = "Манежі" },
+                new CategoryProduct { Id = 812, Level = 3, TopId = 133, Name = "Мобілі", Description = "Мобілі" },
+                new CategoryProduct { Id = 813, Level = 3, TopId = 133, Name = "Дитячі ліжечка", Description = "Дитячі ліжечка" },
+
+                // Розвиток і творчість
+                new CategoryProduct { Id = 814, Level = 3, TopId = 134, Name = "Творчість", Description = "Творчість" },
+                new CategoryProduct { Id = 815, Level = 3, TopId = 134, Name = "Розвивальні іграшки", Description = "Розвивальні іграшки" },
+                new CategoryProduct { Id = 816, Level = 3, TopId = 134, Name = "Дитячі книги", Description = "Дитячі книги" },
+
+            #endregion
+            #region 1_13_3lvl
+                // Зоотовари
+                // Товари для кішок
+                new CategoryProduct { Id = 817, Level = 3, TopId = 138, Name = "Корми для кішок", Description = "Корми для кішок" },
+                new CategoryProduct { Id = 818, Level = 3, TopId = 138, Name = "Вологий корм для кішок", Description = "Вологий корм для кішок" },
+                new CategoryProduct { Id = 819, Level = 3, TopId = 138, Name = "Сухий корм для кішок", Description = "Сухий корм для кішок" },
+                new CategoryProduct { Id = 820, Level = 3, TopId = 138, Name = "Корма для кошенят", Description = "Корма для кошенят" },
+                new CategoryProduct { Id = 821, Level = 3, TopId = 138, Name = "Засоби для догляду та гігієни для кішок", Description = "Засоби для догляду та гігієни для кішок" },
+                new CategoryProduct { Id = 822, Level = 3, TopId = 138, Name = "Вітаміни та ласощі для кішок", Description = "Вітаміни та ласощі для кішок" },
+                new CategoryProduct { Id = 823, Level = 3, TopId = 138, Name = "Спальні місця та перенесення для кішок", Description = "Спальні місця та перенесення для кішок" },
+                new CategoryProduct { Id = 824, Level = 3, TopId = 138, Name = "Іграшки для котів", Description = "Іграшки для котів" },
+                new CategoryProduct { Id = 825, Level = 3, TopId = 138, Name = "Туалети для кішок", Description = "Туалети для кішок" },
+                new CategoryProduct { Id = 826, Level = 3, TopId = 138, Name = "Посуд для котів", Description = "Посуд для котів" },
+                new CategoryProduct { Id = 827, Level = 3, TopId = 138, Name = "Грумінг кішкам", Description = "Грумінг кішкам" },
+
+                // Наповнювачі туалетів для котів
+                new CategoryProduct { Id = 828, Level = 3, TopId = 139, Name = "Деревні", Description = "Деревні" },
+                new CategoryProduct { Id = 829, Level = 3, TopId = 139, Name = "Бентонітові", Description = "Бентонітові" },
+                new CategoryProduct { Id = 830, Level = 3, TopId = 139, Name = "Силікагелеві", Description = "Силікагелеві" },
+
+                // Товари для птахів
+                new CategoryProduct { Id = 831, Level = 3, TopId = 140, Name = "Корм для птахів", Description = "Корм для птахів" },
+                new CategoryProduct { Id = 832, Level = 3, TopId = 140, Name = "Клітки для птахів", Description = "Клітки для птахів" },
+
+                // Товари для гризунів
+                new CategoryProduct { Id = 833, Level = 3, TopId = 141, Name = "Корм для гризунів", Description = "Корм для гризунів" },
+                new CategoryProduct { Id = 834, Level = 3, TopId = 141, Name = "Наповнювачі туалетів для гризунів", Description = "Наповнювачі туалетів для гризунів" },
+                new CategoryProduct { Id = 835, Level = 3, TopId = 141, Name = "Клітки для гризунів", Description = "Клітки для гризунів" },
+
+                // Товари для собак
+                new CategoryProduct { Id = 836, Level = 3, TopId = 142, Name = "Корми для собак", Description = "Корми для собак" },
+                new CategoryProduct { Id = 837, Level = 3, TopId = 142, Name = "Сухий корм для собак", Description = "Сухий корм для собак" },
+                new CategoryProduct { Id = 838, Level = 3, TopId = 142, Name = "Вологий корм для собак", Description = "Вологий корм для собак" },
+                new CategoryProduct { Id = 839, Level = 3, TopId = 142, Name = "Корма для цуценят", Description = "Корма для цуценят" },
+                new CategoryProduct { Id = 840, Level = 3, TopId = 142, Name = "Вітаміни та ласощі для собак", Description = "Вітаміни та ласощі для собак" },
+                new CategoryProduct { Id = 841, Level = 3, TopId = 142, Name = "Засоби для догляду та гігієни для собак", Description = "Засоби для догляду та гігієни для собак" },
+                new CategoryProduct { Id = 842, Level = 3, TopId = 142, Name = "Посуд для тварин", Description = "Посуд для тварин" },
+                new CategoryProduct { Id = 843, Level = 3, TopId = 142, Name = "Одяг для собак", Description = "Одяг для собак" },
+                new CategoryProduct { Id = 844, Level = 3, TopId = 142, Name = "Нашийники для собак", Description = "Нашийники для собак" },
+                new CategoryProduct { Id = 845, Level = 3, TopId = 142, Name = "Повідці для собак", Description = "Повідці для собак" },
+                new CategoryProduct { Id = 846, Level = 3, TopId = 142, Name = "Спальні місця та переноски", Description = "Спальні місця та переноски" },
+                new CategoryProduct { Id = 847, Level = 3, TopId = 142, Name = "Іграшки для собак", Description = "Іграшки для собак" },
+
+                // Засоби від паразитів
+                new CategoryProduct { Id = 848, Level = 3, TopId = 143, Name = "Засоби від бліх та кліщів", Description = "Засоби від бліх та кліщів" },
+                new CategoryProduct { Id = 849, Level = 3, TopId = 143, Name = "Засоби проти глистів", Description = "Засоби проти глистів" },
+                new CategoryProduct { Id = 850, Level = 3, TopId = 143, Name = "Протигрибкові засоби", Description = "Протигрибкові засоби" },
+                new CategoryProduct { Id = 851, Level = 3, TopId = 143, Name = "Нашийники від бліх", Description = "Нашийники від бліх" },
+                new CategoryProduct { Id = 852, Level = 3, TopId = 143, Name = "Краплі та таблетки від паразитів", Description = "Краплі та таблетки від паразитів" },
+                new CategoryProduct { Id = 853, Level = 3, TopId = 143, Name = "Засоби для обробки приміщень", Description = "Засоби для обробки приміщень" },
+                new CategoryProduct { Id = 854, Level = 3, TopId = 143, Name = "Засоби від неприємного запаху", Description = "Засоби від неприємного запаху" },
+                new CategoryProduct { Id = 855, Level = 3, TopId = 143, Name = "Для привчання до туалету", Description = "Для привчання до туалету" },
+
+                // Акваріуми
+                new CategoryProduct { Id = 856, Level = 3, TopId = 144, Name = "Корми для риб", Description = "Корми для риб" },
+                new CategoryProduct { Id = 857, Level = 3, TopId = 144, Name = "Фільтри", Description = "Фільтри" },
+                new CategoryProduct { Id = 858, Level = 3, TopId = 144, Name = "Компресори та помпи", Description = "Компресори та помпи" },
+                new CategoryProduct { Id = 859, Level = 3, TopId = 144, Name = "Освітлення", Description = "Освітлення" },
+                new CategoryProduct { Id = 860, Level = 3, TopId = 144, Name = "Декорації", Description = "Декорації" },
+
+                // Тераріуми та фаунаріуми
+                new CategoryProduct { Id = 861, Level = 3, TopId = 145, Name = "Корм для рептилій", Description = "Корм для рептилій" },
+                new CategoryProduct { Id = 862, Level = 3, TopId = 145, Name = "Освітлення", Description = "Освітлення" },
+                new CategoryProduct { Id = 863, Level = 3, TopId = 145, Name = "Фаунаріуми", Description = "Фаунаріуми" },
+
+            #endregion
+            #region 1_14_3lvl
+                // Офіс, школа, книги
+                // Канцелярське приладдя
+                new CategoryProduct { Id = 864, Level = 3, TopId = 148, Name = "Папір офісний", Description = "Папір офісний" },
+                new CategoryProduct { Id = 865, Level = 3, TopId = 148, Name = "Ручки", Description = "Ручки" },
+                new CategoryProduct { Id = 866, Level = 3, TopId = 148, Name = "Щоденники, планінги, алфавітні книги", Description = "Щоденники, планінги, алфавітні книги" },
+                new CategoryProduct { Id = 867, Level = 3, TopId = 148, Name = "Папки-реєстратори", Description = "Папки-реєстратори" },
+                new CategoryProduct { Id = 868, Level = 3, TopId = 148, Name = "Циркулі та готувальнички", Description = "Циркулі та готувальнички" },
+                new CategoryProduct { Id = 869, Level = 3, TopId = 148, Name = "Блокноти, зошити офісні", Description = "Блокноти, зошити офісні" },
+                new CategoryProduct { Id = 870, Level = 3, TopId = 148, Name = "Олівці", Description = "Олівці" },
+                new CategoryProduct { Id = 871, Level = 3, TopId = 148, Name = "Файли", Description = "Файли" },
+                new CategoryProduct { Id = 872, Level = 3, TopId = 148, Name = "Клей", Description = "Клей" },
+                new CategoryProduct { Id = 873, Level = 3, TopId = 148, Name = "Коректори", Description = "Коректори" },
+                new CategoryProduct { Id = 874, Level = 3, TopId = 148, Name = "Лотки для паперів", Description = "Лотки для паперів" },
+                new CategoryProduct { Id = 875, Level = 3, TopId = 148, Name = "Маркери", Description = "Маркери" },
+                new CategoryProduct { Id = 876, Level = 3, TopId = 148, Name = "Папір для нотаток, стикери", Description = "Папір для нотаток, стикери" },
+                new CategoryProduct { Id = 877, Level = 3, TopId = 148, Name = "Гумки", Description = "Гумки" },
+                new CategoryProduct { Id = 878, Level = 3, TopId = 148, Name = "Степлери, скоби, антистеплери", Description = "Степлери, скоби, антистеплери" },
+                new CategoryProduct { Id = 879, Level = 3, TopId = 148, Name = "Клейкі стрічки та скотчі", Description = "Клейкі стрічки та скотчі" },
+                new CategoryProduct { Id = 880, Level = 3, TopId = 148, Name = "Конверти", Description = "Конверти" },
+                new CategoryProduct { Id = 881, Level = 3, TopId = 148, Name = "Папки з файлами", Description = "Папки з файлами" },
+                new CategoryProduct { Id = 882, Level = 3, TopId = 148, Name = "Папір для фліпчартів", Description = "Папір для фліпчартів" },
+                new CategoryProduct { Id = 883, Level = 3, TopId = 148, Name = "Стрижні, грифелі, чорнило", Description = "Стрижні, грифелі, чорнило" },
+                new CategoryProduct { Id = 884, Level = 3, TopId = 148, Name = "Лупи", Description = "Лупи" },
+
+                // Шкільне приладдя
+                new CategoryProduct { Id = 885, Level = 3, TopId = 149, Name = "Шкільні набори та ранці", Description = "Шкільні набори та ранці" },
+                new CategoryProduct { Id = 886, Level = 3, TopId = 149, Name = "Зошити учнівські", Description = "Зошити учнівські" },
+                new CategoryProduct { Id = 887, Level = 3, TopId = 149, Name = "Пенали шкільні", Description = "Пенали шкільні" },
+                new CategoryProduct { Id = 888, Level = 3, TopId = 149, Name = "Обкладинки для зошитів і підручників", Description = "Обкладинки для зошитів і підручників" },
+                new CategoryProduct { Id = 889, Level = 3, TopId = 149, Name = "Сумки шкільні", Description = "Сумки шкільні" },
+                new CategoryProduct { Id = 890, Level = 3, TopId = 149, Name = "Бутербродниці (ланч-бокси)", Description = "Бутербродниці (ланч-бокси)" },
+                new CategoryProduct { Id = 891, Level = 3, TopId = 149, Name = "Контурні мапи та атласи", Description = "Контурні мапи та атласи" },
+                new CategoryProduct { Id = 892, Level = 3, TopId = 149, Name = "Лінійки, транспортири, косинці", Description = "Лінійки, транспортири, косинці" },
+                new CategoryProduct { Id = 893, Level = 3, TopId = 149, Name = "Ножиці шкільні", Description = "Ножиці шкільні" },
+
+                // Офісне приладдя
+                new CategoryProduct { Id = 894, Level = 3, TopId = 150, Name = "Калькулятори", Description = "Калькулятори" },
+                new CategoryProduct { Id = 895, Level = 3, TopId = 150, Name = "Папки пластикові", Description = "Папки пластикові" },
+                new CategoryProduct { Id = 896, Level = 3, TopId = 150, Name = "Самонабірні штампи", Description = "Самонабірні штампи" },
+                new CategoryProduct { Id = 897, Level = 3, TopId = 150, Name = "Настільні набори", Description = "Настільні набори" },
+                new CategoryProduct { Id = 898, Level = 3, TopId = 150, Name = "Діркопробивачі", Description = "Діркопробивачі" },
+                new CategoryProduct { Id = 899, Level = 3, TopId = 150, Name = "Бейджі, брелоки-ідентифікатори, настільні таблички", Description = "Бейджі, брелоки-ідентифікатори, настільні таблички" },
+                new CategoryProduct { Id = 900, Level = 3, TopId = 150, Name = "Папки-портфелі, папки-бокси", Description = "Папки-портфелі, папки-бокси" },
+                new CategoryProduct { Id = 901, Level = 3, TopId = 150, Name = "Друк візиток", Description = "Друк візиток" },
+
+                // Книги
+                new CategoryProduct { Id = 902, Level = 3, TopId = 152, Name = "Художня література", Description = "Художня література" },
+                new CategoryProduct { Id = 903, Level = 3, TopId = 152, Name = "Дитячі книги", Description = "Дитячі книги" },
+                new CategoryProduct { Id = 904, Level = 3, TopId = 152, Name = "Книги для бізнесу", Description = "Книги для бізнесу" },
+                new CategoryProduct { Id = 905, Level = 3, TopId = 152, Name = "Підручники. Науково-методична література", Description = "Підручники. Науково-методична література" },
+                new CategoryProduct { Id = 906, Level = 3, TopId = 152, Name = "Релігія. Езотерика", Description = "Релігія. Езотерика" },
+                new CategoryProduct { Id = 907, Level = 3, TopId = 152, Name = "Словники. Довідники. Енциклопедії", Description = "Словники. Довідники. Енциклопедії" },
+                new CategoryProduct { Id = 908, Level = 3, TopId = 152, Name = "Книги для батьків", Description = "Книги для батьків" },
+
+                // Творчість
+                new CategoryProduct { Id = 909, Level = 3, TopId = 152, Name = "Кольорові олівці", Description = "Кольорові олівці" },
+                new CategoryProduct { Id = 910, Level = 3, TopId = 152, Name = "Фарби", Description = "Фарби" },
+                new CategoryProduct { Id = 911, Level = 3, TopId = 152, Name = "Кольоровий папір і картон", Description = "Кольоровий папір і картон" },
+                new CategoryProduct { Id = 912, Level = 3, TopId = 152, Name = "Альбоми для малювання", Description = "Альбоми для малювання" },
+                new CategoryProduct { Id = 913, Level = 3, TopId = 152, Name = "Пластилін", Description = "Пластилін" },
+                new CategoryProduct { Id = 914, Level = 3, TopId = 152, Name = "Фломастери", Description = "Фломастери" },
+                new CategoryProduct { Id = 915, Level = 3, TopId = 152, Name = "Пензлі", Description = "Пензлі" },
+                new CategoryProduct { Id = 916, Level = 3, TopId = 152, Name = "Мольберти, етюдники, палітри", Description = "Мольберти, етюдники, палітри" },
+
+                // Сувенірна продукція
+                new CategoryProduct { Id = 917, Level = 3, TopId = 154, Name = "Головоломки, антистреси", Description = "Головоломки, антистреси" },
+
+            #endregion
+            #region 1_15_3lvl
+                // Алкогольні напої та продукти
+
+                // Вино
+                new CategoryProduct { Id = 918, Level = 3, TopId = 155, Name = "Червоне", Description = "Вино - Червоне" },
+                new CategoryProduct { Id = 919, Level = 3, TopId = 155, Name = "Біле", Description = "Вино - Біле" },
+                new CategoryProduct { Id = 920, Level = 3, TopId = 155, Name = "Рожеве", Description = "Вино - Рожеве" },
+                new CategoryProduct { Id = 921, Level = 3, TopId = 155, Name = "Сухе вино", Description = "Вино - Сухе вино" },
+                new CategoryProduct { Id = 922, Level = 3, TopId = 155, Name = "Напівсолодке вино", Description = "Вино - Напівсолодке вино" },
+                new CategoryProduct { Id = 923, Level = 3, TopId = 155, Name = "Напівсухе вино", Description = "Вино - Напівсухе вино" },
+                new CategoryProduct { Id = 924, Level = 3, TopId = 155, Name = "Десертне", Description = "Вино - Десертне" },
+                new CategoryProduct { Id = 925, Level = 3, TopId = 155, Name = "Ігристе шампанське", Description = "Вино - Ігристе шампанське" },
+
+                // Лікери, вермути, сиропи
+                new CategoryProduct { Id = 926, Level = 3, TopId = 156, Name = "Лікери", Description = "Лікери, вермути, сиропи - Лікери" },
+                new CategoryProduct { Id = 927, Level = 3, TopId = 156, Name = "Вермути", Description = "Лікери, вермути, сиропи - Вермути" },
+                new CategoryProduct { Id = 928, Level = 3, TopId = 156, Name = "Сиропи", Description = "Лікери, вермути, сиропи - Сиропи" },
+                new CategoryProduct { Id = 929, Level = 3, TopId = 156, Name = "Набори", Description = "Лікери, вермути, сиропи - Набори" },
+
+                // Посуд
+                new CategoryProduct { Id = 930, Level = 3, TopId = 159, Name = "Келихи та фужери", Description = "Посуд - Келихи та фужери" },
+                new CategoryProduct { Id = 931, Level = 3, TopId = 159, Name = "Стопки та чарки", Description = "Посуд - Стопки та чарки" },
+
+                // Міцні напої
+                new CategoryProduct { Id = 932, Level = 3, TopId = 160, Name = "Віскі бленд", Description = "Міцні напої - Віскі бленд" },
+                new CategoryProduct { Id = 933, Level = 3, TopId = 160, Name = "Віскі бурбон", Description = "Міцні напої - Віскі бурбон" },
+                new CategoryProduct { Id = 934, Level = 3, TopId = 160, Name = "Коньяк", Description = "Міцні напої - Коньяк" },
+                new CategoryProduct { Id = 935, Level = 3, TopId = 160, Name = "Віскі односолодовий", Description = "Міцні напої - Віскі односолодовий" },
+                new CategoryProduct { Id = 936, Level = 3, TopId = 160, Name = "Горілка", Description = "Міцні напої - Горілка" },
+                new CategoryProduct { Id = 937, Level = 3, TopId = 160, Name = "Ром", Description = "Міцні напої - Ром" },
+                new CategoryProduct { Id = 938, Level = 3, TopId = 160, Name = "Абсент", Description = "Міцні напої - Абсент" },
+                new CategoryProduct { Id = 939, Level = 3, TopId = 160, Name = "Текіла", Description = "Міцні напої - Текіла" },
+                new CategoryProduct { Id = 940, Level = 3, TopId = 160, Name = "Арманьяк", Description = "Міцні напої - Арманьяк" },
+                new CategoryProduct { Id = 941, Level = 3, TopId = 160, Name = "Бренді", Description = "Міцні напої - Бренді" },
+                new CategoryProduct { Id = 942, Level = 3, TopId = 160, Name = "Чача", Description = "Міцні напої - Чача" },
+                new CategoryProduct { Id = 943, Level = 3, TopId = 160, Name = "Джин", Description = "Міцні напої - Джин" },
+                new CategoryProduct { Id = 944, Level = 3, TopId = 160, Name = "Кальвадос", Description = "Міцні напої - Кальвадос" },
+                new CategoryProduct { Id = 945, Level = 3, TopId = 160, Name = "Бітер", Description = "Міцні напої - Бітер" },
+                new CategoryProduct { Id = 946, Level = 3, TopId = 160, Name = "Грапа", Description = "Міцні напої - Грапа" },
+                new CategoryProduct { Id = 947, Level = 3, TopId = 160, Name = "Саке", Description = "Міцні напої - Саке" },
+
+                // Електронні сигарети та аксесуари
+                new CategoryProduct { Id = 948, Level = 3, TopId = 161, Name = "Електронні сигарети, батарейні моди, атомайзери", Description = "Електронні сигарети та аксесуари - Електронні сигарети, батарейні моди, атомайзери" },
+                new CategoryProduct { Id = 949, Level = 3, TopId = 161, Name = "Комплектовання та аксесуари для електронних сигарет", Description = "Електронні сигарети та аксесуари - Комплектовання та аксесуари для електронних сигарет" },
+                new CategoryProduct { Id = 950, Level = 3, TopId = 161, Name = "Рідини для електронних сигарет", Description = "Електронні сигарети та аксесуари - Рідини для електронних сигарет" },
+                new CategoryProduct { Id = 951, Level = 3, TopId = 161, Name = "Компоненти для рідин", Description = "Електронні сигарети та аксесуари - Компоненти для рідин" },
+
+                // Продукти
+                new CategoryProduct { Id = 952, Level = 3, TopId = 162, Name = "Шоколад та цукерки", Description = "Продукти - Шоколад та цукерки" },
+                new CategoryProduct { Id = 953, Level = 3, TopId = 162, Name = "Кава", Description = "Продукти - Кава" },
+                new CategoryProduct { Id = 954, Level = 3, TopId = 162, Name = "Чай", Description = "Продукти - Чай" },
+                new CategoryProduct { Id = 955, Level = 3, TopId = 162, Name = "Рибні консерви", Description = "Продукти - Рибні консерви" },
+                new CategoryProduct { Id = 956, Level = 3, TopId = 162, Name = "Вода, соки, напої", Description = "Продукти - Вода, соки, напої" },
+                new CategoryProduct { Id = 957, Level = 3, TopId = 162, Name = "Олія", Description = "Продукти - Олія" },
+                new CategoryProduct { Id = 958, Level = 3, TopId = 162, Name = "Соуси", Description = "Продукти - Соуси" },
+                new CategoryProduct { Id = 959, Level = 3, TopId = 162, Name = "Макаронні вироби", Description = "Продукти - Макаронні вироби" },
+                new CategoryProduct { Id = 960, Level = 3, TopId = 162, Name = "Драже, льодяники, пастилки", Description = "Продукти - Драже, льодяники, пастилки" },
+                new CategoryProduct { Id = 961, Level = 3, TopId = 162, Name = "Батончики", Description = "Продукти - Батончики" },
+                new CategoryProduct { Id = 962, Level = 3, TopId = 162, Name = "Оливки", Description = "Продукти - Оливки" },
+                new CategoryProduct { Id = 963, Level = 3, TopId = 162, Name = "Снеки", Description = "Продукти - Снеки" },
+                new CategoryProduct { Id = 964, Level = 3, TopId = 162, Name = "Жувальна гумка", Description = "Продукти - Жувальна гумка" },
+                new CategoryProduct { Id = 965, Level = 3, TopId = 162, Name = "Джем і варення", Description = "Продукти - Джем і варення" },
+                new CategoryProduct { Id = 966, Level = 3, TopId = 162, Name = "Оцет", Description = "Продукти - Оцет" },
+                new CategoryProduct { Id = 967, Level = 3, TopId = 162, Name = "Приправи та спеції", Description = "Продукти - Приправи та спеції" },
+                new CategoryProduct { Id = 968, Level = 3, TopId = 162, Name = "Продукти для суші", Description = "Продукти - Продукти для суші" },
+                new CategoryProduct { Id = 969, Level = 3, TopId = 162, Name = "Сухі сніданки", Description = "Продукти - Сухі сніданки" },
+                new CategoryProduct { Id = 970, Level = 3, TopId = 162, Name = "Дитяче харчування", Description = "Продукти - Дитяче харчування" },
+                new CategoryProduct { Id = 971, Level = 3, TopId = 162, Name = "Крупи", Description = "Продукти - Крупи" },
+                new CategoryProduct { Id = 972, Level = 3, TopId = 162, Name = "Овочева консервація", Description = "Продукти - Овочева консервація" },
+                new CategoryProduct { Id = 973, Level = 3, TopId = 162, Name = "Сиропи та топінги", Description = "Продукти - Сиропи та топінги" },
+                new CategoryProduct { Id = 974, Level = 3, TopId = 162, Name = "Фруктова консервація", Description = "Продукти - Фруктова консервація" },
+                new CategoryProduct { Id = 975, Level = 3, TopId = 162, Name = "Слабоалкогольні напої", Description = "Продукти - Слабоалкогольні напої" },
+                new CategoryProduct { Id = 976, Level = 3, TopId = 162, Name = "Хлібці та галети", Description = "Продукти - Хлібці та галети" },
+
+            #endregion
+            #region 1_16_3lvl
+                // Побутова хімія
+                // Засоби для прання
+                new CategoryProduct { Id = 977, Level = 3, TopId = 163, Name = "Пральні засоби", Description = "Засоби для прання - Пральні засоби" },
+                new CategoryProduct { Id = 978, Level = 3, TopId = 163, Name = "Кондиціонери для білизни", Description = "Засоби для прання - Кондиціонери для білизни" },
+                new CategoryProduct { Id = 979, Level = 3, TopId = 163, Name = "Плямовивідники і відбілювачі", Description = "Засоби для прання - Плямовивідники і відбілювачі" },
+
+                // Засоби для догляду за будинком
+                new CategoryProduct { Id = 980, Level = 3, TopId = 164, Name = "Засоби для кухні", Description = "Засоби для догляду за будинком - Засоби для кухні" },
+                new CategoryProduct { Id = 981, Level = 3, TopId = 164, Name = "Догляд за побутовою технікою", Description = "Засоби для догляду за будинком - Догляд за побутовою технікою" },
+                new CategoryProduct { Id = 982, Level = 3, TopId = 164, Name = "Засоби для миття підлог", Description = "Засоби для догляду за будинком - Засоби для миття підлог" },
+                new CategoryProduct { Id = 983, Level = 3, TopId = 164, Name = "Засоби для миття вікон", Description = "Засоби для догляду за будинком - Засоби для миття вікон" },
+                new CategoryProduct { Id = 984, Level = 3, TopId = 164, Name = "Прибирання після ремонту", Description = "Засоби для догляду за будинком - Прибирання після ремонту" },
+
+                // Засоби для догляду за ванною та туалетом
+                new CategoryProduct { Id = 985, Level = 3, TopId = 165, Name = "Для ванної", Description = "Засоби для догляду за ванною та туалетом - Для ванної" },
+                new CategoryProduct { Id = 986, Level = 3, TopId = 165, Name = "Для туалету", Description = "Засоби для догляду за ванною та туалетом - Для туалету" },
+                new CategoryProduct { Id = 987, Level = 3, TopId = 165, Name = "Туалетні блоки", Description = "Засоби для догляду за ванною та туалетом - Туалетні блоки" },
+                new CategoryProduct { Id = 988, Level = 3, TopId = 165, Name = "Освіжувачі повітря", Description = "Засоби для догляду за ванною та туалетом - Освіжувачі повітря" },
+
+                // Засоби для миття посуду
+                new CategoryProduct { Id = 989, Level = 3, TopId = 166, Name = "Засоби для посудомийних машин", Description = "Засоби для миття посуду - Засоби для посудомийних машин" },
+                new CategoryProduct { Id = 990, Level = 3, TopId = 166, Name = "Мийні засоби", Description = "Засоби для миття посуду - Мийні засоби" },
+                new CategoryProduct { Id = 991, Level = 3, TopId = 166, Name = "Догляд за посудомийними машинами", Description = "Засоби для миття посуду - Догляд за посудомийними машинами" },
+
+                // Господарські товари
+                new CategoryProduct { Id = 992, Level = 3, TopId = 167, Name = "Туалетний папір", Description = "Господарські товари - Туалетний папір" },
+                new CategoryProduct { Id = 993, Level = 3, TopId = 167, Name = "Паперові рушники", Description = "Господарські товари - Паперові рушники" },
+                new CategoryProduct { Id = 994, Level = 3, TopId = 167, Name = "Серветки", Description = "Господарські товари - Серветки" },
+                new CategoryProduct { Id = 995, Level = 3, TopId = 167, Name = "Харчова упаковка", Description = "Господарські товари - Харчова упаковка" },
+                new CategoryProduct { Id = 996, Level = 3, TopId = 167, Name = "Пакети для сміття", Description = "Господарські товари - Пакети для сміття" },
+
+                // Вулична зона
+                new CategoryProduct { Id = 997, Level = 3, TopId = 168, Name = "Засоби від комах", Description = "Вулична зона - Засоби від комах" },
+                new CategoryProduct { Id = 998, Level = 3, TopId = 168, Name = "Отрута для гризунів", Description = "Вулична зона - Отрута для гризунів" },
+                new CategoryProduct { Id = 999, Level = 3, TopId = 168, Name = "Засоби для вигрібних ям та септиків", Description = "Вулична зона - Засоби для вигрібних ям та септиків" },
+                new CategoryProduct { Id = 1000, Level = 3, TopId = 168, Name = "Хімія для басейнів і систем опалення", Description = "Вулична зона - Хімія для басейнів і систем опалення" },
+
+                // Екологічні та органічні засоби
+                new CategoryProduct { Id = 1001, Level = 3, TopId = 169, Name = "Засоби для прання", Description = "Екологічні та органічні засоби - Засоби для прання" },
+                new CategoryProduct { Id = 1002, Level = 3, TopId = 169, Name = "Засоби для миття посуду", Description = "Екологічні та органічні засоби - Засоби для миття посуду" },
+                new CategoryProduct { Id = 1003, Level = 3, TopId = 169, Name = "Засоби для прибирання", Description = "Екологічні та органічні засоби - Засоби для прибирання" }
             #endregion
             );
             
