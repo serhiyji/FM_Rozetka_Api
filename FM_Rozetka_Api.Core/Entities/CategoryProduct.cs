@@ -10,5 +10,6 @@ namespace FM_Rozetka_Api.Core.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public List<Product> Products { get; set; }
+        public List<PossibleSpecification> PossibleSpecifications { get; set; }
     }
 }
