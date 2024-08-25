@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FM_Rozetka_Api.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240821120633_Init")]
-    partial class Init
+    [Migration("20240825184523_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -117,9 +117,545 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "Test",
+                            Description = "Ноутбуки та комп'ютери",
                             Level = 1,
-                            Name = "Test"
+                            Name = "Ноутбуки та комп'ютери"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Ноутбуки",
+                            Level = 2,
+                            Name = "Ноутбуки",
+                            TopId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Планшети",
+                            Level = 2,
+                            Name = "Планшети",
+                            TopId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Комп'ютери",
+                            Level = 2,
+                            Name = "Комп'ютери",
+                            TopId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Комплектуючi",
+                            Level = 2,
+                            Name = "Комплектуючi",
+                            TopId = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "Аксесуари для ноутбуків і ПК",
+                            Level = 2,
+                            Name = "Аксесуари для ноутбуків і ПК",
+                            TopId = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Description = "Серверне обладнання",
+                            Level = 2,
+                            Name = "Серверне обладнання",
+                            TopId = 1
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Description = "Товари з уцінкою",
+                            Level = 2,
+                            Name = "Товари з уцінкою",
+                            TopId = 1
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Description = "Офісна техніка",
+                            Level = 2,
+                            Name = "Офісна техніка",
+                            TopId = 1
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Description = "Інтерактивне обладнання",
+                            Level = 2,
+                            Name = "Інтерактивне обладнання",
+                            TopId = 1
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Description = "Мережеве обладнання",
+                            Level = 2,
+                            Name = "Мережеве обладнання",
+                            TopId = 1
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Description = "Товари для геймерів",
+                            Level = 2,
+                            Name = "Товари для геймерів",
+                            TopId = 1
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Description = "Asus",
+                            Level = 3,
+                            Name = "Asus",
+                            TopId = 2
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Description = "Lenovo",
+                            Level = 3,
+                            Name = "Lenovo",
+                            TopId = 2
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Description = "Acer",
+                            Level = 3,
+                            Name = "Acer",
+                            TopId = 2
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Description = "HP (Hewlett Packard)",
+                            Level = 3,
+                            Name = "HP (Hewlett Packard)",
+                            TopId = 2
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Description = "Dell",
+                            Level = 3,
+                            Name = "Dell",
+                            TopId = 2
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Description = "Apple Macbook",
+                            Level = 3,
+                            Name = "Apple Macbook",
+                            TopId = 2
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Description = "Apple iPad",
+                            Level = 3,
+                            Name = "Apple iPad",
+                            TopId = 3
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Description = "Samsung",
+                            Level = 3,
+                            Name = "Samsung",
+                            TopId = 3
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Description = "Lenovo",
+                            Level = 3,
+                            Name = "Lenovo",
+                            TopId = 3
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Description = "Xiaomi",
+                            Level = 3,
+                            Name = "Xiaomi",
+                            TopId = 3
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Description = "Чохли для планшетів",
+                            Level = 3,
+                            Name = "Чохли для планшетів",
+                            TopId = 3
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Description = "Захисні плівки та скло",
+                            Level = 3,
+                            Name = "Захисні плівки та скло",
+                            TopId = 3
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Description = "Монітори",
+                            Level = 3,
+                            Name = "Монітори",
+                            TopId = 4
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Description = "Клавіатури та миші",
+                            Level = 3,
+                            Name = "Клавіатури та миші",
+                            TopId = 4
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Description = "Комп'ютерні колонки",
+                            Level = 3,
+                            Name = "Комп'ютерні колонки",
+                            TopId = 4
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Description = "Програмне забезпечення",
+                            Level = 3,
+                            Name = "Програмне забезпечення",
+                            TopId = 4
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Description = "Джерела безперебійного живлення",
+                            Level = 3,
+                            Name = "Джерела безперебійного живлення",
+                            TopId = 4
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Description = "Акумулятори для ДБЖ",
+                            Level = 3,
+                            Name = "Акумулятори для ДБЖ",
+                            TopId = 4
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Description = "Відеокарти",
+                            Level = 3,
+                            Name = "Відеокарти",
+                            TopId = 5
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Description = "SSD",
+                            Level = 3,
+                            Name = "SSD",
+                            TopId = 5
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Description = "Процесори",
+                            Level = 3,
+                            Name = "Процесори",
+                            TopId = 5
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Description = "Жорсткі диски та дискові масиви",
+                            Level = 3,
+                            Name = "Жорсткі диски та дискові масиви",
+                            TopId = 5
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Description = "Оперативна пам'ять",
+                            Level = 3,
+                            Name = "Оперативна пам'ять",
+                            TopId = 5
+                        },
+                        new
+                        {
+                            Id = 36,
+                            Description = "Материнські плати",
+                            Level = 3,
+                            Name = "Материнські плати",
+                            TopId = 5
+                        },
+                        new
+                        {
+                            Id = 37,
+                            Description = "Блоки живлення",
+                            Level = 3,
+                            Name = "Блоки живлення",
+                            TopId = 5
+                        },
+                        new
+                        {
+                            Id = 38,
+                            Description = "Корпуси",
+                            Level = 3,
+                            Name = "Корпуси",
+                            TopId = 5
+                        },
+                        new
+                        {
+                            Id = 39,
+                            Description = "Системи охолодження",
+                            Level = 3,
+                            Name = "Системи охолодження",
+                            TopId = 5
+                        },
+                        new
+                        {
+                            Id = 40,
+                            Description = "Флеш пам'ять USB",
+                            Level = 3,
+                            Name = "Флеш пам'ять USB",
+                            TopId = 6
+                        },
+                        new
+                        {
+                            Id = 41,
+                            Description = "Мережеві фільтри, адаптери та подовжувачі",
+                            Level = 3,
+                            Name = "Мережеві фільтри, адаптери та подовжувачі",
+                            TopId = 6
+                        },
+                        new
+                        {
+                            Id = 42,
+                            Description = "Сумки, рюкзаки та чохли для ноутбуків",
+                            Level = 3,
+                            Name = "Сумки, рюкзаки та чохли для ноутбуків",
+                            TopId = 6
+                        },
+                        new
+                        {
+                            Id = 43,
+                            Description = "Підставки та столики для ноутбуків",
+                            Level = 3,
+                            Name = "Підставки та столики для ноутбуків",
+                            TopId = 6
+                        },
+                        new
+                        {
+                            Id = 44,
+                            Description = "Веб-камери",
+                            Level = 3,
+                            Name = "Веб-камери",
+                            TopId = 6
+                        },
+                        new
+                        {
+                            Id = 45,
+                            Description = "Навушники",
+                            Level = 3,
+                            Name = "Навушники",
+                            TopId = 6
+                        },
+                        new
+                        {
+                            Id = 46,
+                            Description = "Мікрофони",
+                            Level = 3,
+                            Name = "Мікрофони",
+                            TopId = 6
+                        },
+                        new
+                        {
+                            Id = 47,
+                            Description = "Універсальні мобільні батареї для ноутбуків",
+                            Level = 3,
+                            Name = "Універсальні мобільні батареї для ноутбуків",
+                            TopId = 6
+                        },
+                        new
+                        {
+                            Id = 48,
+                            Description = "Кабелі та перехідники",
+                            Level = 3,
+                            Name = "Кабелі та перехідники",
+                            TopId = 6
+                        },
+                        new
+                        {
+                            Id = 49,
+                            Description = "Графічні планшети",
+                            Level = 3,
+                            Name = "Графічні планшети",
+                            TopId = 6
+                        },
+                        new
+                        {
+                            Id = 50,
+                            Description = "БФП/Принтери",
+                            Level = 3,
+                            Name = "БФП/Принтери",
+                            TopId = 9
+                        },
+                        new
+                        {
+                            Id = 51,
+                            Description = "Витратні матеріали",
+                            Level = 3,
+                            Name = "Витратні матеріали",
+                            TopId = 9
+                        },
+                        new
+                        {
+                            Id = 52,
+                            Description = "Шредери",
+                            Level = 3,
+                            Name = "Шредери",
+                            TopId = 9
+                        },
+                        new
+                        {
+                            Id = 53,
+                            Description = "Телефони",
+                            Level = 3,
+                            Name = "Телефони",
+                            TopId = 9
+                        },
+                        new
+                        {
+                            Id = 54,
+                            Description = "Маршрутизатори",
+                            Level = 3,
+                            Name = "Маршрутизатори",
+                            TopId = 11
+                        },
+                        new
+                        {
+                            Id = 55,
+                            Description = "Комутатори",
+                            Level = 3,
+                            Name = "Комутатори",
+                            TopId = 11
+                        },
+                        new
+                        {
+                            Id = 56,
+                            Description = "Мережеві адаптери",
+                            Level = 3,
+                            Name = "Мережеві адаптери",
+                            TopId = 11
+                        },
+                        new
+                        {
+                            Id = 57,
+                            Description = "Ретранслятори Wi-Fi",
+                            Level = 3,
+                            Name = "Ретранслятори Wi-Fi",
+                            TopId = 11
+                        },
+                        new
+                        {
+                            Id = 58,
+                            Description = "Бездротові точки доступу",
+                            Level = 3,
+                            Name = "Бездротові точки доступу",
+                            TopId = 11
+                        },
+                        new
+                        {
+                            Id = 59,
+                            Description = "Мережеві сховища (NAS)",
+                            Level = 3,
+                            Name = "Мережеві сховища (NAS)",
+                            TopId = 11
+                        },
+                        new
+                        {
+                            Id = 60,
+                            Description = "Патч-корди",
+                            Level = 3,
+                            Name = "Патч-корди",
+                            TopId = 11
+                        },
+                        new
+                        {
+                            Id = 61,
+                            Description = "IP-телефонія",
+                            Level = 3,
+                            Name = "IP-телефонія",
+                            TopId = 11
+                        },
+                        new
+                        {
+                            Id = 62,
+                            Description = "Підсилювачі зв'язку",
+                            Level = 3,
+                            Name = "Підсилювачі зв'язку",
+                            TopId = 11
+                        },
+                        new
+                        {
+                            Id = 63,
+                            Description = "PlayStation",
+                            Level = 3,
+                            Name = "PlayStation",
+                            TopId = 12
+                        },
+                        new
+                        {
+                            Id = 64,
+                            Description = "Sony PlayStation 5",
+                            Level = 3,
+                            Name = "Sony PlayStation 5",
+                            TopId = 12
+                        },
+                        new
+                        {
+                            Id = 65,
+                            Description = "Ігрові консолі та дитячі приставки",
+                            Level = 3,
+                            Name = "Ігрові консолі та дитячі приставки",
+                            TopId = 12
+                        },
+                        new
+                        {
+                            Id = 66,
+                            Description = "Ігрові маніпулятори та аксесуари для консолей",
+                            Level = 3,
+                            Name = "Ігрові маніпулятори та аксесуари для консолей",
+                            TopId = 12
+                        },
+                        new
+                        {
+                            Id = 67,
+                            Description = "Ігри",
+                            Level = 3,
+                            Name = "Ігри",
+                            TopId = 12
+                        },
+                        new
+                        {
+                            Id = 68,
+                            Description = "Ігрові поверхні",
+                            Level = 3,
+                            Name = "Ігрові поверхні",
+                            TopId = 12
                         });
                 });
 
@@ -1408,6 +1944,51 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.ToTable("PhotoProducts");
                 });
 
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.PossibleSpecification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CategorySpecificationId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PossibleSpecificationItemId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryProductId");
+
+                    b.HasIndex("CategorySpecificationId");
+
+                    b.HasIndex("PossibleSpecificationItemId");
+
+                    b.ToTable("PossibleSpecification");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.PossibleSpecificationItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PossibleSpecificationItem");
+                });
+
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -1431,6 +2012,9 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("HasDiscount")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("ImageURL")
                         .IsRequired()
@@ -1471,8 +2055,9 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                             BrandId = 1,
                             CategoryProductId = 1,
                             CountryProductionId = 1,
-                            CreatedAt = new DateTime(2024, 8, 21, 12, 6, 32, 753, DateTimeKind.Utc).AddTicks(9676),
+                            CreatedAt = new DateTime(2024, 8, 25, 18, 45, 22, 222, DateTimeKind.Utc).AddTicks(8092),
                             Description = "Test",
+                            HasDiscount = false,
                             ImageURL = "noimage.webp",
                             Name = "Test",
                             Price = 1m,
@@ -1766,7 +2351,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            AppUserId = "7268c934-5a4d-408b-83a4-7a332f8484da",
+                            AppUserId = "8ba6141e-0a8c-451f-ab11-3d629a6fe334",
                             CompanyId = 1,
                             Email = "TEST",
                             FullName = "TEST",
@@ -1786,23 +2371,15 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategorySpecificationId")
+                    b.Property<int>("PossibleSpecificationItemId")
                         .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CategorySpecificationId");
+                    b.HasIndex("PossibleSpecificationItemId");
 
                     b.HasIndex("ProductId");
 
@@ -1871,25 +2448,25 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4723e364-21a5-49f9-8bd1-877c14e4689c",
+                            Id = "3a10af27-4406-444c-aa66-4ef46b494ee4",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "5a0d3dfe-870c-49b7-b336-3bde55431d8e",
+                            Id = "5742b477-1429-42f6-ba76-f10d4cf40d07",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "d0f3fc88-3b3d-4871-9837-2c80b24d534f",
+                            Id = "fb56a76f-5536-4a4c-9b1c-8d1bda7ab1ac",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         },
                         new
                         {
-                            Id = "afc22e84-63a4-456a-9abf-cd0c54b258f5",
+                            Id = "1c4f10eb-6208-42b4-b8e5-1f908880b498",
                             Name = "ModeratorSeller",
                             NormalizedName = "MODERATORSELLER"
                         });
@@ -2057,13 +2634,13 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "23abd7c4-fa8f-481e-ac2c-293cda7bb8ab",
-                            RoleId = "4723e364-21a5-49f9-8bd1-877c14e4689c"
+                            UserId = "e8627084-49b4-4361-8176-9d950adfbe2b",
+                            RoleId = "3a10af27-4406-444c-aa66-4ef46b494ee4"
                         },
                         new
                         {
-                            UserId = "7268c934-5a4d-408b-83a4-7a332f8484da",
-                            RoleId = "d0f3fc88-3b3d-4871-9837-2c80b24d534f"
+                            UserId = "8ba6141e-0a8c-451f-ab11-3d629a6fe334",
+                            RoleId = "fb56a76f-5536-4a4c-9b1c-8d1bda7ab1ac"
                         });
                 });
 
@@ -2476,18 +3053,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "23abd7c4-fa8f-481e-ac2c-293cda7bb8ab",
+                            Id = "e8627084-49b4-4361-8176-9d950adfbe2b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dbf3a175-11f0-4f26-8457-84ca168d0bb4",
+                            ConcurrencyStamp = "a9db301e-2642-4c34-8dcd-0ef4bb3729da",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFOLmC6loKVG4NGqVoQbL9l7j6AQaJUppKLS7iXBM4DcB4NKLY1VLk8xY6rtXZFnrA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEc/ZpT82A2ZRZnf2pDHY4fKDn2PPRIEwY/YCHxYjRXUQIyUFQmO0gIsJBu8V1Uv6g==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7533f3be-0e33-4bd9-8168-67ee67400e27",
+                            SecurityStamp = "5203d944-bcd5-4ec3-9ca8-4ad03e9357f9",
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",
@@ -2496,18 +3073,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "7268c934-5a4d-408b-83a4-7a332f8484da",
+                            Id = "8ba6141e-0a8c-451f-ab11-3d629a6fe334",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "26e2d79f-fdcd-4884-b283-4c628ca87920",
+                            ConcurrencyStamp = "9dff9f94-085a-48a4-8657-3f4a46f12e0c",
                             Email = "seller@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "SELLER@EMAIL.COM",
                             NormalizedUserName = "SELLER@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPh4dcjVnBOIzEzO8HUrxg37QhuQ24jLMohABV5+QXJfEo/kEJRpKvfenkyimTtTgA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDOR9+eqJ2SfmmxJAyPtXSz6uF1VVC1OfBITav8/IPiVEPGdIr4cAvve9zdaGle6Yw==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7549bfc0-895d-4da7-ba90-14bb2ea02d46",
+                            SecurityStamp = "9873cabd-435d-4af2-8ee2-e82e209077d9",
                             TwoFactorEnabled = false,
                             UserName = "seller@email.com",
                             FirstName = "seller",
@@ -2669,6 +3246,33 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.PossibleSpecification", b =>
+                {
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.CategoryProduct", "CategoryProduct")
+                        .WithMany("PossibleSpecifications")
+                        .HasForeignKey("CategoryProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.CategorySpecification", "CategorySpecification")
+                        .WithMany("PossibleSpecifications")
+                        .HasForeignKey("CategorySpecificationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.PossibleSpecificationItem", "PossibleSpecificationItem")
+                        .WithMany("PossibleSpecifications")
+                        .HasForeignKey("PossibleSpecificationItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CategoryProduct");
+
+                    b.Navigation("CategorySpecification");
+
+                    b.Navigation("PossibleSpecificationItem");
+                });
+
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Product", b =>
                 {
                     b.HasOne("Rozetka_Api.Core.Entities.Brand", "Brand")
@@ -2802,9 +3406,9 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Specification", b =>
                 {
-                    b.HasOne("FM_Rozetka_Api.Core.Entities.CategorySpecification", "CategorySpecification")
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.PossibleSpecificationItem", "PossibleSpecificationItem")
                         .WithMany("Specifications")
-                        .HasForeignKey("CategorySpecificationId")
+                        .HasForeignKey("PossibleSpecificationItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -2814,7 +3418,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CategorySpecification");
+                    b.Navigation("PossibleSpecificationItem");
 
                     b.Navigation("Product");
                 });
@@ -2872,12 +3476,14 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.CategoryProduct", b =>
                 {
+                    b.Navigation("PossibleSpecifications");
+
                     b.Navigation("Products");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.CategorySpecification", b =>
                 {
-                    b.Navigation("Specifications");
+                    b.Navigation("PossibleSpecifications");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Company", b =>
@@ -2899,6 +3505,13 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.Navigation("Payments");
 
                     b.Navigation("Shipments");
+                });
+
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.PossibleSpecificationItem", b =>
+                {
+                    b.Navigation("PossibleSpecifications");
+
+                    b.Navigation("Specifications");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Product", b =>

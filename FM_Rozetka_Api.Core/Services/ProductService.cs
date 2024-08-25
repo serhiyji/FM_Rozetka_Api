@@ -5,6 +5,7 @@ using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
 using FM_Rozetka_Api.Core.Specifications;
+using Microsoft.EntityFrameworkCore;
 
 namespace FM_Rozetka_Api.Core.Services
 {
@@ -226,6 +227,29 @@ namespace FM_Rozetka_Api.Core.Services
             {
                 return new PaginationResponse<List<ProductDTO>, object>(false, "Failed: " + ex.Message);
             }
+        }
+
+        public async Task<ServiceResponse<List<Product>, object>> FilterProductsBySpecifications(
+                Dictionary<int, List<int>> filters,
+                int page = 1,
+                int pageSize = 10
+            )
+        {
+            var query = _productRepository.dbSet.AsQueryable();
+
+            foreach (var filter in filters)
+            {
+                int specificationId = filter.Key;
+                List<int> possibleSpecificationItemIds = filter.Value;
+
+                query = query.Where(p => p.Specifications
+                    .Any(s => s.PossibleSpecificationItemId == specificationId &&
+                              possibleSpecificationItemIds.Contains(s.PossibleSpecificationItemId)));
+            }
+
+            List<Product> products = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            return new ServiceResponse<List<Product>, object>(true, "", payload: products);
         }
     }
 }

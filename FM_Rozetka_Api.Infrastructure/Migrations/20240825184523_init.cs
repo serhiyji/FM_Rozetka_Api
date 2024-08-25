@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FM_Rozetka_Api.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -125,6 +125,19 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CountryProductions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PossibleSpecificationItem",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Value = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PossibleSpecificationItem", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -400,6 +413,39 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PossibleSpecification",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CategoryProductId = table.Column<int>(type: "integer", nullable: false),
+                    CategorySpecificationId = table.Column<int>(type: "integer", nullable: false),
+                    PossibleSpecificationItemId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PossibleSpecification", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PossibleSpecification_CategoryProducts_CategoryProductId",
+                        column: x => x.CategoryProductId,
+                        principalTable: "CategoryProducts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PossibleSpecification_CategorySpecifications_CategorySpecif~",
+                        column: x => x.CategorySpecificationId,
+                        principalTable: "CategorySpecifications",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PossibleSpecification_PossibleSpecificationItem_PossibleSpe~",
+                        column: x => x.PossibleSpecificationItemId,
+                        principalTable: "PossibleSpecificationItem",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OrderStatusHistories",
                 columns: table => new
                 {
@@ -507,6 +553,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ShopId = table.Column<int>(type: "integer", nullable: false),
                     BrandId = table.Column<int>(type: "integer", nullable: false),
+                    HasDiscount = table.Column<bool>(type: "boolean", nullable: false),
                     CategoryProductId = table.Column<int>(type: "integer", nullable: false),
                     CountryProductionId = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -727,18 +774,16 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Value = table.Column<string>(type: "text", nullable: false),
-                    CategorySpecificationId = table.Column<int>(type: "integer", nullable: false),
+                    PossibleSpecificationItemId = table.Column<int>(type: "integer", nullable: false),
                     ProductId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Specifications", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Specifications_CategorySpecifications_CategorySpecification~",
-                        column: x => x.CategorySpecificationId,
-                        principalTable: "CategorySpecifications",
+                        name: "FK_Specifications_PossibleSpecificationItem_PossibleSpecificat~",
+                        column: x => x.PossibleSpecificationItemId,
+                        principalTable: "PossibleSpecificationItem",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -782,10 +827,10 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "4723e364-21a5-49f9-8bd1-877c14e4689c", null, "Administrator", "ADMINISTRATOR" },
-                    { "5a0d3dfe-870c-49b7-b336-3bde55431d8e", null, "User", "USER" },
-                    { "afc22e84-63a4-456a-9abf-cd0c54b258f5", null, "ModeratorSeller", "MODERATORSELLER" },
-                    { "d0f3fc88-3b3d-4871-9837-2c80b24d534f", null, "Seller", "SELLER" }
+                    { "1c4f10eb-6208-42b4-b8e5-1f908880b498", null, "ModeratorSeller", "MODERATORSELLER" },
+                    { "3a10af27-4406-444c-aa66-4ef46b494ee4", null, "Administrator", "ADMINISTRATOR" },
+                    { "5742b477-1429-42f6-ba76-f10d4cf40d07", null, "User", "USER" },
+                    { "fb56a76f-5536-4a4c-9b1c-8d1bda7ab1ac", null, "Seller", "SELLER" }
                 });
 
             migrationBuilder.InsertData(
@@ -793,8 +838,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SurName", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "23abd7c4-fa8f-481e-ac2c-293cda7bb8ab", 0, "dbf3a175-11f0-4f26-8457-84ca168d0bb4", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEFOLmC6loKVG4NGqVoQbL9l7j6AQaJUppKLS7iXBM4DcB4NKLY1VLk8xY6rtXZFnrA==", "", false, "7533f3be-0e33-4bd9-8168-67ee67400e27", "Johnovych", false, "admin@email.com" },
-                    { "7268c934-5a4d-408b-83a4-7a332f8484da", 0, "26e2d79f-fdcd-4884-b283-4c628ca87920", "AppUser", "seller@email.com", true, "seller", "seller", false, null, "SELLER@EMAIL.COM", "SELLER@EMAIL.COM", "AQAAAAIAAYagAAAAEPh4dcjVnBOIzEzO8HUrxg37QhuQ24jLMohABV5+QXJfEo/kEJRpKvfenkyimTtTgA==", "", false, "7549bfc0-895d-4da7-ba90-14bb2ea02d46", "seller", false, "seller@email.com" }
+                    { "8ba6141e-0a8c-451f-ab11-3d629a6fe334", 0, "9dff9f94-085a-48a4-8657-3f4a46f12e0c", "AppUser", "seller@email.com", true, "seller", "seller", false, null, "SELLER@EMAIL.COM", "SELLER@EMAIL.COM", "AQAAAAIAAYagAAAAEDOR9+eqJ2SfmmxJAyPtXSz6uF1VVC1OfBITav8/IPiVEPGdIr4cAvve9zdaGle6Yw==", "", false, "9873cabd-435d-4af2-8ee2-e82e209077d9", "seller", false, "seller@email.com" },
+                    { "e8627084-49b4-4361-8176-9d950adfbe2b", 0, "a9db301e-2642-4c34-8dcd-0ef4bb3729da", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEEc/ZpT82A2ZRZnf2pDHY4fKDn2PPRIEwY/YCHxYjRXUQIyUFQmO0gIsJBu8V1Uv6g==", "", false, "5203d944-bcd5-4ec3-9ca8-4ad03e9357f9", "Johnovych", false, "admin@email.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -864,7 +909,77 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "CategoryProducts",
                 columns: new[] { "Id", "Description", "Level", "Name", "TopId" },
-                values: new object[] { 1, "Test", 1, "Test", null });
+                values: new object[,]
+                {
+                    { 1, "Ноутбуки та комп'ютери", 1, "Ноутбуки та комп'ютери", null },
+                    { 2, "Ноутбуки", 2, "Ноутбуки", 1 },
+                    { 3, "Планшети", 2, "Планшети", 1 },
+                    { 4, "Комп'ютери", 2, "Комп'ютери", 1 },
+                    { 5, "Комплектуючi", 2, "Комплектуючi", 1 },
+                    { 6, "Аксесуари для ноутбуків і ПК", 2, "Аксесуари для ноутбуків і ПК", 1 },
+                    { 7, "Серверне обладнання", 2, "Серверне обладнання", 1 },
+                    { 8, "Товари з уцінкою", 2, "Товари з уцінкою", 1 },
+                    { 9, "Офісна техніка", 2, "Офісна техніка", 1 },
+                    { 10, "Інтерактивне обладнання", 2, "Інтерактивне обладнання", 1 },
+                    { 11, "Мережеве обладнання", 2, "Мережеве обладнання", 1 },
+                    { 12, "Товари для геймерів", 2, "Товари для геймерів", 1 },
+                    { 13, "Asus", 3, "Asus", 2 },
+                    { 14, "Lenovo", 3, "Lenovo", 2 },
+                    { 15, "Acer", 3, "Acer", 2 },
+                    { 16, "HP (Hewlett Packard)", 3, "HP (Hewlett Packard)", 2 },
+                    { 17, "Dell", 3, "Dell", 2 },
+                    { 18, "Apple Macbook", 3, "Apple Macbook", 2 },
+                    { 19, "Apple iPad", 3, "Apple iPad", 3 },
+                    { 20, "Samsung", 3, "Samsung", 3 },
+                    { 21, "Lenovo", 3, "Lenovo", 3 },
+                    { 22, "Xiaomi", 3, "Xiaomi", 3 },
+                    { 23, "Чохли для планшетів", 3, "Чохли для планшетів", 3 },
+                    { 24, "Захисні плівки та скло", 3, "Захисні плівки та скло", 3 },
+                    { 25, "Монітори", 3, "Монітори", 4 },
+                    { 26, "Клавіатури та миші", 3, "Клавіатури та миші", 4 },
+                    { 27, "Комп'ютерні колонки", 3, "Комп'ютерні колонки", 4 },
+                    { 28, "Програмне забезпечення", 3, "Програмне забезпечення", 4 },
+                    { 29, "Джерела безперебійного живлення", 3, "Джерела безперебійного живлення", 4 },
+                    { 30, "Акумулятори для ДБЖ", 3, "Акумулятори для ДБЖ", 4 },
+                    { 31, "Відеокарти", 3, "Відеокарти", 5 },
+                    { 32, "SSD", 3, "SSD", 5 },
+                    { 33, "Процесори", 3, "Процесори", 5 },
+                    { 34, "Жорсткі диски та дискові масиви", 3, "Жорсткі диски та дискові масиви", 5 },
+                    { 35, "Оперативна пам'ять", 3, "Оперативна пам'ять", 5 },
+                    { 36, "Материнські плати", 3, "Материнські плати", 5 },
+                    { 37, "Блоки живлення", 3, "Блоки живлення", 5 },
+                    { 38, "Корпуси", 3, "Корпуси", 5 },
+                    { 39, "Системи охолодження", 3, "Системи охолодження", 5 },
+                    { 40, "Флеш пам'ять USB", 3, "Флеш пам'ять USB", 6 },
+                    { 41, "Мережеві фільтри, адаптери та подовжувачі", 3, "Мережеві фільтри, адаптери та подовжувачі", 6 },
+                    { 42, "Сумки, рюкзаки та чохли для ноутбуків", 3, "Сумки, рюкзаки та чохли для ноутбуків", 6 },
+                    { 43, "Підставки та столики для ноутбуків", 3, "Підставки та столики для ноутбуків", 6 },
+                    { 44, "Веб-камери", 3, "Веб-камери", 6 },
+                    { 45, "Навушники", 3, "Навушники", 6 },
+                    { 46, "Мікрофони", 3, "Мікрофони", 6 },
+                    { 47, "Універсальні мобільні батареї для ноутбуків", 3, "Універсальні мобільні батареї для ноутбуків", 6 },
+                    { 48, "Кабелі та перехідники", 3, "Кабелі та перехідники", 6 },
+                    { 49, "Графічні планшети", 3, "Графічні планшети", 6 },
+                    { 50, "БФП/Принтери", 3, "БФП/Принтери", 9 },
+                    { 51, "Витратні матеріали", 3, "Витратні матеріали", 9 },
+                    { 52, "Шредери", 3, "Шредери", 9 },
+                    { 53, "Телефони", 3, "Телефони", 9 },
+                    { 54, "Маршрутизатори", 3, "Маршрутизатори", 11 },
+                    { 55, "Комутатори", 3, "Комутатори", 11 },
+                    { 56, "Мережеві адаптери", 3, "Мережеві адаптери", 11 },
+                    { 57, "Ретранслятори Wi-Fi", 3, "Ретранслятори Wi-Fi", 11 },
+                    { 58, "Бездротові точки доступу", 3, "Бездротові точки доступу", 11 },
+                    { 59, "Мережеві сховища (NAS)", 3, "Мережеві сховища (NAS)", 11 },
+                    { 60, "Патч-корди", 3, "Патч-корди", 11 },
+                    { 61, "IP-телефонія", 3, "IP-телефонія", 11 },
+                    { 62, "Підсилювачі зв'язку", 3, "Підсилювачі зв'язку", 11 },
+                    { 63, "PlayStation", 3, "PlayStation", 12 },
+                    { 64, "Sony PlayStation 5", 3, "Sony PlayStation 5", 12 },
+                    { 65, "Ігрові консолі та дитячі приставки", 3, "Ігрові консолі та дитячі приставки", 12 },
+                    { 66, "Ігрові маніпулятори та аксесуари для консолей", 3, "Ігрові маніпулятори та аксесуари для консолей", 12 },
+                    { 67, "Ігри", 3, "Ігри", 12 },
+                    { 68, "Ігрові поверхні", 3, "Ігрові поверхні", 12 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Companies",
@@ -1078,19 +1193,19 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "4723e364-21a5-49f9-8bd1-877c14e4689c", "23abd7c4-fa8f-481e-ac2c-293cda7bb8ab" },
-                    { "d0f3fc88-3b3d-4871-9837-2c80b24d534f", "7268c934-5a4d-408b-83a4-7a332f8484da" }
+                    { "fb56a76f-5536-4a4c-9b1c-8d1bda7ab1ac", "8ba6141e-0a8c-451f-ab11-3d629a6fe334" },
+                    { "3a10af27-4406-444c-aa66-4ef46b494ee4", "e8627084-49b4-4361-8176-9d950adfbe2b" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Shops",
                 columns: new[] { "Id", "AppUserId", "CompanyId", "Email", "FullName", "HasNoWebsite", "IsNonResident", "PhoneNumber", "Position", "Website" },
-                values: new object[] { 1, "7268c934-5a4d-408b-83a4-7a332f8484da", 1, "TEST", "TEST", false, false, "TEST", "TEST", "TEST" });
+                values: new object[] { 1, "8ba6141e-0a8c-451f-ab11-3d629a6fe334", 1, "TEST", "TEST", false, false, "TEST", "TEST", "TEST" });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "BrandId", "CategoryProductId", "CountryProductionId", "CreatedAt", "Description", "ImageURL", "Name", "Price", "ShopId", "Stars", "Stock" },
-                values: new object[] { 1, 1, 1, 1, new DateTime(2024, 8, 21, 12, 6, 32, 753, DateTimeKind.Utc).AddTicks(9676), "Test", "noimage.webp", "Test", 1m, 1, 0m, 1 });
+                columns: new[] { "Id", "BrandId", "CategoryProductId", "CountryProductionId", "CreatedAt", "Description", "HasDiscount", "ImageURL", "Name", "Price", "ShopId", "Stars", "Stock" },
+                values: new object[] { 1, 1, 1, 1, new DateTime(2024, 8, 25, 18, 45, 22, 222, DateTimeKind.Utc).AddTicks(8092), "Test", false, "noimage.webp", "Test", 1m, 1, 0m, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_AppUserId",
@@ -1205,6 +1320,21 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PossibleSpecification_CategoryProductId",
+                table: "PossibleSpecification",
+                column: "CategoryProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PossibleSpecification_CategorySpecificationId",
+                table: "PossibleSpecification",
+                column: "CategorySpecificationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PossibleSpecification_PossibleSpecificationItemId",
+                table: "PossibleSpecification",
+                column: "PossibleSpecificationItemId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductAnswers_AppUserId",
                 table: "ProductAnswers",
                 column: "AppUserId");
@@ -1275,9 +1405,9 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Specifications_CategorySpecificationId",
+                name: "IX_Specifications_PossibleSpecificationItemId",
                 table: "Specifications",
-                column: "CategorySpecificationId");
+                column: "PossibleSpecificationItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Specifications_ProductId",
@@ -1334,6 +1464,9 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 name: "PhotoProducts");
 
             migrationBuilder.DropTable(
+                name: "PossibleSpecification");
+
+            migrationBuilder.DropTable(
                 name: "ProductAnswers");
 
             migrationBuilder.DropTable(
@@ -1358,13 +1491,16 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "CategorySpecifications");
+
+            migrationBuilder.DropTable(
                 name: "ProductQuestions");
 
             migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "CategorySpecifications");
+                name: "PossibleSpecificationItem");
 
             migrationBuilder.DropTable(
                 name: "Products");

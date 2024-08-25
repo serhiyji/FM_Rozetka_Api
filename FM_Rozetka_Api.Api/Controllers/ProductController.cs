@@ -123,5 +123,11 @@ namespace FM_Rozetka_Api.Api.Controllers
 
         #endregion
 
+        [HttpGet("filter")]
+        public async Task<IActionResult> GetFilteredProducts([FromQuery] Dictionary<int, List<int>> filters, int page = 1, int pageSize = 10)
+        {
+            var products = await _productService.FilterProductsBySpecifications(filters, page, pageSize);
+            return Ok(products);
+        }
     }
 }
