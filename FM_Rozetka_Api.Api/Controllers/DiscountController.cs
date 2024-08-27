@@ -60,6 +60,17 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(response);
         }
 
+        [HttpGet("getAllByProductId")]
+        public async Task<IActionResult> GetAllByProductId(int productid)
+        {
+            var response = await _discountService.GetByProductIdAsync(productid);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {

@@ -15,6 +15,7 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ServiceResponse<Discount, object>> UpdateAsync(DiscountUpdateDTO model);
         Task<ServiceResponse<object, object>> DeleteAsync(int id);
         Task<ServiceResponse<DiscountDTO, object>> GetByIdAsync(int id);
+        Task<ServiceResponse<IEnumerable<DiscountDTO>, object>> GetByProductIdAsync(int productId);
         Task<ServiceResponse<IEnumerable<DiscountDTO>, object>> GetAllAsync();
         Task<ServiceResponse<object, object>> DeleteExpiredDiscountsAsync();
     }

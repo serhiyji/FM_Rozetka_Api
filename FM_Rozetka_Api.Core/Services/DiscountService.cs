@@ -59,19 +59,20 @@ namespace FM_Rozetka_Api.Core.Services
 
             try
             {
-                _mapper.Map(model, discount);
-                await _discountRepository.Update(discount);
-                await _discountRepository.Save();
-
                 var product = await _productRepository.GetByID(discount.ProductId);
                 if (product != null)
                 {
-                    product.Price = CalculateDiscountedPrice(product.Price, discount);
+                    product.Price = CalculateOriginalPrice(product.Price, discount);
+                    _mapper.Map(model, discount);
+                    await _discountRepository.Update(discount);
+                    await _discountRepository.Save();
+                    product.Price =CalculateDiscountedPrice(product.Price, discount);
                     await _productRepository.Update(product);
                     await _productRepository.Save();
-                }
 
-                return new ServiceResponse<Discount, object>(true, "Success", payload: discount);
+                    return new ServiceResponse<Discount, object>(true, "Success", payload: discount);
+                }  
+                return new ServiceResponse<Discount, object>(true, "Failed Update Discount ");
             }
             catch (Exception ex)
             {
@@ -123,6 +124,24 @@ namespace FM_Rozetka_Api.Core.Services
             catch (Exception ex)
             {
                 return new ServiceResponse<DiscountDTO, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
+        public async Task<ServiceResponse<IEnumerable<DiscountDTO>, object>> GetByProductIdAsync(int id)
+        {
+            try
+            {
+                var discount = await _discountRepository.GetListBySpec(new DiscountSpecification.GetByProductId(id));
+                if (discount == null)
+                {
+                    return new ServiceResponse<IEnumerable<DiscountDTO>, object>(false, "Discount not found");
+                }
+
+                return new ServiceResponse<IEnumerable<DiscountDTO>, object>(true, "Success", payload: _mapper.Map<IEnumerable<DiscountDTO>>(discount));
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<IEnumerable<DiscountDTO>, object>(false, "Failed: " + ex.Message);
             }
         }
 
