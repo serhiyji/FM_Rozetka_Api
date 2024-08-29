@@ -9517,7 +9517,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                             BrandId = 1,
                             CategoryProductId = 1,
                             CountryProductionId = 1,
-                            CreatedAt = new DateTime(2024, 8, 25, 18, 45, 22, 222, DateTimeKind.Utc).AddTicks(8092),
+                            CreatedAt = new DateTime(2024, 8, 29, 17, 47, 24, 186, DateTimeKind.Utc).AddTicks(1671),
                             Description = "Test",
                             HasDiscount = false,
                             ImageURL = "noimage.webp",
@@ -9813,7 +9813,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            AppUserId = "8ba6141e-0a8c-451f-ab11-3d629a6fe334",
+                            AppUserId = "45dc28d8-cb01-4628-be41-8362798c4722",
                             CompanyId = 1,
                             Email = "TEST",
                             FullName = "TEST",
@@ -9910,25 +9910,25 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3a10af27-4406-444c-aa66-4ef46b494ee4",
+                            Id = "364f8b13-0af3-496c-887a-305ccd8c28d9",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "5742b477-1429-42f6-ba76-f10d4cf40d07",
+                            Id = "4c74ff36-6b84-4f91-9e73-c81f3a8899eb",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "fb56a76f-5536-4a4c-9b1c-8d1bda7ab1ac",
+                            Id = "99816b8d-8f73-46ac-8800-3f5ce0cc987c",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         },
                         new
                         {
-                            Id = "1c4f10eb-6208-42b4-b8e5-1f908880b498",
+                            Id = "ec61f97d-8531-4d3d-9e80-ac2d7f89c635",
                             Name = "ModeratorSeller",
                             NormalizedName = "MODERATORSELLER"
                         });
@@ -10096,13 +10096,13 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "e8627084-49b4-4361-8176-9d950adfbe2b",
-                            RoleId = "3a10af27-4406-444c-aa66-4ef46b494ee4"
+                            UserId = "8871ad6a-b219-4db2-9cfb-ec46ddf9ed53",
+                            RoleId = "364f8b13-0af3-496c-887a-305ccd8c28d9"
                         },
                         new
                         {
-                            UserId = "8ba6141e-0a8c-451f-ab11-3d629a6fe334",
-                            RoleId = "fb56a76f-5536-4a4c-9b1c-8d1bda7ab1ac"
+                            UserId = "45dc28d8-cb01-4628-be41-8362798c4722",
+                            RoleId = "99816b8d-8f73-46ac-8800-3f5ce0cc987c"
                         });
                 });
 
@@ -10515,18 +10515,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e8627084-49b4-4361-8176-9d950adfbe2b",
+                            Id = "8871ad6a-b219-4db2-9cfb-ec46ddf9ed53",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a9db301e-2642-4c34-8dcd-0ef4bb3729da",
+                            ConcurrencyStamp = "cfefb654-a987-4d33-9bde-ea6bbd9eab2a",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEc/ZpT82A2ZRZnf2pDHY4fKDn2PPRIEwY/YCHxYjRXUQIyUFQmO0gIsJBu8V1Uv6g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKCCJLCneUSEHLH2AvWOxfkEIozchCao/r085bRxyqzxMtddt3Ski7dUoGyx9g7WrQ==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5203d944-bcd5-4ec3-9ca8-4ad03e9357f9",
+                            SecurityStamp = "688b3444-534a-4c36-9a69-3ac95a6679a0",
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",
@@ -10535,18 +10535,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = "8ba6141e-0a8c-451f-ab11-3d629a6fe334",
+                            Id = "45dc28d8-cb01-4628-be41-8362798c4722",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9dff9f94-085a-48a4-8657-3f4a46f12e0c",
+                            ConcurrencyStamp = "88b57eb9-62cb-459b-94fc-96c87f2488c3",
                             Email = "seller@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "SELLER@EMAIL.COM",
                             NormalizedUserName = "SELLER@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDOR9+eqJ2SfmmxJAyPtXSz6uF1VVC1OfBITav8/IPiVEPGdIr4cAvve9zdaGle6Yw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPA8uQnqwWCzcPwm1S5YIBlk2SlNVzY4j4TDs9AK2ES1oNYbPCet3GWxydHMaO+5mA==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9873cabd-435d-4af2-8ee2-e82e209077d9",
+                            SecurityStamp = "dc43c6c4-aade-426b-b12a-6f8fef783a42",
                             TwoFactorEnabled = false,
                             UserName = "seller@email.com",
                             FirstName = "seller",
