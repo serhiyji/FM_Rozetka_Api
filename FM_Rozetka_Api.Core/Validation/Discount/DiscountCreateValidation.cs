@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Validation.Discount
 {
-    internal class DiscountCreateValidation : AbstractValidator<DiscountCreateDTO>
+    public class DiscountCreateValidation : AbstractValidator<DiscountCreateDTO>
     {
         public DiscountCreateValidation()
         {
