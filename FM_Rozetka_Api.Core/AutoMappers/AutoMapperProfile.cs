@@ -43,9 +43,9 @@ namespace FM_Rozetka_Api.Core.AutoMappers
             CreateMap<Brand, BrandDTO>();
 
             // CartItem
-            CreateMap<CartItem, CartItemCreateDTO>();
-            CreateMap<CartItem, CartItemUpdateDTO>();
-            CreateMap<CartItem, CartItemDTO>();
+            CreateMap<CartItem, CartItemCreateDTO>().ReverseMap();
+            CreateMap<CartItem, CartItemUpdateDTO>().ReverseMap();
+            CreateMap<CartItem, CartItemDTO>().ReverseMap();
 
             // CategoryProduct
             CreateMap<CategoryProduct, CategoryProductCreateDTO>().ReverseMap(); 
