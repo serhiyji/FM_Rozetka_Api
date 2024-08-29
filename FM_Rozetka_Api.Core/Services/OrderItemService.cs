@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Services
 {
-    public class OrderItemService : IOrderItemService
+    internal class OrderItemService : IOrderItemService
     {
         private readonly IRepository<OrderItem> _orderItemRepository;
         private readonly IMapper _mapper;
