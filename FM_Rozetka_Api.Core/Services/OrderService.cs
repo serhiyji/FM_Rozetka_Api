@@ -1,0 +1,113 @@
+﻿using AutoMapper;
+using FM_Rozetka_Api.Core.DTOs.Orders.Order;
+using FM_Rozetka_Api.Core.Entities;
+using FM_Rozetka_Api.Core.Interfaces;
+using FM_Rozetka_Api.Core.Responses;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace FM_Rozetka_Api.Core.Services
+{
+    internal class OrderService : IOrderService
+    {
+        private readonly IRepository<Order> _orderRepository;
+        private readonly IMapper _mapper;
+
+        public OrderService(IRepository<Order> orderRepository, IMapper mapper)
+        {
+            _orderRepository = orderRepository;
+            _mapper = mapper;
+        }
+
+        public async Task<ServiceResponse<Order, object>> AddAsync(OrderCreateDTO model)
+        {
+            var newOrder = _mapper.Map<Order>(model);
+            try
+            {
+                await _orderRepository.Insert(newOrder);
+                await _orderRepository.Save();
+                return new ServiceResponse<Order, object>(true, "Success", payload: newOrder);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<Order, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
+        public async Task<ServiceResponse<Order, object>> UpdateAsync(OrderUpdateDTO model)
+        {
+            var order = await _orderRepository.GetByID(model.Id);
+            if (order == null)
+            {
+                return new ServiceResponse<Order, object>(false, "Order not found");
+            }
+
+            try
+            {
+                _mapper.Map(model, order);
+                await _orderRepository.Update(order);
+                await _orderRepository.Save();
+                return new ServiceResponse<Order, object>(true, "Success", payload: order);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<Order, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
+        public async Task<ServiceResponse<object, object>> DeleteAsync(int id)
+        {
+            var order = await _orderRepository.GetByID(id);
+            if (order == null)
+            {
+                return new ServiceResponse<object, object>(false, "Order not found");
+            }
+
+            try
+            {
+                await _orderRepository.Delete(order.Id);
+                await _orderRepository.Save();
+                return new ServiceResponse<object, object>(true, "Success");
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<object, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
+        public async Task<ServiceResponse<OrderDTO, object>> GetByIdAsync(int id)
+        {
+            try
+            {
+                var order = await _orderRepository.GetByID(id);
+                if (order == null)
+                {
+                    return new ServiceResponse<OrderDTO, object>(false, "Order not found");
+                }
+
+                return new ServiceResponse<OrderDTO, object>(true, "Success", payload: _mapper.Map<OrderDTO>(order));
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<OrderDTO, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
+        public async Task<ServiceResponse<IEnumerable<OrderDTO>, object>> GetAllAsync()
+        {
+            try
+            {
+                var orders = await _orderRepository.GetAll();
+                return new ServiceResponse<IEnumerable<OrderDTO>, object>(true, "Success", payload: _mapper.Map<IEnumerable<OrderDTO>>(orders));
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<IEnumerable<OrderDTO>, object>(false, "Failed: " + ex.Message);
+            }
+        }
+    }
+
+}

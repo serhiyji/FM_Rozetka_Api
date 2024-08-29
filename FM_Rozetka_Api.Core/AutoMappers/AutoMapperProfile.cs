@@ -68,14 +68,14 @@ namespace FM_Rozetka_Api.Core.AutoMappers
             CreateMap<Favorite, FavoriteDTO>().ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product));
 
             // OrderItem
-            CreateMap<OrderItem, OrderItemCreateDTO>();
-            CreateMap<OrderItem, OrderItemUpdateDTO>();
-            CreateMap<OrderItem, OrderItemDTO>();
+            CreateMap<OrderItem, OrderItemCreateDTO>().ReverseMap();
+            CreateMap<OrderItem, OrderItemUpdateDTO>().ReverseMap();
+            CreateMap<OrderItem, OrderItemDTO>().ReverseMap();
 
             // Order
-            CreateMap<Order, OrderCreateDTO>();
-            CreateMap<Order, OrderUpdateDTO>();
-            CreateMap<Order, OrderDTO>();
+            CreateMap<Order, OrderCreateDTO>().ReverseMap();
+            CreateMap<Order, OrderUpdateDTO>().ReverseMap();
+            CreateMap<Order, OrderDTO>().ReverseMap();
 
             // OrderStatusHistory
             CreateMap<OrderStatusHistory, OrderStatusHistoryCreateDTO>();

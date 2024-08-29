@@ -7,6 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Interfaces\ICartItemService.cs~RF47dd37fd.TMP" />
 	  <None Remove="Interfaces\IModeratorShop.cs~RF1a771708.TMP" />
 	</ItemGroup>
 
