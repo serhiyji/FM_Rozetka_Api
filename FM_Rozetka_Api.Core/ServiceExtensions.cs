@@ -42,6 +42,7 @@ namespace FM_Rozetka_Api.Core
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<IDiscountService, DiscountService>();
+            services.AddScoped<IProductQuestionService, ProductQuestionService>();
         }
 
         public static void AddValidator(this IServiceCollection service)
