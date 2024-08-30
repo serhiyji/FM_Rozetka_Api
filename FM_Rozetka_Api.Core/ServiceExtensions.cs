@@ -44,6 +44,7 @@ namespace FM_Rozetka_Api.Core
             services.AddScoped<IDiscountService, DiscountService>();
             services.AddScoped<IProductQuestionService, ProductQuestionService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IOrderStatusHistoryService, OrderStatusHistoryService>();
         }
 
         public static void AddValidator(this IServiceCollection service)

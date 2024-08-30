@@ -78,9 +78,9 @@ namespace FM_Rozetka_Api.Core.AutoMappers
             CreateMap<Order, OrderDTO>().ReverseMap();
 
             // OrderStatusHistory
-            CreateMap<OrderStatusHistory, OrderStatusHistoryCreateDTO>();
-            CreateMap<OrderStatusHistory, OrderStatusHistoryUpdateDTO>();
-            CreateMap<OrderStatusHistory, OrderStatusHistoryDTO>();
+            CreateMap<OrderStatusHistory, OrderStatusHistoryCreateDTO>().ReverseMap();
+            CreateMap<OrderStatusHistory, OrderStatusHistoryUpdateDTO>().ReverseMap();
+            CreateMap<OrderStatusHistory, OrderStatusHistoryDTO>().ReverseMap();
 
             // Payment
             CreateMap<Payment, PaymentCreateDTO>();
