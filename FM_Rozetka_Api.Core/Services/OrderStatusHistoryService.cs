@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Services
 {
-    public class OrderStatusHistoryService : IOrderStatusHistoryService
+    internal class OrderStatusHistoryService : IOrderStatusHistoryService
     {
         private readonly IRepository<OrderStatusHistory> _orderStatusHistoryRepository;
         private readonly IMapper _mapper;

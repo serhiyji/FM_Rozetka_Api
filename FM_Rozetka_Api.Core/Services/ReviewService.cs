@@ -7,7 +7,7 @@ using FM_Rozetka_Api.Core.Specifications;
 
 namespace FM_Rozetka_Api.Core.Services
 {
-    public class ReviewService : IReviewService
+    internal class ReviewService : IReviewService
     {
         private readonly IRepository<Review> _reviewRepository;
         private readonly IMapper _mapper;

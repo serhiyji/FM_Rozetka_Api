@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FM_Rozetka_Api.Core.Services
 {
-    public class ProductService : IProductService
+    internal class ProductService : IProductService
     {
         private readonly IRepository<Product> _productRepository;
         private readonly IMapper _mapper;

@@ -7,7 +7,7 @@ using FM_Rozetka_Api.Core.Specifications;
 
 namespace FM_Rozetka_Api.Core.Services
 {
-    public class CategoryProductService: ICategoryProductService
+    internal class CategoryProductService: ICategoryProductService
     {
         private readonly IRepository<CategoryProduct> _categoryProductRepository;
         private readonly IProductService _productService;

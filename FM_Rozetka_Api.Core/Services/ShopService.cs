@@ -7,7 +7,7 @@ using FM_Rozetka_Api.Core.Specifications;
 
 namespace FM_Rozetka_Api.Core.Services
 {
-    public class ShopService : IShopService
+    internal class ShopService : IShopService
     {
         private readonly IRepository<Shop> _shopRepository;
         private readonly IMapper _mapper;

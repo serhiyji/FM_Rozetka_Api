@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Services
 {
-    public class ShipmentService : IShipmentService
+    internal class ShipmentService : IShipmentService
     {
         private readonly IRepository<Shipment> _shipmentRepository;
         private readonly IMapper _mapper;
