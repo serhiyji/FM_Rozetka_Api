@@ -5,7 +5,7 @@ using FM_Rozetka_Api.Core.Interfaces;
 
 namespace FM_Rozetka_Api.Core.Services
 {
-    public class CompanyService : ICompanyService
+    internal class CompanyService : ICompanyService
     {
         
         private readonly IRepository<Company> _companyRepository;

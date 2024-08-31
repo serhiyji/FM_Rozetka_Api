@@ -7,7 +7,7 @@ using FM_Rozetka_Api.Core.Specifications;
 
 namespace FM_Rozetka_Api.Core.Services
 {
-    public class CartItemService : ICartItemService
+    internal class CartItemService : ICartItemService
     {
         private readonly IRepository<CartItem> _cartItemRepo;
         private readonly IMapper _mapper;
