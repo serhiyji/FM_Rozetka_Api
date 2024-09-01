@@ -7,7 +7,7 @@ using FM_Rozetka_Api.Core.Specifications;
 
 namespace FM_Rozetka_Api.Core.Services
 {
-    public class PhotoProductService: IPhotoProductService
+    internal class PhotoProductService: IPhotoProductService
     {
         private readonly IRepository<PhotoProduct> _photoProductRepository;
         private readonly IMapper _mapper;

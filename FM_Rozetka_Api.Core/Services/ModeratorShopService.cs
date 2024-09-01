@@ -13,7 +13,7 @@ using System.Text;
 
 namespace FM_Rozetka_Api.Core.Services
 {
-    public class ModeratorShopService : IModeratorShopService
+    internal class ModeratorShopService : IModeratorShopService
     {
         private readonly IRepository<ModeratorShop> _moderatorShopRepository;
         private readonly IMapper _mapper;

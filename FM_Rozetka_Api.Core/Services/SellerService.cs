@@ -11,7 +11,7 @@ using System.Text;
 
 namespace FM_Rozetka_Api.Core.Services
 {
-    public class SellerService : ISellerService
+    internal class SellerService : ISellerService
     {
         private readonly IRepository<SellerApplication> _sellerRepository;
         private readonly IMapper _mapper;
