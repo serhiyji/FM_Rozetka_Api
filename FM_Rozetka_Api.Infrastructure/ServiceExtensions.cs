@@ -38,6 +38,9 @@ namespace FM_Rozetka_Api.Infrastructure
         public static void AddRepositories(this IServiceCollection services)
         {
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IAreaRepository>(provider => new AreaRepository(provider.GetRequiredService<DbContextOptions<AppDBContext>>()));
+            services.AddScoped<ISettlementRepository>(provider => new SettlementRepository(provider.GetRequiredService<DbContextOptions<AppDBContext>>()));
+            services.AddScoped<IWarehouseRepository>(provider => new WarehouseRepository(provider.GetRequiredService<DbContextOptions<AppDBContext>>()));
         }
     }
 }

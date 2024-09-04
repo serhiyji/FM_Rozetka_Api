@@ -7,6 +7,7 @@ using FM_Rozetka_Api.Core.DTOs.Company;
 using FM_Rozetka_Api.Core.DTOs.CountryProduction;
 using FM_Rozetka_Api.Core.DTOs.Discount;
 using FM_Rozetka_Api.Core.DTOs.Favorite;
+using FM_Rozetka_Api.Core.DTOs.NovaPost;
 using FM_Rozetka_Api.Core.DTOs.OrderItem;
 using FM_Rozetka_Api.Core.DTOs.Orders.Order;
 using FM_Rozetka_Api.Core.DTOs.Orders.OrderStatusHistory;
@@ -24,6 +25,9 @@ using FM_Rozetka_Api.Core.DTOs.Shops.Shop;
 using FM_Rozetka_Api.Core.DTOs.Specifications.CategorySpecification;
 using FM_Rozetka_Api.Core.DTOs.Specifications.Specification;
 using FM_Rozetka_Api.Core.Entities;
+using FM_Rozetka_Api.Core.Entities.NovaPost;
+using FM_Rozetka_Api.Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Rozetka_Api.Core.Entities;
 
 namespace FM_Rozetka_Api.Core.AutoMappers
@@ -154,6 +158,7 @@ namespace FM_Rozetka_Api.Core.AutoMappers
             CreateMap<Review, ReviewDTO>().ReverseMap();
             CreateMap<ReviewCreateDTO, Review>().ReverseMap();
             CreateMap<ReviewUpdateDTO, Review>().ReverseMap();
+
         }
     }
 }
