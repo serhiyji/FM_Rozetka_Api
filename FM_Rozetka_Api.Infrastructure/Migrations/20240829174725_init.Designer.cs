@@ -3,6 +3,7 @@ using System;
 using FM_Rozetka_Api.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FM_Rozetka_Api.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240829174725_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -9236,88 +9239,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.ToTable("ModeratorShops");
                 });
 
-            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.NovaPost.Area", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<string>("Ref")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Areas");
-                });
-
-            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.NovaPost.Settlement", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AreaId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
-
-                    b.Property<string>("Ref")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AreaId");
-
-                    b.ToTable("Settlements");
-                });
-
-            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.NovaPost.Warehouse", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
-
-                    b.Property<int>("Number")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Ref")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
-
-                    b.Property<int>("SettlementId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SettlementId");
-
-                    b.ToTable("Warehouses");
-                });
-
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -9599,9 +9520,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                             BrandId = 1,
                             CategoryProductId = 1,
                             CountryProductionId = 1,
-
-                            CreatedAt = new DateTime(2024, 9, 4, 12, 23, 20, 22, DateTimeKind.Utc).AddTicks(6720),
-
+                            CreatedAt = new DateTime(2024, 8, 29, 17, 47, 24, 186, DateTimeKind.Utc).AddTicks(1671),
                             Description = "Test",
                             HasDiscount = false,
                             ImageURL = "noimage.webp",
@@ -9897,9 +9816,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-
-                            AppUserId = "38b7d4a0-8dd3-4289-ba6a-ce8a9326e7ed",
-
+                            AppUserId = "45dc28d8-cb01-4628-be41-8362798c4722",
                             CompanyId = 1,
                             Email = "TEST",
                             FullName = "TEST",
@@ -9996,33 +9913,25 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-
-                            Id = "d2568e67-6fc1-4a2d-ab0b-045eb7280fe2",
-
+                            Id = "364f8b13-0af3-496c-887a-305ccd8c28d9",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-
-                            Id = "245ea3bb-544a-4998-84f0-ef54eef2da9a",
-
+                            Id = "4c74ff36-6b84-4f91-9e73-c81f3a8899eb",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-
-                            Id = "a7eb6e87-2bc7-403f-b48b-7c2649dc32df",
-
+                            Id = "99816b8d-8f73-46ac-8800-3f5ce0cc987c",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         },
                         new
                         {
-
-                            Id = "041c9534-a7a9-43a5-96f8-be40b23e95e6",
-
+                            Id = "ec61f97d-8531-4d3d-9e80-ac2d7f89c635",
                             Name = "ModeratorSeller",
                             NormalizedName = "MODERATORSELLER"
                         });
@@ -10190,15 +10099,13 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-
-                            UserId = "4a4e4f2c-037d-4a68-afbf-c6c08e0a1a2b",
-                            RoleId = "d2568e67-6fc1-4a2d-ab0b-045eb7280fe2"
+                            UserId = "8871ad6a-b219-4db2-9cfb-ec46ddf9ed53",
+                            RoleId = "364f8b13-0af3-496c-887a-305ccd8c28d9"
                         },
                         new
                         {
-                            UserId = "38b7d4a0-8dd3-4289-ba6a-ce8a9326e7ed",
-                            RoleId = "a7eb6e87-2bc7-403f-b48b-7c2649dc32df"
-
+                            UserId = "45dc28d8-cb01-4628-be41-8362798c4722",
+                            RoleId = "99816b8d-8f73-46ac-8800-3f5ce0cc987c"
                         });
                 });
 
@@ -10611,22 +10518,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-
-                            Id = "4a4e4f2c-037d-4a68-afbf-c6c08e0a1a2b",
+                            Id = "8871ad6a-b219-4db2-9cfb-ec46ddf9ed53",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e6b8485b-9ed8-484a-84f8-0e136c3cd6ea",
-
+                            ConcurrencyStamp = "cfefb654-a987-4d33-9bde-ea6bbd9eab2a",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-
-                            PasswordHash = "AQAAAAIAAYagAAAAEOV0Yqqd9Kx64m5YMl9c2jwfnZFBJSiKpxG+No8aZx57POYE2EOwXfisjsRkPiu1+w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKCCJLCneUSEHLH2AvWOxfkEIozchCao/r085bRxyqzxMtddt3Ski7dUoGyx9g7WrQ==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "99aef86d-8144-4fa3-87e4-d5f2b5df2447",
-
+                            SecurityStamp = "688b3444-534a-4c36-9a69-3ac95a6679a0",
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",
@@ -10635,22 +10538,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         },
                         new
                         {
-
-                            Id = "38b7d4a0-8dd3-4289-ba6a-ce8a9326e7ed",
+                            Id = "45dc28d8-cb01-4628-be41-8362798c4722",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "89ddaaa2-eb9a-4303-b7af-7dad3236b5da",
-
+                            ConcurrencyStamp = "88b57eb9-62cb-459b-94fc-96c87f2488c3",
                             Email = "seller@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "SELLER@EMAIL.COM",
                             NormalizedUserName = "SELLER@EMAIL.COM",
-
-                            PasswordHash = "AQAAAAIAAYagAAAAEGb1shafdZhi4DtMF9tS3fYXrF7pl1stcROJwotYdZ9RG9IS4BouYa8dPZwfnwDg/Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPA8uQnqwWCzcPwm1S5YIBlk2SlNVzY4j4TDs9AK2ES1oNYbPCet3GWxydHMaO+5mA==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "93b2a993-6dfd-47bd-8ea4-c860b491dbb2",
-
+                            SecurityStamp = "dc43c6c4-aade-426b-b12a-6f8fef783a42",
                             TwoFactorEnabled = false,
                             UserName = "seller@email.com",
                             FirstName = "seller",
@@ -10736,28 +10635,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.Navigation("AppUser");
 
                     b.Navigation("Shop");
-                });
-
-            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.NovaPost.Settlement", b =>
-                {
-                    b.HasOne("FM_Rozetka_Api.Core.Entities.NovaPost.Area", "Area")
-                        .WithMany("Settlements")
-                        .HasForeignKey("AreaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Area");
-                });
-
-            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.NovaPost.Warehouse", b =>
-                {
-                    b.HasOne("FM_Rozetka_Api.Core.Entities.NovaPost.Settlement", "Settlement")
-                        .WithMany("Warehouses")
-                        .HasForeignKey("SettlementId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Settlement");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Order", b =>
@@ -11082,16 +10959,6 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.CountryProduction", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.NovaPost.Area", b =>
-                {
-                    b.Navigation("Settlements");
-                });
-
-            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.NovaPost.Settlement", b =>
-                {
-                    b.Navigation("Warehouses");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.Order", b =>
