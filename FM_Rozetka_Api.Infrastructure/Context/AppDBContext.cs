@@ -1,4 +1,5 @@
 ﻿using FM_Rozetka_Api.Core.Entities;
+using FM_Rozetka_Api.Core.Entities.NovaPost;
 using FM_Rozetka_Api.Core.Entities.Telegram;
 using FM_Rozetka_Api.Infrastructure.Initializers;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -41,6 +42,9 @@ namespace FM_Rozetka_Api.Infrastructure.Context
         public DbSet<SellerApplication> SellerApplications { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<PhoneConfirmation> PhoneConfirmations { get; set; }
+        public DbSet<Area> Areas { get; set; }
+        public DbSet<Settlement> Settlements { get; set; }
+        public DbSet<Warehouse> Warehouses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

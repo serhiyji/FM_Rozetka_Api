@@ -47,6 +47,7 @@ namespace FM_Rozetka_Api.Core
             services.AddScoped<IOrderStatusHistoryService, OrderStatusHistoryService>();
             services.AddScoped<IShipmentService, ShipmentService>();
             services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<INovaPoshtaService, NovaPoshtaService>();
         }
 
         public static void AddValidator(this IServiceCollection service)
@@ -58,6 +59,7 @@ namespace FM_Rozetka_Api.Core
         public static void AddMapping(this IServiceCollection services)
         {
             services.AddAutoMapper(typeof(AutoMapperUserProfile).Assembly);
+            services.AddAutoMapper(typeof(NovaPostProfile).Assembly);
         }
 
         public static void AddQuartzServices(this IServiceCollection services)
