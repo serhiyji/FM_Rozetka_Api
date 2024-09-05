@@ -20,6 +20,11 @@ namespace FM_Rozetka_Api.Core.AutoMappers
             CreateMap<NPWarehouseItemViewModel, Warehouse>()
                 .ForMember(dest => dest.SettlementId, opt => opt.Ignore())
                 .ForMember(dest => dest.Settlement, opt => opt.Ignore());
+
+            CreateMap<Area, AreaDTO>().ReverseMap();
+            CreateMap<Settlement, SettlementDTO>().ReverseMap();
+            CreateMap<Warehouse, WarehouseDTO>().ReverseMap();
+
         }
     }
 }
