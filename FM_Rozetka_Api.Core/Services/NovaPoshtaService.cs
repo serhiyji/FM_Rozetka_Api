@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Services
 {
-    public class NovaPoshtaService : INovaPoshtaService
+    internal class NovaPoshtaService : INovaPoshtaService
     {
         private readonly IConfiguration _configuration;
         private readonly HttpClient _httpClient;
@@ -188,10 +188,13 @@ namespace FM_Rozetka_Api.Core.Services
                                 var entity = await _warehouseRepository.GetItemBySpec(spec);
                                 if (entity == null)
                                 {
-                                    var settlement = await _settlementRepository.GetItemBySpec(new SettlementSpecification.SettlementSingleOrDefault(item.Ref));
-                                    entity = _mapper.Map<Warehouse>(item);
-                                    entity.SettlementId = settlement.Id;
-                                    await _warehouseRepository.Insert(entity);
+                                    var settlement = await _settlementRepository.GetItemBySpec(new SettlementSpecification.SettlementSingleOrDefault(item.SettlementRef));
+                                    if (settlement != null)
+                                    {
+                                        entity = _mapper.Map<Warehouse>(item);
+                                        entity.SettlementId = settlement.Id;
+                                        await _warehouseRepository.Insert(entity);
+                                    }
                                 }
                             }
                             await _warehouseRepository.Save();

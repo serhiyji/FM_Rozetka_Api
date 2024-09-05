@@ -217,6 +217,18 @@ namespace FM_Rozetka_Api.Infrastructure.Context
             .Property(pq => pq.hasAnswer)
             .HasDefaultValue(false);
 
+            modelBuilder.Entity<Area>()
+            .HasMany(a => a.Settlements)
+            .WithOne(s => s.Area)
+            .HasForeignKey(s => s.AreaId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Settlement>()
+            .HasMany(s => s.Warehouses)
+            .WithOne(w => w.Settlement)
+            .HasForeignKey(w => w.SettlementId)
+            .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.SeedRoles();
             modelBuilder.SeedAdministrator();
             modelBuilder.SeedCountryProductions();
