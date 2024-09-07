@@ -1,9 +1,11 @@
 ﻿using Ardalis.Specification;
+using Microsoft.EntityFrameworkCore;
 
 namespace FM_Rozetka_Api.Core.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : class, IEntity
     {
+        public DbSet<TEntity> dbSet { get; set; }
         Task Save();
         Task Insert(TEntity entity);
         Task<IEnumerable<TEntity>> GetAll();

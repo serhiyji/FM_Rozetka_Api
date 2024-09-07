@@ -7,6 +7,7 @@ using FM_Rozetka_Api.Core.DTOs.Company;
 using FM_Rozetka_Api.Core.DTOs.CountryProduction;
 using FM_Rozetka_Api.Core.DTOs.Discount;
 using FM_Rozetka_Api.Core.DTOs.Favorite;
+using FM_Rozetka_Api.Core.DTOs.NovaPost;
 using FM_Rozetka_Api.Core.DTOs.OrderItem;
 using FM_Rozetka_Api.Core.DTOs.Orders.Order;
 using FM_Rozetka_Api.Core.DTOs.Orders.OrderStatusHistory;
@@ -24,6 +25,9 @@ using FM_Rozetka_Api.Core.DTOs.Shops.Shop;
 using FM_Rozetka_Api.Core.DTOs.Specifications.CategorySpecification;
 using FM_Rozetka_Api.Core.DTOs.Specifications.Specification;
 using FM_Rozetka_Api.Core.Entities;
+using FM_Rozetka_Api.Core.Entities.NovaPost;
+using FM_Rozetka_Api.Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Rozetka_Api.Core.Entities;
 
 namespace FM_Rozetka_Api.Core.AutoMappers
@@ -43,9 +47,9 @@ namespace FM_Rozetka_Api.Core.AutoMappers
             CreateMap<Brand, BrandDTO>();
 
             // CartItem
-            CreateMap<CartItem, CartItemCreateDTO>();
-            CreateMap<CartItem, CartItemUpdateDTO>();
-            CreateMap<CartItem, CartItemDTO>();
+            CreateMap<CartItem, CartItemCreateDTO>().ReverseMap();
+            CreateMap<CartItem, CartItemUpdateDTO>().ReverseMap();
+            CreateMap<CartItem, CartItemDTO>().ReverseMap();
 
             // CategoryProduct
             CreateMap<CategoryProduct, CategoryProductCreateDTO>().ReverseMap(); 
@@ -59,38 +63,38 @@ namespace FM_Rozetka_Api.Core.AutoMappers
             CreateMap<CountryProduction, CountryProductionDTO>().ReverseMap();
 
             // Discount
-            CreateMap<Discount, DiscountCreateDTO>();
-            CreateMap<Discount, DiscountUpdateDTO>();
-            CreateMap<Discount, DiscountDTO>();
+            CreateMap<Discount, DiscountCreateDTO>().ReverseMap();
+            CreateMap<Discount, DiscountUpdateDTO>().ReverseMap();
+            CreateMap<Discount, DiscountDTO>().ReverseMap();
 
             // Favorite
             CreateMap<Favorite, FavoriteCreateDTO>();
             CreateMap<Favorite, FavoriteDTO>().ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product));
 
             // OrderItem
-            CreateMap<OrderItem, OrderItemCreateDTO>();
-            CreateMap<OrderItem, OrderItemUpdateDTO>();
-            CreateMap<OrderItem, OrderItemDTO>();
+            CreateMap<OrderItem, OrderItemCreateDTO>().ReverseMap();
+            CreateMap<OrderItem, OrderItemUpdateDTO>().ReverseMap();
+            CreateMap<OrderItem, OrderItemDTO>().ReverseMap();
 
             // Order
-            CreateMap<Order, OrderCreateDTO>();
-            CreateMap<Order, OrderUpdateDTO>();
-            CreateMap<Order, OrderDTO>();
+            CreateMap<Order, OrderCreateDTO>().ReverseMap();
+            CreateMap<Order, OrderUpdateDTO>().ReverseMap();
+            CreateMap<Order, OrderDTO>().ReverseMap();
 
             // OrderStatusHistory
-            CreateMap<OrderStatusHistory, OrderStatusHistoryCreateDTO>();
-            CreateMap<OrderStatusHistory, OrderStatusHistoryUpdateDTO>();
-            CreateMap<OrderStatusHistory, OrderStatusHistoryDTO>();
+            CreateMap<OrderStatusHistory, OrderStatusHistoryCreateDTO>().ReverseMap();
+            CreateMap<OrderStatusHistory, OrderStatusHistoryUpdateDTO>().ReverseMap();
+            CreateMap<OrderStatusHistory, OrderStatusHistoryDTO>().ReverseMap();
 
             // Payment
-            CreateMap<Payment, PaymentCreateDTO>();
-            CreateMap<Payment, PaymentUpdateDTO>();
-            CreateMap<Payment, PaymentDTO>();
+            CreateMap<Payment, PaymentCreateDTO>().ReverseMap();
+            CreateMap<Payment, PaymentUpdateDTO>().ReverseMap();
+            CreateMap<Payment, PaymentDTO>().ReverseMap();
 
             // Shipment
-            CreateMap<Shipment, ShipmentCreateDTO>();
-            CreateMap<Shipment, ShipmentUpdateDTO>();
-            CreateMap<Shipment, ShipmentDTO>();
+            CreateMap<Shipment, ShipmentCreateDTO>().ReverseMap();
+            CreateMap<Shipment, ShipmentUpdateDTO>().ReverseMap(); 
+            CreateMap<Shipment, ShipmentDTO>().ReverseMap();
 
             // PhotoProduct
             CreateMap<PhotoProduct, PhotoProductCreateDTO>().ReverseMap();
@@ -154,6 +158,7 @@ namespace FM_Rozetka_Api.Core.AutoMappers
             CreateMap<Review, ReviewDTO>().ReverseMap();
             CreateMap<ReviewCreateDTO, Review>().ReverseMap();
             CreateMap<ReviewUpdateDTO, Review>().ReverseMap();
+
         }
     }
 }

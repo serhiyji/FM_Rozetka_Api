@@ -6,7 +6,7 @@ using FM_Rozetka_Api.Core.Responses;
 
 namespace FM_Rozetka_Api.Core.Services
 {
-    public class CountryProductionService : ICountryProductionService
+    internal class CountryProductionService : ICountryProductionService
     {
         private readonly IRepository<CountryProduction> _countryProductionRepository;
         private readonly IMapper _mapper;

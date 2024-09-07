@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FM_Rozetka_Api.Api.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class CartItemController : Controller
@@ -19,7 +19,7 @@ namespace FM_Rozetka_Api.Api.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> Create([FromBody] CartItemCreateDTO cartItemCreateDTO)
+        public async Task<IActionResult> Create([FromForm] CartItemCreateDTO cartItemCreateDTO)
         {
             return Ok(await _cartItemService.Create(cartItemCreateDTO));
         }
@@ -30,7 +30,7 @@ namespace FM_Rozetka_Api.Api.Controllers
             return Ok(await _cartItemService.Delete(id));
         }
 
-        [HttpPost("getallbyappuserid")]
+        [HttpGet("getallbyappuserid")]
         public async Task<IActionResult> GetAllByAppUserId(string Id)
         {
             return Ok(await _cartItemService.GetAllByAppUserId(Id));

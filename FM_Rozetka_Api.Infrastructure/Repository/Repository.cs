@@ -9,7 +9,7 @@ namespace FM_Rozetka_Api.Infrastructure.Repository
     internal class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {
         internal AppDBContext context;
-        internal DbSet<TEntity> dbSet;
+        public DbSet<TEntity> dbSet { get; set; }
         public Repository(DbContextOptions<AppDBContext> dbContextOptions)
         {
             this.context = new AppDBContext(dbContextOptions);

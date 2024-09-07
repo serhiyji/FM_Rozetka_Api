@@ -22,6 +22,7 @@ namespace FM_Rozetka_Api.Core.Entities
         public Brand Brand { get; set; }
         
         public List<Favorite> Favorites { get; set; }
+        public bool HasDiscount { get; set; }
         public List<Discount> Discounts { get; set; }
         public List<ProductQuestion> ProductQuestions { get; set; }
         public List<OrderItem> OrderItems { get; set; }

@@ -8,7 +8,7 @@ using FM_Rozetka_Api.Core.Specifications;
 
 namespace FM_Rozetka_Api.Core.Services
 {
-    public class ProductQuestionService : IProductQuestionService
+    internal class ProductQuestionService : IProductQuestionService
     {
         private readonly IRepository<ProductQuestion> _productQuestionRepository;
         private readonly IMapper _mapper;

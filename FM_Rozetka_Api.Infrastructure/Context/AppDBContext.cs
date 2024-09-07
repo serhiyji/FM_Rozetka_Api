@@ -1,4 +1,5 @@
 ﻿using FM_Rozetka_Api.Core.Entities;
+using FM_Rozetka_Api.Core.Entities.NovaPost;
 using FM_Rozetka_Api.Core.Entities.Telegram;
 using FM_Rozetka_Api.Infrastructure.Initializers;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -41,6 +42,9 @@ namespace FM_Rozetka_Api.Infrastructure.Context
         public DbSet<SellerApplication> SellerApplications { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<PhoneConfirmation> PhoneConfirmations { get; set; }
+        public DbSet<Area> Areas { get; set; }
+        public DbSet<Settlement> Settlements { get; set; }
+        public DbSet<Warehouse> Warehouses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -171,10 +175,25 @@ namespace FM_Rozetka_Api.Infrastructure.Context
                 .HasOne(p => p.Shop).WithMany(s => s.Products)
                 .HasForeignKey(p => p.ShopId).OnDelete(DeleteBehavior.Restrict);
 
-            // Specification - CategorySpecification
+            // Specification - PossibleSpecificationItem
             modelBuilder.Entity<Specification>()
-                .HasOne(s => s.CategorySpecification).WithMany(cs => cs.Specifications)
-                .HasForeignKey(s => s.CategorySpecificationId).OnDelete(DeleteBehavior.Cascade);
+                .HasOne(p => p.PossibleSpecificationItem).WithMany(p => p.Specifications)
+                .HasForeignKey(p => p.PossibleSpecificationItemId).OnDelete(DeleteBehavior.Cascade);
+
+            // PossibleSpecification - PossibleSpecificationItem
+            modelBuilder.Entity<PossibleSpecification>()
+                .HasOne(p => p.PossibleSpecificationItem).WithMany(p => p.PossibleSpecifications)
+                .HasForeignKey(p => p.PossibleSpecificationItemId).OnDelete(DeleteBehavior.Cascade);
+
+            // PossibleSpecification - CategoryProduct
+            modelBuilder.Entity<PossibleSpecification>()
+                .HasOne(p => p.CategoryProduct).WithMany(p => p.PossibleSpecifications)
+                .HasForeignKey(p => p.CategoryProductId).OnDelete(DeleteBehavior.Restrict);
+
+            // PossibleSpecification - CategorySpecification
+            modelBuilder.Entity<PossibleSpecification>()
+                .HasOne(p => p.CategorySpecification).WithMany(p => p.PossibleSpecifications)
+                .HasForeignKey(p => p.CategorySpecificationId).OnDelete(DeleteBehavior.Restrict);
 
             // Specification - Product
             modelBuilder.Entity<Specification>()
@@ -197,6 +216,18 @@ namespace FM_Rozetka_Api.Infrastructure.Context
             modelBuilder.Entity<ProductQuestion>()
             .Property(pq => pq.hasAnswer)
             .HasDefaultValue(false);
+
+            modelBuilder.Entity<Area>()
+            .HasMany(a => a.Settlements)
+            .WithOne(s => s.Area)
+            .HasForeignKey(s => s.AreaId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Settlement>()
+            .HasMany(s => s.Warehouses)
+            .WithOne(w => w.Settlement)
+            .HasForeignKey(w => w.SettlementId)
+            .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.SeedRoles();
             modelBuilder.SeedAdministrator();

@@ -104,24 +104,30 @@ namespace FM_Rozetka_Api.Api.Controllers
         #region Favorite
 
         [HttpPost("addproducttofavorites")]
-        public async Task<IActionResult> AddProductToFavorites(FavoriteCreateDTO favoriteCreateDTO)
+        public async Task<IActionResult> AddProductToFavorites([FromBody]FavoriteCreateDTO favoriteCreateDTO)
         {
             return Ok(await _favoriteService.AddAsync(favoriteCreateDTO));
         }
 
         [HttpPost("deleteproductfromfavorites")]
-        public async Task<IActionResult> DeleteProductFromFavorites(int id)
+        public async Task<IActionResult> DeleteProductFromFavorites([FromBody]int id)
         {
             return Ok(await _favoriteService.DeleteAsync(id));
         }
 
         [HttpGet("getallfavorites")]
-        public async Task<IActionResult> GetAllFavorites(string appUserId)
+        public async Task<IActionResult> GetAllFavorites([FromQuery]string appUserId)
         {
             return Ok(await _favoriteService.GetAllAsync(appUserId));
         }
 
         #endregion
 
+        [HttpGet("filter")]
+        public async Task<IActionResult> GetFilteredProducts([FromQuery] Dictionary<int, List<int>> filters, int page = 1, int pageSize = 10)
+        {
+            var products = await _productService.FilterProductsBySpecifications(filters, page, pageSize);
+            return Ok(products);
+        }
     }
 }

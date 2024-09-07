@@ -6,6 +6,6 @@ namespace FM_Rozetka_Api.Core.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<Specification> Specifications { get; set; }
+        public List<PossibleSpecification> PossibleSpecifications { get; set; }
     }
 }
