@@ -229,7 +229,7 @@ namespace FM_Rozetka_Api.Core.Services
             }
         }
 
-        public async Task<ServiceResponse<List<Product>, object>> FilterProductsBySpecifications(
+        public async Task<PaginationResponse<List<Product>, object>> FilterProductsBySpecifications(
                 Dictionary<int, List<int>> filters,
                 int page = 1,
                 int pageSize = 10
@@ -249,7 +249,8 @@ namespace FM_Rozetka_Api.Core.Services
 
             List<Product> products = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
-            return new ServiceResponse<List<Product>, object>(true, "", payload: products);
+            return new PaginationResponse<List<Product>, object>(true, "", payload: products,
+                pageNumber: page, pageSize: pageSize, totalCount: query.Count());
         }
     }
 }
