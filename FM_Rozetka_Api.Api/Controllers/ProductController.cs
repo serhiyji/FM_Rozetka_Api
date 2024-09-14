@@ -1,4 +1,5 @@
-﻿using FM_Rozetka_Api.Core.DTOs.Favorite;
+﻿using FM_Rozetka_Api.Api.Models;
+using FM_Rozetka_Api.Core.DTOs.Favorite;
 using FM_Rozetka_Api.Core.DTOs.Products.Product;
 using FM_Rozetka_Api.Core.DTOs.Review;
 using FM_Rozetka_Api.Core.Interfaces;
@@ -124,9 +125,9 @@ namespace FM_Rozetka_Api.Api.Controllers
         #endregion
 
         [HttpGet("filter")]
-        public async Task<IActionResult> GetFilteredProducts([FromQuery] Dictionary<int, List<int>> filters, int page = 1, int pageSize = 10)
+        public async Task<IActionResult> GetFilteredProducts([FromBody]ModelForFilterProduct model)
         {
-            var products = await _productService.FilterProductsBySpecifications(filters, page, pageSize);
+            var products = await _productService.FilterProductsBySpecifications(model.Filters, model.Page, model.PageSize);
             return Ok(products);
         }
     }
