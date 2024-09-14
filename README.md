@@ -5,8 +5,8 @@ Create docker hub repository - publish
 docker build -t rozetka-api . 
 docker run -it --rm -p 5085:8080 --name rozetka_container rozetka-api
 docker run -d --restart=always --name rozetka_container -p 5085:8080 rozetka-api
-docker run -d --restart=always -v d:/volumes/api/images:/app/images -v d:/volumes/api/EmailTemplates:/app/EmailTemplates --name rozetka_container -p 5085:8080 rozetka-api
-docker run -d --restart=always -v /volumes/api/images:/app/images -v /volumes/api/EmailTemplates:/app/EmailTemplates --name rozetka_container -p 5085:8080 rozetka-api
+docker run -d --restart=always -v d:/volumes/api/images:/app/images --name rozetka_container -p 5085:8080 rozetka-api
+docker run -d --restart=always -v /volumes/api/images:/app/images --name rozetka_container -p 5085:8080 rozetka-api
 docker ps -a
 docker stop rozetka_container
 docker rm rozetka_container
