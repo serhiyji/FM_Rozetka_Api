@@ -37,8 +37,8 @@ namespace FM_Rozetka_Api.Core.Services
                     description = description,
                     order_id = temporaryOrderId,
                     sandbox = 1,
-                    server_url = "http://localhost:5001/api/Payment/callback",
-                    result_url = "http://localhost:5173/payment-result" 
+                    server_url = "https://mayba.itstep.click/api/Payment/callback",
+                    result_url = "http://techno.itstep.click/payment-result"
                 };
 
                 var dataString = JsonConvert.SerializeObject(data);
