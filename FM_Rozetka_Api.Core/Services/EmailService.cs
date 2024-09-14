@@ -13,7 +13,6 @@ namespace FM_Rozetka_Api.Core.Services
             this._configuration = configuration;
         }
 
-
         public async Task SendEmailAsync(string toEmail, string subject, string body)
         {
             string password = _configuration["EmailSettings:Password"];

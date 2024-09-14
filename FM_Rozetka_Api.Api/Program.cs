@@ -105,8 +105,8 @@ builder.Services.AddSwaggerGen(option =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
 
     app.UseSwaggerUI(options =>
@@ -114,14 +114,14 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "FM Rozetka API");
         options.RoutePrefix = string.Empty; // To serve the Swagger UI at the root URL
     });
-}
+//}
 
 app.UseCors(options =>
     //.WithOrigins(new[] {"https://localhost:3000"})
     options.SetIsOriginAllowed(origin => true).AllowAnyHeader().AllowCredentials().AllowAnyMethod()
 );
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 
 var dir = Path.Combine(Directory.GetCurrentDirectory(), "images");
