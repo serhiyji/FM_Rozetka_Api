@@ -121,7 +121,7 @@ app.UseCors(options =>
     options.SetIsOriginAllowed(origin => true).AllowAnyHeader().AllowCredentials().AllowAnyMethod()
 );
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 
 var dir = Path.Combine(Directory.GetCurrentDirectory(), "images");
