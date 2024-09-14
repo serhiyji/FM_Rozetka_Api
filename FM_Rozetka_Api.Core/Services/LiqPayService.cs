@@ -37,8 +37,8 @@ namespace FM_Rozetka_Api.Core.Services
                     description = description,
                     order_id = temporaryOrderId,
                     sandbox = 1,
-                    server_url = "https://your-server.com/api/payment/callback",
-                    return_url= "http://localhost:5173/user/products"
+                    server_url = "http://localhost:5001/api/Payment/callback",
+                    result_url = "http://localhost:5173/payment-result" 
                 };
 
                 var dataString = JsonConvert.SerializeObject(data);
@@ -62,6 +62,12 @@ namespace FM_Rozetka_Api.Core.Services
                 var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(_privateKey + data + _privateKey));
                 return Convert.ToBase64String(hash);
             }
+        }
+
+        public bool VerifySignature(string data, string signature)
+        {
+            var expectedSignature = GenerateSignature(data);
+            return signature == expectedSignature;
         }
     }
 
