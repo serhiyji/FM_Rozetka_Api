@@ -11,6 +11,7 @@ namespace FM_Rozetka_Api.Core.DTOs.Orders.Payment
         public decimal Amount { get; set; }
         public string Currency { get; set; }
         public string Description { get; set; }
+        public int[] CartItemIds { get; set; }
     }
 
 }

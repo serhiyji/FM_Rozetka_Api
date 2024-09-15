@@ -4,6 +4,7 @@ using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
 using FM_Rozetka_Api.Core.Specifications;
+using Telegram.Bot.Types;
 
 namespace FM_Rozetka_Api.Core.Services
 {
@@ -124,7 +125,23 @@ namespace FM_Rozetka_Api.Core.Services
             return new ServiceResponse<CartItemDTO, object>(true, "Quantity updated successfully", payload: _mapper.Map<CartItem, CartItemDTO>(cartItem));
         }
 
+        public async Task<ServiceResponse<List<CartItemDTO>, object>> GetByIds(int[] Ids)
+        {
+            try
+            {
+                var cartItems = await _cartItemRepo.GetListBySpec(new CartItemSpecification.GetByIds(Ids));
 
+                if (cartItems == null || !cartItems.Any())
+                {
+                    return new ServiceResponse<List<CartItemDTO>, object>(false, "Cart items not found");
+                }
 
+                return new ServiceResponse<List<CartItemDTO>, object>(true, "Success", payload: _mapper.Map<List<CartItemDTO>>(cartItems));
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<List<CartItemDTO>, object>(false, "Failed: " + ex.Message);
+            }
+        }
     }
 }

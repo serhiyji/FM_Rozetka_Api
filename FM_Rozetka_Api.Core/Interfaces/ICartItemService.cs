@@ -10,7 +10,8 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ServiceResponse<CartItem, object>> Update(CartItemUpdateDTO cartItemUpdateDTO);
         Task<ServiceResponse> Delete(int Id);
         Task<ServiceResponse<CartItemDTO, object>> GetById(int Id);
+        Task<ServiceResponse<List<CartItemDTO>, object>> GetByIds(int[] Ids);
         Task<ServiceResponse<List<CartItemDTO>, object>> GetAllByAppUserId(string userId);
-        Task<ServiceResponse<CartItemDTO, object>> SetCount(int Id, int newcount);
+        Task<ServiceResponse<CartItemDTO, object>> SetCount(int Id, int newcount); 
     }
 }
