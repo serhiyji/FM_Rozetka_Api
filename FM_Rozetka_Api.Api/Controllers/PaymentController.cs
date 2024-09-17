@@ -248,7 +248,7 @@ namespace FM_Rozetka_Api.Api.Controllers
                         var payment = new PaymentCreateDTO
                         {
                             OrderId = orderId,
-                            PaymentMethod = paymentInfo.payment_method,
+                            PaymentMethod = "card",
                             PaymentDate = DateTime.UtcNow,
                             Amount = paymentInfo.amount,
                             Status = "Success"
