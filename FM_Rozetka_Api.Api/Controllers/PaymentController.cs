@@ -2,12 +2,15 @@
 using FM_Rozetka_Api.Core.DTOs.Orders.Order;
 using FM_Rozetka_Api.Core.DTOs.Orders.OrderStatusHistory;
 using FM_Rozetka_Api.Core.DTOs.Orders.Payment;
+using FM_Rozetka_Api.Core.DTOs.Orders.Shipment;
 using FM_Rozetka_Api.Core.DTOs.Products.Product;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Services;
+using MailKit.Search;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Text;
 
 namespace FM_Rozetka_Api.Api.Controllers
@@ -23,11 +26,15 @@ namespace FM_Rozetka_Api.Api.Controllers
         private readonly ICartItemService _cartItemService;
         private readonly IProductService _productService;
         private readonly IOrderStatusHistoryService _orderStatusHistoryService;
+        private readonly IShipmentService _shipmentService;
+        private readonly INovaPoshtaService _novaPoshtaService;
+
+
         private readonly string _encryptionKey;
 
         public PaymentController(IPaymentService paymentService, IConfiguration configuration, LiqPayService liqPayService,
             IOrderService orderService, IOrderItemService orderItemService, ICartItemService cartItemService, IProductService productService,
-            IOrderStatusHistoryService orderStatusHistoryService)
+            IOrderStatusHistoryService orderStatusHistoryService, IShipmentService shipmentService, INovaPoshtaService novaPoshtaService)
         {
             _paymentService = paymentService;
             _liqPayService = liqPayService;
@@ -37,6 +44,8 @@ namespace FM_Rozetka_Api.Api.Controllers
             _cartItemService = cartItemService;
             _productService = productService;
             _orderStatusHistoryService = orderStatusHistoryService;
+            _shipmentService = shipmentService;
+            _novaPoshtaService = novaPoshtaService;
         }
 
         [HttpPost("create")]
@@ -97,7 +106,7 @@ namespace FM_Rozetka_Api.Api.Controllers
         [HttpPost("create-payment-link")]
         public async Task<IActionResult> CreatePaymentLink([FromBody] PaymentLinkCreateDTO model)
         {
-            var response = await _liqPayService.CreatePaymentLink(model.Amount, model.Currency, model.Description, model.CartItemIds);
+            var response = await _liqPayService.CreatePaymentLink(model);
             if (response.Success)
             {
                 return Ok(response);
@@ -106,10 +115,13 @@ namespace FM_Rozetka_Api.Api.Controllers
         }
 
         [HttpPost("callback")]
-        public async Task<IActionResult> PaymentCallback([FromForm] string data, [FromForm] string signature)
+        public async Task<IActionResult> PaymentCallback([FromForm] string data, [FromForm] string signature, [FromQuery] string encrypted_cart, [FromQuery] string encrypted_customer)
         {
             try
             {
+                Console.WriteLine("encrypted_cart " + encrypted_cart);
+                Console.WriteLine("encrypted_customer " + encrypted_customer);
+
                 if (!_liqPayService.VerifySignature(data, signature))
                 {
                     Console.WriteLine("Invalid signature");
@@ -120,37 +132,12 @@ namespace FM_Rozetka_Api.Api.Controllers
                 dynamic paymentInfo = Newtonsoft.Json.Linq.JObject.Parse(decodedData);
                 Console.WriteLine($"Payment info: {decodedData}");
 
-                string descriptionText = paymentInfo.description;
-                Console.WriteLine($"Description: {descriptionText}");
+                var decryptedCart = encrypted_cart;
+                var decryptedCustomer = JsonConvert.DeserializeObject<CustomerInfoDTO>(encrypted_customer);
 
-                string decryptedDescription = null; 
+                Console.WriteLine($"Decrypted cart: {decryptedCart}");
+                Console.WriteLine($"Decrypted customer: {JsonConvert.SerializeObject(decryptedCustomer)}");
 
-                var regex = new System.Text.RegularExpressions.Regex(@"\(([^)]+)\)");
-                var match = regex.Match(descriptionText);
-                if (match.Success)
-                {
-                    string encryptedDescription = match.Groups[1].Value.Trim();
-                    Console.WriteLine($"Extracted encrypted description: {encryptedDescription}");
-
-                    try
-                    {
-                        decryptedDescription = Utility.Decrypt(encryptedDescription, _encryptionKey);
-                        Console.WriteLine($"Decrypted description: {decryptedDescription}");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Decryption failed: {ex.Message}");
-                        return BadRequest("Decryption failed.");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Failed to extract encrypted description.");
-                    return BadRequest("Failed to extract encrypted description.");
-                }
-             
-                var orderIds = decryptedDescription.Split('|').Select(id => int.Parse(id)).ToArray();
-                Console.WriteLine($"Order IDs: {string.Join(", ", orderIds)}");
 
                 if (paymentInfo.status == "success" || paymentInfo.status == "sandbox")
                 {
@@ -158,7 +145,9 @@ namespace FM_Rozetka_Api.Api.Controllers
 
                     try
                     {
+                        var orderIds = decryptedCart.Split('|').Select(id => int.Parse(id)).ToArray();
                         var response = await _cartItemService.GetByIds(orderIds);
+
                         if (!response.Success)
                         {
                             Console.WriteLine($"Failed to get cart items. Order ID: {paymentInfo.order_id}. Error: {response.Message}");
@@ -168,7 +157,7 @@ namespace FM_Rozetka_Api.Api.Controllers
                         var cartItems = response.Payload;
                         var appUserId = cartItems.First().AppUserId;
 
-                        // Order
+                        // Створення замовлення
                         var order = new OrderCreateDTO
                         {
                             AppUserId = appUserId,
@@ -188,6 +177,7 @@ namespace FM_Rozetka_Api.Api.Controllers
                         var orderId = createdOrderResponse.Payload.Id;
                         Console.WriteLine($"Order created successfully. Order ID: {orderId}");
 
+                        // Додавання товарів до замовлення
                         var appProductIds = cartItems.Select(cartItem => cartItem.ProductId).ToArray();
                         var products = new List<ProductDTO>();
 
@@ -230,7 +220,7 @@ namespace FM_Rozetka_Api.Api.Controllers
                             }
                         }
 
-                        // OrderStatusHistory
+                        // Додавання історії статусу замовлення
                         var orderStatusHistory = new OrderStatusHistoryCreateDTO
                         {
                             OrderId = orderId,
@@ -244,11 +234,11 @@ namespace FM_Rozetka_Api.Api.Controllers
                             Console.WriteLine($"Failed to create order status history. Order ID: {orderId}. Error: {orderStatusHistoryResponse.Message}");
                         }
 
-                        // Payment
+                        // Додавання запису про оплату
                         var payment = new PaymentCreateDTO
                         {
                             OrderId = orderId,
-                            PaymentMethod = "card",
+                            PaymentMethod = "card" + paymentInfo.sender_card_mask2,
                             PaymentDate = DateTime.UtcNow,
                             Amount = paymentInfo.amount,
                             Status = "Success"
@@ -259,6 +249,34 @@ namespace FM_Rozetka_Api.Api.Controllers
                         {
                             Console.WriteLine($"Failed to create payment record. Order ID: {orderId}. Error: {paymentResponse.Message}");
                             return BadRequest("Failed to create payment record.");
+                        }
+
+                        var area = await _novaPoshtaService.GetByIdArea(decryptedCustomer.Region);
+                        var settlement = await _novaPoshtaService.GetByIdSettlements(decryptedCustomer.City);
+                        var warehouse = await _novaPoshtaService.GetByIdWarehouses(decryptedCustomer.PickupPoint);
+
+                        // Додавання інформації про доставку
+                        var shipment = new ShipmentCreateDTO
+                        {
+                            OrderId = orderId,
+                            ShipmentDate = DateTime.UtcNow,
+                            TrackingNumber = "None",
+                            Carrier = "Nova Poshta",
+                            Status = "Shipped",
+                            Name = decryptedCustomer.Name,
+                            SurName = decryptedCustomer.Surname,
+                            PhoneNumber = decryptedCustomer.Phone,
+                            Email = decryptedCustomer.Email,
+                            Region = area.Payload.Description,
+                            City = settlement.Payload.Description,
+                            PickupPoint = warehouse.Payload.Description
+                        };
+
+                        var shipmentResponse = await _shipmentService.AddAsync(shipment);
+                        if (!shipmentResponse.Success)
+                        {
+                            Console.WriteLine($"Failed to create shipment record. Order ID: {orderId}. Error: {shipmentResponse.Message}");
+                            return BadRequest("Failed to create shipment record.");
                         }
 
                         Console.WriteLine($"Payment recorded successfully. Order ID: {orderId}");
@@ -286,6 +304,8 @@ namespace FM_Rozetka_Api.Api.Controllers
                 return BadRequest("An error occurred while processing the payment callback.");
             }
         }
+
+
 
 
     }

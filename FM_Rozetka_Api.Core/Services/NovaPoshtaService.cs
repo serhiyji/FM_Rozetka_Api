@@ -270,6 +270,54 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse<IEnumerable<AreaDTO>, object>(false, "Failed: " + ex.Message);
             }
         }
+
+        public async Task<ServiceResponse<SettlementDTO, object>> GetByIdSettlements(int id)
+        {
+            try
+            {
+                var settlements = await _settlementRepository.GetByID(id);
+
+                var filteredSettlements = _mapper.Map<SettlementDTO>(settlements);
+
+                return new ServiceResponse<SettlementDTO, object>(true, "Success", payload: filteredSettlements);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<SettlementDTO, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
+        public async Task<ServiceResponse<WarehouseDTO, object>> GetByIdWarehouses(int id)
+        {
+            try
+            {
+                var warehouse = await _warehouseRepository.GetByID(id);
+
+                var filteredWarehouse = _mapper.Map<WarehouseDTO>(warehouse);
+
+                return new ServiceResponse<WarehouseDTO, object>(true, "Success", payload: filteredWarehouse);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<WarehouseDTO, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
+        public async Task<ServiceResponse<AreaDTO, object>> GetByIdArea(int id)
+        {
+            try
+            {
+                var area = await _areaRepository.GetByID(id);
+
+                var filteredArea = _mapper.Map<AreaDTO>(area);
+
+                return new ServiceResponse<AreaDTO, object>(true, "Success", payload: filteredArea);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<AreaDTO, object>(false, "Failed: " + ex.Message);
+            }
+        }
     }
 
 }
