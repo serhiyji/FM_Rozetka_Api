@@ -1,4 +1,5 @@
-﻿using FM_Rozetka_Api.Core.DTOs.OrderItem;
+﻿using FM_Rozetka_Api.Core.DTOs;
+using FM_Rozetka_Api.Core.DTOs.OrderItem;
 using FM_Rozetka_Api.Core.DTOs.Orders.Order;
 using FM_Rozetka_Api.Core.DTOs.Orders.OrderStatusHistory;
 using FM_Rozetka_Api.Core.DTOs.Orders.Payment;
@@ -157,7 +158,7 @@ namespace FM_Rozetka_Api.Api.Controllers
                         var cartItems = response.Payload;
                         var appUserId = cartItems.First().AppUserId;
 
-                        // Створення замовлення
+                        // Order
                         var order = new OrderCreateDTO
                         {
                             AppUserId = appUserId,
@@ -177,7 +178,7 @@ namespace FM_Rozetka_Api.Api.Controllers
                         var orderId = createdOrderResponse.Payload.Id;
                         Console.WriteLine($"Order created successfully. Order ID: {orderId}");
 
-                        // Додавання товарів до замовлення
+                        // OrderItem
                         var appProductIds = cartItems.Select(cartItem => cartItem.ProductId).ToArray();
                         var products = new List<ProductDTO>();
 
@@ -220,7 +221,7 @@ namespace FM_Rozetka_Api.Api.Controllers
                             }
                         }
 
-                        // Додавання історії статусу замовлення
+                        // OrderStatusHistory
                         var orderStatusHistory = new OrderStatusHistoryCreateDTO
                         {
                             OrderId = orderId,
@@ -234,7 +235,7 @@ namespace FM_Rozetka_Api.Api.Controllers
                             Console.WriteLine($"Failed to create order status history. Order ID: {orderId}. Error: {orderStatusHistoryResponse.Message}");
                         }
 
-                        // Додавання запису про оплату
+                        // Payment
                         var payment = new PaymentCreateDTO
                         {
                             OrderId = orderId,
@@ -305,8 +306,151 @@ namespace FM_Rozetka_Api.Api.Controllers
             }
         }
 
+        [HttpPost("create-payment-cash")]
+        public async Task<IActionResult> CreatePaymentCashAsync([FromForm] PaymentCashDTO model)
+        {
+            try
+            {
+                var response = await _cartItemService.GetByIds(model.CartItemIds.ToArray());
 
+                if (!response.Success)
+                {
+                    Console.WriteLine($"Failed to get cart items. Error: {response.Message}");
+                    return BadRequest("Failed to get cart items.");
+                }
+                var temporaryOrderId = Guid.NewGuid().ToString();
+                var cartItems = response.Payload;
+                var appUserId = cartItems.First().AppUserId;
 
+                // Order
+                var order = new OrderCreateDTO
+                {
+                    AppUserId = appUserId,
+                    OrderDate = DateTime.UtcNow,
+                    Status = "Pending",
+                    TotalAmount = model.Amount,
+                    OrderId = temporaryOrderId
+                };
 
+                var createdOrderResponse = await _orderService.AddAsync(order);
+                if (!createdOrderResponse.Success)
+                {
+                    Console.WriteLine($"Failed to create order. Error: {createdOrderResponse.Message}");
+                    return BadRequest("Failed to create order.");
+                }
+
+                var orderId = createdOrderResponse.Payload.Id;
+                Console.WriteLine($"Order created successfully. Order ID: {orderId}");
+
+                // OrderItem
+                var appProductIds = cartItems.Select(cartItem => cartItem.ProductId).ToArray();
+                var products = new List<ProductDTO>();
+
+                foreach (var productId in appProductIds)
+                {
+                    var productResponse = await _productService.GetByIdAsync(productId);
+                    if (!productResponse.Success)
+                    {
+                        Console.WriteLine($"Failed to get product. Product ID: {productId}. Error: {productResponse.Message}");
+                        continue;
+                    }
+
+                    products.Add(productResponse.Payload);
+                }
+
+                var orderItems = cartItems.Select(cartItem =>
+                {
+                    var product = products.FirstOrDefault(p => p.Id == cartItem.ProductId);
+                    if (product == null)
+                    {
+                        Console.WriteLine($"Product not found for cart item. Product ID: {cartItem.ProductId}");
+                        return null;
+                    }
+
+                    return new OrderItemCreateDTO
+                    {
+                        OrderId = orderId,
+                        ProductId = cartItem.ProductId,
+                        Quantity = cartItem.Quantity,
+                        Price = product.Price
+                    };
+                }).Where(oi => oi != null).ToList();
+
+                foreach (var orderItem in orderItems)
+                {
+                    var orderItemResponse = await _orderItemService.AddAsync(orderItem);
+                    if (!orderItemResponse.Success)
+                    {
+                        Console.WriteLine($"Failed to add order item. Order ID: {orderId}. Product ID: {orderItem.ProductId}. Error: {orderItemResponse.Message}");
+                    }
+                }
+
+                // OrderStatusHistory
+                var orderStatusHistory = new OrderStatusHistoryCreateDTO
+                {
+                    OrderId = orderId,
+                    Status = "Pending",
+                    ChangedAt = DateTime.UtcNow
+                };
+
+                var orderStatusHistoryResponse = await _orderStatusHistoryService.AddAsync(orderStatusHistory);
+                if (!orderStatusHistoryResponse.Success)
+                {
+                    Console.WriteLine($"Failed to create order status history. Order ID: {orderId}. Error: {orderStatusHistoryResponse.Message}");
+                }
+
+                // Payment
+                var payment = new PaymentCreateDTO
+                {
+                    OrderId = orderId,
+                    PaymentMethod = "cash",
+                    PaymentDate = DateTime.UtcNow,
+                    Amount = model.Amount,
+                    Status = "Pending"
+                };
+
+                var paymentResponse = await _paymentService.AddAsync(payment);
+                if (!paymentResponse.Success)
+                {
+                    Console.WriteLine($"Failed to create payment record. Order ID: {orderId}. Error: {paymentResponse.Message}");
+                    return BadRequest("Failed to create payment record.");
+                }
+
+                // Shipment
+                var shipment = new ShipmentCreateDTO
+                {
+                    OrderId = orderId,
+                    ShipmentDate = DateTime.UtcNow,
+                    TrackingNumber = "None",
+                    Carrier = "Nova Poshta",
+                    Status = "Shipped",
+                    Name = model.Name,
+                    SurName = model.Surname,
+                    PhoneNumber = model.Phone,
+                    Email = model.Email,
+                    Region = model.Area,
+                    City = model.Settlement,
+                    PickupPoint = model.DeliveryBranch
+                };
+
+                var shipmentResponse = await _shipmentService.AddAsync(shipment);
+                if (!shipmentResponse.Success)
+                {
+                    Console.WriteLine($"Failed to create shipment record. Order ID: {orderId}. Error: {shipmentResponse.Message}");
+                    return BadRequest("Failed to create shipment record.");
+                }
+
+                Console.WriteLine($"Payment recorded successfully. Order ID: {orderId}");
+
+                return Ok(new { message = "Payment created successfully" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = "An error occurred while creating the payment", error = ex.Message });
+            }
+        }
     }
+
+
+
 }
