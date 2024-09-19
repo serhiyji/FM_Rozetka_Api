@@ -10,8 +10,10 @@ using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Services;
 using MailKit.Search;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Rozetka_Api.Core.Entities;
 using System.Text;
 
 namespace FM_Rozetka_Api.Api.Controllers
@@ -157,6 +159,59 @@ namespace FM_Rozetka_Api.Api.Controllers
 
                         var cartItems = response.Payload;
                         var appUserId = cartItems.First().AppUserId;
+                        var appProductIds = cartItems.Select(cartItem => cartItem.ProductId).ToArray();
+                        var products = new List<ProductDTO>();
+
+                        foreach (var productId in appProductIds)
+                        {
+                            var productResponse = await _productService.GetByIdAsync(productId);
+                            if (!productResponse.Success)
+                            {
+                                Console.WriteLine($"Failed to get product. Product ID: {productId}. Error: {productResponse.Message}");
+                                continue;
+                            }
+
+                            products.Add(productResponse.Payload);
+                        }
+
+                        //UpdateProduct
+                        foreach (var cartItem in cartItems)
+                        {
+                            var product = products.FirstOrDefault(p => p.Id == cartItem.ProductId);
+
+                            if (product != null)
+                            {
+                                var updatedStock = product.Stock - cartItem.Quantity;
+                                if (updatedStock < 0)
+                                {
+                                    Console.WriteLine($"Insufficient stock for product ID: {product.Id}. Available: {product.Stock}, Requested: {cartItem.Quantity}");
+                                    return BadRequest($"Insufficient stock for product: {product.Name}");
+                                }
+
+                                var productUpdateDTO = new ProductUpdateDTO
+                                {
+                                    Id = product.Id,
+                                    Name = product.Name,
+                                    Description = product.Description,
+                                    Price = product.Price,
+                                    Stars = product.Stars,
+                                    Stock = updatedStock,
+                                    BrandId = product.BrandId,
+                                    CreatedAt = product.CreatedAt,
+                                    ShopId = product.ShopId,
+                                    HasDiscount = product.HasDiscount,
+                                    CategoryProductId = product.CategoryProductId,
+                                    CountryProductionId = product.CountryProductionId,
+                                };
+
+                                var updateResponse = await _productService.UpdateAsync(productUpdateDTO);
+                                if (!updateResponse.Success)
+                                {
+                                    Console.WriteLine($"Failed to update stock for product ID: {product.Id}. Error: {updateResponse.Message}");
+                                    return BadRequest($"Failed to update stock for product: {product.Name}");
+                                }
+                            }
+                        }
 
                         // Order
                         var order = new OrderCreateDTO
@@ -179,20 +234,7 @@ namespace FM_Rozetka_Api.Api.Controllers
                         Console.WriteLine($"Order created successfully. Order ID: {orderId}");
 
                         // OrderItem
-                        var appProductIds = cartItems.Select(cartItem => cartItem.ProductId).ToArray();
-                        var products = new List<ProductDTO>();
-
-                        foreach (var productId in appProductIds)
-                        {
-                            var productResponse = await _productService.GetByIdAsync(productId);
-                            if (!productResponse.Success)
-                            {
-                                Console.WriteLine($"Failed to get product. Product ID: {productId}. Error: {productResponse.Message}");
-                                continue;
-                            }
-
-                            products.Add(productResponse.Payload);
-                        }
+                       
 
                         var orderItems = cartItems.Select(cartItem =>
                         {
@@ -280,6 +322,24 @@ namespace FM_Rozetka_Api.Api.Controllers
                             return BadRequest("Failed to create shipment record.");
                         }
 
+                        // Delete cart items
+                        foreach (var item in cartItems)
+                        {
+                            try
+                            {
+                                var deleteResponse = await _cartItemService.Delete(item.Id);
+                                if (!deleteResponse.Success)
+                                {
+                                    Console.WriteLine($"Failed to delete cart item. CartItem ID: {item.Id}. Error: {deleteResponse.Message}");
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Error deleting cart item with ID: {item.Id}. Exception: {ex.Message}");
+                                return BadRequest($"Error deleting cart item with ID: {item.Id}");
+                            }
+                        }
+
                         Console.WriteLine($"Payment recorded successfully. Order ID: {orderId}");
                     }
                     catch (Exception ex)
@@ -321,6 +381,59 @@ namespace FM_Rozetka_Api.Api.Controllers
                 var temporaryOrderId = Guid.NewGuid().ToString();
                 var cartItems = response.Payload;
                 var appUserId = cartItems.First().AppUserId;
+                var appProductIds = cartItems.Select(cartItem => cartItem.ProductId).ToArray();
+                var products = new List<ProductDTO>();
+
+                foreach (var productId in appProductIds)
+                {
+                    var productResponse = await _productService.GetByIdAsync(productId);
+                    if (!productResponse.Success)
+                    {
+                        Console.WriteLine($"Failed to get product. Product ID: {productId}. Error: {productResponse.Message}");
+                        continue;
+                    }
+
+                    products.Add(productResponse.Payload);
+                }
+
+                //UpdateProduct
+                foreach (var cartItem in cartItems)
+                {
+                    var product = products.FirstOrDefault(p => p.Id == cartItem.ProductId);
+
+                    if (product != null)
+                    {
+                        var updatedStock = product.Stock - cartItem.Quantity;
+                        if (updatedStock < 0)
+                        {
+                            Console.WriteLine($"Insufficient stock for product ID: {product.Id}. Available: {product.Stock}, Requested: {cartItem.Quantity}");
+                            return BadRequest($"Insufficient stock for product: {product.Name}");
+                        }
+
+                        var productUpdateDTO = new ProductUpdateDTO
+                        {
+                            Id = product.Id,
+                            Name = product.Name,
+                            Description = product.Description,
+                            Price = product.Price,
+                            Stars = product.Stars,
+                            Stock = updatedStock,
+                            BrandId = product.BrandId,
+                            CreatedAt = product.CreatedAt,
+                            ShopId = product.ShopId,
+                            HasDiscount = product.HasDiscount,
+                            CategoryProductId = product.CategoryProductId,
+                            CountryProductionId = product.CountryProductionId,
+                        };
+
+                        var updateResponse = await _productService.UpdateAsync(productUpdateDTO);
+                        if (!updateResponse.Success)
+                        {
+                            Console.WriteLine($"Failed to update stock for product ID: {product.Id}. Error: {updateResponse.Message}");
+                            return BadRequest($"Failed to update stock for product: {product.Name}");
+                        }
+                    }
+                }
 
                 // Order
                 var order = new OrderCreateDTO
@@ -343,21 +456,6 @@ namespace FM_Rozetka_Api.Api.Controllers
                 Console.WriteLine($"Order created successfully. Order ID: {orderId}");
 
                 // OrderItem
-                var appProductIds = cartItems.Select(cartItem => cartItem.ProductId).ToArray();
-                var products = new List<ProductDTO>();
-
-                foreach (var productId in appProductIds)
-                {
-                    var productResponse = await _productService.GetByIdAsync(productId);
-                    if (!productResponse.Success)
-                    {
-                        Console.WriteLine($"Failed to get product. Product ID: {productId}. Error: {productResponse.Message}");
-                        continue;
-                    }
-
-                    products.Add(productResponse.Payload);
-                }
-
                 var orderItems = cartItems.Select(cartItem =>
                 {
                     var product = products.FirstOrDefault(p => p.Id == cartItem.ProductId);
@@ -440,13 +538,31 @@ namespace FM_Rozetka_Api.Api.Controllers
                     return BadRequest("Failed to create shipment record.");
                 }
 
+                // Delete cart items
+                foreach (var item in cartItems)
+                {
+                    try
+                    {
+                        var deleteResponse = await _cartItemService.Delete(item.Id);
+                        if (!deleteResponse.Success)
+                        {
+                            Console.WriteLine($"Failed to delete cart item. CartItem ID: {item.Id}. Error: {deleteResponse.Message}");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error deleting cart item with ID: {item.Id}. Exception: {ex.Message}");
+                        return BadRequest($"Error deleting cart item with ID: {item.Id}");
+                    }
+                }
+
                 Console.WriteLine($"Payment recorded successfully. Order ID: {orderId}");
 
-                return Ok(new { message = "Payment created successfully" });
+                return Ok(new { message = "Payment created successfully", payload = $"http://techno.itstep.click/payment-result?order_id={temporaryOrderId}", success = true });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = "An error occurred while creating the payment", error = ex.Message });
+                return BadRequest(new { message = "An error occurred while creating the payment", error = ex.Message, success = false });
             }
         }
     }
