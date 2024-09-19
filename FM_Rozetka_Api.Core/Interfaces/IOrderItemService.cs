@@ -12,6 +12,7 @@ namespace FM_Rozetka_Api.Core.Interfaces
     public interface IOrderItemService
     {
         Task<ServiceResponse<IEnumerable<OrderItemDTO>, object>> GetAllAsync();
+        Task<ServiceResponse<IEnumerable<OrderItemDTO>, object>> GetAllOrderId(int id);
         Task<ServiceResponse<OrderItemDTO, object>> GetByIdAsync(int id);
         Task<ServiceResponse<OrderItem, object>> AddAsync(OrderItemCreateDTO model);
         Task<ServiceResponse<OrderItem, object>> UpdateAsync(OrderItemUpdateDTO model);

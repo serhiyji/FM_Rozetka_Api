@@ -3,6 +3,7 @@ using FM_Rozetka_Api.Core.DTOs.OrderItem;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
+using FM_Rozetka_Api.Core.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,6 +79,20 @@ namespace FM_Rozetka_Api.Core.Services
             }
         }
 
+        public async Task<ServiceResponse<IEnumerable<OrderItemDTO>, object>> GetAllOrderId(int id)
+        {
+            try
+            {
+                var orderItems = await _orderItemRepository.GetListBySpec(new OrderItemSpecification.GetByOrderId(id));
+                return new ServiceResponse<IEnumerable<OrderItemDTO>, object>(true, "Success", payload: _mapper.Map<IEnumerable<OrderItemDTO>>(orderItems));
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<IEnumerable<OrderItemDTO>, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
+
         public async Task<ServiceResponse<OrderItemDTO, object>> GetByIdAsync(int id)
         {
             try
@@ -108,6 +123,7 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse<IEnumerable<OrderItemDTO>, object>(false, "Failed: " + ex.Message);
             }
         }
+
     }
 
 }
