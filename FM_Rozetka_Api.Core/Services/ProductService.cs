@@ -254,6 +254,16 @@ namespace FM_Rozetka_Api.Core.Services
                 pageNumber: page, pageSize: pageSize, totalCount: query.Count());
         }
 
+        public async Task<ServiceResponse> GetNewOnes(int count)
+        {
+            return new ServiceResponse(true, "", await _productRepository.GetListBySpec(new ProductSpecification.GetByCreationDate(count)));
+        }
+
+        public async Task<ServiceResponse> GetPopular(int count)
+        {
+            return new ServiceResponse(true, "", await _productRepository.GetListBySpec(new ProductSpecification.GetByShowings(count)));
+        }
+
         public async Task<PaginationResponse<List<ProductDTO>, object>> GetPagedFavoritesProductsAsync(List<int> favoritesId, int pageNumber = 1, int pageSize = 10)
         {
             try

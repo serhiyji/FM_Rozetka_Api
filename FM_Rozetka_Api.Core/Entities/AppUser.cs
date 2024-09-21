@@ -21,5 +21,6 @@ namespace FM_Rozetka_Api.Core.Entities
         public List<ProductQuestion> ProductQuestions { get; set; }
         public List<Review> Reviews { get; set; }
         public List<Shop> Shops { get; set; }
+        public List<ViewedProduct> ViewedProducts { get; set; }
     }
 }
