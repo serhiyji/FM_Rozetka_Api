@@ -12,16 +12,13 @@ namespace FM_Rozetka_Api.Api.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
-        private readonly IFavoriteService _favoriteService;
         private readonly IReviewService _reviewService;
         public ProductController(
                 IProductService productService,
-                IFavoriteService favoriteService,
                 IReviewService reviewService
             )
         {
             this._productService = productService;
-            this._favoriteService = favoriteService;
             this._reviewService = reviewService;
         }
 
@@ -102,33 +99,23 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(response.Message);
         }
 
-        #region Favorite
-
-        [HttpPost("addproducttofavorites")]
-        public async Task<IActionResult> AddProductToFavorites([FromBody]FavoriteCreateDTO favoriteCreateDTO)
-        {
-            return Ok(await _favoriteService.AddAsync(favoriteCreateDTO));
-        }
-
-        [HttpPost("deleteproductfromfavorites")]
-        public async Task<IActionResult> DeleteProductFromFavorites([FromBody]int id)
-        {
-            return Ok(await _favoriteService.DeleteAsync(id));
-        }
-
-        [HttpGet("getallfavorites")]
-        public async Task<IActionResult> GetAllFavorites([FromQuery]string appUserId)
-        {
-            return Ok(await _favoriteService.GetAllAsync(appUserId));
-        }
-
-        #endregion
-
-        [HttpGet("filter")]
-        public async Task<IActionResult> GetFilteredProducts([FromBody]ModelForFilterProduct model)
+        [HttpPost("filter")]
+        public async Task<IActionResult> GetFilteredProducts([FromBody] ModelForFilterProduct model)
         {
             var products = await _productService.FilterProductsBySpecifications(model.Filters, model.Page, model.PageSize);
             return Ok(products);
         }
+
+        [HttpPost("favorite")]
+        public async Task<IActionResult> GetFavoriteProducts([FromBody] FavoritesRequest request)
+        {
+            var response = await _productService.GetPagedFavoritesProductsAsync(request.IdFavorites, request.PageNumber, request.PageSize);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response.Message);
+        }
+
     }
 }

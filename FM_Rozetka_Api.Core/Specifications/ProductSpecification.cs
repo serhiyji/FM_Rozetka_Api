@@ -38,5 +38,15 @@ namespace FM_Rozetka_Api.Core.Specifications
                 Query.Where(item => item.BrandId == brandId);
             }
         }
+
+        public class GetByFavoritesIds : Specification<Product>
+        {
+            public GetByFavoritesIds(List<int> favoritesIds, int pageNumber, int pageSize)
+            {
+                Query.Where(p => favoritesIds.Contains(p.Id))
+                     .Skip((pageNumber - 1) * pageSize)
+                     .Take(pageSize); 
+            }
+        }
     }
 }
