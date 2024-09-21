@@ -28,6 +28,29 @@ namespace FM_Rozetka_Api.Core.Validation.Shipment
 
             RuleFor(x => x.Status)
                 .NotEmpty().WithMessage("Status is required.");
+
+            RuleFor(x => x.Name)
+                .NotEmpty().WithMessage("Name is required.");
+
+            RuleFor(x => x.SurName)
+                .NotEmpty().WithMessage("SurName is required.");
+
+            RuleFor(x => x.PhoneNumber)
+                .NotEmpty().WithMessage("PhoneNumber is required.")
+                .Matches(@"^\+?[1-9]\d{1,14}$").WithMessage("Invalid phone number format.");
+
+            RuleFor(x => x.Email)
+                .NotEmpty().WithMessage("Email is required.")
+                .EmailAddress().WithMessage("Invalid email format.");
+
+            RuleFor(x => x.Region)
+                .NotEmpty().WithMessage("Region is required.");
+
+            RuleFor(x => x.City)
+                .NotEmpty().WithMessage("City is required.");
+
+            RuleFor(x => x.PickupPoint)
+                .NotEmpty().WithMessage("PickupPoint is required.");
         }
     }
 }

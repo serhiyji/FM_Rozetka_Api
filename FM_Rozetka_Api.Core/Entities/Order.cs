@@ -11,6 +11,7 @@ namespace FM_Rozetka_Api.Core.Entities
         public DateTime OrderDate { get; set; }
         public string Status { get; set; }
         public decimal TotalAmount { get; set; }
+        public string OrderId { get; set; }
 
         public List<OrderItem> OrderItems { get; set; }
         public List<Payment> Payments { get; set; }

@@ -159,7 +159,7 @@ namespace FM_Rozetka_Api.Core.Services
             var encodedToken = Encoding.UTF8.GetBytes(token);
             var validEmailToken = WebEncoders.Base64UrlEncode(encodedToken);
 
-            string url = $"http://localhost:5173/ConfirmEmail?userId={user.Id}&token={validEmailToken}";
+            string url = $"{_configuration["HostSettings:URL"]}/Login/confirmemail?userid={user.Id}&token={validEmailToken}";
             //string url = $"{_config["HostSetting:URL"]}/Dashboard/ConfirmEmail?userId={user.Id}&token={validEmailToken}";
             string emailBody = $"" +
                 $"<h1>Confirm your email please.</h1><a href='{url}'>Confirm now</a>";
@@ -206,12 +206,14 @@ namespace FM_Rozetka_Api.Core.Services
                     };
 
                     var result = await _userManager.CreateAsync(user);
+                    await SendConfirmationEmailAsync(user);
                     if (!result.Succeeded)
                     {
                         return new ServiceResponse(false, "Failed to create user with Google account.");
                     }
 
                     await _userManager.AddToRoleAsync(user, "User");
+
                 }
 
                 // Генеруємо JWT токени

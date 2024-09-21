@@ -39,6 +39,7 @@ namespace FM_Rozetka_Api.Core.Specifications
             }
         }
 
+
         public class GetByCreationDate : Specification<Product>
         {
             public GetByCreationDate(int count)
@@ -52,6 +53,17 @@ namespace FM_Rozetka_Api.Core.Specifications
             public GetByShowings(int count)
             {
                 Query.OrderBy(item => item.Showings).Take(count);
+            }
+        }
+
+        public class GetByFavoritesIds : Specification<Product>
+        {
+            public GetByFavoritesIds(List<int> favoritesIds, int pageNumber, int pageSize)
+            {
+                Query.Where(p => favoritesIds.Contains(p.Id))
+                     .Skip((pageNumber - 1) * pageSize)
+                     .Take(pageSize); 
+
             }
         }
     }

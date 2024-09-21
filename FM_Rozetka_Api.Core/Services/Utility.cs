@@ -1,4 +1,5 @@
 ﻿using System.Security.Cryptography;
+using System.Text;
 
 namespace FM_Rozetka_Api.Core.Services
 {
@@ -10,13 +11,11 @@ namespace FM_Rozetka_Api.Core.Services
             const string digits = "0123456789";
             const string specialChars = "!@#$%^&*()?_-";
 
-            // Перевіряємо, чи довжина пароля достатня для включення всіх типів символів
             if (length < 6)
             {
                 throw new ArgumentException("Password length must be at least 6 characters.");
             }
 
-            // Генеруємо випадкові символи для кожного типу
             var random = new RNGCryptoServiceProvider();
             var password = new char[length];
             var randomBytes = new byte[length];
@@ -27,17 +26,67 @@ namespace FM_Rozetka_Api.Core.Services
             password[2] = specialChars[randomBytes[2] % specialChars.Length]; // Спеціальний символ
             password[3] = letters[randomBytes[3] % letters.Length]; // Літера
 
-            // Заповнюємо решту пароля випадковими символами з усіх наборів
             for (int i = 4; i < length; i++)
             {
                 var allChars = letters + digits + specialChars;
                 password[i] = allChars[randomBytes[i] % allChars.Length];
             }
 
-            // Перемішуємо символи в паролі
             return new string(password.OrderBy(x => randomBytes[Array.IndexOf(password, x)]).ToArray());
         }
 
-    }
+        public static string Encrypt(string plainText, string encryptionKey)
+        {
+            var key = Convert.FromBase64String(encryptionKey);
+            using (var aes = Aes.Create())
+            {
+                aes.Key = key;
+                aes.GenerateIV(); 
 
+                var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+                using (var ms = new MemoryStream())
+                {
+                    ms.Write(aes.IV, 0, aes.IV.Length);
+
+                    using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (var sw = new StreamWriter(cs))
+                        {
+                            sw.Write(plainText);
+                        }
+                    }
+
+                    return Convert.ToBase64String(ms.ToArray());
+                }
+            }
+        }
+
+        public static string Decrypt(string cipherText, string encryptionKey)
+        {
+            var key = Convert.FromBase64String(encryptionKey);
+            var fullCipher = Convert.FromBase64String(cipherText);
+
+            using (var aes = Aes.Create())
+            {
+                aes.Key = key;
+
+                var iv = new byte[16];
+                Array.Copy(fullCipher, 0, iv, 0, iv.Length);
+                aes.IV = iv;
+
+                var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+                using (var ms = new MemoryStream(fullCipher, iv.Length, fullCipher.Length - iv.Length))
+                {
+                    using (var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
+                    {
+                        using (var sr = new StreamReader(cs))
+                        {
+                            return sr.ReadToEnd();
+                        }
+                    }
+                }
+            }
+        }
+
+    }
 }

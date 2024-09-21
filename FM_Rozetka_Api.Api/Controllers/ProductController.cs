@@ -12,7 +12,6 @@ namespace FM_Rozetka_Api.Api.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
-        private readonly IFavoriteService _favoriteService;
         private readonly IReviewService _reviewService;
         private readonly IViewedProductService _viewedProductService;
         public ProductController(
@@ -23,7 +22,6 @@ namespace FM_Rozetka_Api.Api.Controllers
             )
         {
             this._productService = productService;
-            this._favoriteService = favoriteService;
             this._reviewService = reviewService;
             this._viewedProductService = viewedProductService;
         }
@@ -105,24 +103,22 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(response.Message);
         }
 
-        #region Favorite
-
-        [HttpPost("addproducttofavorites")]
-        public async Task<IActionResult> AddProductToFavorites([FromBody]FavoriteCreateDTO favoriteCreateDTO)
+        [HttpPost("filter")]
+        public async Task<IActionResult> GetFilteredProducts([FromBody] ModelForFilterProduct model)
         {
-            return Ok(await _favoriteService.AddAsync(favoriteCreateDTO));
+            var products = await _productService.FilterProductsBySpecifications(model.Filters, model.Page, model.PageSize);
+            return Ok(products);
         }
 
-        [HttpPost("deleteproductfromfavorites")]
-        public async Task<IActionResult> DeleteProductFromFavorites([FromBody]int id)
+        [HttpPost("favorite")]
+        public async Task<IActionResult> GetFavoriteProducts([FromBody] FavoritesRequest request)
         {
-            return Ok(await _favoriteService.DeleteAsync(id));
-        }
-
-        [HttpGet("getallfavorites")]
-        public async Task<IActionResult> GetAllFavorites([FromQuery]string appUserId)
-        {
-            return Ok(await _favoriteService.GetAllAsync(appUserId));
+            var response = await _productService.GetPagedFavoritesProductsAsync(request.IdFavorites, request.PageNumber, request.PageSize);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response.Message);
         }
 
         #endregion
@@ -178,5 +174,6 @@ namespace FM_Rozetka_Api.Api.Controllers
         {
             return Ok(await _productService.GetPopular(count));
         }
+
     }
 }

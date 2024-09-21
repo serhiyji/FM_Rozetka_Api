@@ -5,6 +5,7 @@ using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
 using FM_Rozetka_Api.Core.Specifications;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace FM_Rozetka_Api.Core.Services
@@ -262,5 +263,26 @@ namespace FM_Rozetka_Api.Core.Services
         {
             return new ServiceResponse(true, "", await _productRepository.GetListBySpec(new ProductSpecification.GetByShowings(count)));
         }
+
+        public async Task<PaginationResponse<List<ProductDTO>, object>> GetPagedFavoritesProductsAsync(List<int> favoritesId, int pageNumber = 1, int pageSize = 10)
+        {
+            try
+            {
+                var specification = new ProductSpecification.GetByFavoritesIds(favoritesId, pageNumber, pageSize);
+
+                var products = await _productRepository.GetListBySpec(specification);
+
+                var totalCount = await _productRepository.GetCountBySpec(new ProductSpecification.GetByFavoritesIds(favoritesId, 1, int.MaxValue));
+
+                var productDTOs = _mapper.Map<List<ProductDTO>>(products);
+
+                return new PaginationResponse<List<ProductDTO>, object>(true, "", payload: productDTOs, pageNumber: pageNumber, pageSize: pageSize, totalCount: totalCount);
+            }
+            catch (Exception ex)
+            {
+                return new PaginationResponse<List<ProductDTO>, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
     }
 }

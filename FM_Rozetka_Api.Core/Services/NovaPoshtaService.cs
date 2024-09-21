@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FM_Rozetka_Api.Core.DTOs.Discount;
 using FM_Rozetka_Api.Core.DTOs.NovaPost;
 using FM_Rozetka_Api.Core.Entities.NovaPost;
 using FM_Rozetka_Api.Core.Interfaces;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace FM_Rozetka_Api.Core.Services
 {
-    public class NovaPoshtaService : INovaPoshtaService
+    internal class NovaPoshtaService : INovaPoshtaService
     {
         private readonly IConfiguration _configuration;
         private readonly HttpClient _httpClient;
@@ -151,7 +152,6 @@ namespace FM_Rozetka_Api.Core.Services
             }
         }
 
-
         public async Task<ServiceResponse> GetWarehouses()
         {
             string key = _configuration.GetValue<string>("NovaposhtaKey");
@@ -188,10 +188,13 @@ namespace FM_Rozetka_Api.Core.Services
                                 var entity = await _warehouseRepository.GetItemBySpec(spec);
                                 if (entity == null)
                                 {
-                                    var settlement = await _settlementRepository.GetItemBySpec(new SettlementSpecification.SettlementSingleOrDefault(item.Ref));
-                                    entity = _mapper.Map<Warehouse>(item);
-                                    entity.SettlementId = settlement.Id;
-                                    await _warehouseRepository.Insert(entity);
+                                    var settlement = await _settlementRepository.GetItemBySpec(new SettlementSpecification.SettlementSingleOrDefault(item.SettlementRef));
+                                    if (settlement != null)
+                                    {
+                                        entity = _mapper.Map<Warehouse>(item);
+                                        entity.SettlementId = settlement.Id;
+                                        await _warehouseRepository.Insert(entity);
+                                    }
                                 }
                             }
                             await _warehouseRepository.Save();
@@ -211,6 +214,108 @@ namespace FM_Rozetka_Api.Core.Services
             catch (Exception ex)
             {
                 return new ServiceResponse { Success = false, Message = $"Problem: {ex.Message}" };
+            }
+        }
+
+        public async Task<ServiceResponse<List<SettlementDTO>, object>> SearchSettlements(string areaRef, string description)
+        {
+            try
+            {
+                var spec = new SettlementSpecification.SettlementByDescriptionAndArea(areaRef, description);
+                var settlements = await _settlementRepository.GetListBySpec(spec);
+
+                var filteredSettlements = _mapper.Map<List<SettlementDTO>>(settlements);
+
+                return new ServiceResponse<List<SettlementDTO>, object>(true, "Success", payload: filteredSettlements);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<List<SettlementDTO>, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
+        public async Task<ServiceResponse<List<WarehouseDTO>, object>> SearchWarehouses(string settlementRef, string description)
+        {
+            try
+            {
+                try
+                {
+                    var spec = new WarehouseSpecification.WarehouseBySettlementAndDescription(settlementRef, description);
+                    var warehouses = await _warehouseRepository.GetListBySpec(spec);
+
+                    var filteredWarehouses = _mapper.Map<List<WarehouseDTO>>(warehouses);
+
+                    return new ServiceResponse<List<WarehouseDTO>, object>(true, "Success", payload: filteredWarehouses);
+                }
+                catch (Exception ex)
+                {
+                    return new ServiceResponse<List<WarehouseDTO>, object>(false, "Failed: " + ex.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<List<WarehouseDTO>, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
+        public async Task<ServiceResponse<IEnumerable<AreaDTO>, object>> GetAllAsync()
+        {
+            try
+            {
+                var discounts = await _areaRepository.GetAll();
+                return new ServiceResponse<IEnumerable<AreaDTO>, object>(true, "Success", payload: _mapper.Map<IEnumerable<AreaDTO>>(discounts));
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<IEnumerable<AreaDTO>, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
+        public async Task<ServiceResponse<SettlementDTO, object>> GetByIdSettlements(int id)
+        {
+            try
+            {
+                var settlements = await _settlementRepository.GetByID(id);
+
+                var filteredSettlements = _mapper.Map<SettlementDTO>(settlements);
+
+                return new ServiceResponse<SettlementDTO, object>(true, "Success", payload: filteredSettlements);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<SettlementDTO, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
+        public async Task<ServiceResponse<WarehouseDTO, object>> GetByIdWarehouses(int id)
+        {
+            try
+            {
+                var warehouse = await _warehouseRepository.GetByID(id);
+
+                var filteredWarehouse = _mapper.Map<WarehouseDTO>(warehouse);
+
+                return new ServiceResponse<WarehouseDTO, object>(true, "Success", payload: filteredWarehouse);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<WarehouseDTO, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
+        public async Task<ServiceResponse<AreaDTO, object>> GetByIdArea(int id)
+        {
+            try
+            {
+                var area = await _areaRepository.GetByID(id);
+
+                var filteredArea = _mapper.Map<AreaDTO>(area);
+
+                return new ServiceResponse<AreaDTO, object>(true, "Success", payload: filteredArea);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<AreaDTO, object>(false, "Failed: " + ex.Message);
             }
         }
     }

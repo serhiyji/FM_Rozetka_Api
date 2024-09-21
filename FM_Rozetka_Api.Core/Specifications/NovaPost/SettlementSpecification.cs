@@ -1,5 +1,6 @@
 ﻿using Ardalis.Specification;
 using FM_Rozetka_Api.Core.Entities.NovaPost;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,14 @@ namespace FM_Rozetka_Api.Core.Specifications.NovaPost
             public SettlementSingleOrDefault(string settlementRef)
             {
                 Query.Where(x => x.Ref == settlementRef);
+            }
+        }
+
+        public class SettlementByDescriptionAndArea : Specification<Settlement>
+        {
+            public SettlementByDescriptionAndArea(string areaRef, string description)
+            {
+                Query.Where(x => x.Area.Ref == areaRef && EF.Functions.Like(x.Description, $"%{description}%"));
             }
         }
     }

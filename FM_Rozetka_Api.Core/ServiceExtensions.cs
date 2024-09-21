@@ -44,11 +44,13 @@ namespace FM_Rozetka_Api.Core
             services.AddScoped<IDiscountService, DiscountService>();
             services.AddScoped<IProductQuestionService, ProductQuestionService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IOrderItemService, OrderItemService>();
             services.AddScoped<IOrderStatusHistoryService, OrderStatusHistoryService>();
             services.AddScoped<IShipmentService, ShipmentService>();
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<INovaPoshtaService, NovaPoshtaService>();
             services.AddScoped<IViewedProductService, ViewedProductService>();
+            services.AddTransient<LiqPayService>();
         }
 
         public static void AddValidator(this IServiceCollection service)

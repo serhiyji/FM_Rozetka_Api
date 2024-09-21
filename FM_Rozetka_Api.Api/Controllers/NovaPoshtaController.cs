@@ -47,5 +47,38 @@ namespace FM_Rozetka_Api.Api.Controllers
             }
             return BadRequest(response);
         }
+
+        [HttpGet("settlements/search")]
+        public async Task<IActionResult> SearchSettlements([FromQuery] string areaRef, [FromQuery] string description = null)
+        {
+            var response = await _novaPoshtaService.SearchSettlements(areaRef, description);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+        [HttpGet("warehouses/search")]
+        public async Task<IActionResult> SearchWarehouses([FromQuery] string settlementRef, [FromQuery] string description = null)
+        {
+            var response = await _novaPoshtaService.SearchWarehouses(settlementRef, description);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+        [HttpGet("areas/all")]
+        public async Task<IActionResult> GetAllAreas()
+        {
+            var response = await _novaPoshtaService.GetAllAsync();
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
     }
 }
