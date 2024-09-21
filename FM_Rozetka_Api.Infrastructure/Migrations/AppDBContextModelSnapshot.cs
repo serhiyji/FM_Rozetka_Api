@@ -9574,6 +9574,9 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.Property<int>("ShopId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("Showings")
+                        .HasColumnType("integer");
+
                     b.Property<decimal>("Stars")
                         .HasColumnType("numeric");
 
@@ -9599,15 +9602,14 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                             BrandId = 1,
                             CategoryProductId = 1,
                             CountryProductionId = 1,
-
-                            CreatedAt = new DateTime(2024, 9, 4, 12, 23, 20, 22, DateTimeKind.Utc).AddTicks(6720),
-
+                            CreatedAt = new DateTime(2024, 9, 21, 19, 11, 2, 426, DateTimeKind.Utc).AddTicks(8498),
                             Description = "Test",
                             HasDiscount = false,
                             ImageURL = "noimage.webp",
                             Name = "Test",
                             Price = 1m,
                             ShopId = 1,
+                            Showings = 0,
                             Stars = 0m,
                             Stock = 1
                         });
@@ -9897,9 +9899,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-
-                            AppUserId = "38b7d4a0-8dd3-4289-ba6a-ce8a9326e7ed",
-
+                            AppUserId = "1e0cd2b2-3176-460b-aa14-fe94afa4e044",
                             CompanyId = 1,
                             Email = "TEST",
                             FullName = "TEST",
@@ -9968,6 +9968,36 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.ToTable("TelegramUsers");
                 });
 
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.ViewedProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ViewedProduct");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -9996,33 +10026,25 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-
-                            Id = "d2568e67-6fc1-4a2d-ab0b-045eb7280fe2",
-
+                            Id = "582bfb1b-d11a-4a55-ae64-47d559e78d50",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-
-                            Id = "245ea3bb-544a-4998-84f0-ef54eef2da9a",
-
+                            Id = "e0974dda-5ee8-4258-94c7-e64744d04559",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-
-                            Id = "a7eb6e87-2bc7-403f-b48b-7c2649dc32df",
-
+                            Id = "f123178a-b895-4c21-a990-ace76c25fc22",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         },
                         new
                         {
-
-                            Id = "041c9534-a7a9-43a5-96f8-be40b23e95e6",
-
+                            Id = "d1651b21-ec57-44e4-9ba9-ded898ff5599",
                             Name = "ModeratorSeller",
                             NormalizedName = "MODERATORSELLER"
                         });
@@ -10190,15 +10212,13 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-
-                            UserId = "4a4e4f2c-037d-4a68-afbf-c6c08e0a1a2b",
-                            RoleId = "d2568e67-6fc1-4a2d-ab0b-045eb7280fe2"
+                            UserId = "e133a5be-8700-4f2e-bc0b-46895d106a64",
+                            RoleId = "582bfb1b-d11a-4a55-ae64-47d559e78d50"
                         },
                         new
                         {
-                            UserId = "38b7d4a0-8dd3-4289-ba6a-ce8a9326e7ed",
-                            RoleId = "a7eb6e87-2bc7-403f-b48b-7c2649dc32df"
-
+                            UserId = "1e0cd2b2-3176-460b-aa14-fe94afa4e044",
+                            RoleId = "f123178a-b895-4c21-a990-ace76c25fc22"
                         });
                 });
 
@@ -10611,22 +10631,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-
-                            Id = "4a4e4f2c-037d-4a68-afbf-c6c08e0a1a2b",
+                            Id = "e133a5be-8700-4f2e-bc0b-46895d106a64",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e6b8485b-9ed8-484a-84f8-0e136c3cd6ea",
-
+                            ConcurrencyStamp = "d6d11b44-8438-4910-baa0-d03d06c8b754",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN@EMAIL.COM",
-
-                            PasswordHash = "AQAAAAIAAYagAAAAEOV0Yqqd9Kx64m5YMl9c2jwfnZFBJSiKpxG+No8aZx57POYE2EOwXfisjsRkPiu1+w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEA7wccb85YZ4jirBjFlKQ2ObpIdZLYN2tzGSTcc42bXba1Dp7EOl2iNWQ1peRwujHw==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "99aef86d-8144-4fa3-87e4-d5f2b5df2447",
-
+                            SecurityStamp = "c6f94479-6e65-46ae-a6e5-5b26efc5e45f",
                             TwoFactorEnabled = false,
                             UserName = "admin@email.com",
                             FirstName = "John",
@@ -10635,22 +10651,18 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                         },
                         new
                         {
-
-                            Id = "38b7d4a0-8dd3-4289-ba6a-ce8a9326e7ed",
+                            Id = "1e0cd2b2-3176-460b-aa14-fe94afa4e044",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "89ddaaa2-eb9a-4303-b7af-7dad3236b5da",
-
+                            ConcurrencyStamp = "c5b4b4a1-9e99-4d76-9e81-41d6844b25aa",
                             Email = "seller@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "SELLER@EMAIL.COM",
                             NormalizedUserName = "SELLER@EMAIL.COM",
-
-                            PasswordHash = "AQAAAAIAAYagAAAAEGb1shafdZhi4DtMF9tS3fYXrF7pl1stcROJwotYdZ9RG9IS4BouYa8dPZwfnwDg/Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEML3st7DDTqhw4QldyQ3oCQ13mfaIEYf4Eso2AuIb43ftkQIb71K9NlG8WcCA9jKQw==",
                             PhoneNumber = "",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "93b2a993-6dfd-47bd-8ea4-c860b491dbb2",
-
+                            SecurityStamp = "a7df1f44-09f5-462a-93e8-72f52eeef01a",
                             TwoFactorEnabled = false,
                             UserName = "seller@email.com",
                             FirstName = "seller",
@@ -11011,6 +11023,25 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.ViewedProduct", b =>
+                {
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.AppUser", "AppUser")
+                        .WithMany("ViewedProducts")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FM_Rozetka_Api.Core.Entities.Product", "Product")
+                        .WithMany("ViewedProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -11129,6 +11160,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.Navigation("Reviews");
 
                     b.Navigation("Specifications");
+
+                    b.Navigation("ViewedProducts");
                 });
 
             modelBuilder.Entity("FM_Rozetka_Api.Core.Entities.ProductQuestion", b =>
@@ -11167,6 +11200,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     b.Navigation("Reviews");
 
                     b.Navigation("Shops");
+
+                    b.Navigation("ViewedProducts");
                 });
 #pragma warning restore 612, 618
         }

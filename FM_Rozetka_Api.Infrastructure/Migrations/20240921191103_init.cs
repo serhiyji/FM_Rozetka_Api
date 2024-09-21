@@ -608,6 +608,7 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                     Stock = table.Column<int>(type: "integer", nullable: false),
                     ImageURL = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Showings = table.Column<int>(type: "integer", nullable: false),
                     ShopId = table.Column<int>(type: "integer", nullable: false),
                     BrandId = table.Column<int>(type: "integer", nullable: false),
                     HasDiscount = table.Column<bool>(type: "boolean", nullable: false),
@@ -852,6 +853,34 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ViewedProduct",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
+                    AppUserId = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Count = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ViewedProduct", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ViewedProduct_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ViewedProduct_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProductAnswers",
                 columns: table => new
                 {
@@ -884,10 +913,10 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "041c9534-a7a9-43a5-96f8-be40b23e95e6", null, "ModeratorSeller", "MODERATORSELLER" },
-                    { "245ea3bb-544a-4998-84f0-ef54eef2da9a", null, "User", "USER" },
-                    { "a7eb6e87-2bc7-403f-b48b-7c2649dc32df", null, "Seller", "SELLER" },
-                    { "d2568e67-6fc1-4a2d-ab0b-045eb7280fe2", null, "Administrator", "ADMINISTRATOR" }
+                    { "582bfb1b-d11a-4a55-ae64-47d559e78d50", null, "Administrator", "ADMINISTRATOR" },
+                    { "d1651b21-ec57-44e4-9ba9-ded898ff5599", null, "ModeratorSeller", "MODERATORSELLER" },
+                    { "e0974dda-5ee8-4258-94c7-e64744d04559", null, "User", "USER" },
+                    { "f123178a-b895-4c21-a990-ace76c25fc22", null, "Seller", "SELLER" }
                 });
 
             migrationBuilder.InsertData(
@@ -895,8 +924,8 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "SurName", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "38b7d4a0-8dd3-4289-ba6a-ce8a9326e7ed", 0, "89ddaaa2-eb9a-4303-b7af-7dad3236b5da", "AppUser", "seller@email.com", true, "seller", "seller", false, null, "SELLER@EMAIL.COM", "SELLER@EMAIL.COM", "AQAAAAIAAYagAAAAEGb1shafdZhi4DtMF9tS3fYXrF7pl1stcROJwotYdZ9RG9IS4BouYa8dPZwfnwDg/Q==", "", false, "93b2a993-6dfd-47bd-8ea4-c860b491dbb2", "seller", false, "seller@email.com" },
-                    { "4a4e4f2c-037d-4a68-afbf-c6c08e0a1a2b", 0, "e6b8485b-9ed8-484a-84f8-0e136c3cd6ea", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEOV0Yqqd9Kx64m5YMl9c2jwfnZFBJSiKpxG+No8aZx57POYE2EOwXfisjsRkPiu1+w==", "", false, "99aef86d-8144-4fa3-87e4-d5f2b5df2447", "Johnovych", false, "admin@email.com" }
+                    { "1e0cd2b2-3176-460b-aa14-fe94afa4e044", 0, "c5b4b4a1-9e99-4d76-9e81-41d6844b25aa", "AppUser", "seller@email.com", true, "seller", "seller", false, null, "SELLER@EMAIL.COM", "SELLER@EMAIL.COM", "AQAAAAIAAYagAAAAEML3st7DDTqhw4QldyQ3oCQ13mfaIEYf4Eso2AuIb43ftkQIb71K9NlG8WcCA9jKQw==", "", false, "a7df1f44-09f5-462a-93e8-72f52eeef01a", "seller", false, "seller@email.com" },
+                    { "e133a5be-8700-4f2e-bc0b-46895d106a64", 0, "d6d11b44-8438-4910-baa0-d03d06c8b754", "AppUser", "admin@email.com", true, "John", "Connor", false, null, "ADMIN@EMAIL.COM", "ADMIN@EMAIL.COM", "AQAAAAIAAYagAAAAEA7wccb85YZ4jirBjFlKQ2ObpIdZLYN2tzGSTcc42bXba1Dp7EOl2iNWQ1peRwujHw==", "", false, "c6f94479-6e65-46ae-a6e5-5b26efc5e45f", "Johnovych", false, "admin@email.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -2185,19 +2214,19 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "a7eb6e87-2bc7-403f-b48b-7c2649dc32df", "38b7d4a0-8dd3-4289-ba6a-ce8a9326e7ed" },
-                    { "d2568e67-6fc1-4a2d-ab0b-045eb7280fe2", "4a4e4f2c-037d-4a68-afbf-c6c08e0a1a2b" }
+                    { "f123178a-b895-4c21-a990-ace76c25fc22", "1e0cd2b2-3176-460b-aa14-fe94afa4e044" },
+                    { "582bfb1b-d11a-4a55-ae64-47d559e78d50", "e133a5be-8700-4f2e-bc0b-46895d106a64" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Shops",
                 columns: new[] { "Id", "AppUserId", "CompanyId", "Email", "FullName", "HasNoWebsite", "IsNonResident", "PhoneNumber", "Position", "Website" },
-                values: new object[] { 1, "38b7d4a0-8dd3-4289-ba6a-ce8a9326e7ed", 1, "TEST", "TEST", false, false, "TEST", "TEST", "TEST" });
+                values: new object[] { 1, "1e0cd2b2-3176-460b-aa14-fe94afa4e044", 1, "TEST", "TEST", false, false, "TEST", "TEST", "TEST" });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "BrandId", "CategoryProductId", "CountryProductionId", "CreatedAt", "Description", "HasDiscount", "ImageURL", "Name", "Price", "ShopId", "Stars", "Stock" },
-                values: new object[] { 1, 1, 1, 1, new DateTime(2024, 9, 4, 12, 23, 20, 22, DateTimeKind.Utc).AddTicks(6720), "Test", false, "noimage.webp", "Test", 1m, 1, 0m, 1 });
+                columns: new[] { "Id", "BrandId", "CategoryProductId", "CountryProductionId", "CreatedAt", "Description", "HasDiscount", "ImageURL", "Name", "Price", "ShopId", "Showings", "Stars", "Stock" },
+                values: new object[] { 1, 1, 1, 1, new DateTime(2024, 9, 21, 19, 11, 2, 426, DateTimeKind.Utc).AddTicks(8498), "Test", false, "noimage.webp", "Test", 1m, 1, 0, 0m, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adresses_AppUserId",
@@ -2412,6 +2441,16 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ViewedProduct_AppUserId",
+                table: "ViewedProduct",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ViewedProduct_ProductId",
+                table: "ViewedProduct",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Warehouses_SettlementId",
                 table: "Warehouses",
                 column: "SettlementId");
@@ -2488,6 +2527,9 @@ namespace FM_Rozetka_Api.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "TelegramUsers");
+
+            migrationBuilder.DropTable(
+                name: "ViewedProduct");
 
             migrationBuilder.DropTable(
                 name: "Warehouses");

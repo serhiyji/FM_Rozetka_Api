@@ -252,5 +252,15 @@ namespace FM_Rozetka_Api.Core.Services
             return new PaginationResponse<List<Product>, object>(true, "", payload: products,
                 pageNumber: page, pageSize: pageSize, totalCount: query.Count());
         }
+
+        public async Task<ServiceResponse> GetNewOnes(int count)
+        {
+            return new ServiceResponse(true, "", await _productRepository.GetListBySpec(new ProductSpecification.GetByCreationDate(count)));
+        }
+
+        public async Task<ServiceResponse> GetPopular(int count)
+        {
+            return new ServiceResponse(true, "", await _productRepository.GetListBySpec(new ProductSpecification.GetByShowings(count)));
+        }
     }
 }

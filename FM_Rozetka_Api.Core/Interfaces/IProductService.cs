@@ -15,5 +15,7 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ServiceResponse<IEnumerable<ProductDTO>, object>> GetByShopIdAsync(int shopid);
         Task<PaginationResponse<List<ProductDTO>, object>> GetPagedProductsAsync(int pageNumber, int pageSize);
         Task<PaginationResponse<List<Product>, object>> FilterProductsBySpecifications(Dictionary<int, List<int>> filters, int page = 1, int pageSize = 10);
+        Task<ServiceResponse> GetNewOnes(int count);
+        Task<ServiceResponse> GetPopular(int count);
     }
 }

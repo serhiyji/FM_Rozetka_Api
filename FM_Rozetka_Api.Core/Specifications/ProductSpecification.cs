@@ -38,5 +38,21 @@ namespace FM_Rozetka_Api.Core.Specifications
                 Query.Where(item => item.BrandId == brandId);
             }
         }
+
+        public class GetByCreationDate : Specification<Product>
+        {
+            public GetByCreationDate(int count)
+            {
+                Query.OrderBy(item => item.CreatedAt).Take(count);
+            }
+        }
+
+        public class GetByShowings : Specification<Product>
+        {
+            public GetByShowings(int count)
+            {
+                Query.OrderBy(item => item.Showings).Take(count);
+            }
+        }
     }
 }
