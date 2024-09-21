@@ -121,14 +121,6 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(response.Message);
         }
 
-        #endregion
-
-        [HttpGet("filter")]
-        public async Task<IActionResult> GetFilteredProducts([FromBody]ModelForFilterProduct model)
-        {
-            var products = await _productService.FilterProductsBySpecifications(model.Filters, model.Page, model.PageSize);
-            return Ok(products);
-        }
 
         [HttpPost("addviewedproduct")]
         public async Task<IActionResult> AddViewedProduct([FromQuery]int productId, [FromQuery]string appUserId)
