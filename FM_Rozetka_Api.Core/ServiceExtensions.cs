@@ -49,6 +49,7 @@ namespace FM_Rozetka_Api.Core
             services.AddScoped<IShipmentService, ShipmentService>();
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<INovaPoshtaService, NovaPoshtaService>();
+            services.AddScoped<IViewedProductService, ViewedProductService>();
             services.AddTransient<LiqPayService>();
         }
 

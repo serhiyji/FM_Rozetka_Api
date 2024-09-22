@@ -1,5 +1,6 @@
 ﻿using FM_Rozetka_Api.Core.Interfaces;
 using Rozetka_Api.Core.Entities;
+using System.Text.Json.Serialization;
 
 namespace FM_Rozetka_Api.Core.Entities
 {
@@ -14,6 +15,8 @@ namespace FM_Rozetka_Api.Core.Entities
         public int Stock { get; set; }
         public string ImageURL { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        public int Showings { get; set; } = 0;
 
         public int ShopId { get; set; }
         public Shop Shop { get; set; }
@@ -38,5 +41,8 @@ namespace FM_Rozetka_Api.Core.Entities
 
         public int CountryProductionId { get; set; }
         public CountryProduction CountryProduction { get; set; }
+
+        [JsonIgnore]
+        public List<ViewedProduct> ViewedProducts { get; set; }
     }
 }

@@ -13,13 +13,17 @@ namespace FM_Rozetka_Api.Api.Controllers
     {
         private readonly IProductService _productService;
         private readonly IReviewService _reviewService;
+        private readonly IViewedProductService _viewedProductService;
         public ProductController(
                 IProductService productService,
-                IReviewService reviewService
+                IFavoriteService favoriteService,
+                IReviewService reviewService,
+                IViewedProductService viewedProductService
             )
         {
             this._productService = productService;
             this._reviewService = reviewService;
+            this._viewedProductService = viewedProductService;
         }
 
         [HttpPost("create")]
@@ -115,6 +119,52 @@ namespace FM_Rozetka_Api.Api.Controllers
                 return Ok(response);
             }
             return BadRequest(response.Message);
+        }
+
+
+        [HttpPost("addviewedproduct")]
+        public async Task<IActionResult> AddViewedProduct([FromQuery]int productId, [FromQuery]string appUserId)
+        {
+            var result = await _viewedProductService.AddProduct(productId, appUserId);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getviewedproduct")]
+        public async Task<IActionResult> GetViewedProduct([FromQuery]string appUserId, [FromQuery]int count)
+        {
+            var result = await _viewedProductService.GetByAppUserId(appUserId, count);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getrecommendedproducts")]
+        public async Task<IActionResult> GetRecommendedProducts([FromQuery]string appUserId, [FromQuery]int count)
+        {
+            var result = await _viewedProductService.GetRecommendedProducts(appUserId, count);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getnewones")]
+        public async Task<IActionResult> GetNewOnes([FromQuery]int count)
+        {
+            return Ok(await _productService.GetNewOnes(count));
+        }
+
+        [HttpGet("getpopular")]
+        public async Task<IActionResult> GetPopular([FromQuery]int count)
+        {
+            return Ok(await _productService.GetPopular(count));
         }
 
     }
