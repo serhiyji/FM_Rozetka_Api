@@ -18,5 +18,9 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ServiceResponse<List<SettlementDTO>, object>> SearchSettlements(string areaRef, string description);
         Task<ServiceResponse<List<WarehouseDTO>, object>> SearchWarehouses(string settlementRef, string description);
         Task<ServiceResponse<IEnumerable<AreaDTO>, object>> GetAllAsync();
+
+        Task<ServiceResponse<AreaDTO, object>> GetByIdArea(int id);
+        Task<ServiceResponse<WarehouseDTO, object>> GetByIdWarehouses(int id);
+        Task<ServiceResponse<SettlementDTO, object>> GetByIdSettlements(int id);
     }
 }

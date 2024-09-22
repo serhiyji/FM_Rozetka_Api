@@ -209,6 +209,14 @@ namespace FM_Rozetka_Api.Infrastructure.Context
                 .HasOne(p => p.Brand).WithMany(s => s.Products)
                 .HasForeignKey(p => p.BrandId).OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<ViewedProduct>()
+                .HasOne(p => p.Product).WithMany(p => p.ViewedProducts)
+                .HasForeignKey(p => p.ProductId).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ViewedProduct>()
+                .HasOne(p => p.AppUser).WithMany(u => u.ViewedProducts)
+                .HasForeignKey(p => p.AppUserId).OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<ProductQuestion>()
             .Property(pq => pq.OpenQuestion)
             .HasDefaultValue(true);

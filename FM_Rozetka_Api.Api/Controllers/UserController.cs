@@ -129,13 +129,26 @@ namespace FM_Rozetka_Api.Api.Controllers
         [HttpGet("getallusers")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(_userService.GetAll());
+            return Ok(await _userService.GetAll());
+        }
+
+        [HttpDelete("deleteuser")]
+        public async Task<IActionResult> DeleteUser([FromBody] DeleteUserDTO model)
+        {
+            var result = await _userService.DeleteUserAsync(model);
+
+            if (result.Success)
+            {
+                return Ok(new { message = "User deleted successfully" });
+            }
+
+            return BadRequest(new { message = result.Message, errors = result.Errors });
         }
 
         [HttpPost("banuser")]
         public async Task<IActionResult> BanUser(string appUserId)
         {
-            return Ok(_userService.BanUser(appUserId));
+            return Ok(await _userService.BanUser(appUserId));
         }
 
         [HttpPost("UpdatePasswordInfoUser")]

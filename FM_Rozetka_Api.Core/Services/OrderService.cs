@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using FM_Rozetka_Api.Core.DTOs.Orders.Order;
+using FM_Rozetka_Api.Core.DTOs.Orders.OrderStatusHistory;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
+using FM_Rozetka_Api.Core.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,7 @@ namespace FM_Rozetka_Api.Core.Services
     {
         private readonly IRepository<Order> _orderRepository;
         private readonly IMapper _mapper;
+        private readonly IOrderStatusHistoryService _orderStatusHistoryService;
 
         public OrderService(IRepository<Order> orderRepository, IMapper mapper)
         {
@@ -29,7 +32,15 @@ namespace FM_Rozetka_Api.Core.Services
             {
                 await _orderRepository.Insert(newOrder);
                 await _orderRepository.Save();
-                return new ServiceResponse<Order, object>(true, "Success", payload: newOrder);
+
+                var lastOrder = await _orderRepository.GetItemBySpec(new OrderSpecification.LastCreatedOrderSpec());
+
+                if (lastOrder != null && lastOrder.OrderId == newOrder.OrderId)
+                {
+                    return new ServiceResponse<Order, object>(true, "Success", payload: lastOrder);
+                }
+
+                return new ServiceResponse<Order, object>(false, "Failed to retrieve the created order.");
             }
             catch (Exception ex)
             {
@@ -47,9 +58,24 @@ namespace FM_Rozetka_Api.Core.Services
 
             try
             {
+                var oldStatus = order.Status;
+
                 _mapper.Map(model, order);
+
                 await _orderRepository.Update(order);
                 await _orderRepository.Save();
+
+                if (oldStatus != order.Status)
+                {
+                    var orderStatusHistory = new OrderStatusHistoryCreateDTO
+                    {
+                        OrderId = order.Id,
+                        Status = order.Status,
+                        ChangedAt = DateTime.UtcNow
+                    };
+                    var historyResponse = await _orderStatusHistoryService.AddAsync(orderStatusHistory);
+                   
+                }
                 return new ServiceResponse<Order, object>(true, "Success", payload: order);
             }
             catch (Exception ex)
@@ -83,6 +109,24 @@ namespace FM_Rozetka_Api.Core.Services
             try
             {
                 var order = await _orderRepository.GetByID(id);
+                if (order == null)
+                {
+                    return new ServiceResponse<OrderDTO, object>(false, "Order not found");
+                }
+
+                return new ServiceResponse<OrderDTO, object>(true, "Success", payload: _mapper.Map<OrderDTO>(order));
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<OrderDTO, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
+        public async Task<ServiceResponse<OrderDTO, object>> GetByOrderIdAsync(string orderId)
+        {
+            try
+            {
+                var order = await _orderRepository.GetItemBySpec(new OrderSpecification.GetByOidreId(orderId));
                 if (order == null)
                 {
                     return new ServiceResponse<OrderDTO, object>(false, "Order not found");
