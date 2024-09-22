@@ -284,5 +284,19 @@ namespace FM_Rozetka_Api.Core.Services
             }
         }
 
+        public async Task<PaginationResponse<List<ProductDTO>, object>> GetSearchByName(string name, int pageNumber = 1, int pageSize = 10)
+        {
+            try
+            {
+                var products = await _productRepository.GetListBySpec(new ProductSpecification.GetByNameSearch(name, pageNumber, pageSize));
+                var totalCount = await _productRepository.GetCountBySpec(new ProductSpecification.GetByNameSearch(name, 1, int.MaxValue));
+                var productDTOs = _mapper.Map<List<ProductDTO>>(products);
+                return new PaginationResponse<List<ProductDTO>, object>(true, "", payload: productDTOs, pageNumber: pageNumber, pageSize: pageSize, totalCount: totalCount);
+            }
+            catch (Exception ex)
+            {
+                return new PaginationResponse<List<ProductDTO>, object>(false, "Failed: " + ex.Message);
+            }
+        }
     }
 }
