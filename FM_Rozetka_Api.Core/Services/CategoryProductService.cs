@@ -53,7 +53,7 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse<object, object>(false, "Cannot delete category because there are associated products.");
             }
 
-            var countSubcategories = await _categoryProductRepository.GetCountBySpec(new CategoryProductSpecification.GetCountSubcategories(id));
+            var countSubcategories = await _categoryProductRepository.GetCountBySpec(new CategoryProductSpecification.GetSubCategoriesByTopId(id));
             if(countSubcategories > 0)
             {
                 return new ServiceResponse<object, object>(false, "Cannot delete category because there are subcategories.");
@@ -136,6 +136,22 @@ namespace FM_Rozetka_Api.Core.Services
             await _categoryProductRepository.Save();
 
             return new ServiceResponse<object, object>(true, "Category updated successfully.",payload: categoryProduct);
+        }
+
+        public async Task<ServiceResponse<IEnumerable<CategoryProductDTO>, object>> GetFirstLevelCategoriesAsync()
+        {
+            var categories = await _categoryProductRepository.GetListBySpec(new CategoryProductSpecification.GetFirstLevelCategories());
+            var categoryDTOs = _mapper.Map<IEnumerable<CategoryProductDTO>>(categories);
+
+            return new ServiceResponse<IEnumerable<CategoryProductDTO>, object>(true, "Category 1 lvl received successfully.", payload: categoryDTOs);
+        }
+
+        public async Task<ServiceResponse<IEnumerable<CategoryProductDTO>, object>> GetSubCategoriesByTopIdAsync(int topId)
+        {
+            var categories = await _categoryProductRepository.GetListBySpec(new CategoryProductSpecification.GetSubCategoriesByTopId(topId));
+            var categoryDTOs = _mapper.Map<IEnumerable<CategoryProductDTO>>(categories);
+
+            return new ServiceResponse<IEnumerable<CategoryProductDTO>, object>(true, $"Subcategories for category with ID  {topId} successfully retrieved", payload: categoryDTOs);
         }
     }
 }

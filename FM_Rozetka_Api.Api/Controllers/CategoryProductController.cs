@@ -75,5 +75,21 @@ namespace FM_Rozetka_Api.Api.Controllers
             
             return Ok(await _categoryProductService.UpdateAsync(category));
         }
+
+
+        [HttpGet("GetFirstLevelCategories")]
+        public async Task<IActionResult> GetFirstLevelCategories()
+        {
+            var categories = await _categoryProductService.GetFirstLevelCategoriesAsync();
+            return Ok(categories);
+        }
+
+        
+        [HttpGet("GetSubCategories/{topId}")]
+        public async Task<IActionResult> GetSubCategories(int topId)
+        {
+            var subCategories = await _categoryProductService.GetSubCategoriesByTopIdAsync(topId);
+            return Ok(subCategories);
+        }
     }
 }
