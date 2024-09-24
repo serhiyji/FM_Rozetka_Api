@@ -13,6 +13,8 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ServiceResponse<object, object>> DeleteAsync(int id);
         Task<ServiceResponse<IEnumerable<CategoryProductDTO>, object>> GetAllSortedAsync();
 
+        Task<ServiceResponse<IEnumerable<CategoryProductDTO>, object>> GetFirstLevelCategoriesAsync();
+        Task<ServiceResponse<IEnumerable<CategoryProductDTO>, object>> GetSubCategoriesByTopIdAsync(int topId);
 
     }
 }

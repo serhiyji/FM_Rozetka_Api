@@ -5,11 +5,19 @@ namespace FM_Rozetka_Api.Core.Specifications
 {
     public static class CategoryProductSpecification
     {
-        public class GetCountSubcategories : Specification<CategoryProduct>
+        public class GetFirstLevelCategories : Specification<CategoryProduct>
         {
-            public GetCountSubcategories(int id)
+            public GetFirstLevelCategories()
             {
-                Query.Where(x => x.TopId == id);
+                Query.Where(c => c.Level == 1);
+            }
+        }
+
+        public class GetSubCategoriesByTopId : Specification<CategoryProduct>
+        {
+            public GetSubCategoriesByTopId(int topId)
+            {
+                Query.Where(c => c.TopId == topId);
             }
         }
     }
