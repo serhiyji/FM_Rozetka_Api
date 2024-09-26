@@ -22,6 +22,13 @@ namespace FM_Rozetka_Api.Core.Services
         {
             try
             {
+                var existingCartItem = await _cartItemRepo.GetItemBySpec(new CartItemSpecification.GetByAppUserIdAndProductId(cartItemCreateDTO.AppUserId, cartItemCreateDTO.ProductId));
+
+                if (existingCartItem != null)
+                {
+                    return new ServiceResponse<CartItem, object>(false, "This product is already in your cart.");
+                }
+
                 var newCartItem = _mapper.Map<CartItem>(cartItemCreateDTO);
                 await _cartItemRepo.Insert(newCartItem);
                 await _cartItemRepo.Save();
