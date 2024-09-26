@@ -20,5 +20,13 @@ namespace FM_Rozetka_Api.Core.Specifications
                 Query.Where(item => ids.Contains(item.Id));
             }
         }
+
+        public class GetByAppUserIdAndProductId : Specification<CartItem>
+        {
+            public GetByAppUserIdAndProductId(string appUserId, int productId)
+            {
+                Query.Where(item => item.AppUserId == appUserId && item.ProductId == productId);
+            }
+        }
     }
 }

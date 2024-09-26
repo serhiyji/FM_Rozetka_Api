@@ -21,17 +21,24 @@ namespace FM_Rozetka_Api.Core.Services
 
         public async Task<ServiceResponse<Favorite, object>> AddAsync(FavoriteCreateDTO favoriteCreateDTO)
         {
-            var newfavorite = _mapper.Map<Favorite>(favoriteCreateDTO);
+            var existingFavorite = await _favoriteRepo.GetItemBySpec(new FavoriteSpecification.Exists(favoriteCreateDTO.AppUserId, favoriteCreateDTO.ProductId));
+
+            if (existingFavorite != null)
+            {
+                return new ServiceResponse<Favorite, object>(false, "This product is already in favorites.");
+            }
+
+            var newFavorite = _mapper.Map<Favorite>(favoriteCreateDTO);
 
             try
             {
-                await _favoriteRepo.Insert(newfavorite);
+                await _favoriteRepo.Insert(newFavorite);
                 await _favoriteRepo.Save();
-                return new ServiceResponse<Favorite, object>(true, "Favorite created successfully", payload: newfavorite);
+                return new ServiceResponse<Favorite, object>(true, "Favorite created successfully", payload: newFavorite);
             }
             catch (Exception ex)
             {
-                return new ServiceResponse<Favorite, object>(false, "Failed to create review: " + ex.Message);
+                return new ServiceResponse<Favorite, object>(false, "Failed to create favorite: " + ex.Message);
             }
         }
 
