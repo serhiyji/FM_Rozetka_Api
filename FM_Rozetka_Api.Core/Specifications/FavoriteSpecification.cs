@@ -12,5 +12,13 @@ namespace FM_Rozetka_Api.Core.Specifications
                 Query.Where(item => item.AppUserId == appUserId).Include(item => item.Product);
             }
         }
+
+        public class Exists : Specification<Favorite>
+        {
+            public Exists(string appUserId, int productId)
+            {
+                Query.Where(f => f.AppUserId == appUserId && f.ProductId == productId);
+            }
+        }
     }
 }
