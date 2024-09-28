@@ -18,5 +18,6 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<PaginationResponse<List<Product>, object>> FilterProductsBySpecifications(Dictionary<int, List<int>> filters, int page = 1, int pageSize = 10);
         Task<ServiceResponse> GetNewOnes(int count);
         Task<ServiceResponse> GetPopular(int count);
+        Task<PaginationResponse<List<ProductDTO>, object>> GetSearchByName(string name, int pageNumber, int pageSize);
     }
 }

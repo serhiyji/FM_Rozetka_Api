@@ -167,5 +167,15 @@ namespace FM_Rozetka_Api.Api.Controllers
             return Ok(await _productService.GetPopular(count));
         }
 
+        [HttpGet("getsearchproductbyname")]
+        public async Task<IActionResult> GetSearchProductByName([FromQuery]string productName, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            var result = await _productService.GetSearchByName(productName, pageNumber, pageSize);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
     }
 }
