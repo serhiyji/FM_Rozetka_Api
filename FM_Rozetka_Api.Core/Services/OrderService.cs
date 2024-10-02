@@ -152,6 +152,54 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse<IEnumerable<OrderDTO>, object>(false, "Failed: " + ex.Message);
             }
         }
+
+
+        public async Task<SalesStatisticsDTO> GetSalesStatisticsForShop(int shopId)
+        {
+            var now = DateTime.UtcNow;
+            var lastWeek = now.AddDays(-7);
+
+            var orders = await _orderRepository.GetListBySpec(new OrderSpecification.GetShopOrderStatistics(shopId));
+
+            var orderItemsWithDate = orders.SelectMany(order => order.OrderItems.Select(item => new
+            {
+                OrderDate = order.OrderDate.Date, 
+                ProductId = item.ProductId,
+                ProductName = item.Product.Name,
+                Quantity = item.Quantity,
+                TotalPrice = item.Price * item.Quantity
+            })).ToList();
+
+            var dailyStatistics = orderItemsWithDate
+                .GroupBy(item => item.OrderDate)
+                .Select(group => new DailySalesStatisticDTO
+                {
+                    Date = group.Key,
+                    TotalQuantitySold = group.Sum(item => item.Quantity),
+                    TotalRevenue = group.Sum(item => item.TotalPrice)
+                })
+                .OrderBy(stat => stat.Date)
+                .ToList();
+
+            var productStatistics = orderItemsWithDate
+                .GroupBy(item => item.ProductId)
+                .Select(group => new SalesStatisticDTO
+                {
+                    ProductId = group.Key,
+                    ProductName = group.First().ProductName,
+                    QuantitySold = group.Sum(item => item.Quantity),
+                    TotalRevenue = group.Sum(item => item.TotalPrice)
+                })
+                .ToList();
+
+            return new SalesStatisticsDTO
+            {
+                DailyStatistics = dailyStatistics,
+                ProductStatistics = productStatistics
+            };
+        }
+
+
     }
 
 }

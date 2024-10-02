@@ -26,5 +26,22 @@ namespace FM_Rozetka_Api.Core.Specifications
                 Query.Where(t => t.OrderId == orderId);
             }
         }
+
+
+        public class GetShopOrderStatistics : Specification<Order>
+        {
+            public GetShopOrderStatistics(int shopId)
+            {
+                var now = DateTime.UtcNow;
+                var lastWeek = now.AddDays(-7);
+
+                Query.Where(order => order.OrderDate >= lastWeek)
+                     .Include(order => order.OrderItems)
+                     .ThenInclude(orderItem => orderItem.Product)
+                     .Where(order => order.OrderItems.Any(oi => oi.Product.ShopId == shopId));
+            }
+        }
+
+
     }
 }
