@@ -14,6 +14,7 @@ namespace FM_Rozetka_Api.Core.Interfaces
     {
         Task<ServiceResponse<IEnumerable<OrderStatusHistoryDTO>, object>> GetAllAsync();
         Task<ServiceResponse<OrderStatusHistoryDTO, object>> GetByIdAsync(int id);
+        Task<ServiceResponse<IEnumerable<OrderStatusHistoryDTO>, object>> GetByOrdersIdAsync(int Ordersid);
         Task<ServiceResponse<OrderStatusHistory, object>> AddAsync(OrderStatusHistoryCreateDTO model);
         Task<ServiceResponse<OrderStatusHistory, object>> UpdateAsync(OrderStatusHistoryUpdateDTO model);
         Task<ServiceResponse<object, object>> DeleteAsync(int id);

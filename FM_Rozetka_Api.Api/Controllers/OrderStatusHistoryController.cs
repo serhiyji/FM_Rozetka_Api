@@ -70,5 +70,16 @@ namespace FM_Rozetka_Api.Api.Controllers
             }
             return BadRequest(response);
         }
+
+        [HttpGet("ordersId/{id}")]
+        public async Task<IActionResult> GetAllByOrderIdAsync(int Id)
+        {
+            var response = await _orderStatusHistoryService.GetByOrdersIdAsync(Id);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
     }
 }
