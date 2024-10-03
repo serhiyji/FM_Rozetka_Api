@@ -3,6 +3,7 @@ using FM_Rozetka_Api.Core.DTOs.Orders.Payment;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
+using FM_Rozetka_Api.Core.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,6 +76,25 @@ namespace FM_Rozetka_Api.Core.Services
             catch (Exception ex)
             {
                 return new ServiceResponse<object, object>(false, "Failed: " + ex.Message);
+            }
+        }
+        
+
+        public async Task<ServiceResponse<IEnumerable<PaymentDTO>, object>> GetAllByOrderIdAsync(int shopid)
+        {
+            try
+            {
+                var payment = await _paymentRepository.GetListBySpec(new PaymentSpecification.GetByOrderId(shopid));
+                if (payment == null)
+                {
+                    return new ServiceResponse<IEnumerable<PaymentDTO>, object>(false, "Payment not found");
+                }
+
+                return new ServiceResponse<IEnumerable<PaymentDTO>, object>(true, "Success", payload: _mapper.Map<IEnumerable<PaymentDTO>>(payment));
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<IEnumerable<PaymentDTO>, object>(false, "Failed: " + ex.Message);
             }
         }
 

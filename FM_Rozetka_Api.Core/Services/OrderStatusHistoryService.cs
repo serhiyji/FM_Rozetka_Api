@@ -3,6 +3,7 @@ using FM_Rozetka_Api.Core.DTOs.Orders.OrderStatusHistory;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
+using FM_Rozetka_Api.Core.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -108,5 +109,20 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse<IEnumerable<OrderStatusHistoryDTO>, object>(false, "Failed: " + ex.Message);
             }
         }
+
+
+        public async Task<ServiceResponse<IEnumerable<OrderStatusHistoryDTO>, object>> GetByOrdersIdAsync(int Orderid)
+        {
+            try
+            {
+                var orderStatusHistories = await _orderStatusHistoryRepository.GetListBySpec(new OrderStatusHistorySpecification.GetByOidreId(Orderid));
+                return new ServiceResponse<IEnumerable<OrderStatusHistoryDTO>, object>(true, "Success", payload: _mapper.Map<IEnumerable<OrderStatusHistoryDTO>>(orderStatusHistories));
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<IEnumerable<OrderStatusHistoryDTO>, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
     }
 }

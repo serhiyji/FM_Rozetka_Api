@@ -30,7 +30,7 @@ namespace FM_Rozetka_Api.Core.Specifications
 
         public class GetShopOrderStatistics : Specification<Order>
         {
-            public GetShopOrderStatistics(int shopId)
+           public GetShopOrderStatistics(int shopId)
             {
                 var now = DateTime.UtcNow;
                 var lastWeek = now.AddDays(-7);
@@ -42,6 +42,15 @@ namespace FM_Rozetka_Api.Core.Specifications
             }
         }
 
+        public class GetOrderByShopId : Specification<Order>
+        {
+            public GetOrderByShopId(int shopId)
+            {
+                Query.Include(order => order.OrderItems)
+                     .ThenInclude(orderItem => orderItem.Product)
+                     .Where(order => order.OrderItems.Any(oi => oi.Product.ShopId == shopId));
+            }
+        }
 
     }
 }
