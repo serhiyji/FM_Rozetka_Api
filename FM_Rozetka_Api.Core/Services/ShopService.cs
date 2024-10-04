@@ -50,6 +50,12 @@ namespace FM_Rozetka_Api.Core.Services
             return _mapper.Map<ShopDTO>(shop);
         }
 
+        public async Task<ShopDTO> GetByModeratorIdAsync(string id)
+        {
+            var shop = await _shopRepository.GetItemBySpec(new ShopSpecification.GetShopByModeratorId(id));
+            return _mapper.Map<ShopDTO>(shop);
+        }
+
         public async Task UpdateAsync(ShopUpdateDTO model)
         {
             var shop = _mapper.Map<Shop>(model);

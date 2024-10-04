@@ -12,5 +12,14 @@ namespace FM_Rozetka_Api.Core.Specifications
                 Query.Where(c => c.AppUserId == id);
             }
         }
+
+        public class GetShopByModeratorId : Specification<Shop>
+        {
+            public GetShopByModeratorId(string moderatorId)
+            {
+                Query.Include(shop => shop.ModeratorShop)  
+                     .Where(shop => shop.ModeratorShop.Any(ms => ms.AppUserId == moderatorId));
+            }
+        }
     }
 }
