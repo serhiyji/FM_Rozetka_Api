@@ -65,6 +65,17 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest("The id must not be null");
         }
 
+        [HttpGet("GetShopByModeratorId")]
+        public async Task<IActionResult> GetShopByModeratorId(string id)
+        {
+            if (id != null)
+            {
+                var shops = await _shopService.GetByModeratorIdAsync(id);
+                return Ok(shops);
+            }
+            return BadRequest("The id must not be null");
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateApplication([FromBody] ShopUpdateDTO model)
         {
