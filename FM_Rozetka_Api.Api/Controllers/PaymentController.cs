@@ -106,6 +106,19 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(response);
         }
 
+        [HttpGet("orderId/{id}")]
+        public async Task<IActionResult> GetAllByOrderIdAsync(int OrderId)
+        {
+            var response = await _paymentService.GetAllByOrderIdAsync(OrderId);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+         
+
         [HttpPost("create-payment-link")]
         public async Task<IActionResult> CreatePaymentLink([FromBody] PaymentLinkCreateDTO model)
         {
@@ -267,7 +280,7 @@ namespace FM_Rozetka_Api.Api.Controllers
                         var orderStatusHistory = new OrderStatusHistoryCreateDTO
                         {
                             OrderId = orderId,
-                            Status = "Pending",
+                            Status = "Paid",
                             ChangedAt = DateTime.UtcNow
                         };
 
@@ -305,7 +318,7 @@ namespace FM_Rozetka_Api.Api.Controllers
                             ShipmentDate = DateTime.UtcNow,
                             TrackingNumber = "None",
                             Carrier = "Nova Poshta",
-                            Status = "Shipped",
+                            Status = "Pending",
                             Name = decryptedCustomer.Name,
                             SurName = decryptedCustomer.Surname,
                             PhoneNumber = decryptedCustomer.Phone,
@@ -521,7 +534,7 @@ namespace FM_Rozetka_Api.Api.Controllers
                     ShipmentDate = DateTime.UtcNow,
                     TrackingNumber = "None",
                     Carrier = "Nova Poshta",
-                    Status = "Shipped",
+                    Status = "Pending",
                     Name = model.Name,
                     SurName = model.Surname,
                     PhoneNumber = model.Phone,

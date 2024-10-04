@@ -1,4 +1,5 @@
 ﻿using FM_Rozetka_Api.Core.DTOs.CartItem;
+using FM_Rozetka_Api.Core.DTOs.Favorite;
 using FM_Rozetka_Api.Core.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -21,7 +22,12 @@ namespace FM_Rozetka_Api.Api.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromForm] CartItemCreateDTO cartItemCreateDTO)
         {
-            return Ok(await _cartItemService.Create(cartItemCreateDTO));
+            var response = await _cartItemService.Create(cartItemCreateDTO);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response.Message);
         }
 
         [HttpPost("delete")]

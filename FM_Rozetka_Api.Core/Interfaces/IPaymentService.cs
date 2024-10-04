@@ -14,6 +14,7 @@ namespace FM_Rozetka_Api.Core.Interfaces
     {
         Task<ServiceResponse<IEnumerable<PaymentDTO>, object>> GetAllAsync();
         Task<ServiceResponse<PaymentDTO, object>> GetByIdAsync(int id);
+        Task<ServiceResponse<IEnumerable<PaymentDTO>, object>> GetAllByOrderIdAsync(int shopid);
         Task<ServiceResponse<Payment, object>> AddAsync(PaymentCreateDTO model);
         Task<ServiceResponse<Payment, object>> UpdateAsync(PaymentUpdateDTO model);
         Task<ServiceResponse<object, object>> DeleteAsync(int id);

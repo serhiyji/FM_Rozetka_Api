@@ -82,6 +82,19 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(response);
         }
 
+        [HttpGet("GetAllStatistics")]
+        public async Task<IActionResult> GetAllStatistics(int shopId)
+        {
+
+            var salesStatistics = await _orderService.GetAllStatistics(shopId);
+
+            if (salesStatistics == null || !salesStatistics.Any())
+            {
+                return NotFound(new { message = "No sales data found for this shop." });
+            }
+
+            return Ok(salesStatistics);
+        }
 
 
     }

@@ -24,8 +24,8 @@ namespace FM_Rozetka_Api.Core.Validation.Order
             RuleFor(x => x.Status)
                 .NotEmpty().WithMessage("Status is required.");
 
-            RuleFor(x => x.TotalAmount)
-                .GreaterThanOrEqualTo(0).WithMessage("TotalAmount must be greater than or equal to zero.");
+            RuleFor(x => x.TotalAmount).NotEmpty().WithMessage("TotalAmount is required.")
+                .GreaterThan(0).WithMessage("TotalAmount must be greater than or equal to zero.");
         }
     }
 

@@ -15,11 +15,13 @@ namespace FM_Rozetka_Api.Api.Controllers
     {
         private readonly IShopService _shopService;
         private readonly IModeratorShopService _moderatorShopService;
+        private readonly IOrderService _orderService;
 
-        public ShopController(IShopService shopService, IModeratorShopService moderatorShopService)
+        public ShopController(IShopService shopService, IModeratorShopService moderatorShopService, IOrderService orderService)
         {
             _shopService = shopService;
             _moderatorShopService = moderatorShopService;
+            _orderService = orderService;
         }
 
         [HttpPost("create")]
@@ -58,6 +60,17 @@ namespace FM_Rozetka_Api.Api.Controllers
             if (id != null)
             {
                 var shops = await _shopService.GetByUserIdAsync(id);
+                return Ok(shops);
+            }
+            return BadRequest("The id must not be null");
+        }
+
+        [HttpGet("GetShopByModeratorId")]
+        public async Task<IActionResult> GetShopByModeratorId(string id)
+        {
+            if (id != null)
+            {
+                var shops = await _shopService.GetByModeratorIdAsync(id);
                 return Ok(shops);
             }
             return BadRequest("The id must not be null");
@@ -154,6 +167,22 @@ namespace FM_Rozetka_Api.Api.Controllers
             await _moderatorShopService.DeleteAsync(id);
             return NoContent();
         }
+
+        [HttpGet("GetSalesStatisticsForShop")]
+        public async Task<IActionResult> GetSalesStatisticsForShop( int shopId)
+        {
+            var salesStatistics = await _orderService.GetSalesStatisticsForShop(shopId);
+
+            if (salesStatistics == null || (!salesStatistics.DailyStatistics.Any() && !salesStatistics.ProductStatistics.Any()))
+            {
+                return NotFound(new { message = "No sales data found." });
+            }
+
+            return Ok(salesStatistics);
+        }
+
+
+
 
 
     }
