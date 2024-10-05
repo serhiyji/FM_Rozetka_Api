@@ -12,18 +12,41 @@ namespace FM_Rozetka_Api.Api.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
-        private readonly IReviewService _reviewService;
         private readonly IViewedProductService _viewedProductService;
+        private readonly IPhotoProductService _photoProductService;
+
         public ProductController(
                 IProductService productService,
                 IFavoriteService favoriteService,
                 IReviewService reviewService,
-                IViewedProductService viewedProductService
+                IViewedProductService viewedProductService,
+                IPhotoProductService photoProductService
             )
         {
             this._productService = productService;
-            this._reviewService = reviewService;
             this._viewedProductService = viewedProductService;
+            this._photoProductService = photoProductService;
+        }
+        [HttpDelete("deletephoto/{photoId}")]
+        public async Task<IActionResult> DeletePhoto(int photoId)
+        {
+            var response = await _photoProductService.DeleteAsync(photoId);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+        [HttpGet("getphotobyproductid")]
+        public async Task<IActionResult> GetPhotByProductId(int productid)
+        {
+            if (productid > 0) 
+            {
+                var response = await _photoProductService.GetByProductIdAsync(productid);
+                return Ok(response);
+            }
+            return BadRequest("Id cannot be 0");
         }
 
         [HttpPost("create")]
@@ -48,15 +71,17 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(response);
         }
 
+
+
+
+
+
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var response = await _productService.DeleteAsync(id);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
+           
+            return Ok(response);
         }
 
         [HttpGet("getall")]
@@ -120,7 +145,6 @@ namespace FM_Rozetka_Api.Api.Controllers
             }
             return BadRequest(response.Message);
         }
-
 
         [HttpPost("addviewedproduct")]
         public async Task<IActionResult> AddViewedProduct([FromQuery]int productId, [FromQuery]string appUserId)
