@@ -123,6 +123,14 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse<object, object>(false, "Product not found");
             }
 
+            // Видалення записів у OrderItems, що пов'язані з продуктом
+            var orderItems = await _productRepository.GetListBySpec(new ProductSpecification.HasOrderItemsSpecification(id));
+
+            if (orderItems.Count() > 0)
+            {
+                return new ServiceResponse<object, object>(false, "Cannot delete product as it is associated with existing orders.");
+            }
+
             try
             {
                 if (product.ImageURL != "noimage.webp")
