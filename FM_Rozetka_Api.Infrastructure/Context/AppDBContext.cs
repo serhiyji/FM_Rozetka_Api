@@ -148,7 +148,7 @@ namespace FM_Rozetka_Api.Infrastructure.Context
             // OrderItem - Product
             modelBuilder.Entity<OrderItem>()
                 .HasOne(oi => oi.Product).WithMany(p => p.OrderItems)
-                .HasForeignKey(oi => oi.ProductId).OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(oi => oi.ProductId).OnDelete(DeleteBehavior.Cascade);
 
             // ProductQuestion - Product
             modelBuilder.Entity<ProductQuestion>()

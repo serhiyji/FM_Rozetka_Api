@@ -123,14 +123,6 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse<object, object>(false, "Product not found");
             }
 
-            // Видалення записів у OrderItems, що пов'язані з продуктом
-            var orderItems = await _productRepository.GetListBySpec(new ProductSpecification.HasOrderItemsSpecification(id));
-
-            if (orderItems.Count() > 0)
-            {
-                return new ServiceResponse<object, object>(false, "Cannot delete product as it is associated with existing orders.");
-            }
-
             try
             {
                 if (product.ImageURL != "noimage.webp")
@@ -187,21 +179,41 @@ namespace FM_Rozetka_Api.Core.Services
             }
         }
 
-        public async Task<ServiceResponse<IEnumerable<ProductDTO>, object>> GetByShopIdAsync(int id)
+        //public async Task<ServiceResponse<IEnumerable<ProductDTO>, object>> GetByShopIdAsync(int id)
+        //{
+        //    try
+        //    {
+        //        var product = await _productRepository.GetListBySpec(new ProductSpecification.GetByShopID(id));
+        //        if (product == null)
+        //        {
+        //            return new ServiceResponse<IEnumerable<ProductDTO>, object>(false, "Product not found");
+        //        }
+
+        //        return new ServiceResponse<IEnumerable<ProductDTO>, object>(true, "Success", payload: _mapper.Map<IEnumerable<ProductDTO>>(product));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new ServiceResponse<IEnumerable<ProductDTO>, object>(false, "Failed: " + ex.Message);
+        //    }
+        //}
+
+        public async Task<PaginationResponse<List<ProductDTO>, object>> GetByShopIdAsync(int shopId, int pageNumber = 1, int pageSize = 10)
         {
             try
             {
-                var product = await _productRepository.GetListBySpec(new ProductSpecification.GetByShopID(id));
-                if (product == null)
-                {
-                    return new ServiceResponse<IEnumerable<ProductDTO>, object>(false, "Product not found");
-                }
+                var specification = new ProductSpecification.GetByShopIdWithPagination(shopId, pageNumber, pageSize);
 
-                return new ServiceResponse<IEnumerable<ProductDTO>, object>(true, "Success", payload: _mapper.Map<IEnumerable<ProductDTO>>(product));
+                var products = await _productRepository.GetListBySpec(specification);
+
+                var totalCount = await _productRepository.GetCountBySpec(new ProductSpecification.GetByShopIdWithPagination(shopId, 1, int.MaxValue));
+
+                var productDTOs = _mapper.Map<List<ProductDTO>>(products);
+
+                return new PaginationResponse<List<ProductDTO>, object>(true, "Success", payload: productDTOs, pageNumber: pageNumber, pageSize: pageSize, totalCount: totalCount);
             }
             catch (Exception ex)
             {
-                return new ServiceResponse<IEnumerable<ProductDTO>, object>(false, "Failed: " + ex.Message);
+                return new PaginationResponse<List<ProductDTO>, object>(false, "Failed: " + ex.Message);
             }
         }
 

@@ -12,7 +12,7 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ServiceResponse<ProductDTO, object>> GetByIdAsync(int id);
         Task<ServiceResponse<IEnumerable<ProductDTO>, object>> GetAllAsync();
         Task<ServiceResponse<int, object>> GetCountByCategoryId(int categoryid);
-        Task<ServiceResponse<IEnumerable<ProductDTO>, object>> GetByShopIdAsync(int shopid);
+        Task<PaginationResponse<List<ProductDTO>, object>> GetByShopIdAsync(int shopId, int pageNumber = 1, int pageSize = 10);
         Task<PaginationResponse<List<ProductDTO>, object>> GetPagedProductsAsync(int pageNumber, int pageSize);
         Task<PaginationResponse<List<ProductDTO>, object>> GetPagedFavoritesProductsAsync(List<int> FaforitesId,int pageNumber, int pageSize);
         Task<PaginationResponse<List<Product>, object>> FilterProductsBySpecifications(Dictionary<int, List<int>> filters, int page = 1, int pageSize = 10);
