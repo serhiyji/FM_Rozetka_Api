@@ -9,6 +9,7 @@ using FM_Rozetka_Api.Core.Specifications;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Text;
 
 namespace FM_Rozetka_Api.Core.Services
@@ -21,18 +22,20 @@ namespace FM_Rozetka_Api.Core.Services
         private readonly IShopService _shopService;
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailService _emailService;
+        private readonly IConfiguration _configuration;
         public ModeratorShopService(
                 IRepository<ModeratorShop> moderatorShopRepository,
                 IMapper mapper, 
                 IShopService shopService,
                 UserManager<AppUser> userManager, 
-                IEmailService emailService
+                IEmailService emailService,
+                IConfiguration configuration
             )
         {
             _moderatorShopRepository = moderatorShopRepository;
             _mapper = mapper;
             _shopService = shopService;
-
+            _configuration = configuration;
             _userManager = userManager;
             _emailService = emailService;
         }
@@ -98,6 +101,12 @@ namespace FM_Rozetka_Api.Core.Services
 
                 if (appUser != null)
                 {
+                    var shopUser = await _shopService.GetByUserIdAsync(appUser.Id);
+                    var moderatorshop = await _moderatorShopRepository.GetItemBySpec(new ModeratorShopSpecification.GetModeratorShopByAppUserId(appUser.Id));
+                    if (shopUser != null || moderatorshop != null)
+                    {
+                        return new ServiceResponse(false, "Unable to invite user because he is already added to the store", payload: null);
+                    }
 
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(appUser);
                     var encodedToken = Encoding.UTF8.GetBytes(token);
@@ -136,7 +145,7 @@ namespace FM_Rozetka_Api.Core.Services
                     var encodedToken = Encoding.UTF8.GetBytes(token);
                     var validEmailToken = WebEncoders.Base64UrlEncode(encodedToken);
 
-                    string confirmUrl = $"http://localhost:5173/ConfirmRoleModerator?userId={user.Id}&token={validEmailToken}&shopId={shop.Id}";
+                    string confirmUrl = $"{_configuration["HostSettings:URL"]}/ConfirmRoleModerator?userId={user.Id}&token={validEmailToken}&shopId={shop.Id}";
                     string confirmEmailBody = $"<h1>You have been granted access to the store {shop.FullName}.</h1><h1>Confirm for next interaction.</h1><hr><h2>Your password: {password}</h2><a href='{confirmUrl}'>Confirm now</a>";
                     await _emailService.SendEmailAsync(newUser.Email, "Confirm your email", confirmEmailBody);
 
@@ -190,6 +199,13 @@ namespace FM_Rozetka_Api.Core.Services
 
                 if (user == null)
                     return new ServiceResponse(false, "unknown user");
+
+                var shopUser = await _shopService.GetByUserIdAsync(user.Id);
+                var moderatorshop = await _moderatorShopRepository.GetItemBySpec(new ModeratorShopSpecification.GetModeratorShopByAppUserId(user.Id));
+                if (shopUser != null || moderatorshop != null)
+                {
+                    return new ServiceResponse(false, "This confirmation is no longer active", payload: null);
+                }
 
                 if (user.EmailConfirmed == false)
                 {

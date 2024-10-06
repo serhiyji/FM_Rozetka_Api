@@ -84,6 +84,16 @@ namespace FM_Rozetka_Api.Core.Specifications
                      .Where(product => product.OrderItems.Any());
             }
         }
-         
+
+        public class GetByShopIdWithPagination : Specification<Product>
+        {
+            public GetByShopIdWithPagination(int shopId, int pageNumber, int pageSize)
+            {
+                Query.Where(p => p.ShopId == shopId) 
+                     .Skip((pageNumber - 1) * pageSize) 
+                     .Take(pageSize);
+            }
+        }
+
     }
 }

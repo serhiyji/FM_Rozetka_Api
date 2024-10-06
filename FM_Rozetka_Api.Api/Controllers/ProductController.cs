@@ -39,7 +39,7 @@ namespace FM_Rozetka_Api.Api.Controllers
         }
 
         [HttpGet("getphotobyproductid")]
-        public async Task<IActionResult> GetPhotByProductId(int productid)
+        public async Task<IActionResult> GetPhotoByProductId(int productid)
         {
             if (productid > 0) 
             {
@@ -72,10 +72,6 @@ namespace FM_Rozetka_Api.Api.Controllers
         }
 
 
-
-
-
-
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -106,16 +102,28 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(response);
         }
 
+        //[HttpGet("getbyshopid")]
+        //public async Task<IActionResult> GetByShopId(int shopid)
+        //{
+        //    var response = await _productService.GetByShopIdAsync(shopid);
+        //    if (response.Success)
+        //    {
+        //        return Ok(response);
+        //    }
+        //    return BadRequest(response);
+        //}
+
         [HttpGet("getbyshopid")]
-        public async Task<IActionResult> GetByShopId(int shopid)
+        public async Task<IActionResult> GetByShopId([FromQuery] int shopId, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
-            var response = await _productService.GetByShopIdAsync(shopid);
+            var response = await _productService.GetByShopIdAsync(shopId, pageNumber, pageSize);
             if (response.Success)
             {
                 return Ok(response);
             }
-            return BadRequest(response);
+            return BadRequest(response.Message);
         }
+
 
         [HttpGet("paged")]
         public async Task<IActionResult> GetPagedProducts([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
