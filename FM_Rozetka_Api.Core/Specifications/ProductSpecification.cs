@@ -1,6 +1,7 @@
 ﻿using Ardalis.Specification;
 using FM_Rozetka_Api.Core.Entities;
 using Rozetka_Api.Core.Entities;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FM_Rozetka_Api.Core.Specifications
 {
@@ -73,5 +74,26 @@ namespace FM_Rozetka_Api.Core.Specifications
                 Query.Where(p => p.Name.ToLower().Contains(searchTerm.ToLower())).Skip((pageNumber - 1) * pageSize).Take(pageSize);
             }
         }
+
+        public class HasOrderItemsSpecification : Specification<Product>
+        {
+            public HasOrderItemsSpecification(int productId)
+            {
+                Query.Where(product => product.Id == productId)
+                     .Include(product => product.OrderItems)
+                     .Where(product => product.OrderItems.Any());
+            }
+        }
+
+        public class GetByShopIdWithPagination : Specification<Product>
+        {
+            public GetByShopIdWithPagination(int shopId, int pageNumber, int pageSize)
+            {
+                Query.Where(p => p.ShopId == shopId) 
+                     .Skip((pageNumber - 1) * pageSize) 
+                     .Take(pageSize);
+            }
+        }
+
     }
 }

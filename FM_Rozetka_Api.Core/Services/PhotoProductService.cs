@@ -11,7 +11,8 @@ namespace FM_Rozetka_Api.Core.Services
     {
         private readonly IRepository<PhotoProduct> _photoProductRepository;
         private readonly IMapper _mapper;
-
+        private const string imageFolder = "images";
+        int[] sizes = { 320, 600, 1200 };
         public PhotoProductService(IRepository<PhotoProduct> photoProductRepository, IMapper mapper)
         {
             _photoProductRepository = photoProductRepository;
@@ -26,10 +27,40 @@ namespace FM_Rozetka_Api.Core.Services
             return new ServiceResponse<PhotoProduct, object>(true, "Succes", payload: photo);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<ServiceResponse<object, object>> DeleteAsync(int id)
         {
+            var product = await _photoProductRepository.GetByID(id);
+            if (product == null)
+            {
+                return new ServiceResponse<object, object>(false, "Product not found");
+            }
+
+            try
+            {
+
+                string root = Directory.GetCurrentDirectory();
+
+                foreach (int size in sizes)
+                {
+                    string fullFileName = $"{size}_{product.NameImage}";
+                    string imagePath = Path.Combine(root, imageFolder, fullFileName);
+                    if (File.Exists(imagePath))
+                    {
+                        File.Delete(imagePath);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Помилка при видалені файлу {ex.Message}");
+                return new ServiceResponse<object, object>(false, "Photo not found");
+            }
+
+          
             await _photoProductRepository.Delete(id);
             await _photoProductRepository.Save();
+
+            return new ServiceResponse<object, object>(true, "Photo successfully deleted");
         }
 
         public async Task<IEnumerable<PhotoProductDTO>> GetAllAsync()
