@@ -11,11 +11,13 @@ namespace FM_Rozetka_Api.Core.Services
     {
         private readonly IRepository<Shop> _shopRepository;
         private readonly IMapper _mapper;
+        private readonly ICompanyService _companyService;
 
-        public ShopService(IRepository<Shop> shopRepository, IMapper mapper)
+        public ShopService(IRepository<Shop> shopRepository, IMapper mapper, ICompanyService companyService)
         {
             _shopRepository = shopRepository;
             _mapper = mapper;
+            _companyService = companyService;
         }
 
         public async Task<ServiceResponse<Shop,object>> AddAsync(ShopCreateDTO model)
@@ -47,8 +49,11 @@ namespace FM_Rozetka_Api.Core.Services
         public async Task<ShopDTO> GetByUserIdAsync(string id)
         {
             var shop = await _shopRepository.GetItemBySpec(new ShopSpecification.GetShopByUserId(id));
-            return _mapper.Map<ShopDTO>(shop);
+            var map = _mapper.Map<ShopDTO>(shop);
+            return map;
         }
+
+
 
         public async Task<ShopDTO> GetByModeratorIdAsync(string id)
         {
@@ -61,6 +66,10 @@ namespace FM_Rozetka_Api.Core.Services
             var shop = _mapper.Map<Shop>(model);
             await _shopRepository.Update(shop);
             await _shopRepository.Save();
+
+            model.Company.PhoneNumber = shop.PhoneNumber;
+            await _companyService.UpdateApplicationAsync(model.Company);
+
         }
     }
 }

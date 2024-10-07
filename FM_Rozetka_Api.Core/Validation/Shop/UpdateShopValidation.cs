@@ -7,8 +7,7 @@ namespace FM_Rozetka_Api.Core.Validation.Shop
     {
         public UpdateShopValidation()
         {
-          
-           RuleFor(x => x.Email)
+            RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Email is required.")
                 .EmailAddress().WithMessage("Invalid email format.");
 
@@ -35,6 +34,7 @@ namespace FM_Rozetka_Api.Core.Validation.Shop
                 .Must((dto, hasNoWebsite) => hasNoWebsite || !string.IsNullOrEmpty(dto.Website))
                 .WithMessage("Website must be provided if 'HasNoWebsite' is false.");
         }
+
 
     }
 }

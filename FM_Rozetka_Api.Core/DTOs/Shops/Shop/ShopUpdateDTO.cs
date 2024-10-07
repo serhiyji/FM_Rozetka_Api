@@ -1,4 +1,6 @@
 ﻿
+using FM_Rozetka_Api.Core.DTOs.Company;
+
 namespace FM_Rozetka_Api.Core.DTOs.Shops.Shop
 {
     public class ShopUpdateDTO
@@ -13,5 +15,6 @@ namespace FM_Rozetka_Api.Core.DTOs.Shops.Shop
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public bool IsNonResident { get; set; }
+        public UpdateCompanyDTO Company { get; set; }  
     }
 }

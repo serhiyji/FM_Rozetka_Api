@@ -18,5 +18,14 @@ namespace FM_Rozetka_Api.Core.Specifications
                 Query.Where(d => d.EndDate < DateTime.UtcNow);
             }
         }
+
+        public class GetUpcomingDiscounts : Specification<Discount>
+        {
+            public GetUpcomingDiscounts()
+            {
+                Query.Where(d => d.StartDate <= DateTime.Now && d.EndDate > DateTime.Now);
+            }
+        }
+
     }
 }

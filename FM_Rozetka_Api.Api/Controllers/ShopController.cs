@@ -77,7 +77,7 @@ namespace FM_Rozetka_Api.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateApplication([FromBody] ShopUpdateDTO model)
+        public async Task<IActionResult> UpdateApplication([FromForm] ShopUpdateDTO model)
         {
             if (model == null)
             {
