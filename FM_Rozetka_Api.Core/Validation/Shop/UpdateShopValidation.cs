@@ -8,8 +8,8 @@ namespace FM_Rozetka_Api.Core.Validation.Shop
         public UpdateShopValidation()
         {
             RuleFor(x => x.Email)
-                .NotEmpty().WithMessage("Email is required.")
-                .EmailAddress().WithMessage("Invalid email format.");
+           .NotEmpty().WithMessage("Email is required.")
+           .EmailAddress().WithMessage("Invalid email format.");
 
             RuleFor(x => x.PhoneNumber)
                 .NotEmpty().WithMessage("Phone Number is required.")
@@ -26,6 +26,7 @@ namespace FM_Rozetka_Api.Core.Validation.Shop
 
             RuleFor(x => x.Website)
                 .MaximumLength(256).WithMessage("Website must be less than 256 characters.")
+                .NotEmpty()
                 .When(x => !x.HasNoWebsite)
                 .WithMessage("Website is required if 'HasNoWebsite' is false.");
 

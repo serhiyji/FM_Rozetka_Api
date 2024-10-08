@@ -61,15 +61,35 @@ namespace FM_Rozetka_Api.Core.Services
             return _mapper.Map<ShopDTO>(shop);
         }
 
-        public async Task UpdateAsync(ShopUpdateDTO model)
+        public async Task<ServiceResponse<object, object>> UpdateAsync(ShopUpdateDTO model)
         {
-            var shop = _mapper.Map<Shop>(model);
-            await _shopRepository.Update(shop);
-            await _shopRepository.Save();
+            try
+            {
+                var shop = _mapper.Map<Shop>(model);
 
-            model.Company.PhoneNumber = shop.PhoneNumber;
-            await _companyService.UpdateApplicationAsync(model.Company);
+                if (shop.Website == "null")
+                {
+                    shop.Website = "";
+                }
 
+                await _shopRepository.Update(shop);
+                await _shopRepository.Save();
+
+                model.Company.PhoneNumber = shop.PhoneNumber;
+                await _companyService.UpdateApplicationAsync(model.Company);
+
+                // Повертаємо успішну відповідь
+                return new ServiceResponse<object, object>(true, "Shop updated successfully");
+            }
+            catch (Exception ex)
+            { 
+            
+                Console.Error.WriteLine($"Error updating shop: {ex.Message}");
+
+                return new ServiceResponse<object, object>(false, "Error updating shop");
+            }
         }
+
+
     }
 }
