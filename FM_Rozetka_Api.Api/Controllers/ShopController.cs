@@ -77,7 +77,7 @@ namespace FM_Rozetka_Api.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateApplication([FromBody] ShopUpdateDTO model)
+        public async Task<IActionResult> UpdateApplication([FromForm] ShopUpdateDTO model)
         {
             if (model == null)
             {
@@ -96,8 +96,12 @@ namespace FM_Rozetka_Api.Api.Controllers
                 return NotFound();
             }
 
-            await _shopService.UpdateAsync(model);
-            return NoContent();
+            var response = await _shopService.UpdateAsync(model);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
         }
 
         [HttpDelete("{id}")]

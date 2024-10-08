@@ -9,7 +9,8 @@ namespace FM_Rozetka_Api.Core.Specifications
         {
             public GetShopByUserId(string id)
             {
-                Query.Where(c => c.AppUserId == id);
+                Query.Include(company => company.Company)
+                    .Where(c => c.AppUserId == id);
             }
         }
 
