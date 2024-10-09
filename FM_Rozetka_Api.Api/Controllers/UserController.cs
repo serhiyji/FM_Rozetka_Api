@@ -166,5 +166,17 @@ namespace FM_Rozetka_Api.Api.Controllers
             }
             return Ok(validationResult.Errors.FirstOrDefault());
         }
+
+        [HttpGet("total-user-count")]
+        public async Task<IActionResult> GetTotalUserCount()
+        {
+            var result = await _userService.GetTotalUserCountAsync();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
     }
 }

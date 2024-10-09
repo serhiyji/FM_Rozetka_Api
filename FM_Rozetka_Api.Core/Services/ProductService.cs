@@ -318,5 +318,36 @@ namespace FM_Rozetka_Api.Core.Services
                 return new PaginationResponse<List<ProductDTO>, object>(false, "Failed: " + ex.Message);
             }
         }
+
+        public async Task<ServiceResponse<int, object>> GetProductCountAsync()
+        {
+            try
+            {
+                var product = await _productRepository.GetAll();
+                int shopCount = product.Count();
+
+                return new ServiceResponse<int, object>(true, "Product count retrieved successfully", payload: shopCount);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error retrieving product count: {ex.Message}");
+                return new ServiceResponse<int, object>(false, "Error retrieving product count");
+            }
+        }
+
+        public async Task<ServiceResponse<int, object>> GetNewProductsCountAsync()
+        {
+            try
+            {
+                int newProductsCount = await _productRepository.GetCountBySpec(new ProductSpecification.GetNewProducts());
+
+                return new ServiceResponse<int, object>(true, "New products count retrieved successfully", payload: newProductsCount);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error retrieving new products count: {ex.Message}");
+                return new ServiceResponse<int, object>(false, "Error retrieving new products count");
+            }
+        }
     }
 }

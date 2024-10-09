@@ -1,5 +1,6 @@
 ﻿using FM_Rozetka_Api.Core.DTOs.Seller;
 using FM_Rozetka_Api.Core.Entities;
+using FM_Rozetka_Api.Core.Responses;
 
 namespace FM_Rozetka_Api.Core.Interfaces
 {
@@ -12,5 +13,6 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task UpdateApplicationStatusAsync(SellerApplicationDTO application);
         Task UpdateApplicationAsync(UpdateSellerApplicationDTO application);
         Task DeleteApplicationAsync(int id);
+        Task<ServiceResponse<int, object>> GetAppCountAsync();
     }
 }

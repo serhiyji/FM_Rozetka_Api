@@ -20,6 +20,7 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ServiceResponse<object, object>> DeleteAsync(int id);
         Task<SalesStatisticsDTO> GetSalesStatisticsForShop(int shopId);
         Task<IEnumerable<OrderDetailsDTO>> GetAllStatistics(int shopId);
+        Task<ServiceResponse<decimal, object>> GetTotalSalesVolumeForLast7DaysAsync();
     }
 }
 

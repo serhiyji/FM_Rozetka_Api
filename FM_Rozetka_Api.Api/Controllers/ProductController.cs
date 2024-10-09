@@ -209,5 +209,29 @@ namespace FM_Rozetka_Api.Api.Controllers
             }
             return BadRequest(result);
         }
+
+        [HttpGet("count")]
+        public async Task<IActionResult> GetShopCount()
+        {
+            var result = await _productService.GetProductCountAsync();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("get-new-products-count")]
+        public async Task<IActionResult> GetNewProductsCount()
+        {
+            var result = await _productService.GetNewProductsCountAsync();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+
     }
 }
