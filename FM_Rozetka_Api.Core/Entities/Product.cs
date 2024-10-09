@@ -15,7 +15,7 @@ namespace FM_Rozetka_Api.Core.Entities
         public int Stock { get; set; }
         public string ImageURL { get; set; }
         public DateTime CreatedAt { get; set; }
-
+        public bool isVerified { get; set; } = false;
         public int Showings { get; set; } = 0;
 
         public int ShopId { get; set; }

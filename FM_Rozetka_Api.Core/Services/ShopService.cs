@@ -78,7 +78,6 @@ namespace FM_Rozetka_Api.Core.Services
                 model.Company.PhoneNumber = shop.PhoneNumber;
                 await _companyService.UpdateApplicationAsync(model.Company);
 
-                // Повертаємо успішну відповідь
                 return new ServiceResponse<object, object>(true, "Shop updated successfully");
             }
             catch (Exception ex)
@@ -89,6 +88,24 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse<object, object>(false, "Error updating shop");
             }
         }
+
+        public async Task<ServiceResponse<int, object>> GetShopCountAsync()
+        {
+            try
+            {
+                var shops = await _shopRepository.GetAll();
+                int shopCount = shops.Count();
+
+                return new ServiceResponse<int, object>(true, "Shop count retrieved successfully", payload: shopCount);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error retrieving shop count: {ex.Message}");
+                return new ServiceResponse<int, object>(false, "Error retrieving shop count");
+            }
+        }
+
+
 
 
     }

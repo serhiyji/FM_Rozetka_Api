@@ -185,7 +185,28 @@ namespace FM_Rozetka_Api.Api.Controllers
             return Ok(salesStatistics);
         }
 
+        [HttpGet("count")]
+        public async Task<IActionResult> GetShopCount()
+        {
+            var result = await _shopService.GetShopCountAsync();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
 
+        [HttpGet("GetTotalSalesVolumeLast7Days")]
+        public async Task<IActionResult> GetTotalSalesVolumeLast7Days()
+        {
+            var result = await _orderService.GetTotalSalesVolumeForLast7DaysAsync();
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
 
 
 

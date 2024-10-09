@@ -52,5 +52,17 @@ namespace FM_Rozetka_Api.Core.Specifications
             }
         }
 
+        public class GetOrdersForLast7Days : Specification<Order>
+        {
+            public GetOrdersForLast7Days()
+            {
+                var sevenDaysAgo = DateTime.UtcNow.AddDays(-7);
+
+                Query.Include(order => order.OrderItems)
+                     .ThenInclude(orderItem => orderItem.Product)
+                     .Where(order => order.OrderDate >= sevenDaysAgo);
+            }
+        }
+
     }
 }

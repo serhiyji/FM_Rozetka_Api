@@ -14,5 +14,6 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ShopDTO> GetByUserIdAsync(string id);
         Task<ShopDTO> GetByModeratorIdAsync(string id);
         Task DeleteAsync(int id);
+        Task<ServiceResponse<int, object>> GetShopCountAsync();
     }
 }

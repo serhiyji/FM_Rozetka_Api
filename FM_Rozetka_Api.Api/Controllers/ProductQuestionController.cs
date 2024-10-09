@@ -93,6 +93,18 @@ namespace FM_Rozetka_Api.Api.Controllers
             }
             return BadRequest(response);
         }
+
+
+        [HttpGet("count")]
+        public async Task<IActionResult> GetQuestionCount()
+        {
+            var result = await _productQuestionService.GetQuestionCountAsync();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
     }
 
 }

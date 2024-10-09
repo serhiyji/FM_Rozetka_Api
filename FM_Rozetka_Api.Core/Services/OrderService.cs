@@ -231,6 +231,23 @@ namespace FM_Rozetka_Api.Core.Services
             return orderDetailsList;
         }
 
+        public async Task<ServiceResponse<decimal, object>> GetTotalSalesVolumeForLast7DaysAsync()
+        {
+            try
+            {
+                var orders = await _orderRepository.GetListBySpec(new OrderSpecification.GetOrdersForLast7Days());
+
+                var totalSalesVolume = orders.Sum(order => order.OrderItems.Sum(item => item.Quantity * item.Product.Price));
+
+                return new ServiceResponse<decimal, object>(true, "Total sales volume retrieved successfully", payload: totalSalesVolume);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error retrieving sales volume: {ex.Message}");
+                return new ServiceResponse<decimal, object>(false, "Error retrieving sales volume");
+            }
+        }
+
 
     }
 

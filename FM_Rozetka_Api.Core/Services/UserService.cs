@@ -226,5 +226,20 @@ namespace FM_Rozetka_Api.Core.Services
             return new ServiceResponse(true, "");
         }
         #endregion
+
+
+        public async Task<ServiceResponse<int, object>> GetTotalUserCountAsync()
+        {
+            try
+            {
+                int userCount = await _userManager.Users.CountAsync();
+                return new ServiceResponse<int, object>(true, "Total user count retrieved successfully.", payload: userCount);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<int, object>(false, $"An error occurred while retrieving user count. {ex.Message}");
+            }
+        }
+
     }
 }

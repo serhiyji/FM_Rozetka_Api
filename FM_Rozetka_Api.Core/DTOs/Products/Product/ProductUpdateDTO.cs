@@ -9,6 +9,7 @@ namespace FM_Rozetka_Api.Core.DTOs.Products.Product
         public string Description { get; set; }
         public decimal Price { get; set; }
         public decimal Stars { get; set; }
+        public bool isVerified { get; set; }
         public int Stock { get; set; }
         public int BrandId { get; set; }
         public IFormFile? MainImageFile { get; set; }

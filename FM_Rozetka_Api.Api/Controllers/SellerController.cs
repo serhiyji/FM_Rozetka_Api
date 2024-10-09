@@ -115,5 +115,16 @@ namespace FM_Rozetka_Api.Api.Controllers
             await _sellerService.DeleteApplicationAsync(id);
             return NoContent();
         }
+
+        [HttpGet("count")]
+        public async Task<IActionResult> GetAppCount()
+        {
+            var result = await _sellerService.GetAppCountAsync();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
     }
 }

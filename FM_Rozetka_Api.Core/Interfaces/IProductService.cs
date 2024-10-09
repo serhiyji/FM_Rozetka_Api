@@ -19,5 +19,7 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ServiceResponse> GetNewOnes(int count);
         Task<ServiceResponse> GetPopular(int count);
         Task<PaginationResponse<List<ProductDTO>, object>> GetSearchByName(string name, int pageNumber, int pageSize);
+        Task<ServiceResponse<int, object>> GetProductCountAsync();
+        Task<ServiceResponse<int, object>> GetNewProductsCountAsync();
     }
 }

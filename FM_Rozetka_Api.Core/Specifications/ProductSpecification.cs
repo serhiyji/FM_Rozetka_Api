@@ -95,5 +95,13 @@ namespace FM_Rozetka_Api.Core.Specifications
             }
         }
 
+        public class GetNewProducts : Specification<Product>
+        {
+            public GetNewProducts()
+            {
+                Query.Where(product => !product.isVerified);
+            }
+        }
+
     }
 }

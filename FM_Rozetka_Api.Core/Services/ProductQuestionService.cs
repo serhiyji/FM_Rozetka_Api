@@ -147,6 +147,22 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse<IEnumerable<ProductQuestionDTO>, object>(false, "Failed: " + ex.Message);
             }
         }
+
+        public async Task<ServiceResponse<int, object>> GetQuestionCountAsync()
+        {
+            try
+            {
+                var questions = (await _productQuestionRepository.GetListBySpec(new ProductQuestionSpecification.OpenQuestions())).ToList();
+                int questionsCount = questions.Count();
+
+                return new ServiceResponse<int, object>(true, "questions count retrieved successfully", payload: questionsCount);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error retrieving questions count: {ex.Message}");
+                return new ServiceResponse<int, object>(false, "Error retrieving questions count");
+            }
+        }
     }
 
 }

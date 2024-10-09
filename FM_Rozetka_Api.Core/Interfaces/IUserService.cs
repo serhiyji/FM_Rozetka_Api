@@ -19,5 +19,6 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ServiceResponse> BanUser(string AppUserId);
         ServiceResponse<List<UserDTO>, object> GetAllAsync();
         Task<ServiceResponse> ChangePasswordAsync(UpdatePasswordDto model);
+        Task<ServiceResponse<int, object>> GetTotalUserCountAsync();
     }
 }
