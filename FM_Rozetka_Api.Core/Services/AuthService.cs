@@ -147,6 +147,10 @@ namespace FM_Rozetka_Api.Core.Services
             string normalToken = Encoding.UTF8.GetString(decodedToken);
             var result = await _userManager.ConfirmEmailAsync(user, normalToken);
 
+            user.LockoutEnabled = user.LockoutEnd.HasValue;
+
+            await _userManager.UpdateAsync(user);
+
             if (result.Succeeded)
                 return new ServiceResponse(false, "User`s email confirmed succesfully");
 
@@ -159,7 +163,7 @@ namespace FM_Rozetka_Api.Core.Services
             var encodedToken = Encoding.UTF8.GetBytes(token);
             var validEmailToken = WebEncoders.Base64UrlEncode(encodedToken);
 
-            string url = $"{_configuration["HostSettings:URL"]}/Login/confirmemail?userid={user.Id}&token={validEmailToken}";
+            string url = $"{_configuration["HostSettings:URL"]}/confirmemail?userid={user.Id}&token={validEmailToken}";
             //string url = $"{_config["HostSetting:URL"]}/Dashboard/ConfirmEmail?userId={user.Id}&token={validEmailToken}";
             string emailBody = $"" +
                 $"<h1>Confirm your email please.</h1><a href='{url}'>Confirm now</a>";

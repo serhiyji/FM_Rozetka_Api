@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Text;
 using FM_Rozetka_Api.Core.Interfaces;
+using FM_Rozetka_Api.Core.DTOs.Products.Product;
+using FM_Rozetka_Api.Core.Specifications;
 
 namespace FM_Rozetka_Api.Core.Services
 {
@@ -15,6 +17,9 @@ namespace FM_Rozetka_Api.Core.Services
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+
+        private readonly IShopService _shopService;
+        private readonly IModeratorShopService _moderatorshopService;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
@@ -23,7 +28,9 @@ namespace FM_Rozetka_Api.Core.Services
                 SignInManager<AppUser> signInManager,
                 UserManager<AppUser> userManager,
                 IMapper _mapper,
-                IConfiguration configuration
+                IConfiguration configuration,
+                IShopService shopService,
+                IModeratorShopService moderatorShopService
             )
         {
             this._userManager = userManager;
@@ -31,6 +38,8 @@ namespace FM_Rozetka_Api.Core.Services
             this._mapper = _mapper;
             this._configuration = configuration;
             this._emailService = emailService;
+            _shopService = shopService;
+            _moderatorshopService = moderatorShopService;
         }
         public async Task<ServiceResponse> CreateUserAsync(CreateUserDTO model)
         {
@@ -52,6 +61,21 @@ namespace FM_Rozetka_Api.Core.Services
             {
                 return new ServiceResponse(false, "User a was found");
             }
+
+            var role = await _userManager.GetRolesAsync(userdelete);
+
+            if (role.Contains("Seller"))
+            {
+                var shop = await _shopService.GetByUserIdAsync(userdelete.Id);
+                var moderatorshop = await _moderatorshopService.GetUsersByShopId(shop.Id);
+
+                foreach (var item in moderatorshop.Payload)
+                {
+                    await ChangeUserRoleAsync(item.AppUserId, "User");
+                }
+
+            }
+
             IdentityResult result = await _userManager.DeleteAsync(userdelete);
             if (result.Succeeded)
             {
@@ -213,20 +237,58 @@ namespace FM_Rozetka_Api.Core.Services
             List<UserDTO> users = _mapper.Map<List<AppUser>, List<UserDTO>>(_userManager.Users.ToList());
             return new ServiceResponse<List<UserDTO>, object>(true, "", payload: users);
         }
-        public async Task<ServiceResponse> BanUser(string AppUserId)
+
+        public async Task<ServiceResponse> ToggleBlockUserAsync(string userId)
         {
-            AppUser appUser = await _userManager.FindByIdAsync(AppUserId);
-            if (appUser == null)
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
             {
-                return new ServiceResponse(false, "user not found");
+                return new ServiceResponse(false, "User not found.");
             }
-            appUser.LockoutEnd = new DateTimeOffset(new DateTime(14880, 1, 1));
-            appUser.LockoutEnabled = true;
-            await _userManager.UpdateAsync(appUser);
-            return new ServiceResponse(true, "");
+
+            user.LockoutEnd = user.LockoutEnd.HasValue && user.LockoutEnd > DateTimeOffset.Now
+                ? (DateTimeOffset?)null
+                : DateTimeOffset.UtcNow.AddYears(100);
+            user.LockoutEnabled = user.LockoutEnd.HasValue;
+
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                return new ServiceResponse(true, user.LockoutEnd == null ? "User successfully unblocked." : "User successfully blocked.");
+            }
+
+            return new ServiceResponse(false, "Failed to toggle block status.", errors: result.Errors.Select(e => e.Description));
         }
+
         #endregion
 
+        public async Task<ServiceResponse> ChangeUserRoleAsync(string userId, string newRole)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return new ServiceResponse(false, "User not found.");
+                }
+
+                var currentRoles = await _userManager.GetRolesAsync(user);
+                await _userManager.RemoveFromRolesAsync(user, currentRoles);
+                var result = await _userManager.AddToRoleAsync(user, newRole);
+
+                if (result.Succeeded)
+                {
+                    return new ServiceResponse(true, "User role updated successfully.");
+                }
+                return new ServiceResponse(false, "Failed to update user role.", errors: result.Errors.Select(e => e.Description));
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse(false, "Error: " + ex.Message);
+            }
+        }
 
         public async Task<ServiceResponse<int, object>> GetTotalUserCountAsync()
         {
@@ -240,6 +302,64 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse<int, object>(false, $"An error occurred while retrieving user count. {ex.Message}");
             }
         }
+
+        public async Task<PaginationResponse<List<UserDTO>, object>> GetPagedUsersAsync(
+             int page = 1,
+             int pageSize = 10,
+             string searchTerm = null)
+        {
+            try
+            {
+                var query = _userManager.Users.AsQueryable();
+
+                if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    searchTerm = searchTerm.ToLower();
+
+                    query = query.Where(u =>
+                        EF.Functions.Like(u.FirstName.ToLower(), $"%{searchTerm}%") ||
+                        EF.Functions.Like(u.LastName.ToLower(), $"%{searchTerm}%") ||
+                        EF.Functions.Like(u.Email.ToLower(), $"%{searchTerm}%"));
+                }
+
+                int totalUsers = await query.CountAsync();
+
+                var users = await query
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                var userDTOs = new List<UserDTO>();
+
+                foreach (var user in users)
+                {
+                    var roles = await _userManager.GetRolesAsync(user);
+                    var role = roles.FirstOrDefault() ?? "Unknown";
+
+                    var userDTO = _mapper.Map<UserDTO>(user);
+                    userDTO.Role = role;
+
+                    userDTOs.Add(userDTO);
+                }
+
+                return new PaginationResponse<List<UserDTO>, object>(
+                    true,
+                    "Users received successfully.",
+                    payload: userDTOs,
+                    pageNumber: page,
+                    pageSize: pageSize,
+                    totalCount: totalUsers
+                );
+            }
+            catch (Exception ex)
+            {
+                return new PaginationResponse<List<UserDTO>, object>(false, "Error: " + ex.Message);
+            }
+        }
+
+
+
+
 
     }
 }

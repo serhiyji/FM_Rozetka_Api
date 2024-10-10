@@ -145,10 +145,15 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(new { message = result.Message, errors = result.Errors });
         }
 
-        [HttpPost("banuser")]
-        public async Task<IActionResult> BanUser(string appUserId)
+        [HttpPost("toggleblock")]
+        public async Task<IActionResult> ToggleBlockUser([FromBody] string UserId)
         {
-            return Ok(await _userService.BanUser(appUserId));
+            var response = await _userService.ToggleBlockUserAsync(UserId);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
         }
 
         [HttpPost("UpdatePasswordInfoUser")]
@@ -177,6 +182,38 @@ namespace FM_Rozetka_Api.Api.Controllers
             }
             return BadRequest(result);
         }
+
+        [HttpGet("paged")]
+        public async Task<IActionResult> GetPagedUserss(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string searchTerm = null)
+        {
+            var response = await _userService.GetPagedUsersAsync(pageNumber, pageSize, searchTerm);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response.Message);
+        }
+
+        [HttpPost("changerole")]
+        public async Task<IActionResult> ChangeUserRole([FromBody] ChangeUserRoleDTO model)
+        {
+            var validationResult = await new ChangeUserRoleValidation().ValidateAsync(model);
+            if (validationResult.IsValid)
+            {
+                var response = await _userService.ChangeUserRoleAsync(model.UserId, model.NewRole);
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                return BadRequest(response);
+            }
+            return BadRequest(validationResult.Errors.FirstOrDefault());
+        }
+
+
 
     }
 }
