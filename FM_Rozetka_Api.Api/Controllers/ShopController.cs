@@ -43,6 +43,18 @@ namespace FM_Rozetka_Api.Api.Controllers
             return Ok(shops);
         }
 
+        [HttpGet("paged")]
+        public async Task<IActionResult> GetPagedShops(string? searchTerm = null, int page = 1, int pageSize = 10)
+        {
+            var response = await _shopService.GetPagedShopsAsync(searchTerm, page, pageSize);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+
         [HttpGet("GetById")]
         public async Task<IActionResult> GetByIdShop([FromBody] int id)
         {

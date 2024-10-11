@@ -105,6 +105,30 @@ namespace FM_Rozetka_Api.Core.Services
             }
         }
 
+        public async Task<PaginationResponse<List<ShopDTO>, object>> GetPagedShopsAsync(string? name = null, int page = 1, int pageSize = 10)
+        {
+            try
+            {
+                var shops = await _shopRepository.GetListBySpec(new ShopSpecification.GetByNameAndPagination(name, page, pageSize));
+                var totalShops = string.IsNullOrEmpty(name)
+                    ? await _shopRepository.GetCountRows()
+                    : await _shopRepository.GetCountBySpec(new ShopSpecification.GetByName(name));
+
+                return new PaginationResponse<List<ShopDTO>, object>(
+                    true,
+                    "Shops retrieved successfully.",
+                    payload: _mapper.Map<List<ShopDTO>>(shops),
+                    pageNumber: page,
+                    pageSize: pageSize,
+                    totalCount: totalShops
+                );
+            }
+            catch (Exception ex)
+            {
+                return new PaginationResponse<List<ShopDTO>, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
 
 
 
