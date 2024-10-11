@@ -206,7 +206,7 @@ namespace FM_Rozetka_Api.Core.Services
                         UserName = payload.Email,
                         EmailConfirmed = true,
                         FirstName = payload.GivenName,
-                        LastName = payload.FamilyName
+                        LastName = payload.FamilyName,
                     };
 
                     var result = await _userManager.CreateAsync(user);
