@@ -98,7 +98,7 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(new { message = "Email not confirmed", errors = result.Errors });
         }
         #endregion
-        [HttpPost("changemaininfouser")]
+        [HttpPut("changemaininfouser")]
         public async Task<IActionResult> ChangeMainInfoUser([FromBody] EditUserDTO model)
         {
             EditUserValidation validator = new EditUserValidation();

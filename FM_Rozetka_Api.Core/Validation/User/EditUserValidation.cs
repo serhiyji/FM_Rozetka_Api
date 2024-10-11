@@ -9,7 +9,6 @@ namespace FM_Rozetka_Api.Core.Validation.User
         {
             RuleFor(r => r.FirstName).MinimumLength(2).NotEmpty().MaximumLength(12);
             RuleFor(r => r.LastName).MinimumLength(2).NotEmpty().MaximumLength(12);
-            RuleFor(r => r.SurName).MinimumLength(2).NotEmpty().MaximumLength(12);
         }
     }
 }
