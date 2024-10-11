@@ -13,6 +13,7 @@ namespace FM_Rozetka_Api.Core.DTOs.Products.Product
         public IFormFile? MainImageFile { get; set; }
         public List<IFormFile>? AdditionalImageFiles { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public bool? isVerified { get; set; } = false;
         public int ShopId { get; set; }
         public bool HasDiscount { get; set; } = false;
         public int CategoryProductId { get; set; }

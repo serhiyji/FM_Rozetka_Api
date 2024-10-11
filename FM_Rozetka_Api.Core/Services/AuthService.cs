@@ -54,12 +54,6 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse(false, "User or password incorect.");
             }
             SignInResult result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: true);
-            if (result.Succeeded)
-            {
-                Tokens? tokens = await _jwtService.GenerateJwtTokensAsync(user);
-                await _signInManager.SignInAsync(user, model.RememberMe);
-                return new ServiceResponse(true, "User successfully loged in.", payload:true, accessToken: tokens.Token, refreshToken: tokens.refreshToken.Token);
-            }
             if (result.IsNotAllowed)
             {
                 return new ServiceResponse(false, "Confirm your email please");
@@ -67,6 +61,12 @@ namespace FM_Rozetka_Api.Core.Services
             if (result.IsLockedOut)
             {
                 return new ServiceResponse(false, "User is locked. Connect with your site admistrator.");
+            } 
+            if (result.Succeeded)
+            {
+                Tokens? tokens = await _jwtService.GenerateJwtTokensAsync(user);
+                await _signInManager.SignInAsync(user, model.RememberMe);
+                return new ServiceResponse(true, "User successfully loged in.", payload:true, accessToken: tokens.Token, refreshToken: tokens.refreshToken.Token);
             }
             return new ServiceResponse(false, "User or password incorect");
         }
@@ -147,6 +147,10 @@ namespace FM_Rozetka_Api.Core.Services
             string normalToken = Encoding.UTF8.GetString(decodedToken);
             var result = await _userManager.ConfirmEmailAsync(user, normalToken);
 
+            user.LockoutEnabled = user.LockoutEnd.HasValue;
+
+            await _userManager.UpdateAsync(user);
+
             if (result.Succeeded)
                 return new ServiceResponse(false, "User`s email confirmed succesfully");
 
@@ -159,7 +163,7 @@ namespace FM_Rozetka_Api.Core.Services
             var encodedToken = Encoding.UTF8.GetBytes(token);
             var validEmailToken = WebEncoders.Base64UrlEncode(encodedToken);
 
-            string url = $"{_configuration["HostSettings:URL"]}/Login/confirmemail?userid={user.Id}&token={validEmailToken}";
+            string url = $"{_configuration["HostSettings:URL"]}/confirmemail?userid={user.Id}&token={validEmailToken}";
             //string url = $"{_config["HostSetting:URL"]}/Dashboard/ConfirmEmail?userId={user.Id}&token={validEmailToken}";
             string emailBody = $"" +
                 $"<h1>Confirm your email please.</h1><a href='{url}'>Confirm now</a>";
@@ -174,8 +178,26 @@ namespace FM_Rozetka_Api.Core.Services
             {
                 return new ServiceResponse(false, "User incorect.");
             }
-             
+
+            if (!user.EmailConfirmed)
+            {
+                return new ServiceResponse(false, "Please confirm your email to proceed.");
+            }
+
+            if (user.LockoutEnabled)
+            {
+                return new ServiceResponse(false, "User is locked. Connect with your site admistrator.");
+            }
+
+            if (user.FirstName == null && user.LastName == null)
+            {
+                user.FirstName = payload.GivenName;
+                user.LastName = payload.FamilyName;
+                await _userManager.UpdateAsync(user);
+            }
+
             var token = await _jwtService.GenerateJwtTokensAsync(user);
+
 
             if (token != null)
             {
@@ -195,14 +217,13 @@ namespace FM_Rozetka_Api.Core.Services
 
                 if (user == null)
                 {
-                    // Створюємо нового користувача на основі інформації з Google
                     user = new AppUser
                     {
                         Email = payload.Email,
                         UserName = payload.Email,
-                        EmailConfirmed = true,
+                        EmailConfirmed = false,
                         FirstName = payload.GivenName,
-                        LastName = payload.FamilyName
+                        LastName = payload.FamilyName,
                     };
 
                     var result = await _userManager.CreateAsync(user);
@@ -216,7 +237,6 @@ namespace FM_Rozetka_Api.Core.Services
 
                 }
 
-                // Генеруємо JWT токени
                 var tokens = await _jwtService.GenerateJwtTokensAsync(user);
                 return new ServiceResponse(true, "User successfully registered and authenticated with Google.", accessToken: tokens.Token, refreshToken: tokens.refreshToken.Token);
             }
@@ -236,7 +256,7 @@ namespace FM_Rozetka_Api.Core.Services
                 if (user == null)
                 {
                     CreateUserDTO NewUser = _mapper.Map<RegistrationUserDTO, CreateUserDTO>(regitrationUserDTO);
-                    // Створюємо нового користувача
+                    
                     NewUser.Role = "User";
                    
                     var result = await _userService.CreateUserAsync(NewUser);

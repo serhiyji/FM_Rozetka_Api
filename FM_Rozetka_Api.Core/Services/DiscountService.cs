@@ -30,15 +30,22 @@ namespace FM_Rozetka_Api.Core.Services
             var newDiscount = _mapper.Map<Discount>(model);
             try
             {
+                newDiscount.StartDate = newDiscount.StartDate.ToUniversalTime();
+                newDiscount.EndDate = newDiscount.EndDate.ToUniversalTime();
+
                 await _discountRepository.Insert(newDiscount);
                 await _discountRepository.Save();
 
                 var product = await _productRepository.GetByID(newDiscount.ProductId);
                 if (product != null)
                 {
-                    product.Price = CalculateDiscountedPrice(product.Price, newDiscount);
-                    await _productRepository.Update(product);
-                    await _productRepository.Save();
+                    if (newDiscount.StartDate <= DateTime.UtcNow)
+                    {
+                        product.Price = CalculateDiscountedPrice(product.Price, newDiscount);
+                        product.HasDiscount = true; 
+                        await _productRepository.Update(product);
+                        await _productRepository.Save();
+                    }
                 }
 
                 return new ServiceResponse<Discount, object>(true, "Success", payload: newDiscount);
@@ -46,6 +53,34 @@ namespace FM_Rozetka_Api.Core.Services
             catch (Exception ex)
             {
                 return new ServiceResponse<Discount, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
+
+        public async Task<ServiceResponse<object, object>> ActivateScheduledDiscountsAsync()
+        {
+            try
+            {
+                var upcomingDiscounts = await _discountRepository.GetListBySpec(new DiscountSpecifications.GetUpcomingDiscounts());
+
+                foreach (var discount in upcomingDiscounts)
+                {
+                    var product = await _productRepository.GetByID(discount.ProductId);
+                    if (product != null && !product.HasDiscount)
+                    {
+                        product.Price = CalculateDiscountedPrice(product.Price, discount);
+                        product.HasDiscount = true;
+                        await _productRepository.Update(product);
+                    }
+                }
+
+                await _productRepository.Save();
+
+                return new ServiceResponse<object, object>(true, "Scheduled discounts have been successfully activated.");
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<object, object>(false, "Error activating scheduled discounts: " + ex.Message);
             }
         }
 
@@ -63,22 +98,38 @@ namespace FM_Rozetka_Api.Core.Services
                 if (product != null)
                 {
                     product.Price = CalculateOriginalPrice(product.Price, discount);
+
                     _mapper.Map(model, discount);
+                    discount.StartDate = discount.StartDate.ToUniversalTime();
+                    discount.EndDate = discount.EndDate.ToUniversalTime();
+
                     await _discountRepository.Update(discount);
                     await _discountRepository.Save();
-                    product.Price =CalculateDiscountedPrice(product.Price, discount);
+
+                    if (discount.StartDate <= DateTime.UtcNow)
+                    {
+                        product.Price = CalculateDiscountedPrice(product.Price, discount);
+                        product.HasDiscount = true; 
+                    }
+                    else
+                    {
+                        product.HasDiscount = false; 
+                    }
+
                     await _productRepository.Update(product);
                     await _productRepository.Save();
 
                     return new ServiceResponse<Discount, object>(true, "Success", payload: discount);
-                }  
-                return new ServiceResponse<Discount, object>(true, "Failed Update Discount ");
+                }
+
+                return new ServiceResponse<Discount, object>(false, "Failed to update discount");
             }
             catch (Exception ex)
             {
                 return new ServiceResponse<Discount, object>(false, "Failed: " + ex.Message);
             }
         }
+
 
         public async Task<ServiceResponse<object, object>> DeleteAsync(int id)
         {
@@ -189,13 +240,14 @@ namespace FM_Rozetka_Api.Core.Services
 
         private decimal CalculateDiscountedPrice(decimal originalPrice, Discount discount)
         {
-            return originalPrice - (originalPrice * discount.DiscountPercent / 100);
+            return Math.Round(originalPrice - (originalPrice * discount.DiscountPercent / 100), 2);
         }
 
         private decimal CalculateOriginalPrice(decimal discountedPrice, Discount discount)
         {
-            return discountedPrice / (1 - discount.DiscountPercent / 100);
+            return Math.Round(discountedPrice / (1 - discount.DiscountPercent / 100), 2);
         }
+
     }
 
 }

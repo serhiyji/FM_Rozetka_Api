@@ -4,6 +4,7 @@ using FM_Rozetka_Api.Core.DTOs.Seller;
 using FM_Rozetka_Api.Core.DTOs.Shops.Shop;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
+using FM_Rozetka_Api.Core.Responses;
 using FM_Rozetka_Api.Core.Specifications;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
@@ -158,6 +159,22 @@ namespace FM_Rozetka_Api.Core.Services
         {
             await _sellerRepository.Delete(id);
             await _sellerRepository.Save();
+        }
+
+        public async Task<ServiceResponse<int, object>> GetAppCountAsync()
+        {
+            try
+            {
+                var applications = await _sellerRepository.GetListBySpec(new SellerTokenSpecification.GetAllActivityApplications());
+                int applicationCount = applications.Count();
+
+                return new ServiceResponse<int, object>(true, "Application count retrieved successfully", payload: applicationCount);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error retrieving Application count: {ex.Message}");
+                return new ServiceResponse<int, object>(false, "Error retrieving Application count");
+            }
         }
     }
 }

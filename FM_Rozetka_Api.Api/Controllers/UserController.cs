@@ -62,11 +62,7 @@ namespace FM_Rozetka_Api.Api.Controllers
         public async Task<IActionResult> GoogleLogin([FromBody] GoogleTokenModel model)
         {
             var response = await _authService.LoginWithGoogleAsync(model.TokenId);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
+            return Ok(response);
         }
 
         [AllowAnonymous]
@@ -92,6 +88,7 @@ namespace FM_Rozetka_Api.Api.Controllers
             }
 
             Console.WriteLine($"Received request with userId: {request.UserId} and token: {request.Token}");
+
             var result = await _authService.ConfirmEmailAsync(request.UserId, request.Token);
             if (result.Success)
             {
@@ -145,10 +142,15 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(new { message = result.Message, errors = result.Errors });
         }
 
-        [HttpPost("banuser")]
-        public async Task<IActionResult> BanUser(string appUserId)
+        [HttpPost("toggleblock")]
+        public async Task<IActionResult> ToggleBlockUser([FromBody] string UserId)
         {
-            return Ok(await _userService.BanUser(appUserId));
+            var response = await _userService.ToggleBlockUserAsync(UserId);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
         }
 
         [HttpPost("UpdatePasswordInfoUser")]
@@ -166,5 +168,49 @@ namespace FM_Rozetka_Api.Api.Controllers
             }
             return Ok(validationResult.Errors.FirstOrDefault());
         }
+
+        [HttpGet("total-user-count")]
+        public async Task<IActionResult> GetTotalUserCount()
+        {
+            var result = await _userService.GetTotalUserCountAsync();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("paged")]
+        public async Task<IActionResult> GetPagedUserss(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string searchTerm = null)
+        {
+            var response = await _userService.GetPagedUsersAsync(pageNumber, pageSize, searchTerm);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response.Message);
+        }
+
+        [HttpPost("changerole")]
+        public async Task<IActionResult> ChangeUserRole([FromBody] ChangeUserRoleDTO model)
+        {
+            var validationResult = await new ChangeUserRoleValidation().ValidateAsync(model);
+            if (validationResult.IsValid)
+            {
+                var response = await _userService.ChangeUserRoleAsync(model.UserId, model.NewRole);
+                if (response.Success)
+                {
+                    return Ok(response);
+                }
+                return BadRequest(response);
+            }
+            return BadRequest(validationResult.Errors.FirstOrDefault());
+        }
+
+
+
     }
 }

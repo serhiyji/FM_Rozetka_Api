@@ -76,8 +76,10 @@ namespace FM_Rozetka_Api.Core
                 q.AddTrigger(opts => opts
                     .ForJob(jobKey)
                     .WithIdentity("UpdateDiscountJob-trigger")
-                    .WithCronSchedule("0 0 0 * * ?"));
+                    .WithCronSchedule("0 0 * * * ?")); 
             });
+
+            services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
             services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
         }

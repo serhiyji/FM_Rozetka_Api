@@ -26,15 +26,24 @@ namespace FM_Rozetka_Api.Core.Services.Quarz
         {
             Console.WriteLine("Discount Update...");
 
-            var result = await _discountService.DeleteExpiredDiscountsAsync();
+            var activateResult = await _discountService.ActivateScheduledDiscountsAsync();
+            if (activateResult.Success)
+            {
+                Console.WriteLine("Successfully activated scheduled discounts.");
+            }
+            else
+            {
+                Console.WriteLine("Error activating scheduled discounts: " + activateResult.Message);
+            }
 
-            if (result.Success)
+            var deleteResult = await _discountService.DeleteExpiredDiscountsAsync();
+            if (deleteResult.Success)
             {
                 Console.WriteLine("Successfully removed overdue discounts.");
             }
             else
             {
-                Console.WriteLine("Error removing expired discounts:" + result.Message);
+                Console.WriteLine("Error removing expired discounts: " + deleteResult.Message);
             }
         }
     }

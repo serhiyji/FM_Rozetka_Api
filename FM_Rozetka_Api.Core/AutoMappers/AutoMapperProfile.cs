@@ -159,6 +159,9 @@ namespace FM_Rozetka_Api.Core.AutoMappers
             CreateMap<ReviewCreateDTO, Review>().ReverseMap();
             CreateMap<ReviewUpdateDTO, Review>().ReverseMap();
 
+            CreateMap<Shop, ShopDTO>()
+            .ForMember(dest => dest.Company, opt => opt.MapFrom(src => src.Company)).ReverseMap();
+
         }
     }
 }

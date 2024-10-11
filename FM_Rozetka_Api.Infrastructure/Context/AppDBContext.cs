@@ -103,7 +103,7 @@ namespace FM_Rozetka_Api.Infrastructure.Context
             // Shop - Company
             modelBuilder.Entity<Shop>()
                 .HasOne(s => s.Company).WithMany(c => c.Shops)
-                .HasForeignKey(s => s.CompanyId).OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(s => s.CompanyId).OnDelete(DeleteBehavior.Cascade);
 
             // Product - CountryProduction
             modelBuilder.Entity<Product>()
@@ -173,7 +173,7 @@ namespace FM_Rozetka_Api.Infrastructure.Context
             // Product - Shop
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Shop).WithMany(s => s.Products)
-                .HasForeignKey(p => p.ShopId).OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(p => p.ShopId).OnDelete(DeleteBehavior.Cascade);
 
             // Specification - PossibleSpecificationItem
             modelBuilder.Entity<Specification>()
