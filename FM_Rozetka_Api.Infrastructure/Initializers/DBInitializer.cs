@@ -10,6 +10,7 @@ namespace FM_Rozetka_Api.Infrastructure.Initializers
     public static class DBInitializer
     {
         public static string AdminRoleId = Guid.NewGuid().ToString();
+        public static string Admin2RoleId = Guid.NewGuid().ToString();
         public static string UserRoleId = Guid.NewGuid().ToString();
         public static string SellerRoleId = Guid.NewGuid().ToString();
         public static string ModeratorSellerRoleId = Guid.NewGuid().ToString();
@@ -17,7 +18,8 @@ namespace FM_Rozetka_Api.Infrastructure.Initializers
         {
             foreach (var item in new List<(string id, string name)>() 
             { 
-                (AdminRoleId, "Administrator"), 
+                (AdminRoleId, "Administrator"),
+                (Admin2RoleId, "Administrator2"),
                 (UserRoleId, "User"),
                 (SellerRoleId, "Seller"),
                 (ModeratorSellerRoleId, "ModeratorSeller")

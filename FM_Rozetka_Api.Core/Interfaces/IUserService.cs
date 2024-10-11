@@ -16,9 +16,11 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ServiceResponse> GetAll();
         Task<ServiceResponse> ForgotPasswordAsync(string email);
         Task<ServiceResponse> ResetPasswordAsync(PasswordRecoveryDto model);
-        Task<ServiceResponse> BanUser(string AppUserId);
+        Task<ServiceResponse> ToggleBlockUserAsync(string userId);
+        Task<ServiceResponse> ChangeUserRoleAsync(string userId, string newRole);
         ServiceResponse<List<UserDTO>, object> GetAllAsync();
         Task<ServiceResponse> ChangePasswordAsync(UpdatePasswordDto model);
         Task<ServiceResponse<int, object>> GetTotalUserCountAsync();
+        Task<PaginationResponse<List<UserDTO>, object>> GetPagedUsersAsync(int page = 1, int pageSize = 10, string searchTerm = null);
     }
 }
