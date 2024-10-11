@@ -280,6 +280,9 @@ namespace FM_Rozetka_Api.Core.Services
 
                 if (result.Succeeded)
                 {
+                    string emailBody = $"<h1>Ваша роль була змінена на: {newRole}.</h1><p>Якщо у вас є питання, будь ласка, дайте відповідь на цей лист.</p>";
+                    await _emailService.SendEmailAsync(user.Email, "Зміна ролі користувача на Rozetka", emailBody);
+
                     return new ServiceResponse(true, "User role updated successfully.");
                 }
                 return new ServiceResponse(false, "Failed to update user role.", errors: result.Errors.Select(e => e.Description));

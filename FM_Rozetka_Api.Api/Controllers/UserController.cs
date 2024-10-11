@@ -62,11 +62,7 @@ namespace FM_Rozetka_Api.Api.Controllers
         public async Task<IActionResult> GoogleLogin([FromBody] GoogleTokenModel model)
         {
             var response = await _authService.LoginWithGoogleAsync(model.TokenId);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
+            return Ok(response);
         }
 
         [AllowAnonymous]
@@ -92,6 +88,7 @@ namespace FM_Rozetka_Api.Api.Controllers
             }
 
             Console.WriteLine($"Received request with userId: {request.UserId} and token: {request.Token}");
+
             var result = await _authService.ConfirmEmailAsync(request.UserId, request.Token);
             if (result.Success)
             {
