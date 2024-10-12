@@ -97,11 +97,19 @@ namespace FM_Rozetka_Api.Core.Specifications
 
         public class GetNewProducts : Specification<Product>
         {
+            public GetNewProducts(int pageNumber = 1, int pageSize = 10)
+            {
+                Query.Where(product => !product.isVerified)
+                     .Skip((pageNumber - 1) * pageSize)
+                     .Take(pageSize);
+            }
+
             public GetNewProducts()
             {
                 Query.Where(product => !product.isVerified);
             }
         }
+
 
     }
 }

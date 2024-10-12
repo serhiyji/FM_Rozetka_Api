@@ -21,5 +21,6 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<PaginationResponse<List<ProductDTO>, object>> GetSearchByName(string name, int pageNumber, int pageSize);
         Task<ServiceResponse<int, object>> GetProductCountAsync();
         Task<ServiceResponse<int, object>> GetNewProductsCountAsync();
+        Task<PaginationResponse<List<ProductDTO>, object>> GetNewProducts(int pageNumber = 1, int pageSize = 10);
     }
 }
