@@ -163,7 +163,7 @@ namespace FM_Rozetka_Api.Core.Services
             byte[] encodedToken = Encoding.UTF8.GetBytes(token);
             string validEmailToken = WebEncoders.Base64UrlEncode(encodedToken);
 
-            string url = $"{_configuration["HostSettings:URL"]}/Login/confirmemail?userid={user.Id}&token={validEmailToken}";
+            string url = $"{_configuration["HostSettings:URL"]}/confirmemail?userid={user.Id}&token={validEmailToken}";
 
             string emailBody = $"<h1>Confirm your email</h1> <a href='{url}'>Confirm now!</a>";
             await _emailService.SendEmailAsync(user.Email, "Email confirmation.", emailBody);

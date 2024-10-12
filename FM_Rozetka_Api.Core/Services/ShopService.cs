@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using FM_Rozetka_Api.Core.DTOs.Shops.Shop;
+using FM_Rozetka_Api.Core.DTOs.User;
 using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Responses;
 using FM_Rozetka_Api.Core.Specifications;
+using Microsoft.AspNetCore.Identity;
 
 namespace FM_Rozetka_Api.Core.Services
 {
@@ -28,11 +30,25 @@ namespace FM_Rozetka_Api.Core.Services
             return new ServiceResponse<Shop, object>(true, "Succes", payload: shop);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<ServiceResponse> DeleteAsync(int Id)
         {
-            await _shopRepository.Delete(id);
-            await _shopRepository.Save();
+            var cartItem = await _shopRepository.GetByID(Id);
+            if (cartItem == null)
+            {
+                return new ServiceResponse(false, "shop not found");
+            }
+            try
+            {
+                await _shopRepository.Delete(Id);
+                await _shopRepository.Save();
+                return new ServiceResponse(true, "Success");
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse(false, "Failed: " + ex.Message);
+            }
         }
+
 
         public async Task<IEnumerable<ShopDTO>> GetAllAsync()
         {
@@ -102,6 +118,30 @@ namespace FM_Rozetka_Api.Core.Services
             {
                 Console.Error.WriteLine($"Error retrieving shop count: {ex.Message}");
                 return new ServiceResponse<int, object>(false, "Error retrieving shop count");
+            }
+        }
+
+        public async Task<PaginationResponse<List<ShopDTO>, object>> GetPagedShopsAsync(string? name = null, int page = 1, int pageSize = 10)
+        {
+            try
+            {
+                var shops = await _shopRepository.GetListBySpec(new ShopSpecification.GetByNameAndPagination(name, page, pageSize));
+                var totalShops = string.IsNullOrEmpty(name)
+                    ? await _shopRepository.GetCountRows()
+                    : await _shopRepository.GetCountBySpec(new ShopSpecification.GetByName(name));
+
+                return new PaginationResponse<List<ShopDTO>, object>(
+                    true,
+                    "Shops retrieved successfully.",
+                    payload: _mapper.Map<List<ShopDTO>>(shops),
+                    pageNumber: page,
+                    pageSize: pageSize,
+                    totalCount: totalShops
+                );
+            }
+            catch (Exception ex)
+            {
+                return new PaginationResponse<List<ShopDTO>, object>(false, "Failed: " + ex.Message);
             }
         }
 

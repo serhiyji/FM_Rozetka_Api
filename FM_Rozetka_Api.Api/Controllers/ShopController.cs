@@ -1,6 +1,7 @@
 ﻿using FM_Rozetka_Api.Core.DTOs.Shops;
 using FM_Rozetka_Api.Core.DTOs.Shops.ModeratorShop;
 using FM_Rozetka_Api.Core.DTOs.Shops.Shop;
+using FM_Rozetka_Api.Core.Entities;
 using FM_Rozetka_Api.Core.Interfaces;
 using FM_Rozetka_Api.Core.Validation.ModeratorShop;
 using FM_Rozetka_Api.Core.Validation.Seller;
@@ -16,13 +17,40 @@ namespace FM_Rozetka_Api.Api.Controllers
         private readonly IShopService _shopService;
         private readonly IModeratorShopService _moderatorShopService;
         private readonly IOrderService _orderService;
+        private readonly IUserService _UserService;
 
-        public ShopController(IShopService shopService, IModeratorShopService moderatorShopService, IOrderService orderService)
+
+        public ShopController(IShopService shopService, IModeratorShopService moderatorShopService, IOrderService orderService, IUserService userService)
         {
             _shopService = shopService;
             _moderatorShopService = moderatorShopService;
             _orderService = orderService;
+            _UserService = userService;
         }
+        [HttpDelete("{shopid}")]
+        public async Task<IActionResult> Delete(int shopid)
+        {
+            var response = await _shopService.GetByIdAsync(shopid);
+            if (response != null)
+            {
+                var moderators = await _moderatorShopService.GetUsersByShopId(shopid);
+                if (moderators.Success)
+                {
+                    foreach (var item in moderators.Payload)
+                    {
+                        await _UserService.ChangeUserRoleAsync(item.AppUserId, "User");
+                    }
+                }
+
+                await _UserService.ChangeUserRoleAsync(response.AppUserId, "User");
+
+                var result = await _shopService.DeleteAsync(shopid);
+                return Ok(result);
+            }
+
+            return NotFound(new { message = "Shop not found" });
+        }
+
 
         [HttpPost("create")]
         public async Task<IActionResult> CreateShop([FromBody] ShopCreateDTO model)
@@ -41,6 +69,17 @@ namespace FM_Rozetka_Api.Api.Controllers
         {
             var shops = await _shopService.GetAllAsync();
             return Ok(shops);
+        }
+
+        [HttpGet("paged")]
+        public async Task<IActionResult> GetPagedShops(string? searchTerm = null, int page = 1, int pageSize = 10)
+        {
+            var response = await _shopService.GetPagedShopsAsync(searchTerm, page, pageSize);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
         }
 
         [HttpGet("GetById")]
@@ -102,19 +141,6 @@ namespace FM_Rozetka_Api.Api.Controllers
                 return Ok(response);
             }
             return BadRequest(response);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var application = await _shopService.GetByIdAsync(id);
-            if (application == null)
-            {
-                return BadRequest("The id must not be null");
-            }
-
-            await _shopService.DeleteAsync(id);
-            return NoContent();
         }
 
         [HttpPost("AddModeratorShop")]
@@ -208,7 +234,7 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(result);
         }
 
-
+        
 
     }
 }
