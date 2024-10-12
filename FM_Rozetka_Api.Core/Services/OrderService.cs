@@ -160,17 +160,20 @@ namespace FM_Rozetka_Api.Core.Services
         {
             var now = DateTime.UtcNow;
             var lastWeek = now.AddDays(-7);
-
             var orders = await _orderRepository.GetListBySpec(new OrderSpecification.GetShopOrderStatistics(shopId));
 
-            var orderItemsWithDate = orders.SelectMany(order => order.OrderItems.Select(item => new
-            {
-                OrderDate = order.OrderDate.Date, 
-                ProductId = item.ProductId,
-                ProductName = item.Product.Name,
-                Quantity = item.Quantity,
-                TotalPrice = item.Price * item.Quantity
-            })).ToList();
+            var orderItemsWithDate = orders
+                .SelectMany(order => order.OrderItems
+                    .Where(item => item.Product.ShopId == shopId) 
+                    .Select(item => new
+                    {
+                        OrderDate = order.OrderDate.Date,
+                        ProductId = item.ProductId,
+                        ProductName = item.Product.Name,
+                        Quantity = item.Quantity,
+                        TotalPrice = item.Price * item.Quantity
+                    }))
+                .ToList();
 
             var dailyStatistics = orderItemsWithDate
                 .GroupBy(item => item.OrderDate)
@@ -201,32 +204,45 @@ namespace FM_Rozetka_Api.Core.Services
             };
         }
 
+
         public async Task<IEnumerable<OrderDetailsDTO>> GetAllStatistics(int shopId)
         {
             var orders = await _orderRepository.GetListBySpec(new OrderSpecification.GetOrderByShopId(shopId));
 
             var orderDetailsList = new List<OrderDetailsDTO>();
-
             foreach (var order in orders)
             {
+                // Відфільтруйте продукти, які мають відповідний shopId
+                var filteredProducts = order.OrderItems
+                    .Where(orderItem => orderItem.Product.ShopId == shopId)
+                    .Select(orderItem => new ProductDetailsDTO
+                    {
+                        ProductId = orderItem.Product.Id,
+                        ProductName = orderItem.Product.Name,
+                        Quantity = orderItem.Quantity,
+                        Price = orderItem.Product.Price
+                    }).ToList();
+
+                if (!filteredProducts.Any())
+                {
+                    continue;
+                }
+                var totalAmount = filteredProducts.Sum(item => item.Quantity * item.Price);
+
                 var orderDetails = new OrderDetailsDTO
                 {
                     OrderId = order.Id,
-                    OrderNumber = order.OrderId, 
+                    OrderNumber = order.OrderId,
                     OrderDate = order.OrderDate,
                     Status = order.Status,
-                    TotalAmount = order.OrderItems.Sum(item => item.Quantity * item.Product.Price), 
-                    Products = order.OrderItems.Select(orderItem => new ProductDetailsDTO
-                    {
-                        ProductId = orderItem.Product.Id,
-                        ProductName = orderItem.Product.Name, 
-                        Quantity = orderItem.Quantity,        
-                        Price = orderItem.Product.Price       
-                    }).ToList()
+                    TotalAmount = totalAmount,
+                    Products = filteredProducts
                 };
 
                 orderDetailsList.Add(orderDetails);
             }
+
+            return orderDetailsList;
 
             return orderDetailsList;
         }

@@ -22,5 +22,30 @@ namespace FM_Rozetka_Api.Core.Specifications
                      .Where(shop => shop.ModeratorShop.Any(ms => ms.AppUserId == moderatorId));
             }
         }
+
+        public class GetByNameAndPagination : Specification<Shop>
+        {
+            public GetByNameAndPagination(string? name, int page, int pageSize)
+            {
+                if (!string.IsNullOrEmpty(name))
+                {
+                    Query.Include(company => company.Company)
+                        .Where(shop => shop.FullName.Contains(name));
+                }
+                Query.Include(company => company.Company)
+                    .Skip((page - 1) * pageSize).Take(pageSize);
+            }
+        }
+
+        public class GetByName : Specification<Shop>
+        {
+            public GetByName(string name)
+            {
+
+                Query.Where(shop => shop.FullName.Contains(name));
+            }
+        }
+
+
     }
 }
