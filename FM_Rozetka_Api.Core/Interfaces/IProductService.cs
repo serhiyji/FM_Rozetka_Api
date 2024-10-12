@@ -22,5 +22,6 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ServiceResponse<int, object>> GetProductCountAsync();
         Task<ServiceResponse<int, object>> GetNewProductsCountAsync();
         Task<PaginationResponse<List<ProductDTO>, object>> GetNewProducts(int pageNumber = 1, int pageSize = 10);
+        Task<ServiceResponse<Product, object>> UpdateModerationStatus(int productId, bool isVerified);
     }
 }

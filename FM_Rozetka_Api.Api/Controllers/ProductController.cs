@@ -241,8 +241,17 @@ namespace FM_Rozetka_Api.Api.Controllers
                 return Ok(response);
             }
             return BadRequest(response.Message);
+        }
 
-
+        [HttpPut("moderate/{productId}")]
+        public async Task<IActionResult> UpdateModerationStatus(int productId, [FromBody] bool isVerified)
+        {
+            var response = await _productService.UpdateModerationStatus(productId, isVerified);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response.Message);
         }
     }
 }
