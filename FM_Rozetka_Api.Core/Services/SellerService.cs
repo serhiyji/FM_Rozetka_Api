@@ -8,6 +8,7 @@ using FM_Rozetka_Api.Core.Responses;
 using FM_Rozetka_Api.Core.Specifications;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using System.Text;
 
 namespace FM_Rozetka_Api.Core.Services
@@ -20,7 +21,9 @@ namespace FM_Rozetka_Api.Core.Services
         private readonly UserManager<AppUser> _userManager;
         private readonly ICompanyService _comapntService;
         private readonly IShopService _shopService;
-        public SellerService(IRepository<SellerApplication> sellerRepository,IShopService shopService, IMapper mapper, IEmailService emailService, UserManager<AppUser> userManager, ICompanyService comapntService)
+        private readonly IConfiguration _configuration;
+
+        public SellerService(IRepository<SellerApplication> sellerRepository, IConfiguration configuration, IShopService shopService, IMapper mapper, IEmailService emailService, UserManager<AppUser> userManager, ICompanyService comapntService)
         {
             _sellerRepository = sellerRepository;
             _mapper = mapper;
@@ -28,6 +31,7 @@ namespace FM_Rozetka_Api.Core.Services
             _userManager = userManager;
             _comapntService = comapntService;
             _shopService = shopService;
+            _configuration = configuration;
         }
 
         public async Task<IEnumerable<SellerApplicationDTO>> GetAllApplicationsAsync()
@@ -103,11 +107,10 @@ namespace FM_Rozetka_Api.Core.Services
                 else
                 {
                     string fullName = application.FullName;
-                    string[] nameParts = fullName.Split(new char[] { ' ' }, 2); // Розділяємо лише на перше пробілове місце
+                    string[] nameParts = fullName.Split(new char[] { ' ' }, 2);
 
                     string firstName = nameParts[0];
                     string lastName = nameParts.Length > 1 ? nameParts[1] : "";
-                    // Якщо користувача немає, створюємо його і надсилаємо посилання для підтвердження реєстрації
                     
                     user = new AppUser
                     {
@@ -138,7 +141,7 @@ namespace FM_Rozetka_Api.Core.Services
                     var encodedToken = Encoding.UTF8.GetBytes(token);
                     var validEmailToken = WebEncoders.Base64UrlEncode(encodedToken);
 
-                    string url = $"http://localhost:5173/ConfirmEmail?userId={user.Id}&token={validEmailToken}";
+                    string url = $"{_configuration["HostSettings:URL"]}/confirmemail?userid={user.Id}&token={validEmailToken}";
                     string emailBody = $"" +
                         $"<h1>Confirm your email please.</h1><hr><h2>You password: {password}</h2><a href='{url}'>Confirm now</a>";
                     await _emailService.SendEmailAsync(user.Email, "Confirm your email", emailBody);
