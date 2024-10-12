@@ -27,7 +27,6 @@ namespace FM_Rozetka_Api.Core.Specifications
             }
         }
 
-
         public class GetShopOrderStatistics : Specification<Order>
         {
            public GetShopOrderStatistics(int shopId)
@@ -42,6 +41,19 @@ namespace FM_Rozetka_Api.Core.Specifications
             }
         }
 
+        public class GetAllOrdersStatistics : Specification<Order>
+        {
+            public GetAllOrdersStatistics()
+            {
+                var now = DateTime.UtcNow;
+                var lastWeek = now.AddDays(-7);
+
+                Query.Where(order => order.OrderDate >= lastWeek)
+                     .Include(order => order.OrderItems)
+                     .ThenInclude(orderItem => orderItem.Product);
+            }
+        }
+
         public class GetOrderByShopId : Specification<Order>
         {
             public GetOrderByShopId(int shopId)
@@ -49,6 +61,15 @@ namespace FM_Rozetka_Api.Core.Specifications
                 Query.Include(order => order.OrderItems)
                      .ThenInclude(orderItem => orderItem.Product)
                      .Where(order => order.OrderItems.Any(oi => oi.Product.ShopId == shopId));
+            }
+        }
+
+        public class GetAllOrders : Specification<Order>
+        {
+            public GetAllOrders()
+            {
+                Query.Include(order => order.OrderItems)
+                     .ThenInclude(orderItem => orderItem.Product);
             }
         }
 

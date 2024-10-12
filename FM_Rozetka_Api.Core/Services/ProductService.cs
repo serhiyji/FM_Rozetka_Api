@@ -239,9 +239,10 @@ namespace FM_Rozetka_Api.Core.Services
         {
             try
             {
+                var totalCount = await _productRepository.GetCountBySpec(new ProductSpecification.GetVerifiedProducts());
                 return new PaginationResponse<List<ProductDTO>, object>(true, "",
                     payload: _mapper.Map<List<ProductDTO>>(await _productRepository.GetListBySpec(new ProductSpecification.GetByPagination(page, pageSize))),
-                    pageNumber: page, pageSize: pageSize, totalCount: await _productRepository.GetCountRows()
+                    pageNumber: page, pageSize: pageSize, totalCount: totalCount
                 );
             }
             catch (Exception ex)
@@ -256,7 +257,7 @@ namespace FM_Rozetka_Api.Core.Services
                 int pageSize = 10
             )
         {
-            var query = _productRepository.dbSet.AsQueryable();
+            var query = _productRepository.dbSet.Where(product => product.isVerified == true).AsQueryable();
 
             foreach (var filter in filters)
             {
@@ -349,5 +350,49 @@ namespace FM_Rozetka_Api.Core.Services
                 return new ServiceResponse<int, object>(false, "Error retrieving new products count");
             }
         }
+
+        public async Task<PaginationResponse<List<ProductDTO>, object>> GetNewProducts(int pageNumber = 1, int pageSize = 10)
+        {
+            try
+            {
+                var products = await _productRepository.GetListBySpec(new ProductSpecification.GetNewProducts(pageNumber, pageSize));
+
+                var totalCount = await _productRepository.GetCountBySpec(new ProductSpecification.GetNewProducts());
+
+                var productDTOs = _mapper.Map<List<ProductDTO>>(products);
+
+                return new PaginationResponse<List<ProductDTO>, object>(true, "", payload: productDTOs, pageNumber: pageNumber, pageSize: pageSize, totalCount: totalCount);
+            }
+            catch (Exception ex)
+            {
+                return new PaginationResponse<List<ProductDTO>, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
+
+        public async Task<ServiceResponse<Product, object>> UpdateModerationStatus(int productId, bool isVerified)
+        {
+            var product = await _productRepository.GetByID(productId);
+            if (product == null)
+            {
+                return new ServiceResponse<Product, object>(false, "Product not found");
+            }
+
+            try
+            {
+                product.isVerified = isVerified;
+
+                await _productRepository.Update(product);
+                await _productRepository.Save();
+
+                return new ServiceResponse<Product, object>(true, "Moderation status updated successfully", payload: product);
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<Product, object>(false, "Failed: " + ex.Message);
+            }
+        }
+
+
     }
 }

@@ -28,7 +28,15 @@ namespace FM_Rozetka_Api.Core.Specifications
         {
             public GetByPagination(int page, int pageSize)
             {
-                Query.Skip((page - 1) * pageSize).Take(pageSize);
+                Query.Where(product => product.isVerified == true).Skip((page - 1) * pageSize).Take(pageSize);
+            }
+        }
+
+        public class GetVerifiedProducts : Specification<Product>
+        {
+            public GetVerifiedProducts()
+            {
+                Query.Where(product => product.isVerified == true);
             }
         }
 
@@ -104,11 +112,19 @@ namespace FM_Rozetka_Api.Core.Specifications
 
         public class GetNewProducts : Specification<Product>
         {
+            public GetNewProducts(int pageNumber = 1, int pageSize = 10)
+            {
+                Query.Where(product => !product.isVerified)
+                     .Skip((pageNumber - 1) * pageSize)
+                     .Take(pageSize);
+            }
+
             public GetNewProducts()
             {
                 Query.Where(product => !product.isVerified);
             }
         }
+
 
     }
 }
