@@ -52,7 +52,7 @@ namespace FM_Rozetka_Api.Core.Specifications
         {
             public GetByCreationDate(int count)
             {
-                Query.OrderBy(item => item.CreatedAt).Take(count);
+                Query.Where(product => product.isVerified == true).OrderBy(item => item.CreatedAt).Take(count);
             }
         }
 
@@ -60,7 +60,7 @@ namespace FM_Rozetka_Api.Core.Specifications
         {
             public GetByShowings(int count)
             {
-                Query.OrderBy(item => item.Showings).Take(count);
+                Query.Where(product => product.isVerified == true).OrderBy(item => item.Showings).Take(count);
             }
         }
 

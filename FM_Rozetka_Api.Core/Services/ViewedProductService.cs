@@ -23,6 +23,7 @@ namespace FM_Rozetka_Api.Core.Services
         }
         public async Task<ServiceResponse> AddProduct(int productId, string appUserId)
         {
+            await Task.Delay(new Random().Next(200, 800));
             ViewedProduct viewedProduct = await _viewedProductRepo.GetItemBySpec(new ViewedProductSpecification.GetByAppUserIdAndProductId(appUserId, productId));
             if (viewedProduct != null)
             {
@@ -60,14 +61,26 @@ namespace FM_Rozetka_Api.Core.Services
 
         public async Task<ServiceResponse> GetByAppUserId(string appUserId, int count)
         {
-            return new ServiceResponse(true, "", await _viewedProductRepo.GetListBySpec(new ViewedProductSpecification.GetByAppUserIdCount(appUserId, count)));
+            var res = await _viewedProductRepo.GetListBySpec(new ViewedProductSpecification.GetByAppUserIdCount(appUserId, count));
+            var uniqueProducts = res
+                .GroupBy(item => item.ProductId)
+                .Select(group => group.OrderByDescending(item => item.CreatedAt).First().Product)
+                .Take(count)
+                .ToList();
+            return new ServiceResponse(true, "", uniqueProducts);
         }
 
         public async Task<ServiceResponse> GetRecommendedProducts(string appUserId, int count)
         {
             AppUser appUser = await _userManager.FindByIdAsync(appUserId);
             if (appUser == null) return new ServiceResponse(false);
-            return new ServiceResponse(true, "", await _viewedProductRepo.GetListBySpec(new ViewedProductSpecification.GetRecommendedProductsByAppUserIdCount(appUserId, count)));
+            var res = await _viewedProductRepo.GetListBySpec(new ViewedProductSpecification.GetRecommendedProductsByAppUserIdCount(appUserId, count));
+            var uniqueProducts = res
+                .GroupBy(item => item.ProductId)
+                .Select(group => group.OrderByDescending(item => item.Count).First().Product)
+                .Take(count)
+                .ToList();
+            return new ServiceResponse(true, "", uniqueProducts);
         }
     }
 }
