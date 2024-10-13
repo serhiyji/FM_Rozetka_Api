@@ -92,7 +92,6 @@ namespace FM_Rozetka_Api.Core.Services
             }
 
             user.FirstName = model.FirstName;
-            user.SurName = model.SurName;
             user.LastName = model.LastName;
 
             IdentityResult result = await _userManager.UpdateAsync(user);
@@ -124,7 +123,6 @@ namespace FM_Rozetka_Api.Core.Services
             if (user != null)
             {
                 user.FirstName = newinfo.FirstName;
-                user.SurName = newinfo.SurName;
                 user.LastName = newinfo.LastName;
 
                 IdentityResult result = await _userManager.UpdateAsync(user);

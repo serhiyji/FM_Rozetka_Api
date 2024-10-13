@@ -75,11 +75,18 @@ namespace FM_Rozetka_Api.Core.Specifications
             }
         }
 
-        public class GetByNameSearch : Specification<Product>
+        public class GetByNameSearchPagination : Specification<Product>
         {
-            public GetByNameSearch(string searchTerm, int pageNumber, int pageSize)
+            public GetByNameSearchPagination(string searchTerm, int pageNumber, int pageSize)
             {
                 Query.Where(p => p.Name.ToLower().Contains(searchTerm.ToLower())).Skip((pageNumber - 1) * pageSize).Take(pageSize);
+            }
+        }
+        public class GetByNameSearch : Specification<Product>
+        {
+            public GetByNameSearch(string searchTerm)
+            {
+                Query.Where(p => p.Name.ToLower().Contains(searchTerm.ToLower()));
             }
         }
 

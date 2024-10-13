@@ -78,6 +78,8 @@ namespace FM_Rozetka_Api.Core.Services
                     new Claim("Email", user.Email),
                     new Claim("EmailConfirm", user.EmailConfirmed.ToString()),
                     new Claim("PhoneNumber", user.PhoneNumber ?? ""),
+                    new Claim("FirstName", user.FirstName),
+                    new Claim("LastName", user.LastName),
                     new Claim(ClaimsIdentity.DefaultRoleClaimType, roles[0]),
                     new Claim(JwtRegisteredClaimNames.Aud, _configuration["JwtConfig:Audience"]),
                     new Claim(JwtRegisteredClaimNames.Iss, _configuration["JwtConfig:Issuer"]),
