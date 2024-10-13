@@ -23,5 +23,15 @@ namespace FM_Rozetka_Api.Core.Specifications
             }
         }
 
+        public class OpenQuestionsByShopId : Specification<ProductQuestion>
+        {
+            public OpenQuestionsByShopId(int shopId)
+            {
+                Query.Where(t => t.OpenQuestion == true && t.Product.ShopId == shopId)
+                    .Include(x => x.AppUser)
+                    .Include(x => x.Product); 
+            }
+        }
+
     }
 }

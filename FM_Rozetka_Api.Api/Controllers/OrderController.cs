@@ -96,6 +96,34 @@ namespace FM_Rozetka_Api.Api.Controllers
             return Ok(salesStatistics);
         }
 
+        [HttpGet("GetAllStatistic")]
+        public async Task<IActionResult> GetAllStatistic()
+        {
+
+            var salesStatistics = await _orderService.GetAllStatistic();
+
+            if (salesStatistics == null || !salesStatistics.Any())
+            {
+                return NotFound(new { message = "No sales data found for this shop." });
+            }
+
+            return Ok(salesStatistics);
+        }
+
+        [HttpGet("GetAllStatisticByUserId")]
+        public async Task<IActionResult> GetAllStatisticByUserId([FromQuery] string appUserId)
+        {
+            var salesStatistics = await _orderService.GetAllStatisticByAppUserId(appUserId);
+
+            if (salesStatistics == null || !salesStatistics.Any())
+            {
+                return NotFound(new { message = "No sales data found for this shop." });
+            }
+
+            return Ok(salesStatistics);
+        }
+
+
 
     }
 }

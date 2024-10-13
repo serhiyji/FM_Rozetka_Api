@@ -51,7 +51,6 @@ namespace FM_Rozetka_Api.Api.Controllers
             return NotFound(new { message = "Shop not found" });
         }
 
-
         [HttpPost("create")]
         public async Task<IActionResult> CreateShop([FromBody] ShopCreateDTO model)
         {
@@ -202,6 +201,19 @@ namespace FM_Rozetka_Api.Api.Controllers
         public async Task<IActionResult> GetSalesStatisticsForShop( int shopId)
         {
             var salesStatistics = await _orderService.GetSalesStatisticsForShop(shopId);
+
+            if (salesStatistics == null || (!salesStatistics.DailyStatistics.Any() && !salesStatistics.ProductStatistics.Any()))
+            {
+                return NotFound(new { message = "No sales data found." });
+            }
+
+            return Ok(salesStatistics);
+        }
+
+        [HttpGet("GetSalesStatistics")]
+        public async Task<IActionResult> GetSalesStatistics()
+        {
+            var salesStatistics = await _orderService.GetSalesStatistics();
 
             if (salesStatistics == null || (!salesStatistics.DailyStatistics.Any() && !salesStatistics.ProductStatistics.Any()))
             {

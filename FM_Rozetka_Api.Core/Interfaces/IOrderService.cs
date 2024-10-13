@@ -21,6 +21,9 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<SalesStatisticsDTO> GetSalesStatisticsForShop(int shopId);
         Task<IEnumerable<OrderDetailsDTO>> GetAllStatistics(int shopId);
         Task<ServiceResponse<decimal, object>> GetTotalSalesVolumeForLast7DaysAsync();
+        Task<SalesStatisticsDTO> GetSalesStatistics();
+        Task<IEnumerable<OrderDetailsDTO>> GetAllStatistic();
+        Task<IEnumerable<OrderDetailsDTO>> GetAllStatisticByAppUserId(string appUserId);
     }
 }
 

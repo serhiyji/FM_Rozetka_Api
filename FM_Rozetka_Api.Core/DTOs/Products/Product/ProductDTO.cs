@@ -16,5 +16,6 @@ namespace FM_Rozetka_Api.Core.DTOs.Products.Product
         public bool HasDiscount { get; set; }
         public int CategoryProductId { get; set; }
         public int CountryProductionId { get; set; }
+        public bool? isVerified { get; set; }
     }
 }

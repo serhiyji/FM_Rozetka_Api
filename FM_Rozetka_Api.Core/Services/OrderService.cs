@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static FM_Rozetka_Api.Core.Specifications.OrderSpecification;
 
 namespace FM_Rozetka_Api.Core.Services
 {
@@ -204,6 +205,59 @@ namespace FM_Rozetka_Api.Core.Services
             };
         }
 
+        public async Task<SalesStatisticsDTO> GetSalesStatistics()
+        {
+            var now = DateTime.UtcNow;
+            var lastWeek = now.AddDays(-7);
+
+            var orders = await _orderRepository.GetListBySpec(new OrderSpecification.GetAllOrdersStatistics());
+
+            var lastTenOrders = orders
+       .OrderByDescending(order => order.OrderDate)
+       .Take(10)
+       .ToList();
+
+            var orderItemsWithDate = orders
+                .SelectMany(order => order.OrderItems
+                    .Select(item => new
+                    {
+                        OrderDate = order.OrderDate.Date,
+                        ProductId = item.ProductId,
+                        ProductName = item.Product.Name,
+                        Quantity = item.Quantity,
+                        TotalPrice = item.Price * item.Quantity
+                    }))
+                .ToList();
+
+            var dailyStatistics = orderItemsWithDate
+                .GroupBy(item => item.OrderDate)
+                .Select(group => new DailySalesStatisticDTO
+                {
+                    Date = group.Key,
+                    TotalQuantitySold = group.Sum(item => item.Quantity),
+                    TotalRevenue = group.Sum(item => item.TotalPrice)
+                })
+                .OrderBy(stat => stat.Date)
+                .ToList();
+
+            var productStatistics = orderItemsWithDate
+                .GroupBy(item => item.ProductId)
+                .Select(group => new SalesStatisticDTO
+                {
+                    ProductId = group.Key,
+                    ProductName = group.First().ProductName,
+                    QuantitySold = group.Sum(item => item.Quantity),
+                    TotalRevenue = group.Sum(item => item.TotalPrice)
+                })
+                .ToList();
+
+            return new SalesStatisticsDTO
+            {
+                DailyStatistics = dailyStatistics,
+                ProductStatistics = productStatistics
+            };
+        }
+
 
         public async Task<IEnumerable<OrderDetailsDTO>> GetAllStatistics(int shopId)
         {
@@ -212,7 +266,6 @@ namespace FM_Rozetka_Api.Core.Services
             var orderDetailsList = new List<OrderDetailsDTO>();
             foreach (var order in orders)
             {
-                // Відфільтруйте продукти, які мають відповідний shopId
                 var filteredProducts = order.OrderItems
                     .Where(orderItem => orderItem.Product.ShopId == shopId)
                     .Select(orderItem => new ProductDetailsDTO
@@ -228,6 +281,11 @@ namespace FM_Rozetka_Api.Core.Services
                     continue;
                 }
                 var totalAmount = filteredProducts.Sum(item => item.Quantity * item.Price);
+                if (totalAmount == 0)
+                {
+                    await DeleteAsync(order.Id);
+                    continue;
+                }
 
                 var orderDetails = new OrderDetailsDTO
                 {
@@ -243,6 +301,84 @@ namespace FM_Rozetka_Api.Core.Services
             }
 
             return orderDetailsList;
+        }
+
+        public async Task<IEnumerable<OrderDetailsDTO>> GetAllStatistic()
+        {
+            var orders = await _orderRepository.GetListBySpec(new GetAllOrders());
+
+            var orderDetailsList = new List<OrderDetailsDTO>();
+            foreach (var order in orders)
+            {
+                var allProducts = order.OrderItems
+                    .Select(orderItem => new ProductDetailsDTO
+                    {
+                        ProductId = orderItem.Product.Id,
+                        ProductName = orderItem.Product.Name,
+                        Quantity = orderItem.Quantity,
+                        Price = orderItem.Product.Price
+                    }).ToList();
+
+                var totalAmount = allProducts.Sum(item => item.Quantity * item.Price);
+
+                if (totalAmount == 0)
+                {
+                    await DeleteAsync(order.Id);
+                    continue;
+                }
+
+                var orderDetails = new OrderDetailsDTO
+                {
+                    OrderId = order.Id,
+                    OrderNumber = order.OrderId,
+                    OrderDate = order.OrderDate,
+                    Status = order.Status,
+                    TotalAmount = totalAmount,
+                    Products = allProducts
+                };
+
+                orderDetailsList.Add(orderDetails);
+            }
+
+            return orderDetailsList;
+        }
+
+        public async Task<IEnumerable<OrderDetailsDTO>> GetAllStatisticByAppUserId(string appUserId)
+        {
+            var orders = await _orderRepository.GetListBySpec(new GetAllOrdersByUserId(appUserId));
+
+            var orderDetailsList = new List<OrderDetailsDTO>();
+            foreach (var order in orders)
+            {
+                var allProducts = order.OrderItems
+                    .Select(orderItem => new ProductDetailsDTO
+                    {
+                        ProductId = orderItem.Product.Id,
+                        ProductName = orderItem.Product.Name,
+                        Quantity = orderItem.Quantity,
+                        Price = orderItem.Product.Price
+                    }).ToList();
+
+                var totalAmount = allProducts.Sum(item => item.Quantity * item.Price);
+
+                if (totalAmount == 0)
+                {
+                    await DeleteAsync(order.Id);
+                    continue;
+                }
+
+                var orderDetails = new OrderDetailsDTO
+                {
+                    OrderId = order.Id,
+                    OrderNumber = order.OrderId,
+                    OrderDate = order.OrderDate,
+                    Status = order.Status,
+                    TotalAmount = totalAmount,
+                    Products = allProducts
+                };
+
+                orderDetailsList.Add(orderDetails);
+            }
 
             return orderDetailsList;
         }

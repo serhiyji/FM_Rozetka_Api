@@ -41,7 +41,7 @@ namespace FM_Rozetka_Api.Api.Controllers
         [HttpGet("getphotobyproductid")]
         public async Task<IActionResult> GetPhotoByProductId(int productid)
         {
-            if (productid > 0) 
+            if (productid > 0)
             {
                 var response = await _photoProductService.GetByProductIdAsync(productid);
                 return Ok(response);
@@ -76,7 +76,7 @@ namespace FM_Rozetka_Api.Api.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var response = await _productService.DeleteAsync(id);
-           
+
             return Ok(response);
         }
 
@@ -155,10 +155,10 @@ namespace FM_Rozetka_Api.Api.Controllers
         }
 
         [HttpPost("addviewedproduct")]
-        public async Task<IActionResult> AddViewedProduct([FromQuery]int productId, [FromQuery]string appUserId)
+        public async Task<IActionResult> AddViewedProduct([FromQuery] int productId, [FromQuery] string appUserId)
         {
             var result = await _viewedProductService.AddProduct(productId, appUserId);
-            if(result.Success)
+            if (result.Success)
             {
                 return Ok(result);
             }
@@ -166,7 +166,7 @@ namespace FM_Rozetka_Api.Api.Controllers
         }
 
         [HttpGet("getviewedproduct")]
-        public async Task<IActionResult> GetViewedProduct([FromQuery]string appUserId, [FromQuery]int count)
+        public async Task<IActionResult> GetViewedProduct([FromQuery] string appUserId, [FromQuery] int count)
         {
             var result = await _viewedProductService.GetByAppUserId(appUserId, count);
             if (result.Success)
@@ -177,7 +177,7 @@ namespace FM_Rozetka_Api.Api.Controllers
         }
 
         [HttpGet("getrecommendedproducts")]
-        public async Task<IActionResult> GetRecommendedProducts([FromQuery]string appUserId, [FromQuery]int count)
+        public async Task<IActionResult> GetRecommendedProducts([FromQuery] string appUserId, [FromQuery] int count)
         {
             var result = await _viewedProductService.GetRecommendedProducts(appUserId, count);
             if (result.Success)
@@ -188,19 +188,19 @@ namespace FM_Rozetka_Api.Api.Controllers
         }
 
         [HttpGet("getnewones")]
-        public async Task<IActionResult> GetNewOnes([FromQuery]int count)
+        public async Task<IActionResult> GetNewOnes([FromQuery] int count)
         {
             return Ok(await _productService.GetNewOnes(count));
         }
 
         [HttpGet("getpopular")]
-        public async Task<IActionResult> GetPopular([FromQuery]int count)
+        public async Task<IActionResult> GetPopular([FromQuery] int count)
         {
             return Ok(await _productService.GetPopular(count));
         }
 
         [HttpGet("getsearchproductbyname")]
-        public async Task<IActionResult> GetSearchProductByName([FromQuery]string productName, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        public async Task<IActionResult> GetSearchProductByName([FromQuery] string productName, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
             var result = await _productService.GetSearchByName(productName, pageNumber, pageSize);
             if (result.Success)
@@ -232,6 +232,26 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("new")]
+        public async Task<IActionResult> GetNewProducts([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            var response = await _productService.GetNewProducts(pageNumber, pageSize);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response.Message);
+        }
 
+        [HttpPut("moderate/{productId}")]
+        public async Task<IActionResult> UpdateModerationStatus(int productId, [FromBody] bool isVerified)
+        {
+            var response = await _productService.UpdateModerationStatus(productId, isVerified);
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response.Message);
+        }
     }
 }

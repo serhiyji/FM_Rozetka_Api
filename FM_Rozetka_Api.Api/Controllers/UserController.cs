@@ -111,6 +111,17 @@ namespace FM_Rozetka_Api.Api.Controllers
             return BadRequest(validationResult);
         }
 
+        [HttpGet("GetByIdUser")]
+        public async Task<IActionResult> GetByIdUser([FromQuery] string id)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                var user = await _userService.GetUserByIdAsync(id);
+                return Ok(user);
+            }
+            return BadRequest("The id must not be null");
+        }
+
         [HttpPost("forgotpassword")]
         public async Task<IActionResult> ForgotPassword(string email)
         {
