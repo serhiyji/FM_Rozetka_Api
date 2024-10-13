@@ -19,6 +19,7 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ServiceResponse<IEnumerable<ProductQuestionDTO>, object>> GetAllByProductIdAsync(int productid);
         Task<ServiceResponse<IEnumerable<ProductQuestionDTO>, object>> GetActiveQuestions();
         Task<ServiceResponse<int, object>> GetQuestionCountAsync();
+        Task<ServiceResponse<IEnumerable<ProductQuestionDTO>, object>> GetActiveQuestions(int shopId);
     }
 
 }
