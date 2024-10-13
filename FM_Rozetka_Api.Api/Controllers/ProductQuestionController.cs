@@ -95,6 +95,20 @@ namespace FM_Rozetka_Api.Api.Controllers
         }
 
 
+        [HttpGet("getallActiveQuestionByShopId/{shopId}/")]
+        public async Task<IActionResult> GetQuestionsByShopId(int shopId)
+        {
+            var response = await _productQuestionService.GetActiveQuestions(shopId);
+            if (response.Success)
+            {
+                return Ok(response.Payload);
+            }
+            else
+            {
+                return BadRequest(new { message = response.Message });
+            }
+        }
+
         [HttpGet("count")]
         public async Task<IActionResult> GetQuestionCount()
         {
