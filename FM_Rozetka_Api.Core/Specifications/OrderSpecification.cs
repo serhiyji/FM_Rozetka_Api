@@ -73,6 +73,16 @@ namespace FM_Rozetka_Api.Core.Specifications
             }
         }
 
+        public class GetAllOrdersByUserId : Specification<Order>
+        {
+            public GetAllOrdersByUserId(string appUserId)
+            {
+                Query.Where(order => order.AppUserId == appUserId)
+                     .Include(order => order.OrderItems)
+                     .ThenInclude(orderItem => orderItem.Product);
+            }
+        }
+
         public class GetOrdersForLast7Days : Specification<Order>
         {
             public GetOrdersForLast7Days()
