@@ -343,6 +343,46 @@ namespace FM_Rozetka_Api.Core.Services
             return orderDetailsList;
         }
 
+        public async Task<IEnumerable<OrderDetailsDTO>> GetAllStatisticByAppUserId(string appUserId)
+        {
+            var orders = await _orderRepository.GetListBySpec(new GetAllOrdersByUserId(appUserId));
+
+            var orderDetailsList = new List<OrderDetailsDTO>();
+            foreach (var order in orders)
+            {
+                var allProducts = order.OrderItems
+                    .Select(orderItem => new ProductDetailsDTO
+                    {
+                        ProductId = orderItem.Product.Id,
+                        ProductName = orderItem.Product.Name,
+                        Quantity = orderItem.Quantity,
+                        Price = orderItem.Product.Price
+                    }).ToList();
+
+                var totalAmount = allProducts.Sum(item => item.Quantity * item.Price);
+
+                if (totalAmount == 0)
+                {
+                    await DeleteAsync(order.Id);
+                    continue;
+                }
+
+                var orderDetails = new OrderDetailsDTO
+                {
+                    OrderId = order.Id,
+                    OrderNumber = order.OrderId,
+                    OrderDate = order.OrderDate,
+                    Status = order.Status,
+                    TotalAmount = totalAmount,
+                    Products = allProducts
+                };
+
+                orderDetailsList.Add(orderDetails);
+            }
+
+            return orderDetailsList;
+        }
+
         public async Task<ServiceResponse<decimal, object>> GetTotalSalesVolumeForLast7DaysAsync()
         {
             try

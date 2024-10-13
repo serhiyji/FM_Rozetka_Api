@@ -23,6 +23,7 @@ namespace FM_Rozetka_Api.Core.Interfaces
         Task<ServiceResponse<decimal, object>> GetTotalSalesVolumeForLast7DaysAsync();
         Task<SalesStatisticsDTO> GetSalesStatistics();
         Task<IEnumerable<OrderDetailsDTO>> GetAllStatistic();
+        Task<IEnumerable<OrderDetailsDTO>> GetAllStatisticByAppUserId(string appUserId);
     }
 }
 
